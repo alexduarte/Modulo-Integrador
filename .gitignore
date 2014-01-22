@@ -6,7 +6,8 @@
 # Use curingas como
 *~
 *.class
-*.jar
+*.jar 
+*.properties
 # Ignorar todos os diretórios e arquivos em um diretório.
 tmp/**/* 
 lib/*
