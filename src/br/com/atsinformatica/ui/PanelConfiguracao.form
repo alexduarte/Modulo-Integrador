@@ -40,10 +40,10 @@
                       <Component id="jBcancelar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jBfechar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="351" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jTabbedPane1" max="32767" attributes="0"/>
+                      <Component id="jTabbedPane1" pref="0" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -246,7 +246,7 @@
             <Component class="javax.swing.JButton" name="jBConexao">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/connect.png"/>
+                  <Image iconType="3" name="/assets/icons/connect.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Testar conex&#xe3;o"/>
               </Properties>
@@ -494,7 +494,7 @@
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/arrow_down.png"/>
+                  <Image iconType="3" name="/assets/icons/arrow_down.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Adcionar"/>
               </Properties>
@@ -531,7 +531,7 @@
     <Component class="javax.swing.JButton" name="jBfechar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/door_out.png"/>
+          <Image iconType="3" name="/assets/icons/door_out.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Fechar"/>
         <Property name="toolTipText" type="java.lang.String" value="Fechar"/>
@@ -546,7 +546,7 @@
     <Component class="javax.swing.JButton" name="jBcancelar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/cancel.png"/>
+          <Image iconType="3" name="/assets/icons/cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
         <Property name="toolTipText" type="java.lang.String" value="Cancelar"/>
@@ -562,7 +562,7 @@
     <Component class="javax.swing.JButton" name="jBgravar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/save.png"/>
+          <Image iconType="3" name="/assets/icons/save.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Gravar"/>
         <Property name="toolTipText" type="java.lang.String" value="Gravar"/>
@@ -578,7 +578,7 @@
     <Component class="javax.swing.JButton" name="jBalterar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/pencil3 (2).png"/>
+          <Image iconType="3" name="/assets/icons/pencil3 (2).png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Alterar"/>
         <Property name="toolTipText" type="java.lang.String" value="Alterar"/>
@@ -594,7 +594,7 @@
     <Component class="javax.swing.JButton" name="jBincluir">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/br/com/atsinformatica/midler/assets/icons/add.png"/>
+          <Image iconType="3" name="/assets/icons/add.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Incluir"/>
         <Property name="toolTipText" type="java.lang.String" value="Incluir"/>

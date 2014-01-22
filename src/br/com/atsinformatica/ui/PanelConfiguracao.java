@@ -202,7 +202,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel12.setText("Informe o caminho completo do banco de dados: (exemplo: \"localhost/3050:C/Banco/ResulthERP.fdb\")");
 
-        jBConexao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/connect.png"))); // NOI18N
+        jBConexao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/connect.png"))); // NOI18N
         jBConexao.setText("Testar conexão");
         jBConexao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,7 +426,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel3.setText("Informe WSDL ou URL do WebService:");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/arrow_down.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/arrow_down.png"))); // NOI18N
         jButton1.setText("Adcionar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,7 +487,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("WebService", jPanel5);
 
-        jBfechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/door_out.png"))); // NOI18N
+        jBfechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/door_out.png"))); // NOI18N
         jBfechar.setText("Fechar");
         jBfechar.setToolTipText("Fechar");
         jBfechar.setFocusable(false);
@@ -499,7 +499,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
         });
 
-        jBcancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/cancel.png"))); // NOI18N
+        jBcancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/cancel.png"))); // NOI18N
         jBcancelar.setText("Cancelar");
         jBcancelar.setToolTipText("Cancelar");
         jBcancelar.setEnabled(false);
@@ -512,7 +512,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
         });
 
-        jBgravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/save.png"))); // NOI18N
+        jBgravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/save.png"))); // NOI18N
         jBgravar.setText("Gravar");
         jBgravar.setToolTipText("Gravar");
         jBgravar.setEnabled(false);
@@ -525,7 +525,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
         });
 
-        jBalterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/pencil3 (2).png"))); // NOI18N
+        jBalterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/pencil3 (2).png"))); // NOI18N
         jBalterar.setText("Alterar");
         jBalterar.setToolTipText("Alterar");
         jBalterar.setEnabled(false);
@@ -538,7 +538,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
         });
 
-        jBincluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/atsinformatica/midler/assets/icons/add.png"))); // NOI18N
+        jBincluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/add.png"))); // NOI18N
         jBincluir.setText("Incluir");
         jBincluir.setToolTipText("Incluir");
         jBincluir.setFocusable(false);
@@ -567,9 +567,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                         .addComponent(jBcancelar)
                         .addGap(0, 0, 0)
                         .addComponent(jBfechar)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 351, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
