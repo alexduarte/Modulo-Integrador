@@ -604,7 +604,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jBgravar.setEnabled(true);
         jBalterar.setEnabled(false);
         jBincluir.setEnabled(false);
-        jTdiretorioERP1.requestFocus();
+        jTMinCad1.requestFocus();
         jBTSelecionaDirErp1.setEnabled(true);
     }//GEN-LAST:event_jBincluirActionPerformed
 
@@ -661,8 +661,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             jBcancelar.setEnabled(false);
             jBgravar.setEnabled(false);
             jBTSelecionaDirErp1.setEnabled(false);
-            //jBalterar.setEnabled(true);
             jBfechar.setEnabled(true);
+            jTabbedPane1.setSelectedIndex(0);
         }
     }//GEN-LAST:event_jBcancelarActionPerformed
 

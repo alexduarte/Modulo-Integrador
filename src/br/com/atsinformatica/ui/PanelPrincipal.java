@@ -23,9 +23,9 @@ public class PanelPrincipal extends javax.swing.JFrame {
      */
     public PanelPrincipal() {
         initComponents();
-        this.uJPanelImagem1.setImagem(new File(System.getProperty("user.dir") + "\\src\\br\\com\\atsinformatica\\midler\\assets\\images\\logo-w186.png"));
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(System.getProperty("user.dir")+"\\src\\br\\com\\atsinformatica\\midler\\assets\\icons\\ecom.png"));
-        this.setTitle("E-commerce ATS v1.0 BETA");
+        this.uJPanelImagem1.setImagem(new File(System.getProperty("user.dir") + "\\src\\assets\\images\\logo-w186.png"));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(System.getProperty("user.dir")+"\\src\\assets\\icons\\ecom.png"));
+        this.setTitle("Modulo Integrador E-commerce ATS");
 
         // this.jLSpinner.setVisible(false);
 
