@@ -20,12 +20,12 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {
-    "category"
+    "category",
 })
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
 
-    @XmlElement(required = true)
+    @XmlElement(name = "category",required = true)
     protected Category category;
 
     public Category getCategory() {

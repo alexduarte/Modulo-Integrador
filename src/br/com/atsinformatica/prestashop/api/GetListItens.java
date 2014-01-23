@@ -1,6 +1,8 @@
 package br.com.atsinformatica.prestashop.api;
 
+import br.com.atsinformatica.prestashop.list.Categories;
 import br.com.atsinformatica.prestashop.list.ProductFeatures;
+import br.com.atsinformatica.prestashop.list.Products;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,7 +13,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "productFeatures",
     "products",
-    "categories",})
+    "categories",
+})
 @XmlRootElement(name = "prestashop")
 public class GetListItens {
 
@@ -19,10 +22,10 @@ public class GetListItens {
     protected ProductFeatures productFeatures;
     
     @XmlElement(name = "products")
-    protected ProductFeatures products;
+    protected Products products;
     
     @XmlElement(name = "categories")
-    protected ProductFeatures categories;
+    protected Categories categories;
 
     //----------Getters e Setters-----------------//
     
@@ -34,19 +37,19 @@ public class GetListItens {
         this.productFeatures = productFeatures;
     }
 
-    public ProductFeatures getProducts() {
+    public Products getProducts() {
         return products;
     }
 
-    public void setProducts(ProductFeatures products) {
+    public void setProducts(Products products) {
         this.products = products;
     }
 
-    public ProductFeatures getCategories() {
+    public Categories getCategories() {
         return categories;
     }
 
-    public void setCategories(ProductFeatures categories) {
+    public void setCategories(Categories categories) {
         this.categories = categories;
     }
 

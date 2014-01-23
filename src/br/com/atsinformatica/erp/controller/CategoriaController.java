@@ -32,7 +32,7 @@ public class CategoriaController {
     public List<CategoriaERPBean> checkAllCategory() throws SQLException {
 
         List<CategoriaERPBean> listCategoria = new CategoriaERPDAO().listaTodos();
-        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories");
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
         
         categoriesNotRegistered = new ArrayList<>();
         for (CategoriaERPBean categoriaERPBean : listCategoria) {
@@ -63,9 +63,5 @@ public class CategoriaController {
             }
             return false;
         }
-    }
-
-    private List<Category> listaItensTestes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

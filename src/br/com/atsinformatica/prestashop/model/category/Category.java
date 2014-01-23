@@ -5,7 +5,9 @@
  */
 package br.com.atsinformatica.prestashop.model.category;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -19,41 +21,43 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "http://prestashop/api/categories/id", name = "", propOrder = {
     "id",
-    "id_parent",
-    "level_depth",
+    "idParent",
+    "levelDepth",
     "active",
-    "data_add",
-    "data_upd",
-    "id_shop_default",
-    "is_root_category",
+    "dataAdd",
+    "dataUpd",
+    "idShopDefault",
+    "isRootCategory",
     "name",
     "description",
-    "link_rewrite",})
+    "linkRewrite",})
 @XmlRootElement(name = "category")
 public class Category {
 
     @XmlElement(name = "id", required = true)
     private Integer id;
 
-    @XmlElement(name = "idParent", required = true)
+    @XmlElement(name = "id_parent", required = true)
     private Integer idParent;
 
-    @XmlElement(name = "levelDepth", required = true)
+    @XmlElement(name = "level_depth", required = true)
     private Integer levelDepth;
 
     @XmlElement(name = "active", required = true)
     private Short active;
 
-    @XmlElement(name = "dataAdd", required = true)
-    private Timestamp dataAdd;
+    //@Temporal(TemporalType.TIMESTAMP)
+    @XmlElement(name = "date_add", required = true)
+    private String dataAdd;
 
-    @XmlElement(name = "dataUpd", required = true)
-    private Timestamp dataUpd;
+    @Temporal(TemporalType.TIMESTAMP)
+    @XmlElement(name = "date_upd", required = true)
+    private String dataUpd;
 
-    @XmlElement(name = "idShopDefault", required = true)
+    @XmlElement(name = "id_Shop_default", required = true)
     private Short idShopDefault;
 
-    @XmlElement(name = "isRootCategory", required = true)
+    @XmlElement(name = "is_root_category", required = true)
     private Short isRootCategory;
 
     @XmlElement(name = "name", required = true)
@@ -105,19 +109,19 @@ public class Category {
         this.active = active;
     }
 
-    public Timestamp getDataAdd() {
+    public String getDataAdd() {
         return dataAdd;
     }
 
-    public void setDataAdd(Timestamp dataAdd) {
+    public void setDataAdd(String dataAdd) {
         this.dataAdd = dataAdd;
     }
 
-    public Timestamp getDataUpd() {
+    public String getDataUpd() {
         return dataUpd;
     }
 
-    public void setDataUpd(Timestamp dataUpd) {
+    public void setDataUpd(String dataUpd) {
         this.dataUpd = dataUpd;
     }
 
