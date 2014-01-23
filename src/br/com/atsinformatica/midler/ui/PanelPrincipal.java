@@ -6,12 +6,8 @@ package br.com.atsinformatica.midler.ui;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
-import java.beans.PropertyVetoException;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 /**
@@ -21,7 +17,7 @@ import javax.swing.JPanel;
 public class PanelPrincipal extends javax.swing.JFrame {
 
     private static PanelPrincipal instance = null;
-    private PanelHistorico panelHistorico;
+    private PanelHistorico2 panelHistorico;
     private PanelConfiguracao panelConfiguracao;
     /**
      * Creates new form PanelPrincipal
@@ -51,6 +47,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        timerCadastro = new org.netbeans.examples.lib.timerbean.Timer();
+        timerMov = new org.netbeans.examples.lib.timerbean.Timer();
         JHistorico = new javax.swing.JButton();
         JConfiguracao = new javax.swing.JButton();
         JSair = new javax.swing.JButton();
@@ -67,6 +65,18 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+
+        timerCadastro.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
+            public void onTime(java.awt.event.ActionEvent evt) {
+                timerCadastroOnTime(evt);
+            }
+        });
+
+        timerMov.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
+            public void onTime(java.awt.event.ActionEvent evt) {
+                timerMovOnTime(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,9 +132,9 @@ public class PanelPrincipal extends javax.swing.JFrame {
             .addGap(0, 73, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         jStatus.setText("             ");
 
@@ -140,7 +150,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jOperacao.setText("               ");
@@ -297,12 +307,20 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private void JHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHistoricoActionPerformed
         jMainPanel.removeAll();
         jMainPanel.updateUI();
-        panelHistorico = new PanelHistorico();
+        panelHistorico = new PanelHistorico2();
         panelHistorico.setSize(this.getWidth(), 495);
         //adciona o painel no painel principal
         jMainPanel.add(panelHistorico);
         jMainPanel.validate();
     }//GEN-LAST:event_JHistoricoActionPerformed
+
+    private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timerCadastroOnTime
+
+    private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timerMovOnTime
 
     /**
      * @param args the command line arguments
@@ -393,6 +411,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel jStatus;
+    private org.netbeans.examples.lib.timerbean.Timer timerCadastro;
+    private org.netbeans.examples.lib.timerbean.Timer timerMov;
     private componentes.UJPanelImagem uJPanelImagem1;
     // End of variables declaration//GEN-END:variables
 }
