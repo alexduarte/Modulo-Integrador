@@ -2,18 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.ui;
+package br.com.atsinformatica.midler.ui;
 
-import br.com.atsinformatica.midler.bean.ERPBean;
-import br.com.atsinformatica.midler.bean.FileBean;
-import br.com.atsinformatica.midler.dao.ParaEcomDAO;
-import br.com.atsinformatica.midler.dao.ParaUrlDAO;
-import br.com.atsinformatica.midler.domainmodel.bean.ParaEcomBean;
-import br.com.atsinformatica.midler.domainmodel.bean.ParaUrlWsdlBean;
+
+import br.com.atsinformatica.erp.dao.ParaEcomDAO;
+import br.com.atsinformatica.erp.dao.ParaUrlDAO;
+import br.com.atsinformatica.erp.entity.ParaEcomBean;
+import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
+import br.com.atsinformatica.midler.entity.ERPBean;
+import br.com.atsinformatica.midler.entity.FileERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.midler.properties.OrderedProperties;
-import br.com.atsinformatica.midler.utils.Funcoes;
 import br.com.atsinformatica.midler.properties.PropertiesManager;
+import br.com.atsinformatica.utils.Funcoes;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.awt.event.KeyEvent;
@@ -744,7 +745,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         int returnVal = chooser.showOpenDialog(null);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            FileBean file = new FileBean();
+            FileERPBean file = new FileERPBean();
             file.setCaminho(chooser.getSelectedFile().getAbsolutePath());
             file.setNomeArquivo(chooser.getSelectedFile().getName());
             jTdiretorioERP1.setText((String) file.getCaminho());
