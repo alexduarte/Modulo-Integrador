@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+﻿<<<<<<< HEAD
 ﻿$ cat .gitignore
 
 # Ignorar arquivos específicos
@@ -8,10 +8,10 @@
 *~
 *.class
 *.jar
+*.properties
 # Ignorar todos os diretórios e arquivos em um diretório.
 tmp/**/* 
 lib/*
-test/**/*
 /target/
 /build/
 /dist/
