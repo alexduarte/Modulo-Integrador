@@ -9,5 +9,5 @@
  * @author Jorge
  *
  */
-package br.com.atsinformatica.prestashop.model.list;
+package br.com.atsinformatica.prestashop.list;
 //import javax.xml.bind.annotation.*;

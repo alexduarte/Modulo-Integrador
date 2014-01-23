@@ -7,7 +7,8 @@ package br.com.atsinformatica.erp.controller;
 
 import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
-import br.com.atsinformatica.prestashop.model.CategoriaPrestashopBean;
+import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
+import br.com.atsinformatica.prestashop.model.category.Category;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +32,11 @@ public class CategoriaController {
     public List<CategoriaERPBean> checkAllCategory() throws SQLException {
 
         List<CategoriaERPBean> listCategoria = new CategoriaERPDAO().listaTodos();
-        List<CategoriaPrestashopBean> listPrestashop = listaItensTestes();
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories");
         
         categoriesNotRegistered = new ArrayList<>();
         for (CategoriaERPBean categoriaERPBean : listCategoria) {
-            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listPrestashop)) {
+            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listCategoryPrestaShop)) {
                 categoriesNotRegistered.add(categoriaERPBean);
             }
         }
@@ -50,13 +51,13 @@ public class CategoriaController {
      * @param listPrestashop
      * @return boolean
      */
-    private boolean checksCategoryExists(String descricao, List<CategoriaPrestashopBean> listPrestashop) {
+    private boolean checksCategoryExists(String descricao, List<Category> listCategoryPrestaShop) {
 
-        if (listPrestashop.isEmpty()) {
+        if (listCategoryPrestaShop.isEmpty()) {
             return false;
         } else {
-            for (CategoriaPrestashopBean categoriaPrestashopBean : listPrestashop) {
-                if (categoriaPrestashopBean.getDescricao().equals(descricao)) {
+            for (Category categoriaPrestashopBean : listCategoryPrestaShop) {
+                if (categoriaPrestashopBean.getDescription().getTextDescription().equals(descricao)) {
                     return true;
                 }
             }
@@ -64,7 +65,7 @@ public class CategoriaController {
         }
     }
 
-    private List<CategoriaPrestashopBean> listaItensTestes() {
+    private List<Category> listaItensTestes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

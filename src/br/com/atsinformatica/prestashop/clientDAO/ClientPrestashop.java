@@ -1,4 +1,4 @@
-package br.com.atsinformatica.prestashop.client;
+package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.prestashop.sax.NamespaceFilter;
 import java.util.logging.Logger;
