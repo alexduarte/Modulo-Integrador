@@ -16,6 +16,8 @@ public class ParaUrlWsdlBean {
     private String codParaUrlWsdl;
     @Resolvable(colName = "Url/WSDL")
     private String urlWSDL;
+    @Resolvable(colName = "Chave")
+    private String urlKey;
 
     /**
      * @return the codParaUrlWsdl
@@ -43,6 +45,20 @@ public class ParaUrlWsdlBean {
      */
     public void setUrlWSDL(String urlWSDL) {
         this.urlWSDL = urlWSDL;
+    }
+
+    /**
+     * @return the urlKey
+     */
+    public String getUrlKey() {
+        return urlKey;
+    }
+
+    /**
+     * @param urlKey the urlKey to set
+     */
+    public void setUrlKey(String urlKey) {
+        this.urlKey = urlKey;
     }
     
 }

@@ -35,11 +35,12 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
         try {
             conn = ConexaoATS.conectaERP();            
             conn.setAutoCommit(false);
-            String querie = "INSERT INTO PARAURL (CODPARAURL, URLWSDL) VALUES (?,?)";
+            String querie = "INSERT INTO PARAURL (CODPARAURL, URLWSDL, URLKEY) VALUES (?,?,?)";
             object.setCodParaUrlWsdl(ultimoRegistro());
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, object.getCodParaUrlWsdl());
             pstmt.setString(2, object.getUrlWSDL());
+            pstmt.setString(3, object.getUrlKey());
             pstmt.executeUpdate();
             conn.commit();
             logger.info("Url/wsdl salvo com sucesso");
@@ -57,12 +58,13 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
         PreparedStatement pstmt = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String querie = "UPDATE PARAURL set URLWSDL = ? "
+            String querie = "UPDATE PARAURL set URLWSDL = ?, URLKEY = ?  "
                           + " WHERE CODPARAURL = ? ";
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, object.getUrlWSDL());
-            pstmt.setString(2, object.getCodParaUrlWsdl());
+            pstmt.setString(2, object.getUrlKey());
+            pstmt.setString(3, object.getCodParaUrlWsdl());            
             pstmt.executeUpdate();
             conn.commit();
             logger.info("Url/WSDL alterado com sucesso!");
@@ -112,6 +114,7 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
             while(rs.next()){
                 paraUrlBean.setCodParaUrlWsdl(rs.getString("CODPARAURL"));
                 paraUrlBean.setUrlWSDL(rs.getString("URLWSDL"));
+                paraUrlBean.setUrlKey(rs.getString("URLKEY"));
             }         
             logger.info("Url/WSDl retornado com sucesso!");
             return paraUrlBean;
@@ -140,6 +143,7 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
                 ParaUrlWsdlBean paraUrl = new ParaUrlWsdlBean();
                 paraUrl.setCodParaUrlWsdl(rs.getString("CODPARAURL"));
                 paraUrl.setUrlWSDL(rs.getString("URLWSDL"));
+                paraUrl.setUrlKey(rs.getString("URLKEY"));
                 listaParaUrl.add(paraUrl);                      
             }           
             logger.info("Lista de url retornada com sucesso.");

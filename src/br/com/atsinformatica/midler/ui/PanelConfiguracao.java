@@ -40,7 +40,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private PanelPrincipal principal = PanelPrincipal.getInstance();
     private BasicTextEncryptor bt;
     private AnnotationResolver resolver = new AnnotationResolver(ParaUrlWsdlBean.class);
-    private String fieldResolver = "codParaUrlWsdl,urlWSDL";
+    private String fieldResolver = "codParaUrlWsdl,urlWSDL,urlKey";
     private ObjectTableModel urlModel = new ObjectTableModel(resolver, fieldResolver);
     private String codParaEcom;
 
@@ -168,6 +168,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTbUrl = new javax.swing.JTable();
+        jTUrlKey = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
         jBfechar = new javax.swing.JButton();
         jBcancelar = new javax.swing.JButton();
         jBgravar = new javax.swing.JButton();
@@ -249,7 +251,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel4.setText("Qtde. registros mantidos:");
 
         jTdiretorioERP1.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -351,7 +353,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -437,17 +439,17 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
         jTbUrl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Cod.", "Url/WSDL"
+                "Cod.", "Url/WSDL", "Chave"
             }
         ));
         jTbUrl.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -457,6 +459,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jTbUrl);
 
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel5.setText("Informe chave do WebService (caso necessário)");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -464,26 +469,35 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jTURL, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTURL, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane2))
-                .addContainerGap(43, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jTUrlKey, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jButton1)))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(jLabel3)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jButton1)
+                    .addComponent(jTUrlKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("WebService", jPanel5);
@@ -755,6 +769,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ParaUrlWsdlBean paraUrl = new ParaUrlWsdlBean();
         paraUrl.setUrlWSDL(jTURL.getText());
+        paraUrl.setUrlKey(jTUrlKey.getText());
         urlModel.add(paraUrl);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -810,6 +825,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPIntervaloSinc1;
     private javax.swing.JPanel jPanel3;
@@ -821,6 +837,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private javax.swing.JTextField jTMinCad1;
     private javax.swing.JTextField jTMinMov1;
     private javax.swing.JTextField jTURL;
+    private javax.swing.JTextField jTUrlKey;
     private javax.swing.JTextField jTUsuarioERP1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTbUrl;
@@ -853,10 +870,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             jTbUrl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             urlModel.setEditableDefault(false);
             urlModel.setColEditable(1, true);
+            urlModel.setColEditable(2, true);
             TableColumn colCod = jTbUrl.getColumnModel().getColumn(0);
             colCod.setPreferredWidth(70);
             TableColumn colUrl = jTbUrl.getColumnModel().getColumn(1);
-            colUrl.setPreferredWidth(623);
+            colUrl.setPreferredWidth(311);
+            TableColumn colUrlKey = jTbUrl.getColumnModel().getColumn(2);
+            colUrlKey.setPreferredWidth(311);          
             List<ParaUrlWsdlBean> listaParaUrl = dao.listaTodos();
             if (!listaParaUrl.isEmpty()) {
                 for (ParaUrlWsdlBean bean : listaParaUrl) {
