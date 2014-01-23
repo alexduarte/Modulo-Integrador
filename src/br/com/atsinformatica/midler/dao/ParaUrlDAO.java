@@ -14,13 +14,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
  * @author AlexsanderPimenta
  */
-public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
+public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
+    
+    private static Logger logger = Logger.getLogger(ParaUrlDAO.class);
     
     
     private Connection conn;
@@ -38,9 +41,9 @@ public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
             pstmt.setString(2, object.getUrlWSDL());
             pstmt.executeUpdate();
             conn.commit();
-            System.out.println("Url/wsdl salvo com sucesso");
+            logger.info("Url/wsdl salvo com sucesso");
         } catch (Exception e) {
-            System.out.println("Erro ao salvar url/wsdl: "+e);            
+            logger.error("Erro ao salvar url/wsdl: "+e);            
             conn.rollback();
         } finally {
             pstmt.close();
@@ -61,9 +64,9 @@ public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
             pstmt.setString(2, object.getCodParaUrlWsdl());
             pstmt.executeUpdate();
             conn.commit();
-            System.out.println("Url/WSDL alterado com sucesso!");
+            logger.info("Url/WSDL alterado com sucesso!");
         } catch (Exception e) {
-            System.out.println("Erro ao alterar Url/WSDL: "+e);
+            logger.error("Erro ao alterar Url/WSDL: "+e);
             conn.rollback();
         } finally {
             conn.close();
@@ -84,9 +87,9 @@ public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
             pstmt.setString(1, id);
             pstmt.executeUpdate();
             conn.commit();
-            System.out.println("URL/WSDL deletado com sucesso!");
+            logger.info("URL/WSDL deletado com sucesso!");
         } catch (Exception e) {
-            System.out.println("Erro ao deletar URL/WSDL: "+e);
+            logger.error("Erro ao deletar URL/WSDL: "+e);
             conn.rollback();
         } finally {
             pstmt.close();
@@ -109,10 +112,10 @@ public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
                 paraUrlBean.setCodParaUrlWsdl(rs.getString("CODPARAURL"));
                 paraUrlBean.setUrlWSDL(rs.getString("URLWSDL"));
             }         
-            System.out.println("Url/WSDl retornado com sucesso!");
+            logger.info("Url/WSDl retornado com sucesso!");
             return paraUrlBean;
         } catch (Exception e) {
-            System.out.println("Erro ao retornar url/wsdl: "+e);
+            logger.error("Erro ao retornar url/wsdl: "+e);
             return null;
         } finally {
             rs.close();
@@ -138,10 +141,10 @@ public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
                 paraUrl.setUrlWSDL(rs.getString("URLWSDL"));
                 listaParaUrl.add(paraUrl);                      
             }           
-            System.out.println("Lista de url retornada com sucesso.");
+            logger.info("Lista de url retornada com sucesso.");
             return listaParaUrl;
         }catch(Exception e){
-            System.out.println("Erro ao retornar lista de url: "+e);
+            logger.error("Erro ao retornar lista de url: "+e);
             return null;
         }finally{
             rs.close();

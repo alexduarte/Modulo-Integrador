@@ -14,12 +14,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author AlexsanderPimenta
  */
-public class ParaEcomDAO implements GenericDAO<ParaEcomBean> {
+public class ParaEcomDAO implements IGenericDAO<ParaEcomBean> {
+    
+    private static Logger logger = Logger.getLogger(ParaEcomDAO.class);
 
     private Connection conn;
 
@@ -40,9 +43,9 @@ public class ParaEcomDAO implements GenericDAO<ParaEcomBean> {
             pstmt.setInt(6, object.getAtivaSincronizacao());
             pstmt.executeUpdate();
             conn.commit();
-            System.out.println("Parametros salvos com sucesso!");
+            logger.info("Parametros salvos com sucesso!");
         } catch (Exception e) {
-            System.out.println("Erro ao salvar parametros: " + e);
+            logger.error("Erro ao salvar parametros: " + e);
             conn.rollback();
         } finally {
             pstmt.close();
@@ -71,9 +74,9 @@ public class ParaEcomDAO implements GenericDAO<ParaEcomBean> {
             pstmt.setString(6, object.getCodparaecom());
             pstmt.executeUpdate();
             conn.commit();
-            System.out.println("Parametros alterados com sucesso!");
+            logger.info("Parametros alterados com sucesso!");
         }catch(Exception e){
-            System.out.println("Erro ao alterar parametros: "+e);
+            logger.error("Erro ao alterar parametros: "+e);
             conn.rollback();
         }finally{
             pstmt.close();
@@ -92,9 +95,9 @@ public class ParaEcomDAO implements GenericDAO<ParaEcomBean> {
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, id);
             conn.commit();
-            System.out.println("Parametro deletado com sucesso!");
+            logger.info("Parametro deletado com sucesso!");
         }catch(Exception e){
-            System.out.println("Erro ao deletar parametro: "+e);
+            logger.error("Erro ao deletar parametro: "+e);
             conn.rollback();
         }finally{
             pstmt.close();
@@ -121,10 +124,10 @@ public class ParaEcomDAO implements GenericDAO<ParaEcomBean> {
                 bean.setQtdMantido(rs.getInt("QTDEMANTIDOS"));
                 bean.setAtivaSincronizacao(rs.getInt("ATIVASINCRONIZACAO"));
             }
-            System.out.println("Parametro retornado com sucesso!");
+            logger.info("Parametro retornado com sucesso!");
             return bean;
         }catch(Exception e){
-            System.out.println("Erro ao rettorna parametro: "+e);
+            logger.error("Erro ao rettorna parametro: "+e);
             return null;
         }finally{
             pstmt.close();
@@ -153,10 +156,10 @@ public class ParaEcomDAO implements GenericDAO<ParaEcomBean> {
                 paraEcom.setAtivaSincronizacao(rs.getInt("ATIVASINCRONIZACAO"));
                 listaParaEcom.add(paraEcom);
             }
-            System.out.println("Lista de parametros, retornada com sucesso!");
+            logger.info("Lista de parametros, retornada com sucesso!");
             return listaParaEcom;
         }catch(Exception e){
-            System.out.println("Erro ao retornar lista de parametros: "+e);
+            logger.error("Erro ao retornar lista de parametros: "+e);
             return null;            
         }finally{
             rs.close();
