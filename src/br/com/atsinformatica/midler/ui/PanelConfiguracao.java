@@ -2,17 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.midler.ui;
+package br.com.atsinformatica.ui;
 
-import br.com.atsinformatica.midler.entity.ERPBean;
-import br.com.atsinformatica.midler.entity.FileERPBean;
-import br.com.atsinformatica.erp.dao.ParaEcomERPDAO;
-import br.com.atsinformatica.erp.dao.ParaUrlERPDAO;
-import br.com.atsinformatica.erp.entity.ParaEcomBean;
-import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
+import br.com.atsinformatica.midler.bean.ERPBean;
+import br.com.atsinformatica.midler.bean.FileBean;
+import br.com.atsinformatica.midler.dao.ParaEcomDAO;
+import br.com.atsinformatica.midler.dao.ParaUrlDAO;
+import br.com.atsinformatica.midler.domainmodel.bean.ParaEcomBean;
+import br.com.atsinformatica.midler.domainmodel.bean.ParaUrlWsdlBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.midler.properties.OrderedProperties;
-import br.com.atsinformatica.utils.Funcoes;
+import br.com.atsinformatica.midler.utils.Funcoes;
 import br.com.atsinformatica.midler.properties.PropertiesManager;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
@@ -48,7 +48,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      */
     public PanelConfiguracao() {
         initComponents();
-
         jToolBar1.setFloatable(false);
         bt = new BasicTextEncryptor();
         bt.setPassword("senha001");
@@ -56,13 +55,10 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         //desabilita campos       
         Funcoes.habilitaDesabCampos(jPanel3, false);
         Funcoes.habilitaDesabCampos(jPanel5, false);
-        Funcoes.habilitaDesabCampos(jPanel4, false);
-        Funcoes.habilitaDesabCampos(jPIntervaloSinc1, false);
         //carrega arquivo de configurações
         carregaArquivoConfig();
         //verifica se banco foi criado em diretorio especificado
         if (jBincluir.isEnabled()) {
-            jTabbedPane1.setVisible(false);
             jBincluir.requestFocus();
         }
         if (jBalterar.isEnabled()) {
@@ -78,7 +74,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         try {
             //verifica se arquivo existe
             if (PropertiesManager.getFile().exists()) {
-                ParaEcomERPDAO dao = new ParaEcomERPDAO();
+                ParaEcomDAO dao = new ParaEcomDAO();
                 ParaEcomBean bean = dao.listaTodos().get(0);
                 // jBfechar.setEnabled(true);
                 Properties config = PropertiesManager.getConfig();
@@ -177,7 +173,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jBalterar = new javax.swing.JButton();
         jBincluir = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(0));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel14.setText("Senha:");
@@ -354,7 +350,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -600,7 +596,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jCbLFiliaisMousePressed
 
     private void jBincluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBincluirActionPerformed
-        jTabbedPane1.setVisible(true);
         principal.setjOperacao("Inclusão");
         Funcoes.habilitaDesabCampos(jPanel3, true);
         Funcoes.habilitaDesabCampos(jPanel5, true);
@@ -614,14 +609,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jBincluirActionPerformed
 
     private void jBalterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBalterarActionPerformed
-        jTabbedPane1.setVisible(true);
         principal.setjOperacao("Alteração");
         Funcoes.habilitaDesabCampos(jPanel3, true);
         Funcoes.habilitaDesabCampos(jPanel5, true);
-        Funcoes.habilitaDesabCampos(jPanel4, true);
-        Funcoes.habilitaDesabCampos(jPIntervaloSinc1, true);
-  
- 
         jBcancelar.setEnabled(true);
         jBgravar.setEnabled(true);
         jBalterar.setEnabled(false);
@@ -636,7 +626,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             erp.setCaminho(jTdiretorioERP1.getText());
             erp.setUsuario(jTUsuarioERP1.getText());
             erp.setSenha(String.copyValueOf(jTsenhaERP1.getPassword()));
-            if(!verificaCamposActionPerformed()) return ;
+            if (!verificaCamposActionPerformed()) {
+                return;
+            }
             setaArquivoConfiguracao(erp);
             cadastraParaEcom();
             cadastraParaUrl();
@@ -661,14 +653,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                 jBincluir.setEnabled(true);
                 jBalterar.setEnabled(false);
                 Funcoes.limpaTela(jPanel3);
+                Funcoes.limpaTela(jPanel5);
             } else {
                 carregaArquivoConfig();
             }
             Funcoes.habilitaDesabCampos(jPanel3, false);
             Funcoes.habilitaDesabCampos(jPanel5, false);
-            Funcoes.habilitaDesabCampos(jPanel4, false);
-            Funcoes.habilitaDesabCampos(jPIntervaloSinc1, false);
-  
+            
             //urlModel.clear();
             jBConexao.setEnabled(false);
             jBcancelar.setEnabled(false);
@@ -693,7 +684,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jBfecharActionPerformed
 
     private void jBConexaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConexaoActionPerformed
-
         File file = new File("config.ini");
         try {
             String senha = jTsenhaERP1.getText();
@@ -723,7 +713,10 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jRSim2jRSimActionPerformed
 
     private void jTsenhaERP1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTsenhaERP1FocusLost
-       
+        if (jTsenhaERP1.getPassword().length > 1 && jTsenhaERP1.getPassword().length < 5) {
+            JOptionPane.showMessageDialog(null, "Informe no mínimo 5 caracteres para a senha.");
+            jTsenhaERP1.requestFocus();
+        }
     }//GEN-LAST:event_jTsenhaERP1FocusLost
 
     private void jTdiretorioERP1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTdiretorioERP1FocusLost
@@ -733,13 +726,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
     private void jTMinCad1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTMinCad1KeyTyped
         String caracteres = "0123456789";
-        if (!caracteres.contains(evt.getKeyChar() + "") ) {
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
     }//GEN-LAST:event_jTMinCad1KeyTyped
 
     private void jTMinMov1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTMinMov1KeyTyped
-         String caracteres = "0123456789";
+        String caracteres = "0123456789";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
@@ -751,7 +744,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         int returnVal = chooser.showOpenDialog(null);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            FileERPBean file = new FileERPBean();
+            FileBean file = new FileBean();
             file.setCaminho(chooser.getSelectedFile().getAbsolutePath());
             file.setNomeArquivo(chooser.getSelectedFile().getName());
             jTdiretorioERP1.setText((String) file.getCaminho());
@@ -771,33 +764,32 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jTbUrlKeyReleased
 
     private void jTMinCad1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTMinCad1FocusLost
-        if(jTMinCad1.getText().equals("0")){
+        if (jTMinCad1.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um intervalo de sincronização de cadastro, acima de 0");
-            jTMinCad1.requestFocus();          
+            jTMinCad1.requestFocus();
         }
     }//GEN-LAST:event_jTMinCad1FocusLost
 
     private void jTMinMov1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTMinMov1FocusLost
-        if(jTMinMov1.getText().equals("0")){
+        if (jTMinMov1.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um intervalo de sincronização de movimentações, acima de 0");
-            jTMinMov1.requestFocus();          
+            jTMinMov1.requestFocus();
         }
     }//GEN-LAST:event_jTMinMov1FocusLost
 
     private void jtQtderegFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtQtderegFocusLost
-        if(jtQtdereg.getText().equals("0")){
+        if (jtQtdereg.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe uma quantidade de registros a serem sincronizados, acima de 0");
-            jtQtdereg.requestFocus();            
+            jtQtdereg.requestFocus();
         }
     }//GEN-LAST:event_jtQtderegFocusLost
 
     private void jtQtdemantFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtQtdemantFocusLost
-         if(jtQtdemant.getText().equals("0")){
+        if (jtQtdemant.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe uma quantidade de registros a serem mantidos, acima de 0");
-            jtQtdemant.requestFocus();            
+            jtQtdemant.requestFocus();
         }
     }//GEN-LAST:event_jtQtdemantFocusLost
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBConexao;
@@ -854,7 +846,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }
 
     private void carregaGrid() {
-        ParaUrlERPDAO dao = new ParaUrlERPDAO();
+        ParaUrlDAO dao = new ParaUrlDAO();
         try {
             jTbUrl.setModel(urlModel);
             jTbUrl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -881,7 +873,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void cadastraParaEcom() {
         try {
             ParaEcomBean paraEcom = new ParaEcomBean();
-            ParaEcomERPDAO dao = new ParaEcomERPDAO();
+            ParaEcomDAO dao = new ParaEcomDAO();
             paraEcom.setMinutoscadastrados(Integer.parseInt(jTMinCad1.getText()));
             paraEcom.setMinutosmov(Integer.parseInt(jTMinMov1.getText()));
             paraEcom.setQtdeRegistros(Integer.parseInt(jtQtdereg.getText()));
@@ -901,7 +893,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void cadastraParaUrl() {
         try {
             List<ParaUrlWsdlBean> listaParaUrl = urlModel.getData();
-            ParaUrlERPDAO dao = new ParaUrlERPDAO();
+            ParaUrlDAO dao = new ParaUrlDAO();
             for (ParaUrlWsdlBean paraUrl : listaParaUrl) {
                 if (principal.getjOperacao().equals("Inclusão")) {
                     dao.gravar(paraUrl);
@@ -932,48 +924,42 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      * Verifica se campos obrigatorios estão vazios
      */
     public boolean verificaCamposActionPerformed() {
-        if(jTdiretorioERP1.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Informe o diretório do banco ERP.");            
+        if (jTdiretorioERP1.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Informe o diretório do banco ERP.");
             jTabbedPane1.setSelectedIndex(0);
             jTdiretorioERP1.requestFocus();
             return false;
-        }
-        else if(jTUsuarioERP1.getText().equals("")){
+        } else if (jTUsuarioERP1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe usuário do banco ERP");
             jTabbedPane1.setSelectedIndex(0);
             jTUsuarioERP1.requestFocus();
-            return false;            
-        }
-        else if(jTsenhaERP1.getText().equals("")){
+            return false;
+        } else if (jTsenhaERP1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe senha do banco ERP");
             jTabbedPane1.setSelectedIndex(0);
             jTsenhaERP1.requestFocus();
             return false;
-        }
-        else if(jTMinCad1.getText().equals("")){
+        } else if (jTMinCad1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe intervalo de sincronização de cadastros.");
             jTabbedPane1.setSelectedIndex(0);
             jTMinCad1.requestFocus();
             return false;
-        }
-        else if(jTMinMov1.getText().equals("")){
+        } else if (jTMinMov1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe intervalo de sincronização de movimentações.");
             jTabbedPane1.setSelectedIndex(0);
             jTMinMov1.requestFocus();
             return false;
-        }
-        else if(jtQtdereg.getText().equals("")){
+        } else if (jtQtdereg.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe quantidade de registros que serão sincronizados.");
             jTabbedPane1.setSelectedIndex(0);
             jtQtdereg.requestFocus();
             return false;
-        }
-        else if(urlModel.getData().isEmpty()){
+        } else if (urlModel.getData().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe ao menos um WSDL ou URL do WebService.");
             jTabbedPane1.setSelectedIndex(1);
             jTURL.requestFocus();
             return false;
         }
-        return true;       
+        return true;
     }
 }

@@ -7,6 +7,7 @@ package br.com.atsinformatica.midler.properties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -20,7 +21,7 @@ public class PropertiesManager {
     //instancia
     private static PropertiesManager instance;
     //Arquivo de log
-//    private static Logger logger = Logger.getLogger(PropertiesManager.class);
+    private static Logger logger = Logger.getLogger(PropertiesManager.class);
     //arquivo de configurações
     private static Properties config;
     //arquivo

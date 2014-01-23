@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.apache.log4j.Logger;
 import org.jasypt.util.text.BasicTextEncryptor;
 
 
@@ -23,7 +24,7 @@ public class ConexaoATS {
 
     private static Connection connection;
     private static Statement stmt;
-    //private static Logger logger = Logger.getLogger(ConexaoATS.class.getName());
+    private static Logger logger = Logger.getLogger(ConexaoATS.class.getName());
 
     public static ConexaoATS getInstance() {
         return ConexaoATSHolder.INSTANCE;
@@ -45,30 +46,30 @@ public class ConexaoATS {
      */
     public static String conectarERP(String diretorio, String usuario, String senha) throws InstantiationException {
         try {
-            System.out.println("Conectando...");
+            logger.info("Conectando...");
             //controle criado para o caso do usuário digitar "/"
             //    diretorio = diretorio.replace("/", "\\");
             Class.forName("org.firebirdsql.jdbc.FBDriver").newInstance();
             setConnection(DriverManager.getConnection("jdbc:firebirdsql://" + diretorio, usuario, senha));
             setStmt(getConnection().createStatement());
-            System.out.println("Conectado com sucesso!");
+            logger.info("Conectado com sucesso!");
             return "Conectado com sucesso!";
         } catch (ClassNotFoundException ex) {
-            System.out.println("Erro de acesso ao driver de conexão.");
+            logger.info("Erro de acesso ao driver de conexão.");
             return "Erro de acesso ao driver de conexão.";
         } catch (SQLException e) {
             if (e.getMessage().contains("GDS Exception. 335544344")) {
-                System.out.println("Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.");
+                logger.error("Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.");
                 return "Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.";
             }
             if (e.getMessage().contains("GDS Exception. 335544472")) {
-                System.out.println("Usuário ou senha inválidos");
+                logger.error("Usuário ou senha inválidos");
                 return "Usuário ou senha inválidos";
             }
-            System.out.println("Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.");
+            logger.error("Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.");
             return "Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.";
         } catch (IllegalAccessException ex) {
-            System.out.println("Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.");
+            logger.error("Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.");
             return "Não foi possível conectar ao banco de dados. Verifique o caminho informado e tente novamente.";
         }
     }
@@ -86,14 +87,14 @@ public class ConexaoATS {
             String usuario = PropertiesManager.getConfig().getProperty("erp.usuario");
             bt.setPassword("senha001");
             String senhaDecrypt = bt.decrypt(PropertiesManager.getConfig().getProperty("erp.senha"));
-            System.out.println("Conectando...");
+            logger.info("Conectando...");
             Class.forName("org.firebirdsql.jdbc.FBDriver").newInstance();
             setConnection(DriverManager.getConnection("jdbc:firebirdsql://" + diretorio, usuario, senhaDecrypt));
             setStmt(getConnection().createStatement());
-            System.out.println("Conectado com sucesso!");
+            logger.info("Conectado com sucesso!");
             return getConnection();
         }catch(Exception e){
-            System.out.println("Erro ao conectar: "+e);
+            logger.error("Erro ao conectar: "+e);
             return null;          
         }
     }
