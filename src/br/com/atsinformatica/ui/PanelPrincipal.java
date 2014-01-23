@@ -6,8 +6,12 @@ package br.com.atsinformatica.ui;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
+import java.beans.PropertyVetoException;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 /**
@@ -17,7 +21,8 @@ import javax.swing.JPanel;
 public class PanelPrincipal extends javax.swing.JFrame {
 
     private static PanelPrincipal instance = null;
-
+    private PanelHistorico panelHistorico;
+    private PanelConfiguracao panelConfiguracao;
     /**
      * Creates new form PanelPrincipal
      */
@@ -117,9 +122,9 @@ public class PanelPrincipal extends javax.swing.JFrame {
             .addGap(0, 73, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jStatus.setText("             ");
 
@@ -245,9 +250,6 @@ public class PanelPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHistoricoActionPerformed
-    }//GEN-LAST:event_JHistoricoActionPerformed
-
     private void JConfiguracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JConfiguracaoActionPerformed
         //limpa status
         this.setjStatus("");
@@ -256,10 +258,10 @@ public class PanelPrincipal extends javax.swing.JFrame {
         //remove todos componentes do painel e atualiza painel
         jMainPanel.removeAll();
         jMainPanel.updateUI();
-        PanelConfiguracao panel = new PanelConfiguracao();
-        panel.setSize(this.getWidth(), 495);
+        panelConfiguracao = new PanelConfiguracao();
+        panelConfiguracao.setSize(this.getWidth(), 495);
         //adciona o painel no painel principal
-        jMainPanel.add(panel);
+        jMainPanel.add(panelConfiguracao);
         jMainPanel.validate();
     }//GEN-LAST:event_JConfiguracaoActionPerformed
 
@@ -291,6 +293,16 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         JSairActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void JHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHistoricoActionPerformed
+        jMainPanel.removeAll();
+        jMainPanel.updateUI();
+        panelHistorico = new PanelHistorico();
+        panelHistorico.setSize(this.getWidth(), 495);
+        //adciona o painel no painel principal
+        jMainPanel.add(panelHistorico);
+        jMainPanel.validate();
+    }//GEN-LAST:event_JHistoricoActionPerformed
 
     /**
      * @param args the command line arguments

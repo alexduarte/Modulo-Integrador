@@ -626,7 +626,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             erp.setCaminho(jTdiretorioERP1.getText());
             erp.setUsuario(jTUsuarioERP1.getText());
             erp.setSenha(String.copyValueOf(jTsenhaERP1.getPassword()));
-            if(!verificaCamposActionPerformed()) return ;
+            if (!verificaCamposActionPerformed()) {
+                return;
+            }
             setaArquivoConfiguracao(erp);
             cadastraParaEcom();
             cadastraParaUrl();
@@ -651,11 +653,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                 jBincluir.setEnabled(true);
                 jBalterar.setEnabled(false);
                 Funcoes.limpaTela(jPanel3);
+                Funcoes.limpaTela(jPanel5);
             } else {
                 carregaArquivoConfig();
             }
             Funcoes.habilitaDesabCampos(jPanel3, false);
             Funcoes.habilitaDesabCampos(jPanel5, false);
+            
             //urlModel.clear();
             jBConexao.setEnabled(false);
             jBcancelar.setEnabled(false);
@@ -680,7 +684,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jBfecharActionPerformed
 
     private void jBConexaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConexaoActionPerformed
-
         File file = new File("config.ini");
         try {
             String senha = jTsenhaERP1.getText();
@@ -710,7 +713,10 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jRSim2jRSimActionPerformed
 
     private void jTsenhaERP1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTsenhaERP1FocusLost
-       
+        if (jTsenhaERP1.getPassword().length > 1 && jTsenhaERP1.getPassword().length < 5) {
+            JOptionPane.showMessageDialog(null, "Informe no mínimo 5 caracteres para a senha.");
+            jTsenhaERP1.requestFocus();
+        }
     }//GEN-LAST:event_jTsenhaERP1FocusLost
 
     private void jTdiretorioERP1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTdiretorioERP1FocusLost
@@ -720,13 +726,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
     private void jTMinCad1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTMinCad1KeyTyped
         String caracteres = "0123456789";
-        if (!caracteres.contains(evt.getKeyChar() + "") ) {
+        if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
     }//GEN-LAST:event_jTMinCad1KeyTyped
 
     private void jTMinMov1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTMinMov1KeyTyped
-         String caracteres = "0123456789";
+        String caracteres = "0123456789";
         if (!caracteres.contains(evt.getKeyChar() + "")) {
             evt.consume();
         }
@@ -758,33 +764,32 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jTbUrlKeyReleased
 
     private void jTMinCad1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTMinCad1FocusLost
-        if(jTMinCad1.getText().equals("0")){
+        if (jTMinCad1.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um intervalo de sincronização de cadastro, acima de 0");
-            jTMinCad1.requestFocus();          
+            jTMinCad1.requestFocus();
         }
     }//GEN-LAST:event_jTMinCad1FocusLost
 
     private void jTMinMov1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTMinMov1FocusLost
-        if(jTMinMov1.getText().equals("0")){
+        if (jTMinMov1.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um intervalo de sincronização de movimentações, acima de 0");
-            jTMinMov1.requestFocus();          
+            jTMinMov1.requestFocus();
         }
     }//GEN-LAST:event_jTMinMov1FocusLost
 
     private void jtQtderegFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtQtderegFocusLost
-        if(jtQtdereg.getText().equals("0")){
+        if (jtQtdereg.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe uma quantidade de registros a serem sincronizados, acima de 0");
-            jtQtdereg.requestFocus();            
+            jtQtdereg.requestFocus();
         }
     }//GEN-LAST:event_jtQtderegFocusLost
 
     private void jtQtdemantFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtQtdemantFocusLost
-         if(jtQtdemant.getText().equals("0")){
+        if (jtQtdemant.getText().equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe uma quantidade de registros a serem mantidos, acima de 0");
-            jtQtdemant.requestFocus();            
+            jtQtdemant.requestFocus();
         }
     }//GEN-LAST:event_jtQtdemantFocusLost
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBConexao;
@@ -919,48 +924,42 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      * Verifica se campos obrigatorios estão vazios
      */
     public boolean verificaCamposActionPerformed() {
-        if(jTdiretorioERP1.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Informe o diretório do banco ERP.");            
+        if (jTdiretorioERP1.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Informe o diretório do banco ERP.");
             jTabbedPane1.setSelectedIndex(0);
             jTdiretorioERP1.requestFocus();
             return false;
-        }
-        else if(jTUsuarioERP1.getText().equals("")){
+        } else if (jTUsuarioERP1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe usuário do banco ERP");
             jTabbedPane1.setSelectedIndex(0);
             jTUsuarioERP1.requestFocus();
-            return false;            
-        }
-        else if(jTsenhaERP1.getText().equals("")){
+            return false;
+        } else if (jTsenhaERP1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe senha do banco ERP");
             jTabbedPane1.setSelectedIndex(0);
             jTsenhaERP1.requestFocus();
             return false;
-        }
-        else if(jTMinCad1.getText().equals("")){
+        } else if (jTMinCad1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe intervalo de sincronização de cadastros.");
             jTabbedPane1.setSelectedIndex(0);
             jTMinCad1.requestFocus();
             return false;
-        }
-        else if(jTMinMov1.getText().equals("")){
+        } else if (jTMinMov1.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe intervalo de sincronização de movimentações.");
             jTabbedPane1.setSelectedIndex(0);
             jTMinMov1.requestFocus();
             return false;
-        }
-        else if(jtQtdereg.getText().equals("")){
+        } else if (jtQtdereg.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe quantidade de registros que serão sincronizados.");
             jTabbedPane1.setSelectedIndex(0);
             jtQtdereg.requestFocus();
             return false;
-        }
-        else if(urlModel.getData().isEmpty()){
+        } else if (urlModel.getData().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Informe ao menos um WSDL ou URL do WebService.");
             jTabbedPane1.setSelectedIndex(1);
             jTURL.requestFocus();
             return false;
         }
-        return true;       
+        return true;
     }
 }
