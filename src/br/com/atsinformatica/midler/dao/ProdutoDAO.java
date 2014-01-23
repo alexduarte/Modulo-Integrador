@@ -4,7 +4,7 @@
  */
 package br.com.atsinformatica.midler.dao;
 
-import br.com.atsinformatica.midler.domainmodel.bean.ProdutoBean;
+import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,19 +18,19 @@ import org.apache.log4j.Logger;
  *
  * @author AlexsanderPimenta
  */
-public class ProdutoDAO implements IGenericDAO<ProdutoBean> {
+public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
     
-    private Logger logger = Logger.getLogger(ProdutoBean.class);
+    private Logger logger = Logger.getLogger(ProdutoERPBean.class);
     
     private Connection conn;
 
     @Override
-    public void gravar(ProdutoBean object) throws SQLException {
+    public void gravar(ProdutoERPBean object) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void alterar(ProdutoBean object) throws SQLException {
+    public void alterar(ProdutoERPBean object) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,12 +40,12 @@ public class ProdutoDAO implements IGenericDAO<ProdutoBean> {
     }
 
     @Override
-    public ProdutoBean abrir(String id) throws SQLException {
+    public ProdutoERPBean abrir(String id) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ProdutoBean> listaTodos() throws SQLException {
+    public List<ProdutoERPBean> listaTodos() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -54,8 +54,8 @@ public class ProdutoDAO implements IGenericDAO<ProdutoBean> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public List<ProdutoBean> listaASincronizar() throws SQLException{
-        List<ProdutoBean> listaProdutos = new ArrayList<>();
+    public List<ProdutoERPBean> listaASincronizar() throws SQLException{
+        List<ProdutoERPBean> listaProdutos = new ArrayList<>();
         Statement stmt = null;
         ResultSet rs = null;
         try{
@@ -72,7 +72,7 @@ public class ProdutoDAO implements IGenericDAO<ProdutoBean> {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             while(rs.next()){
-                ProdutoBean bean = new ProdutoBean(rs);
+                ProdutoERPBean bean = new ProdutoERPBean(rs);
                 listaProdutos.add(bean);                
             }
             logger.info("Lista de produtos a serem sincronizados, retornada com sucesso!");

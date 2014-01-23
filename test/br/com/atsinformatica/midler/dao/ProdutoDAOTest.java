@@ -4,7 +4,7 @@
  */
 package br.com.atsinformatica.midler.dao;
 
-import br.com.atsinformatica.midler.domainmodel.bean.ProdutoBean;
+import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import java.util.List;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -55,8 +55,8 @@ public class ProdutoDAOTest extends TestCase {
         try{
             System.out.println("listaASincronizar");
             ProdutoDAO instance = new ProdutoDAO();
-            List<ProdutoBean> result = instance.listaASincronizar();
-            for(ProdutoBean prod: result){
+            List<ProdutoERPBean> result = instance.listaASincronizar();
+            for(ProdutoERPBean prod: result){
                 System.out.println("Produto: "+prod + "\n");               
             }          
             assertNotNull(result); 
