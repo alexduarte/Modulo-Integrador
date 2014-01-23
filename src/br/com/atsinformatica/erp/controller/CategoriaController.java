@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.atsinformatica.erp.controller;
 
 import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
-import br.com.atsinformatica.prestashop.client.ClientPrestashop;
 import br.com.atsinformatica.prestashop.model.CategoriaPrestashopBean;
-import br.com.atsinformatica.prestashop.model.product.Prestashop;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,30 +17,51 @@ import java.util.List;
  * @author ricardosilva
  */
 public class CategoriaController {
-   
-    List<CategoriaERPBean> listCategoria;
-    List<CategoriaPrestashopBean> listPrestashop;
-    @SuppressWarnings("empty-statement")
-    private void verificaCategorias() throws SQLException {      
-         listCategoria = new CategoriaERPDAO().listaTodos();
-         //listPrestashop = new ClientPrestashop().getPrestashopPackage("Categories", Prestashop.class);
-         listPrestashop = listaItensTestes();
-         for (CategoriaERPBean categoriaERPBean : listCategoria) {
-            if(checksCategoryExists(categoriaERPBean.getDescricao(),listPrestashop)){
-                
+
+
+    List<CategoriaERPBean> categoriesNotRegistered;
+
+    /**
+     * Verifica se todas as categorias do ERP estão cadastradas no Prestashop
+     * Se sim, return true.
+     * Se não, cadastra o item e retorna false;
+     * @return boolean
+     * @throws SQLException
+     */
+    public List<CategoriaERPBean> checkAllCategory() throws SQLException {
+
+        List<CategoriaERPBean> listCategoria = new CategoriaERPDAO().listaTodos();
+        List<CategoriaPrestashopBean> listPrestashop = listaItensTestes();
+        
+        categoriesNotRegistered = new ArrayList<>();
+        for (CategoriaERPBean categoriaERPBean : listCategoria) {
+            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listPrestashop)) {
+                categoriesNotRegistered.add(categoriaERPBean);
             }
         }
-         
+        return categoriesNotRegistered;
+
     }
+    
+    /**
+     * Compara o descrição de um item no ERP com o do presta e verifica 
+     * se o mesmo existe no Prestashop
+     * @param descricao
+     * @param listPrestashop
+     * @return boolean
+     */
     private boolean checksCategoryExists(String descricao, List<CategoriaPrestashopBean> listPrestashop) {
-        
-        if(listPrestashop.isEmpty())return false;
-        else{         
+
+        if (listPrestashop.isEmpty()) {
+            return false;
+        } else {
             for (CategoriaPrestashopBean categoriaPrestashopBean : listPrestashop) {
-                if(categoriaPrestashopBean.getDescricao().equals(descricao)) return true;
+                if (categoriaPrestashopBean.getDescricao().equals(descricao)) {
+                    return true;
+                }
             }
             return false;
-        } 
+        }
     }
 
     private List<CategoriaPrestashopBean> listaItensTestes() {

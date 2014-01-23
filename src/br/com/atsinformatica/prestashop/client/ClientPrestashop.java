@@ -1,15 +1,5 @@
 package br.com.atsinformatica.prestashop.client;
 
-import br.com.atsinformatica.prestashop.model.product.Description;
-import br.com.atsinformatica.prestashop.model.product.Language;
-import br.com.atsinformatica.prestashop.model.product.Name;
-import br.com.atsinformatica.prestashop.model.product.ObjectFactory;
-import br.com.atsinformatica.prestashop.model.product.Prestashop;
-import br.com.atsinformatica.prestashop.model.product.Price;
-import br.com.atsinformatica.prestashop.model.product.Product;
-import br.com.atsinformatica.prestashop.model.product.Type;
-import br.com.atsinformatica.prestashop.model.product_feature.ProductFeature;
-import br.com.atsinformatica.prestashop.prestashop.SetPrestashopItem;
 import br.com.atsinformatica.prestashop.sax.NamespaceFilter;
 import java.util.logging.Logger;
 
@@ -27,10 +17,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 import javax.xml.bind.UnmarshallerHandler;
@@ -38,7 +24,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamResult;
-import org.eclipse.persistence.internal.oxm.Root;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLFilter;
