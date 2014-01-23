@@ -7,7 +7,7 @@ package br.com.atsinformatica.midler;
 import br.com.atsinformatica.midler.properties.PropertiesManager;
 import br.com.atsinformatica.midler.ui.util.AtsKeyboardFocusManager;
 import br.com.atsinformatica.midler.ui.util.LayoutUtil;
-import br.com.atsinformatica.ui.PanelPrincipal;
+import br.com.atsinformatica.midler.ui.PanelPrincipal;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 

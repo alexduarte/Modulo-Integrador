@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.midler.domainmodel.bean;
+package br.com.atsinformatica.erp.entity;
 
 import com.towel.el.annotation.Resolvable;
 

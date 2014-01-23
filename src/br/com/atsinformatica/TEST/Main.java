@@ -5,6 +5,10 @@
  */
 package br.com.atsinformatica.TEST;
 
+import br.com.atsinformatica.erp.entity.CategoriaERPBean;
+import br.com.atsinformatica.erp.entity.SubCategoriaERPBean;
+import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
+import br.com.atsinformatica.erp.dao.SubCategoriaERPDAO;
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.api.ServicesWeb;
 import br.com.atsinformatica.prestashop.client.ClientPrestashop;
@@ -36,7 +40,9 @@ public class Main {
         Main m = new Main();
         //m.getItensPrestaShop();
         //m.getItemPrestaShop();
-        m.testPostProduct();
+       // m.testPostProduct();
+        CategoriaERPDAO categoriaDAO = new CategoriaERPDAO();
+        List<CategoriaERPBean> list = categoriaDAO.listaTodos();
     }
 
     private void getItensPrestaShop() {

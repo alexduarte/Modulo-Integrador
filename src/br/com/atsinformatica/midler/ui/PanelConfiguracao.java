@@ -2,17 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.ui;
+package br.com.atsinformatica.midler.ui;
 
-import br.com.atsinformatica.midler.bean.ERPBean;
-import br.com.atsinformatica.midler.bean.FileBean;
-import br.com.atsinformatica.midler.dao.ParaEcomDAO;
-import br.com.atsinformatica.midler.dao.ParaUrlDAO;
-import br.com.atsinformatica.midler.domainmodel.bean.ParaEcomBean;
-import br.com.atsinformatica.midler.domainmodel.bean.ParaUrlWsdlBean;
+import br.com.atsinformatica.midler.entity.ERPBean;
+import br.com.atsinformatica.midler.entity.FileERPBean;
+import br.com.atsinformatica.erp.dao.ParaEcomERPDAO;
+import br.com.atsinformatica.erp.dao.ParaUrlERPDAO;
+import br.com.atsinformatica.erp.entity.ParaEcomBean;
+import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.midler.properties.OrderedProperties;
-import br.com.atsinformatica.midler.utils.Funcoes;
+import br.com.atsinformatica.utils.Funcoes;
 import br.com.atsinformatica.midler.properties.PropertiesManager;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
@@ -48,6 +48,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      */
     public PanelConfiguracao() {
         initComponents();
+
         jToolBar1.setFloatable(false);
         bt = new BasicTextEncryptor();
         bt.setPassword("senha001");
@@ -55,10 +56,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         //desabilita campos       
         Funcoes.habilitaDesabCampos(jPanel3, false);
         Funcoes.habilitaDesabCampos(jPanel5, false);
+        Funcoes.habilitaDesabCampos(jPanel4, false);
+        Funcoes.habilitaDesabCampos(jPIntervaloSinc1, false);
         //carrega arquivo de configurações
         carregaArquivoConfig();
         //verifica se banco foi criado em diretorio especificado
         if (jBincluir.isEnabled()) {
+            jTabbedPane1.setVisible(false);
             jBincluir.requestFocus();
         }
         if (jBalterar.isEnabled()) {
@@ -74,7 +78,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         try {
             //verifica se arquivo existe
             if (PropertiesManager.getFile().exists()) {
-                ParaEcomDAO dao = new ParaEcomDAO();
+                ParaEcomERPDAO dao = new ParaEcomERPDAO();
                 ParaEcomBean bean = dao.listaTodos().get(0);
                 // jBfechar.setEnabled(true);
                 Properties config = PropertiesManager.getConfig();
@@ -173,7 +177,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jBalterar = new javax.swing.JButton();
         jBincluir = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel14.setText("Senha:");
@@ -350,7 +354,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -596,6 +600,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jCbLFiliaisMousePressed
 
     private void jBincluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBincluirActionPerformed
+        jTabbedPane1.setVisible(true);
         principal.setjOperacao("Inclusão");
         Funcoes.habilitaDesabCampos(jPanel3, true);
         Funcoes.habilitaDesabCampos(jPanel5, true);
@@ -609,9 +614,14 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jBincluirActionPerformed
 
     private void jBalterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBalterarActionPerformed
+        jTabbedPane1.setVisible(true);
         principal.setjOperacao("Alteração");
         Funcoes.habilitaDesabCampos(jPanel3, true);
         Funcoes.habilitaDesabCampos(jPanel5, true);
+        Funcoes.habilitaDesabCampos(jPanel4, true);
+        Funcoes.habilitaDesabCampos(jPIntervaloSinc1, true);
+  
+ 
         jBcancelar.setEnabled(true);
         jBgravar.setEnabled(true);
         jBalterar.setEnabled(false);
@@ -656,6 +666,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
             Funcoes.habilitaDesabCampos(jPanel3, false);
             Funcoes.habilitaDesabCampos(jPanel5, false);
+            Funcoes.habilitaDesabCampos(jPanel4, false);
+            Funcoes.habilitaDesabCampos(jPIntervaloSinc1, false);
+  
             //urlModel.clear();
             jBConexao.setEnabled(false);
             jBcancelar.setEnabled(false);
@@ -738,7 +751,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         int returnVal = chooser.showOpenDialog(null);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            FileBean file = new FileBean();
+            FileERPBean file = new FileERPBean();
             file.setCaminho(chooser.getSelectedFile().getAbsolutePath());
             file.setNomeArquivo(chooser.getSelectedFile().getName());
             jTdiretorioERP1.setText((String) file.getCaminho());
@@ -841,7 +854,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }
 
     private void carregaGrid() {
-        ParaUrlDAO dao = new ParaUrlDAO();
+        ParaUrlERPDAO dao = new ParaUrlERPDAO();
         try {
             jTbUrl.setModel(urlModel);
             jTbUrl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -868,7 +881,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void cadastraParaEcom() {
         try {
             ParaEcomBean paraEcom = new ParaEcomBean();
-            ParaEcomDAO dao = new ParaEcomDAO();
+            ParaEcomERPDAO dao = new ParaEcomERPDAO();
             paraEcom.setMinutoscadastrados(Integer.parseInt(jTMinCad1.getText()));
             paraEcom.setMinutosmov(Integer.parseInt(jTMinMov1.getText()));
             paraEcom.setQtdeRegistros(Integer.parseInt(jtQtdereg.getText()));
@@ -888,7 +901,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void cadastraParaUrl() {
         try {
             List<ParaUrlWsdlBean> listaParaUrl = urlModel.getData();
-            ParaUrlDAO dao = new ParaUrlDAO();
+            ParaUrlERPDAO dao = new ParaUrlERPDAO();
             for (ParaUrlWsdlBean paraUrl : listaParaUrl) {
                 if (principal.getjOperacao().equals("Inclusão")) {
                     dao.gravar(paraUrl);

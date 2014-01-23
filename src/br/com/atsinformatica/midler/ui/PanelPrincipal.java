@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.ui;
+package br.com.atsinformatica.midler.ui;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
@@ -117,9 +117,9 @@ public class PanelPrincipal extends javax.swing.JFrame {
             .addGap(0, 73, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jStatus.setText("             ");
 

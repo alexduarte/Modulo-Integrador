@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.midler.dao;
+package br.com.atsinformatica.erp.dao;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author AlexsanderPimenta
  */
-public interface GenericDAO<T> {
+public interface GenericERPDAO<T> {
     
     void gravar(T object) throws SQLException;
     void alterar(T object) throws SQLException;

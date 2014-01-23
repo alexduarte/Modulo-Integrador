@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.midler.dao;
+package br.com.atsinformatica.erp.dao;
 
-import br.com.atsinformatica.midler.domainmodel.bean.ParaUrlWsdlBean;
+import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
-import br.com.atsinformatica.midler.utils.Funcoes;
+import br.com.atsinformatica.utils.Funcoes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ import org.jasypt.util.text.BasicTextEncryptor;
  *
  * @author AlexsanderPimenta
  */
-public class ParaUrlDAO implements GenericDAO<ParaUrlWsdlBean> {
+public class ParaUrlERPDAO implements GenericERPDAO<ParaUrlWsdlBean> {
     
     
     private Connection conn;

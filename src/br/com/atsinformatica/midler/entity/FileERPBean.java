@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.midler.bean;
+package br.com.atsinformatica.midler.entity;
 
 
 /**
  *
  * @author AlexsanderPimenta
  */
-public class FileBean {
+public class FileERPBean {
     
 //    @Resolvable(colName = "MINIATURA DA IMAGEM")
     private byte[] imagemArray;    

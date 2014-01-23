@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package br.com.atsinformatica.erp.dao;
 
-package br.com.atsinformatica.midler.dao;
-
-import br.com.atsinformatica.erp.entity.FilialERPBean;
+import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +16,7 @@ import java.sql.SQLException;
  *
  * @author ricardosilva
  */
-public class FilialERPDAO{
+public class ProdutoERPDAO {
     
     Connection dbConnection = null;
     PreparedStatement preparedStatementInsert = null;
@@ -29,25 +28,25 @@ public class FilialERPDAO{
     /**
      * Salva os produtos criados
      *
-     * @param filial
+     * @param produto
      * @throws SQLException
      */
-    public void salvaFilialERP(FilialERPBean filial) throws SQLException {
+    public void salvaProduto(ProdutoERPBean produto) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
             dbConnection.setAutoCommit(false);
 
-            //prepara a execução da SQL
+            //prepara a execu��o da SQL
             String SQL_SALVAR = "";
             preparedStatementInsert = dbConnection.prepareStatement(SQL_SALVAR);
 
-            //Atribui os valores no lugar das interrogações e executa a SQL
+            //Atribui os valores no lugar das interroga��es e executa a SQL
             preparedStatementInsert.setInt(1, 999);
             preparedStatementInsert.setString(2, "mkyong101");
             preparedStatementInsert.executeUpdate();
 
-            //Commita a operação ou faz rollback
+            //Commita a opera��o ou faz rollback
             preparedStatementUpdate.executeUpdate();
         } catch (SQLException e) {
 
@@ -69,25 +68,25 @@ public class FilialERPDAO{
     /**
      * Atualiza produtos
      *
-     * @param filial 
+     * @param produto
      * @throws SQLException
      */
-    public void atualizarFilialERP(FilialERPBean filial) throws SQLException {
+    public void atualizarProduto(ProdutoERPBean produto) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
             dbConnection.setAutoCommit(false);
 
-            //prepara a execução da SQL
+            //prepara a execu��o da SQL
             String SQL_UPDATE = "";
             preparedStatementUpdate = dbConnection.prepareStatement(SQL_UPDATE);
 
-            //Atribui os valores no lugar das interrogações e executa a SQL
+            //Atribui os valores no lugar das interroga��es e executa a SQL
             preparedStatementUpdate.setInt(1, 999);
             preparedStatementUpdate.setString(2, "mkyong101");
             preparedStatementUpdate.executeUpdate();
 
-            //Commita a operação ou faz rollback
+            //Commita a opera��o ou faz rollback
             preparedStatementUpdate.executeUpdate();
         } catch (SQLException e) {
 
@@ -106,26 +105,21 @@ public class FilialERPDAO{
         }
     }
 
-    /**
-     * Deletar item
-     * @param filial
-     * @throws SQLException
-     */
-    public void deleteFilialERP(FilialERPBean filial) throws SQLException {
+    public void deleteProduto(ProdutoERPBean produto) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
             dbConnection.setAutoCommit(false);
 
-            //prepara a execução da SQL
+            //prepara a execu��o da SQL
             String SQL_DELETE = "DELETE produto WHERE id = ?";
             preparedStatementDelete = dbConnection.prepareStatement(SQL_DELETE);
 
-            //Atribui os valores no lugar das interrogações e executa a SQL
+            //Atribui os valores no lugar das interroga��es e executa a SQL
             preparedStatementDelete.setInt(1, 999);
             preparedStatementDelete.executeUpdate();
 
-            //Commita a operação ou faz rollback
+            //Commita a opera��o ou faz rollback
             preparedStatementDelete.executeUpdate();
         } catch (SQLException e) {
 
@@ -144,17 +138,17 @@ public class FilialERPDAO{
         }
     }
 
-    public void listPedidoERP() throws SQLException {
+    public void listProduto(ProdutoERPBean produto) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
             dbConnection.setAutoCommit(false);
 
-            //prepara a execução da SQL
+            //prepara a execu��o da SQL
             String SQL_LIST = "";
             preparedStatementList = dbConnection.prepareStatement(SQL_LIST);
 
-            //Recebe os valores no lugar das interrogações e executa a SQL
+            //Recebe os valores no lugar das interroga��es e executa a SQL
             ResultSet rs = preparedStatementList.executeQuery();
             while (rs.next()) {
                 String userid = rs.getString("USER_ID");
@@ -164,7 +158,7 @@ public class FilialERPDAO{
                 System.out.println("username : " + username);
             }
 
-            //Commita a operação ou faz rollback
+            //Commita a opera��o ou faz rollback
         } catch (SQLException e) {
 
             System.out.println(e.getMessage());
@@ -180,5 +174,6 @@ public class FilialERPDAO{
             }
 
         }
-    } 
+    }
+    
 }

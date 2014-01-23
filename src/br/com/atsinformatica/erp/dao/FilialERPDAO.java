@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package br.com.atsinformatica.midler.dao;
+package br.com.atsinformatica.erp.dao;
 
+import br.com.atsinformatica.erp.entity.FilialERPBean;
 import br.com.atsinformatica.midler.jdbc.ConnectionFactory;
-import br.com.atsinformatica.erp.entity.PedidoERPBean;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
  *
  * @author ricardosilva
  */
-public class PedidoERPDAO{
+public class FilialERPDAO{
     
     Connection dbConnection = null;
     PreparedStatement preparedStatementInsert = null;
@@ -29,10 +29,10 @@ public class PedidoERPDAO{
     /**
      * Salva os produtos criados
      *
-     * @param pedido
+     * @param filial
      * @throws SQLException
      */
-    public void salvaPedidoERP(PedidoERPBean pedido) throws SQLException {
+    public void salvaFilialERP(FilialERPBean filial) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
@@ -69,10 +69,10 @@ public class PedidoERPDAO{
     /**
      * Atualiza produtos
      *
-     * @param pedido
+     * @param filial 
      * @throws SQLException
      */
-    public void atualizarPedidoERP(PedidoERPBean pedido) throws SQLException {
+    public void atualizarFilialERP(FilialERPBean filial) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
@@ -108,10 +108,10 @@ public class PedidoERPDAO{
 
     /**
      * Deletar item
-     * @param pedido
+     * @param filial
      * @throws SQLException
      */
-    public void deletePedidoERP(PedidoERPBean pedido) throws SQLException {
+    public void deleteFilialERP(FilialERPBean filial) throws SQLException {
         try {
             //cria a conexao com o Banco de dados e desabilita o autocommit
             dbConnection = ConnectionFactory.getDBConnection();
