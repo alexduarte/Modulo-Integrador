@@ -1,7 +1,4 @@
-﻿<<<<<<< HEAD
-﻿$ cat .gitignore
-
-# Ignorar arquivos específicos
+﻿# Ignorar arquivos específicos
 .DS_Store
 
 # Use curingas como
@@ -9,29 +6,10 @@
 *.class
 *.jar
 *.properties
+
 config
 # Ignorar todos os diretórios e arquivos em um diretório.
 tmp/**/* 
 lib/*
-test/**/*
-/target/
 /build/
 /dist/
-=======
-﻿$ cat .gitignore
-
-# Ignorar arquivos específicos
-.DS_Store
-
-# Use curingas como
-*~
-*.class
-*.jar 
-*.properties
-# Ignorar todos os diretórios e arquivos em um diretório.
-tmp/**/* 
-lib/*
-test/**/*
-/target/
-/build/
->>>>>>> ad04e82b04d9c6c82624d25f0ba8c8b54c3d0508
