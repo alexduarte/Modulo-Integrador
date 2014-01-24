@@ -10,9 +10,11 @@ import br.com.atsinformatica.erp.entity.SubCategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
 import br.com.atsinformatica.erp.dao.SubCategoriaERPDAO;
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
-import br.com.atsinformatica.prestashop.api.ServicesWeb;
-import br.com.atsinformatica.prestashop.client.ClientPrestashop;
-import br.com.atsinformatica.prestashop.model.list.ProductFeatures;
+import br.com.atsinformatica.prestashop.api.GetListItens;
+import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
+import br.com.atsinformatica.prestashop.clientDAO.ClientPrestashop;
+import br.com.atsinformatica.prestashop.list.ProductFeatures;
+import br.com.atsinformatica.prestashop.model.category.Category;
 import br.com.atsinformatica.prestashop.model.product.Description;
 import br.com.atsinformatica.prestashop.model.product.Language;
 import br.com.atsinformatica.prestashop.model.product.Name;
@@ -37,18 +39,20 @@ import org.xml.sax.SAXException;
 public class Main {
 
     public static void main(String args[]) throws Exception {
-        Main m = new Main();
+        // m = new Main();
         //m.getItensPrestaShop();
         //m.getItemPrestaShop();
        // m.testPostProduct();
-        CategoriaERPDAO categoriaDAO = new CategoriaERPDAO();
-        List<CategoriaERPBean> list = categoriaDAO.listaTodos();
+        CategoryPrestashopDAO dAO = new CategoryPrestashopDAO();
+        List<Category> list = dAO.get("categories/");
+//        CategoriaERPDAO categoriaDAO = new CategoriaERPDAO();
+//        List<CategoriaERPBean> list = categoriaDAO.listaTodos();
     }
 
     private void getItensPrestaShop() {
         try {
             ClientPrestashop clientPrestashop = new ClientPrestashop();
-            ServicesWeb prestashop = (ServicesWeb) clientPrestashop.getPrestashopPackage("product_features/2", ServicesWeb.class);
+            GetListItens prestashop = (GetListItens) clientPrestashop.getPrestashopPackage("product_features/2", GetListItens.class);
             ProductFeatures productFeatures = prestashop.getProductFeatures();
             List<AccessXMLAttribute> ps = productFeatures.getProductFeature();
             for (AccessXMLAttribute p : ps) {

@@ -1,4 +1,4 @@
-package br.com.atsinformatica.prestashop.model.list;
+package br.com.atsinformatica.prestashop.list;
 
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
 import java.util.ArrayList;
