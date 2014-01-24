@@ -42,7 +42,7 @@ import org.xml.sax.XMLReader;
  *
  * @author ricardosilva
  */
-public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
+public class GenericPrestashopDAO implements IGenericPrestashopDAO<Object> {
 
     /**
      * Adiciona um item prestashop
@@ -51,53 +51,54 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      * @param t
      */
     @Override
-    public void post(String path, Category t) {
+    public void post(String path, Object t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
-     * Atualiza um item específico
+     * Atualiza um item específico prestashop
      *
      * @param path
      * @param t
      */
     @Override
-    public void put(String path, Category t) {
+    public void put(String path, Object t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
-     * retorna todos itens de categoria
+     * retorna todos tipo Prestashop do pacote
      *
      * @param path
      * @return
      */
     @Override
-    public List<Category> get(String path) {
+    public List<Object> get(String path,Class<?> classe) {
 
         WebResource webresource = getWebResource();
         GetListItens getListItens = webresource.path(path).type(MediaType.APPLICATION_XML).get(GetListItens.class);
 
-        List<Category> listCategory = new ArrayList<>();
+        List<Object> listPrestaShop = new ArrayList<>();
         for (AccessXMLAttribute attribute : getListItens.getCategories().getCategory()) {
-                Prestashop prestashop = webresource.path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(Prestashop.class);
-                listCategory.add(prestashop.getCategory());
+                Object object = webresource.path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(classe);
+                listPrestaShop.add(object);
         }
-        return listCategory;
+        return listPrestaShop;
     }
 
     /**
-     * Retorna um item em específico da Categoria
+     * Retorna um item em específico do prestashop
      *
      * @param path
      * @param key
      * @return
      */
     @Override
-    public Category getId(String path, int key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object getId(String path, int key,Class<?> classe) {
+         WebResource webresource = getWebResource();
+         webresource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(classe);
+        return null;
     }
-
     /**
      * Retorna um a WebResource (função obrigatória);
      *
@@ -111,7 +112,7 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
             client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
             return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
         } catch (SQLException ex) {
-            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GenericPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

@@ -11,7 +11,7 @@ import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
 import br.com.atsinformatica.erp.dao.SubCategoriaERPDAO;
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.api.GetListItens;
-import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
+import br.com.atsinformatica.prestashop.clientDAO.GenericPrestashopDAO;
 import br.com.atsinformatica.prestashop.clientDAO.ClientPrestashop;
 import br.com.atsinformatica.prestashop.list.ProductFeatures;
 import br.com.atsinformatica.prestashop.model.category.Category;
@@ -43,7 +43,7 @@ public class Main {
         //m.getItensPrestaShop();
         //m.getItemPrestaShop();
        // m.testPostProduct();
-        CategoryPrestashopDAO dAO = new CategoryPrestashopDAO();
+        GenericPrestashopDAO dAO = new GenericPrestashopDAO();
         List<Category> list = dAO.get("categories/");
 //        CategoriaERPDAO categoriaDAO = new CategoriaERPDAO();
 //        List<CategoriaERPBean> list = categoriaDAO.listaTodos();

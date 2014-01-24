@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface IGenericPrestashopDAO<T> {
   
-    public void post(String path,T t);
+    public void post(String path,T prestashopPackage);
     
-    public void put(String path,T t);
+    public void put(String path,T prestashopPackage);
     
-    public List<T> get(String path);
+    public List<T> get(String path,Class<?> classePrestashopPackage);
     
-    public T getId(String path,int key);
+    public T getId(String path,int key,Class<?> classePrestashopPackage);
 }
