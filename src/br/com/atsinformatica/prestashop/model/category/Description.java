@@ -6,7 +6,7 @@
 
 package br.com.atsinformatica.prestashop.model.category;
 
-import br.com.atsinformatica.prestashop.model.product.Language;
+import br.com.atsinformatica.prestashop.model.product_feature.Language;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -43,7 +43,7 @@ public class Description {
     public String getTextDescription(){
         return language.get(0).getContent();
     }
-
+    
     /**
      * Retorna language do item selecionado se existente
      * @param index

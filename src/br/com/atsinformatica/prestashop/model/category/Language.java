@@ -1,10 +1,9 @@
-package br.com.atsinformatica.prestashop.model.product_feature;
+package br.com.atsinformatica.prestashop.model.category;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -13,9 +12,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author ricardosilva
  */
-@XmlRootElement(name = "language", namespace = "http://www.w3.org/1999/xlink")
+@XmlRootElement(name = "language")
 @XmlAccessorType(XmlAccessType.FIELD)
-
 public class Language {
     
     @XmlValue
@@ -29,6 +27,12 @@ public class Language {
     public Language() {
         this.href = this.href.replace(":id",String.valueOf(1));   
     }
+
+    public Language(String content) {
+        this.content = content;
+        this.href = this.href.replace(":id",String.valueOf(1)); 
+    }
+    
     
     
     public String getContent() {
