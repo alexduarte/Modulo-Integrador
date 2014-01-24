@@ -35,8 +35,6 @@ public class PrestashopCategory {
     public PrestashopCategory() {
     }
 
-    
-    
     public Category getCategory() {
         return category;
     }

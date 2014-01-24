@@ -1,52 +1,19 @@
-//
-// Este archivo ha sido generado por la arquitectura JavaTM para la implantaci�n de la referencia de enlace (JAXB) XML v2.2.8-b01 
-// Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Todas las modificaciones realizadas en este archivo se perder�n si se vuelve a compilar el esquema de origen. 
-// Generado el: 2013.11.11 a las 08:18:12 PM CET 
-//
-
-
-package br.com.atsinformatica.prestashop.model.product;
+package br.com.atsinformatica.prestashop.model.category;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Clase Java para anonymous complex type.
- * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
- * 
- * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="href" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="id" use="required">
- *         &lt;simpleType>
- *           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}NMTOKEN">
- *             &lt;enumeration value="1"/>
- *             &lt;enumeration value="2"/>
- *             &lt;enumeration value="3"/>
- *           &lt;/restriction>
- *         &lt;/simpleType>
- *       &lt;/attribute>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
+ *
+ * @author ricardosilva
  */
-@XmlRootElement(name = "language", namespace = "http://www.w3.org/1999/xlink")
+@XmlRootElement(name = "language")
 @XmlAccessorType(XmlAccessType.FIELD)
-
 public class Language {
     
     @XmlValue
@@ -55,11 +22,17 @@ public class Language {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String id;
     @XmlAttribute(name = "xlink:href", required = true)
-    protected String href ="http://localhost/prestashop/languages/:id";
+    protected String href ="http://localhost/prestashop/api/languages/:id";
 
     public Language() {
         this.href = this.href.replace(":id",String.valueOf(1));   
     }
+
+    public Language(String content) {
+        this.content = content;
+        this.href = this.href.replace(":id",String.valueOf(1)); 
+    }
+    
     
     
     public String getContent() {

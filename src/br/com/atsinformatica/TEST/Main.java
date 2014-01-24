@@ -6,8 +6,11 @@
 package br.com.atsinformatica.TEST;
 
 
+import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
 import br.com.atsinformatica.prestashop.clientDAO.ProductFeaturePrestashopDAO;
+import br.com.atsinformatica.prestashop.model.category.Category;
 import br.com.atsinformatica.prestashop.model.product_feature.ProductFeature;
+import java.util.List;
 
 /**
  *
@@ -19,19 +22,21 @@ public class Main {
 
 
         //--------NOVO----------------//
-//        CategoryPrestashopDAO dao = new CategoryPrestashopDAO();
-//        Category category = dao.getId("categories/", 5);
+        CategoryPrestashopDAO daoC = new CategoryPrestashopDAO();
+        List<Category> category = daoC.get("categories/");
 //        category.getDescription().getLanguage().get(0).setContent("teste");
-//
-//        dao.put("categories/",category,5);
+//        category.getName().getLanguage().get(0).setContent("joaozinho");
+//        category.getLinkRewrite().getLanguage().get(0).setContent("joaozinho");
+//        category.setId(null);
+//        daoC.post("categories/",category);
         //------------------------------------------------//
-        ProductFeaturePrestashopDAO dao = new ProductFeaturePrestashopDAO();
-        ProductFeature feature = dao.getId("product_features/", 5);
-        br.com.atsinformatica.prestashop.model.product_feature.Name n = feature.getName();
-        n.getLanguage().get(0).setContent("promomomo");
-        feature.setName(n);
-        feature.setId(null);
-        dao.post("product_features/", feature);
+//        ProductFeaturePrestashopDAO dao = new ProductFeaturePrestashopDAO();
+//        ProductFeature feature = dao.getId("product_features/", 5);
+//        br.com.atsinformatica.prestashop.model.product_feature.Name n = feature.getName();
+//        n.getLanguage().get(0).setContent("promomomo");
+//        feature.setName(n);
+//        feature.setId(null);
+//        dao.post("product_features/", feature);
 
     }
 

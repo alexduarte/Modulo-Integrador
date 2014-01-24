@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.com.atsinformatica.prestashop.model.category;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,16 +24,19 @@ import javax.xml.bind.annotation.XmlType;
     "idParent",
     "levelDepth",
     "active",
-    //"dataAdd",
-    //"dataUpd",
+    "dataAdd",
+    "dataUpd",
     "idShopDefault",
     "isRootCategory",
     "name",
     "description",
-    "linkRewrite",})
+    "linkRewrite",
+})
 @XmlRootElement(name = "category")
 public class Category {
 
+    public static String URLCATEGORY = "categories/";
+    
     @XmlElement(name = "id", required = true)
     private Integer id;
 
@@ -46,13 +49,11 @@ public class Category {
     @XmlElement(name = "active", required = true)
     private Short active;
 
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @XmlElement(name = "date_add", required = true)
-//    private String dataAdd;
-//
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @XmlElement(name = "date_upd", required = true)
-//    private String dataUpd;
+    @XmlElement(name = "date_add", required = true)
+    private String dataAdd;
+
+    @XmlElement(name = "date_upd", required = true)
+    private String dataUpd;
 
     @XmlElement(name = "id_Shop_default", required = true)
     private Short idShopDefault;
@@ -73,8 +74,8 @@ public class Category {
         this.idParent = 0;
         this.levelDepth = 0;
         this.idShopDefault = 1;
-        this.active = 0;
-        this.isRootCategory = 0;
+        this.active = 1;
+        this.isRootCategory = 1;
     }
 
     public Integer getId() {
@@ -89,56 +90,38 @@ public class Category {
         return idParent;
     }
 
-    public void setIdParent(Integer idParent) {
-        this.idParent = idParent;
-    }
-
     public Integer getLevelDepth() {
         return levelDepth;
-    }
-
-    public void setLevelDepth(Integer levelDepth) {
-        this.levelDepth = levelDepth;
     }
 
     public Short getActive() {
         return active;
     }
 
-    public void setActive(Short active) {
-        this.active = active;
+    public String getDataAdd() {
+        return dataAdd;
     }
 
-//    public String getDataAdd() {
-//        return dataAdd;
-//    }
-//
-//    public void setDataAdd(String dataAdd) {
-//        this.dataAdd = dataAdd;
-//    }
-//
-//    public String getDataUpd() {
-//        return dataUpd;
-//    }
-//
-//    public void setDataUpd(String dataUpd) {
-//        this.dataUpd = dataUpd;
-//    }
+    public void setDataAdd(Date dataAdd) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
+        this.dataAdd = sdf.format(dataAdd);
+    }
+
+    public String getDataUpd() {
+        return dataUpd;
+    }
+
+    public void setDataUpd(Date dataAdd) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
+        this.dataAdd = sdf.format(dataAdd);
+    }
 
     public Short getIdShopDefault() {
         return idShopDefault;
     }
 
-    public void setIdShopDefault(Short idShopDefault) {
-        this.idShopDefault = idShopDefault;
-    }
-
     public Short getIsRootCategory() {
         return isRootCategory;
-    }
-
-    public void setIsRootCategory(Short isRootCategory) {
-        this.isRootCategory = isRootCategory;
     }
 
     public Name getName() {
@@ -165,3 +148,4 @@ public class Category {
         this.linkRewrite = linkRewrite;
     }
 }
+

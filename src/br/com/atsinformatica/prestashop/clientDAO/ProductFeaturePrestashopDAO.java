@@ -5,6 +5,8 @@
  */
 package br.com.atsinformatica.prestashop.clientDAO;
 
+import br.com.atsinformatica.erp.dao.ParaUrlDAO;
+import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.api.GetListItens;
 import br.com.atsinformatica.prestashop.model.product_feature.PrestashopProductFeature;
@@ -62,6 +64,7 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
         PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
         WebResource webResource = getWebResource();
         String xml = createTOXML(prestashopProductFeature);
+        xml = xml.replace("ns2", "xlink");
         ClientResponse response = webResource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
         System.out.println(response);
     }
@@ -99,19 +102,22 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
         PrestashopProductFeature prestashop = webresource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
         return prestashop.getProductFeature();
     }
-    
-    private final String pass = "W6AYITEGCXEFALUDYV0S952CPTAKNF8Q";
-    private final String url = "http://localhost/prestashop/api/";
     /**
      * Retorna um a WebResource (função obrigatória);
      *
      * @return
      */
     protected WebResource getWebResource() {
-        ClientConfig config = new DefaultClientConfig();
-        Client client = Client.create(config);
-        client.addFilter(new HTTPBasicAuthFilter(pass, ""));
-        return client.resource(url);
+        try {
+            ClientConfig config = new DefaultClientConfig();
+            Client client = Client.create(config);
+            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
+            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
+            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
