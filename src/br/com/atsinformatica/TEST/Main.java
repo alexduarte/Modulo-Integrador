@@ -23,7 +23,7 @@ public class Main {
 
         //--------NOVO----------------//
         CategoryPrestashopDAO daoC = new CategoryPrestashopDAO();
-        List<Category> category = daoC.get("categories/");
+        List<Category> category = daoC.get(Category.URLCATEGORY);
 //        category.getDescription().getLanguage().get(0).setContent("teste");
 //        category.getName().getLanguage().get(0).setContent("joaozinho");
 //        category.getLinkRewrite().getLanguage().get(0).setContent("joaozinho");
@@ -31,12 +31,12 @@ public class Main {
 //        daoC.post("categories/",category);
         //------------------------------------------------//
 //        ProductFeaturePrestashopDAO dao = new ProductFeaturePrestashopDAO();
-//        ProductFeature feature = dao.getId("product_features/", 5);
+//        ProductFeature feature = dao.getId(ProductFeature.URLPRODUCTFEATURE, 5);
 //        br.com.atsinformatica.prestashop.model.product_feature.Name n = feature.getName();
 //        n.getLanguage().get(0).setContent("promomomo");
 //        feature.setName(n);
 //        feature.setId(null);
-//        dao.post("product_features/", feature);
+//        ProductFeature postProductFeature = dao.postProductFeature("product_features/", feature);
 
     }
 

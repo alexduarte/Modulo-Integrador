@@ -13,7 +13,6 @@ import br.com.atsinformatica.prestashop.model.category.Language;
 import br.com.atsinformatica.prestashop.model.category.LinkRewrite;
 import br.com.atsinformatica.prestashop.model.category.Name;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,14 +31,14 @@ public class CategoriaController {
      *
      * @param categoriaERP
      */
-    public void createCategoryPrestashop(CategoriaERPBean categoriaERP) {
+    public Category createCategoryPrestashop(CategoriaERPBean categoriaERP) {
 
-        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
 
         if (!checksCategoryExists(categoriaERP.getDescricao(), listCategoryPrestaShop)) {
             Category category = new Category();
-            category.setDataAdd(new Date());
-            category.setDataUpd(new Date());
+//            category.setDataAdd(new Date());
+//            category.setDataUpd(new Date());
             
             LinkRewrite linkRewrite = new LinkRewrite();
             linkRewrite.getLanguage().add(new Language(categoriaERP.getDescricao().toLowerCase()));
@@ -50,12 +49,11 @@ public class CategoriaController {
             category.setName(name);
             
             CategoryPrestashopDAO dao = new CategoryPrestashopDAO();
-            dao.post(null, category);
+            return dao.postCategory(Category.URLCATEGORY, category);
+            
         }else
             JOptionPane.showConfirmDialog(null,"Categoria já existente no sistema");
-
-        
-
+        return null;
     }
 
     /**

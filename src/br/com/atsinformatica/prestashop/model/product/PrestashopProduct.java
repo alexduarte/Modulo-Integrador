@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlType;
     "product"
 })
 @XmlRootElement(name = "prestashop")
-public class Prestashop {
+public class PrestashopProduct {
 
     @XmlElement(required = true)
     protected Product product;

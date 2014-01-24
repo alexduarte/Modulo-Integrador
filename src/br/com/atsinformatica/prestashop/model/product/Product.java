@@ -14,39 +14,27 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Clase Java para anonymous complex type.
- * 
- * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
- * 
- * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}id"/>
- *         &lt;element ref="{}new"/>
- *         &lt;element ref="{}type"/>
- *         &lt;element ref="{}supplier_reference"/>
- *         &lt;element ref="{}location"/>
- *         &lt;element ref="{}upc"/>
- *         &lt;element ref="{}price"/>
- *         &lt;element ref="{}unity"/>
- *         &lt;element ref="{}redirect_type"/>
- *         &lt;element ref="{}name"/>
- *         &lt;element ref="{}description"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "http://prestashop/api/products/id", name = "", propOrder = {
+@XmlType(namespace = "http://localhost/prestashop/api/products/id", name = "", propOrder = {
     "id",
+    "idCategoryDefault",
+    "idShopDefault",
+    "idTaxRulesGroup",
+    "onSale",
+    "ecotax",
+    "onlineOnly",
+    "quantity",
+    "minimal_quantity",
+    "unitPriceRatio",
+    "wholesalePrice",
+    "width",
+    "height",
+    "depth",
+    "weight",
+    "out_of_stock",
+    "quantity_discount",
+    "customizable",
+    "uploadableFiles",
     "_new",
     "type",
     "supplierReference",
@@ -63,24 +51,90 @@ public class Product {
 	
     @XmlElement(name="id", required = true)
     protected Id id;
+    
+    @XmlElement(name="id_category_default")
+    protected Integer idCategoryDefault;
+    
     @XmlElement(name = "new", required = true)
     protected String _new;
-    @XmlElement(required = true)
+    
+    @XmlElement(name="id_shop_default")
+    protected Integer idShopDefault;
+    
+    @XmlElement(name="id_tax_rules_group")
+    protected Integer idTaxRulesGroup;
+    
+    @XmlElement(name="on_sale")
+    protected Integer onSale;
+    
+    @XmlElement(name="online_only")
+    protected Integer onlineOnly;
+    
+    @XmlElement(name="ecotax")
+    protected Integer ecotax;
+    
+    @XmlElement(name="quantity")
+    protected Integer quantity;
+    
+    @XmlElement(name="minimal_quantity")
+    protected Integer minimalQuantity;
+    
+    @XmlElement(name="wholesale_price")
+    protected Integer wholesalePrice;
+    
+    @XmlElement(name="unit_price_ratio")
+    protected Integer unitPriceRatio;
+    
+    @XmlElement(name="additional_shipping_cost")
+    protected Integer additionalShippingCost;
+    
+    @XmlElement(name="outOfStock")
+    protected Integer outOfStock;
+    
+    @XmlElement(name="width")
+    protected Integer width;
+    
+    @XmlElement(name="heigth")
+    protected Integer heigth;
+    
+    @XmlElement(name="depth")
+    protected Integer depth;
+    
+    @XmlElement(name="weight")
+    protected Integer weight;
+    
+    @XmlElement(name="quantity_discount")
+    protected Integer quantityDiscount;
+    
+    @XmlElement(name="customizable")
+    protected Integer customizable;
+    
+    @XmlElement(name="uploadable_files")
+    protected Integer uploadableFiles;
+    
     protected Type type;
+    
     @XmlElement(name = "supplier_reference", required = true)
     protected String supplierReference;
+    
     @XmlElement(required = true)
     protected String location;
+    
     @XmlElement(required = true)
     protected String upc;
+    
     @XmlElement(required = true)
     protected Price price;
+    
     @XmlElement(required = true)
     protected String unity;
+    
     @XmlElement(name = "redirect_type", required = true)
     protected String redirectType;
+    
     @XmlElement(required = true)
     protected Name name;
+    
     @XmlElement(required = true)
     protected Description description;
 

@@ -78,11 +78,11 @@ public class ObjectFactory {
     }
 
         /**
-     * Create an instance of {@link Prestashop }
+     * Create an instance of {@link PrestashopProduct }
      * 
      */
-    public Prestashop createPrestashop() {
-        return new Prestashop();
+    public PrestashopProduct createPrestashop() {
+        return new PrestashopProduct();
     }
 
     /**

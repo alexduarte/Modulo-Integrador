@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.atsinformatica.prestashop.model.product_feature;
 
-import br.com.atsinformatica.prestashop.model.product_feature.Name;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,10 +19,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
         name = "product_feature",
-        propOrder = {"id","position","name"}
+        propOrder = {
+            "id",
+            "position",
+            "name"}
 )
 public class ProductFeature {
     
+    
+    public static String URLPRODUCTFEATURE ="product_features/";
     @XmlElement(name = "id")
     private String id;
  

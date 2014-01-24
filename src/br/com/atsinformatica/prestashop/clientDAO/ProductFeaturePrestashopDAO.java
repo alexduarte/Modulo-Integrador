@@ -46,12 +46,25 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
     public void post(String path, ProductFeature t) {
         PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
         String xml = createTOXML(prestashopProductFeature);
-        xml = xml.replace("ns2", "xlink");
-        WebResource webResource = getWebResource();   
-        ClientResponse clientResponse = webResource.path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
+        xml = xml.replace("ns2", "xlink"); 
+        ClientResponse clientResponse = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
         System.out.println(clientResponse.getStatus());
     }
 
+    /**
+     * Adiciona um item e retorna o objeto salvo
+     * @param path
+     * @param t
+     * @return
+     */
+    public ProductFeature postProductFeature(String path, ProductFeature t) {
+        PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
+        String xml = createTOXML(prestashopProductFeature);
+        xml = xml.replace("ns2", "xlink"); 
+        PrestashopProductFeature post = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(PrestashopProductFeature.class, xml);
+        return post.getProductFeature();
+    }
+    
     /**
      * Atualiza um item específico de Produto.
      *
@@ -62,10 +75,9 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
     public void put(String path, ProductFeature t, int key) {
 
         PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
-        WebResource webResource = getWebResource();
         String xml = createTOXML(prestashopProductFeature);
         xml = xml.replace("ns2", "xlink");
-        ClientResponse response = webResource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
+        ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
         System.out.println(response);
     }
 
@@ -78,12 +90,11 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
     @Override
     public List<ProductFeature> get(String path) {
 
-        WebResource webresource = getWebResource();
-        GetListItens getListItens = webresource.path(path).type(MediaType.APPLICATION_XML).get(GetListItens.class);
+        GetListItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(GetListItens.class);
 
         List<ProductFeature> listProdFeature = new ArrayList<>();
         for (AccessXMLAttribute attribute : getListItens.getProductFeatures().getProductFeature()) {
-            PrestashopProductFeature prestashop = webresource.path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
+            PrestashopProductFeature prestashop = getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
             listProdFeature.add(prestashop.getProductFeature());
         }
         return listProdFeature;
@@ -98,8 +109,7 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
      */
     @Override
     public ProductFeature getId(String path, int key) {
-        WebResource webresource = getWebResource();
-        PrestashopProductFeature prestashop = webresource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
+        PrestashopProductFeature prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
         return prestashop.getProductFeature();
     }
     /**

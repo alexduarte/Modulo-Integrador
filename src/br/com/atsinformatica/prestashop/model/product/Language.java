@@ -59,6 +59,12 @@ public class Language {
     public Language() {
         this.href = this.href.replace(":id",String.valueOf(1));   
     }
+
+    public Language(String content) {
+        this.content = content;
+        this.href = this.href.replace(":id",String.valueOf(1)); 
+    }
+    
     
     
     public String getContent() {

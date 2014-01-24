@@ -32,7 +32,7 @@ public class Name {
         if (language == null) {
             language = new ArrayList<Language>();
         }
-        return this.language;
+        return language;
     }
 
     public void setLanguage(List<Language> language) {

@@ -12,8 +12,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author ricardosilva
  */
-@XmlRootElement(name = "language")
+@XmlRootElement(name = "language", namespace = "http://www.w3.org/1999/xlink")
 @XmlAccessorType(XmlAccessType.FIELD)
+
 public class Language {
     
     @XmlValue

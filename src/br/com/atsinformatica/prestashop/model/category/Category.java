@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.atsinformatica.prestashop.model.category;
 
 import java.text.SimpleDateFormat;
@@ -18,56 +17,61 @@ import javax.xml.bind.annotation.XmlType;
  *
  * @author ricardosilva
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "http://prestashop/api/categories/id", name = "", propOrder = {
-    "id",
-    "idParent",
-    "levelDepth",
-    "active",
-    "dataAdd",
-    "dataUpd",
-    "idShopDefault",
-    "isRootCategory",
-    "name",
-    "description",
-    "linkRewrite",
-})
 @XmlRootElement(name = "category")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(
+        name = "category",
+        propOrder = {
+            "id",
+            "idParent",
+            "levelDepth",
+            "active",
+//            "dataAdd",
+//            "dataUpd",
+            "idShopDefault",
+            "isRootCategory",
+            "name",
+            "description",
+            "linkRewrite"}
+)
 public class Category {
 
     public static String URLCATEGORY = "categories/";
-    
-    @XmlElement(name = "id", required = true)
-    private Integer id;
 
-    @XmlElement(name = "id_parent", required = true)
+    @XmlElement(name = "id", required = true)
+    private String id;
+
+    @XmlElement(name = "id_parent")
     private Integer idParent;
 
-    @XmlElement(name = "level_depth", required = true)
+    @XmlElement(name = "level_depth")
     private Integer levelDepth;
+    
+    @XmlElement(name = "position")
+    private Integer position;
 
-    @XmlElement(name = "active", required = true)
+    @XmlElement(name = "active")
     private Short active;
 
-    @XmlElement(name = "date_add", required = true)
-    private String dataAdd;
+//    @XmlElement(name = "date_add")
+//    private String dataAdd;
+//
+//    @XmlElement(name = "date_upd")
+//    private String dataUpd;
 
-    @XmlElement(name = "date_upd", required = true)
-    private String dataUpd;
-
-    @XmlElement(name = "id_Shop_default", required = true)
+    @XmlElement(name = "id_Shop_default")
     private Short idShopDefault;
 
-    @XmlElement(name = "is_root_category", required = true)
+    @XmlElement(name = "is_root_category")
     private Short isRootCategory;
 
-    @XmlElement(name = "name", required = true)
+    @XmlElement(name = "name")
     private Name name;
 
-    @XmlElement(name = "description", required = true)
+    @XmlElement(name = "description")
     private Description description;
 
-    @XmlElement(name = "link_rewrite", required = true)
+    @XmlElement(name = "link_rewrite")
     private LinkRewrite linkRewrite;
 
     public Category() {
@@ -75,14 +79,14 @@ public class Category {
         this.levelDepth = 0;
         this.idShopDefault = 1;
         this.active = 1;
-        this.isRootCategory = 1;
+        this.isRootCategory = 0;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -98,23 +102,23 @@ public class Category {
         return active;
     }
 
-    public String getDataAdd() {
-        return dataAdd;
-    }
-
-    public void setDataAdd(Date dataAdd) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
-        this.dataAdd = sdf.format(dataAdd);
-    }
-
-    public String getDataUpd() {
-        return dataUpd;
-    }
-
-    public void setDataUpd(Date dataAdd) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");     
-        this.dataAdd = sdf.format(dataAdd);
-    }
+//    public String getDataAdd() {
+//        return dataAdd;
+//    }
+//
+//    public void setDataAdd(Date dataAdd) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        this.dataAdd = sdf.format(dataAdd);
+//    }
+//
+//    public String getDataUpd() {
+//        return dataUpd;
+//    }
+//
+//    public void setDataUpd(Date dataAdd) {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        this.dataAdd = sdf.format(dataAdd);
+//    }
 
     public Short getIdShopDefault() {
         return idShopDefault;
@@ -147,5 +151,13 @@ public class Category {
     public void setLinkRewrite(LinkRewrite linkRewrite) {
         this.linkRewrite = linkRewrite;
     }
-}
 
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+    
+}

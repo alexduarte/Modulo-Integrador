@@ -10,7 +10,7 @@ import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.api.GetListItens;
 import br.com.atsinformatica.prestashop.model.category.Category;
-import br.com.atsinformatica.prestashop.model.category.PrestashopCategory;
+import br.com.atsinformatica.prestashop.model.category.Prestashop;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -43,14 +43,28 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      */
     @Override
     public void post(String path, Category t) {
-        PrestashopCategory prestashopCategory = new PrestashopCategory(t);
+        Prestashop prestashopCategory = new Prestashop(t);
         String xml = createTOXML(prestashopCategory);
         xml = xml.replace("ns2", "xlink");
-        WebResource webResource = getWebResource();
-        ClientResponse response = webResource.path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
+        ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
         System.out.println(response.getStatus());
     }
 
+    /**
+     * Adiciona uma categoria e retorna o objeto salvo
+     * @param path
+     * @param t
+     * @return
+     */
+    public Category postCategory(String path, Category t) {
+        Prestashop prestashopCategory = new Prestashop(t);
+        String xml = createTOXML(prestashopCategory);
+        xml = xml.replace("ns2", "xlink");
+        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
+
+        return post.getCategory();
+    }
+    
     /**
      * Atualiza um item específico de Categoria.
      *
@@ -60,11 +74,10 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
     @Override
     public void put(String path, Category t, int key) {
 
-        PrestashopCategory prestashopCategory = new PrestashopCategory(t);
-        WebResource webResource = getWebResource();
+        Prestashop prestashopCategory = new Prestashop(t);
         String xml = createTOXML(prestashopCategory);
         xml = xml.replace("ns2", "xlink");
-        ClientResponse response = webResource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
+        ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
         System.out.println(response);
     }
 
@@ -77,13 +90,13 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
     @Override
     public List<Category> get(String path) {
 
-        WebResource webresource = getWebResource();
-        GetListItens getListItens = webresource.path(path).type(MediaType.APPLICATION_XML).get(GetListItens.class);
+        GetListItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(GetListItens.class);
 
         List<Category> listCategory = new ArrayList<>();
         for (AccessXMLAttribute attribute : getListItens.getCategories().getCategory()) {
-            PrestashopCategory prestashop = webresource.path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(PrestashopCategory.class);
-            listCategory.add(prestashop.getCategory());
+            Prestashop prestashop = getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(Prestashop.class);
+            //listCategory.add(prestashop);
+            System.err.println("");
         }
         return listCategory;
     }
@@ -96,10 +109,8 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      * @return
      */
     @Override
-    public Category getId(String path, int key) {
-        
-        WebResource webresource = getWebResource();
-        PrestashopCategory prestashop = webresource.path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(PrestashopCategory.class);
+    public Category getId(String path, int key) {    
+        Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
         return prestashop.getCategory();
     }
     /**
@@ -126,7 +137,7 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      * @param prestashopCategory
      * @return
      */
-    protected String createTOXML(PrestashopCategory prestashopCategory) {
+    protected String createTOXML(Prestashop prestashopCategory) {
         try {
             JAXBContext context = JAXBContext.newInstance(prestashopCategory.getClass());
             Marshaller marshaller = context.createMarshaller();
