@@ -10,70 +10,70 @@ import com.towel.el.annotation.Resolvable;
  *
  * @author AlexsanderPimenta
  */
-public class HistoricoModel {
-    @Resolvable(colName = "Tipo")
-    private String tipo;
-    @Resolvable(colName = "Nome")
-    private String nome;
-    @Resolvable(colName = "Servidor")
-    private String servidor;
-    @Resolvable(colName = "Sincronizar")
-    private boolean sincronizar;
+public class SincronizarModel {
+    @Resolvable(colName = "Entidade")
+    private String entidade;
+    @Resolvable(colName = "Descrição")
+    private String itemDescricao;
+    @Resolvable(colName = "Origem")
+    private String origem;
+    @Resolvable(colName = "Sincronizado")
+    private boolean sincronizado;
 
     /**
-     * @return the tipo
+     * @return the entidade
      */
-    public String getTipo() {
-        return tipo;
+    public String getEntidade() {
+        return entidade;
     }
 
     /**
-     * @param tipo the tipo to set
+     * @param entidade the entidade to set
      */
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setEntidade(String entidade) {
+        this.entidade = entidade;
     }
 
     /**
-     * @return the nome
+     * @return the itemDescricao
      */
-    public String getNome() {
-        return nome;
+    public String getItemDescricao() {
+        return itemDescricao;
     }
 
     /**
-     * @param nome the nome to set
+     * @param itemDescricao the itemDescricao to set
      */
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setItemDescricao(String itemDescricao) {
+        this.itemDescricao = itemDescricao;
     }
 
     /**
-     * @return the servidor
+     * @return the origem
      */
-    public String getServidor() {
-        return servidor;
+    public String getOrigem() {
+        return origem;
     }
 
     /**
-     * @param servidor the servidor to set
+     * @param origem the origem to set
      */
-    public void setServidor(String servidor) {
-        this.servidor = servidor;
+    public void setOrigem(String origem) {
+        this.origem = origem;
     }
 
     /**
-     * @return the sincronizar
+     * @return the sincronizado
      */
-    public boolean isSincronizar() {
-        return sincronizar;
+    public boolean isSincronizado() {
+        return sincronizado;
     }
 
     /**
-     * @param sincronizar the sincronizar to set
+     * @param sincronizado the sincronizado to set
      */
-    public void setSincronizar(boolean sincronizar) {
-        this.sincronizar = sincronizar;
+    public void setSincronizado(boolean sincronizado) {
+        this.sincronizado = sincronizado;
     }
     
 }

@@ -32,14 +32,14 @@ public class CategoriaController {
     public List<CategoriaERPBean> checkAllCategory() throws SQLException {
 
         List<CategoriaERPBean> listCategoria = new CategoriaERPDAO().listaTodos();
-        List<Category> listCategoryPrestaShop = new GenericPrestashopDAO().get("categories/");
+       // List<Category> listCategoryPrestaShop = new GenericPrestashopDAO().get("categories/");
         
         categoriesNotRegistered = new ArrayList<>();
-        for (CategoriaERPBean categoriaERPBean : listCategoria) {
-            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listCategoryPrestaShop)) {
-                categoriesNotRegistered.add(categoriaERPBean);
-            }
-        }
+//        for (CategoriaERPBean categoriaERPBean : listCategoria) {
+//            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listCategoryPrestaShop)) {
+//                categoriesNotRegistered.add(categoriaERPBean);
+//            }
+//        }
         return categoriesNotRegistered;
 
     }

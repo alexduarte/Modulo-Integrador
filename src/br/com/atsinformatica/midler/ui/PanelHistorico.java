@@ -8,7 +8,7 @@ import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.dao.ProdutoDAO;
-import br.com.atsinformatica.midler.tablemodel.bean.HistoricoModel;
+import br.com.atsinformatica.midler.tablemodel.bean.SincronizarModel;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.util.List;
@@ -21,16 +21,12 @@ import org.apache.log4j.Logger;
  * @author AlexsanderPimenta
  */
 public class PanelHistorico extends javax.swing.JPanel {
-    //Resolver para grid da aba sincronizar
+    //Resolver para grid sincronizar
 
-    private AnnotationResolver resolverSinc = new AnnotationResolver(HistoricoModel.class);
-    private String fields = "tipo,nome,servidor,sincronizar";
-    //model para grid da aba sincronizar
+    private AnnotationResolver resolverSinc = new AnnotationResolver(SincronizarModel.class);
+    private String fields = "entidade,itemDescricao,origem,sincronizado";
+    //model para grid  sincronizar
     private ObjectTableModel modelSincronizar = new ObjectTableModel(resolverSinc, fields);
-    //Resolver para grid da aba histórico
-    private AnnotationResolver resolverHist = new AnnotationResolver(HistoricoModel.class);
-    //model para grid da aba histórico   
-    private ObjectTableModel modelHistorico = new ObjectTableModel(resolverHist, fields);
     private static Logger logger = Logger.getLogger(PanelHistorico.class);
 
     /**
@@ -39,7 +35,6 @@ public class PanelHistorico extends javax.swing.JPanel {
     public PanelHistorico() {
         initComponents();
         carregaGridSincronizar();
-        carregaGridHistorico();
         setaTimer();
     }
 
@@ -55,16 +50,9 @@ public class PanelHistorico extends javax.swing.JPanel {
         timerCadastro = new org.netbeans.examples.lib.timerbean.Timer();
         timerMov = new org.netbeans.examples.lib.timerbean.Timer();
         title_historico = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTbSincronizar = new javax.swing.JTable();
         jBtRefresh = new javax.swing.JButton();
-        jBtSinc = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jBtRefresh1 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTbHistorico = new javax.swing.JTable();
 
         timerCadastro.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
             public void onTime(java.awt.event.ActionEvent evt) {
@@ -103,14 +91,14 @@ public class PanelHistorico extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Tipo", "Nome", "Servidor", "Sincronizar?"
+                "Entidade", "Descrição", "Origem", "Sincronizado"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -125,103 +113,11 @@ public class PanelHistorico extends javax.swing.JPanel {
 
         jBtRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/refresh.png"))); // NOI18N
         jBtRefresh.setToolTipText("Atualizar");
-
-        jBtSinc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/icon.png"))); // NOI18N
-        jBtSinc.setToolTipText("Sincronizar");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jBtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtSinc, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(288, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jBtRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                    .addComponent(jBtSinc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53))
-        );
-
-        jTabbedPane1.addTab("Sincronizador", jPanel2);
-
-        jBtRefresh1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/refresh.png"))); // NOI18N
-        jBtRefresh1.setToolTipText("Atualizar");
-
-        jTbHistorico.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Tipo", "Nome", "Servidor", "Sincronizar?"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jBtRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtRefreshActionPerformed(evt);
             }
         });
-        jScrollPane3.setViewportView(jTbHistorico);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jBtRefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(288, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jBtRefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Histórico", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -230,51 +126,40 @@ public class PanelHistorico extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(title_historico)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(title_historico)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1209, Short.MAX_VALUE)))
+                        .addGap(880, 880, 880)
+                        .addComponent(jBtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(title_historico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jBtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-        ProdutoDAO prodDao = new ProdutoDAO();
-        
-        try {
-            List<ProdutoERPBean> listaProd = prodDao.listaASincronizar();
-            for (ProdutoERPBean bean : listaProd) {
-                HistoricoModel beanHist = new HistoricoModel();
-                beanHist.setTipo("produto");
-                beanHist.setNome(bean.getDescricao());
-                beanHist.setSincronizar(true);
-                modelSincronizar.add(beanHist);
-            }
-        } catch (Exception e) {
-            
-        }
-    }//GEN-LAST:event_timerCadastroOnTime
-    
     private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
         // TODO add your handling code here:
     }//GEN-LAST:event_timerMovOnTime
+
+    private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
+       iniciaSincronizacao(refreshSincCad());
+    }//GEN-LAST:event_timerCadastroOnTime
+
+    private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
+        refreshSincCad();
+    }//GEN-LAST:event_jBtRefreshActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtRefresh;
-    private javax.swing.JButton jBtRefresh1;
-    private javax.swing.JButton jBtSinc;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTbHistorico;
     private javax.swing.JTable jTbSincronizar;
     private org.netbeans.examples.lib.timerbean.Timer timerCadastro;
     private org.netbeans.examples.lib.timerbean.Timer timerMov;
@@ -283,17 +168,13 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     private void carregaGridSincronizar() {
         jTbSincronizar.setModel(modelSincronizar);
+        modelSincronizar.clear();
+        for (int i = 0; i < 19; i++) {
+            modelSincronizar.add(null);
+        }
         TableColumn colSinc = jTbSincronizar.getColumnModel().getColumn(3);
         colSinc.setPreferredWidth(10);
-        modelSincronizar.setColEditable(3, true);
-        
-    }
-    
-    private void carregaGridHistorico() {
-        jTbHistorico.setModel(modelHistorico);
-        TableColumn colSinc = jTbHistorico.getColumnModel().getColumn(3);
-        colSinc.setPreferredWidth(10);
-        modelHistorico.setColEditable(3, true);
+
     }
 
     /**
@@ -317,8 +198,48 @@ public class PanelHistorico extends javax.swing.JPanel {
             }
         } catch (Exception e) {
             logger.error("Erro ao setar timer de sincronização: " + e);
-            
         }
-        
     }
+
+    /**
+     * Recebe lista de itens a serem sincronizados e inicia processo de
+     * sincronização
+     *
+     * @param lista Lista de itens a serem sincronizados no ERP ou na loja
+     * virtual
+     */
+    private void iniciaSincronizacao(List lista) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * Inicia processo de preparação de ítens para sincronização
+     */
+    private List<ProdutoERPBean> refreshSincCad() {
+        ProdutoDAO prodDao = new ProdutoDAO();
+        try {
+            List<ProdutoERPBean> listaProd = prodDao.listaASincronizar();
+            ParaEcomBean paraEcom = new ParaEcomDAO().listaTodos().get(0);
+            modelSincronizar.clear();
+            //verifica numero de itens sincronizados que devem ser mantidos
+            for (ProdutoERPBean bean : listaProd) {
+                //verifica se numero de itens a serem sincronizados ultrapassa itens informados no parametro
+                if (modelSincronizar.getRowCount() != paraEcom.getQtdeRegistros()) {
+                    SincronizarModel modelBean = new SincronizarModel();
+                    modelBean.setEntidade("produto");
+                    modelBean.setItemDescricao(bean.getDescricao());
+                    modelBean.setOrigem("ERP");
+                    modelBean.setSincronizado(false);
+                    modelSincronizar.add(bean);
+                } else {
+                    break;
+                }
+            }
+            return listaProd;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    
 }

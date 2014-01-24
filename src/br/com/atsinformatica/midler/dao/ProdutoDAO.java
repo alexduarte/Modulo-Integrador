@@ -63,11 +63,15 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
             String sql = "SELECT produto.codprod, "
                     + "(compprod.estoque - compprod.quantbloqueada) AS estoquedisponivel, "
                     + "produto.descricao, produto.descricao2, produto.descricao3, "
+                    + "gruprod.descricao grupo, subgrup.descricao subgrupo, "
                     + "produto.referencia, produto.reffabricante, produto.unidadeent, "
                     + "produto.unidadesaida, produto.preco, produto.preco2, "
                     + "produto.preco3, produto.preco4, compprod.precocusto, "
                     + "produto.grade, compprod.codgrade "
-                    + "FROM produto INNER JOIN compprod ON produto.codprod = compprod.codprod "
+                    + "FROM produto "
+                    + "INNER JOIN compprod ON produto.codprod = compprod.codprod "
+                    + "JOIN gruprod ON gruprod.codgrupo = produto.codgrupo "
+                    + "JOIN subgrup on subgrup.codgrupo = produto.codgrupo "
                     + "WHERE produto.importaproduto = 1 "; 
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
