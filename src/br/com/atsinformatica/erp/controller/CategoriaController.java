@@ -65,6 +65,17 @@ public class CategoriaController {
      */
     public List<CategoriaERPBean> checkAllCategory() throws SQLException {
 
+<<<<<<< HEAD
+        List<CategoriaERPBean> listCategoria = new CategoriaERPDAO().listaTodos();
+       // List<Category> listCategoryPrestaShop = new GenericPrestashopDAO().get("categories/");
+        
+        categoriesNotRegistered = new ArrayList<>();
+//        for (CategoriaERPBean categoriaERPBean : listCategoria) {
+//            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listCategoryPrestaShop)) {
+//                categoriesNotRegistered.add(categoriaERPBean);
+//            }
+//        }
+=======
         List<CategoriaERPBean> listCategoriaERP = new CategoriaERPDAO().listaTodos();
         List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
 
@@ -74,6 +85,7 @@ public class CategoriaController {
                 categoriesNotRegistered.add(categoriaERPBean);
             }
         }
+>>>>>>> 7e39c55b8bb4dbec6f4e1eba320aff707432a92c
         return categoriesNotRegistered;
 
     }

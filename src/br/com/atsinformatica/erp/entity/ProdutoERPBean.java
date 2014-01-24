@@ -4,8 +4,10 @@
  */
 package br.com.atsinformatica.erp.entity;
 
+import br.com.atsinformatica.midler.tablemodel.bean.SincronizarModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -29,8 +31,12 @@ public class ProdutoERPBean {
     private Double precoCusto;
     private int grade;
     private String codGrade;
+    private String categoria;
+    private String subCategoria;
+    
     
     public ProdutoERPBean(){
+        super();
         
     }
 
@@ -40,6 +46,8 @@ public class ProdutoERPBean {
         this.descricao = rs.getString("descricao");
         this.descricao2 = rs.getString("descricao2");
         this.descricao3 = rs.getString("descricao3");
+        this.categoria = rs.getString("grupo");
+        this.subCategoria = rs.getString("subgrupo");
         this.referencia = rs.getString("referencia");
         this.refFabricante = rs.getString("reffabricante");
         this.unidadeEnt = rs.getString("unidadeent");
@@ -51,6 +59,8 @@ public class ProdutoERPBean {
         this.precoCusto = rs.getDouble("precocusto");
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
+        
+        
     }  
     /**
      * @return the codProd
@@ -275,18 +285,39 @@ public class ProdutoERPBean {
     public void setRefFabricante(String refFabricante) {
         this.refFabricante = refFabricante;
     }
-    
-    
-    
-     @Override
+      
+    @Override
     public String toString() {
-        return "ProdutoBean{" + "codProd=" + codProd + ", estoqueDisponivel=" + estoqueDisponivel + ", descricao=" + descricao + ", descricao2=" + descricao2 + ", descricao3=" + descricao3 + ", referencia=" + referencia + ", refFabricante=" + refFabricante + ", unidadeEnt=" + unidadeEnt + ", unidadeSaida=" + unidadeSaida + ", preco=" + preco + ", preco2=" + preco2 + ", preco3=" + preco3 + ", preco4=" + preco4 + ", precoCusto=" + precoCusto + ", grade=" + grade + ", codGrade=" + codGrade + '}';
+        return "ProdutoBean{" + "codProd=" + codProd + ", estoqueDisponivel=" + estoqueDisponivel + ", descricao=" + descricao + ", descricao2=" + descricao2 + ", descricao3=" + descricao3 + ", categoria="+ categoria +", subcategoria=" + subCategoria + ", referencia=" + referencia + ", refFabricante=" + refFabricante + ", unidadeEnt=" + unidadeEnt + ", unidadeSaida=" + unidadeSaida + ", preco=" + preco + ", preco2=" + preco2 + ", preco3=" + preco3 + ", preco4=" + preco4 + ", precoCusto=" + precoCusto + ", grade=" + grade + ", codGrade=" + codGrade + '}';
     }
-     
-     
-     
-   
-    
-    
+
+    /**
+     * @return the categoria
+     */
+    public String getCategoria() {
+        return categoria;
+    }
+
+    /**
+     * @param categoria the categoria to set
+     */
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    /**
+     * @return the subCategoria
+     */
+    public String getSubCategoria() {
+        return subCategoria;
+    }
+
+    /**
+     * @param subCategoria the subCategoria to set
+     */
+    public void setSubCategoria(String subCategoria) {
+        this.subCategoria = subCategoria;
+    }
+       
     
 }
