@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class PanelPrincipal extends javax.swing.JFrame {
 
     private static PanelPrincipal instance = null;
-    private PanelHistorico2 panelHistorico;
+    private PanelHistorico panelHistorico;
     private PanelConfiguracao panelConfiguracao;
     /**
      * Creates new form PanelPrincipal
@@ -47,8 +47,6 @@ public class PanelPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        timerCadastro = new org.netbeans.examples.lib.timerbean.Timer();
-        timerMov = new org.netbeans.examples.lib.timerbean.Timer();
         JHistorico = new javax.swing.JButton();
         JConfiguracao = new javax.swing.JButton();
         JSair = new javax.swing.JButton();
@@ -65,18 +63,6 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-
-        timerCadastro.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
-            public void onTime(java.awt.event.ActionEvent evt) {
-                timerCadastroOnTime(evt);
-            }
-        });
-
-        timerMov.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
-            public void onTime(java.awt.event.ActionEvent evt) {
-                timerMovOnTime(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -307,20 +293,12 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private void JHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHistoricoActionPerformed
         jMainPanel.removeAll();
         jMainPanel.updateUI();
-        panelHistorico = new PanelHistorico2();
+        panelHistorico = new PanelHistorico();
         panelHistorico.setSize(this.getWidth(), 495);
         //adciona o painel no painel principal
         jMainPanel.add(panelHistorico);
         jMainPanel.validate();
     }//GEN-LAST:event_JHistoricoActionPerformed
-
-    private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timerCadastroOnTime
-
-    private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timerMovOnTime
 
     /**
      * @param args the command line arguments
@@ -411,8 +389,6 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel jStatus;
-    private org.netbeans.examples.lib.timerbean.Timer timerCadastro;
-    private org.netbeans.examples.lib.timerbean.Timer timerMov;
     private componentes.UJPanelImagem uJPanelImagem1;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,9 @@
  */
 package br.com.atsinformatica.erp.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author AlexsanderPimenta
@@ -26,7 +29,29 @@ public class ProdutoERPBean {
     private Double precoCusto;
     private int grade;
     private String codGrade;
+    
+    public ProdutoERPBean(){
+        
+    }
 
+    public ProdutoERPBean(ResultSet rs) throws SQLException {
+        this.codProd = rs.getString("codprod");
+        this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
+        this.descricao = rs.getString("descricao");
+        this.descricao2 = rs.getString("descricao2");
+        this.descricao3 = rs.getString("descricao3");
+        this.referencia = rs.getString("referencia");
+        this.refFabricante = rs.getString("reffabricante");
+        this.unidadeEnt = rs.getString("unidadeent");
+        this.unidadeSaida = rs.getString("unidadesaida");
+        this.preco = rs.getDouble("preco");
+        this.preco2 = rs.getDouble("preco2");
+        this.preco3 = rs.getDouble("preco3");
+        this.preco4 = rs.getDouble("preco4");
+        this.precoCusto = rs.getDouble("precocusto");
+        this.grade = rs.getInt("grade");
+        this.codGrade = rs.getString("codgrade");
+    }  
     /**
      * @return the codProd
      */
@@ -250,6 +275,16 @@ public class ProdutoERPBean {
     public void setRefFabricante(String refFabricante) {
         this.refFabricante = refFabricante;
     }
+    
+    
+    
+     @Override
+    public String toString() {
+        return "ProdutoBean{" + "codProd=" + codProd + ", estoqueDisponivel=" + estoqueDisponivel + ", descricao=" + descricao + ", descricao2=" + descricao2 + ", descricao3=" + descricao3 + ", referencia=" + referencia + ", refFabricante=" + refFabricante + ", unidadeEnt=" + unidadeEnt + ", unidadeSaida=" + unidadeSaida + ", preco=" + preco + ", preco2=" + preco2 + ", preco3=" + preco3 + ", preco4=" + preco4 + ", precoCusto=" + precoCusto + ", grade=" + grade + ", codGrade=" + codGrade + '}';
+    }
+     
+     
+     
    
     
     
