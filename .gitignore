@@ -13,3 +13,4 @@ tmp/**/*
 lib/*
 /build/
 /dist/
+/nbproject/private/

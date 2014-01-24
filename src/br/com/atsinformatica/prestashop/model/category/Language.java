@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -54,7 +55,7 @@ public class Language {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String id;
     @XmlAttribute(name = "xlink:href", required = true)
-    protected String href ="http://localhost/prestashop/api/languages/:id";
+    protected String href ="http://localhost/prestashop/languages/:id";
 
     public Language() {
         this.href = this.href.replace(":id",String.valueOf(1));   

@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlType;
     "idParent",
     "levelDepth",
     "active",
-    "dataAdd",
-    "dataUpd",
+    //"dataAdd",
+    //"dataUpd",
     "idShopDefault",
     "isRootCategory",
     "name",
@@ -46,13 +46,13 @@ public class Category {
     @XmlElement(name = "active", required = true)
     private Short active;
 
-    //@Temporal(TemporalType.TIMESTAMP)
-    @XmlElement(name = "date_add", required = true)
-    private String dataAdd;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @XmlElement(name = "date_upd", required = true)
-    private String dataUpd;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @XmlElement(name = "date_add", required = true)
+//    private String dataAdd;
+//
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @XmlElement(name = "date_upd", required = true)
+//    private String dataUpd;
 
     @XmlElement(name = "id_Shop_default", required = true)
     private Short idShopDefault;
@@ -109,21 +109,21 @@ public class Category {
         this.active = active;
     }
 
-    public String getDataAdd() {
-        return dataAdd;
-    }
-
-    public void setDataAdd(String dataAdd) {
-        this.dataAdd = dataAdd;
-    }
-
-    public String getDataUpd() {
-        return dataUpd;
-    }
-
-    public void setDataUpd(String dataUpd) {
-        this.dataUpd = dataUpd;
-    }
+//    public String getDataAdd() {
+//        return dataAdd;
+//    }
+//
+//    public void setDataAdd(String dataAdd) {
+//        this.dataAdd = dataAdd;
+//    }
+//
+//    public String getDataUpd() {
+//        return dataUpd;
+//    }
+//
+//    public void setDataUpd(String dataUpd) {
+//        this.dataUpd = dataUpd;
+//    }
 
     public Short getIdShopDefault() {
         return idShopDefault;

@@ -24,7 +24,7 @@ public class Language {
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     protected String id;
     @XmlAttribute(name = "xlink:href", required = true)
-    protected String href ="http://localhost/prestashop/languages/:id";
+    protected String href ="http://localhost/prestashop/api/languages/:id";
 
     public Language() {
         this.href = this.href.replace(":id",String.valueOf(1));   

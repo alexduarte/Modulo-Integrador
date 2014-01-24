@@ -7,7 +7,7 @@ package br.com.atsinformatica.erp.controller;
 
 import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
-import br.com.atsinformatica.prestashop.clientDAO.GenericPrestashopDAO;
+import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.category.Category;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class CategoriaController {
     public List<CategoriaERPBean> checkAllCategory() throws SQLException {
 
         List<CategoriaERPBean> listCategoria = new CategoriaERPDAO().listaTodos();
-        List<Category> listCategoryPrestaShop = new GenericPrestashopDAO().get("categories/");
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
         
         categoriesNotRegistered = new ArrayList<>();
         for (CategoriaERPBean categoriaERPBean : listCategoria) {
