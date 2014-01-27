@@ -1097,3 +1097,15 @@ null
 2014-01-27 14:15:13,058 (ConexaoATS.java:94) INFO Thread-2 br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
 2014-01-27 14:15:13,063 (ParaEcomDAO.java:158) INFO Thread-2 br.com.atsinformatica.erp.dao.ParaEcomDAO - Lista de parametros, retornada com sucesso!
 >>>>>>> 89cabeae58a98a35b508c8cf299e8d478d3cba1a
+2014-01-27 16:25:22,346 (ConexaoATS.java:90) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectando...
+2014-01-27 16:25:22,435 (ConexaoATS.java:94) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
+2014-01-27 16:25:22,470 (ParaUrlDAO.java:149) INFO main br.com.atsinformatica.erp.dao.ParaUrlDAO - Lista de url retornada com sucesso.
+2014-01-27 16:25:30,129 (ConexaoATS.java:90) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectando...
+2014-01-27 16:25:30,143 (ConexaoATS.java:94) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
+2014-01-27 16:25:30,147 (ParaUrlDAO.java:149) INFO main br.com.atsinformatica.erp.dao.ParaUrlDAO - Lista de url retornada com sucesso.
+2014-01-27 16:25:52,658 (ConexaoATS.java:90) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectando...
+2014-01-27 16:25:52,743 (ConexaoATS.java:94) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
+2014-01-27 16:25:52,779 (ParaUrlDAO.java:149) INFO main br.com.atsinformatica.erp.dao.ParaUrlDAO - Lista de url retornada com sucesso.
+2014-01-27 16:25:55,502 (ConexaoATS.java:90) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectando...
+2014-01-27 16:25:55,516 (ConexaoATS.java:94) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
+2014-01-27 16:25:55,519 (ParaUrlDAO.java:149) INFO main br.com.atsinformatica.erp.dao.ParaUrlDAO - Lista de url retornada com sucesso.

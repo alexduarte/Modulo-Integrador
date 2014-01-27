@@ -5,13 +5,13 @@
  */
 package br.com.atsinformatica.erp.controller;
 
-import br.com.atsinformatica.erp.entity.SubCategoriaERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.category.Category;
 import br.com.atsinformatica.prestashop.model.category.Description;
 import br.com.atsinformatica.prestashop.model.category.Language;
 import br.com.atsinformatica.prestashop.model.category.LinkRewrite;
 import br.com.atsinformatica.prestashop.model.category.Name;
+import java.util.List;
 
 /**
  *
@@ -32,10 +32,12 @@ public class SubCategoriaController {
         if (subCategoriaERP.isEmpty()) {
             return idParent;
         }
+        
         String listsubCategoria[] = subCategoriaERP.split("/");
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
         for (String subCategoria : listsubCategoria) {
-            idPai = createOnPrestaShop(subCategoria, idParent);
-        }
+            idPai = checksCategoryExists(subCategoria, listCategoryPrestaShop,idParent);    
+            }
         return idPai;
     }
     
@@ -71,4 +73,17 @@ public class SubCategoriaController {
         return new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, category);
     }
 
+    private int checksCategoryExists(String descricao, List<Category> listCategoryPrestaShop,int idParent) {
+
+        if (listCategoryPrestaShop.isEmpty()) {
+            return createOnPrestaShop(descricao, idParent);
+        } else {
+            for (Category categoriaPrestashopBean : listCategoryPrestaShop) {
+                if (categoriaPrestashopBean.getDescription().getTextDescription().equals(descricao)) {
+                    return Integer.parseInt(categoriaPrestashopBean.getId());
+                }
+            }
+            return createOnPrestaShop(descricao, idParent);
+        }
+    }
 }

@@ -38,15 +38,10 @@ public class CategoriaController {
         List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
         if (!checksCategoryExists(categoriaERP, listCategoryPrestaShop)) {
             return new SubCategoriaController().createSubCategoryPrestaShop(new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(categoriaERP)),subCategoriaERP);
-            
-            
-
         } else {
             JOptionPane.showConfirmDialog(null, "Categoria já existente no sistema");
             return 0;
-        }
-        
-        
+        }  
     }
 
     /**

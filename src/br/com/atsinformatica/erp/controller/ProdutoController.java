@@ -49,15 +49,14 @@ public class ProdutoController {
             
             p.setName(name);
             p.setPrice(price);
-            p.setReference(produtoERP.getReferencia());
-            p.setSupplierReference(produtoERP.getRefFabricante());
-
-            produtoERP.getPrecoCusto();
-            produtoERP.getEstoqueDisponivel();
-            produtoERP.getUnidadeEnt();
             
             p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(),produtoERP.getSubCategoria()));
-                      
+               
+            /*
+            *Adicionar os outros itens produtos
+            *
+            */
+            
             return p;
     }
 }
