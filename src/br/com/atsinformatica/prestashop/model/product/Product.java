@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
     "minimal_quantity",
     "unitPriceRatio",
     "wholesalePrice",
+    "reference",
     "width",
     "height",
     "depth",
@@ -57,6 +58,169 @@ public class Product {
     
     @XmlElement(name = "new", required = true)
     protected String _new;
+      
+    @XmlElement(name="reference")
+    protected String reference;
+
+    public Integer getIdCategoryDefault() {
+        return idCategoryDefault;
+    }
+
+    public void setIdCategoryDefault(Integer idCategoryDefault) {
+        this.idCategoryDefault = idCategoryDefault;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public Integer getIdShopDefault() {
+        return idShopDefault;
+    }
+
+    public void setIdShopDefault(Integer idShopDefault) {
+        this.idShopDefault = idShopDefault;
+    }
+
+    public Integer getIdTaxRulesGroup() {
+        return idTaxRulesGroup;
+    }
+
+    public void setIdTaxRulesGroup(Integer idTaxRulesGroup) {
+        this.idTaxRulesGroup = idTaxRulesGroup;
+    }
+
+    public Integer getOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(Integer onSale) {
+        this.onSale = onSale;
+    }
+
+    public Integer getOnlineOnly() {
+        return onlineOnly;
+    }
+
+    public void setOnlineOnly(Integer onlineOnly) {
+        this.onlineOnly = onlineOnly;
+    }
+
+    public Integer getEcotax() {
+        return ecotax;
+    }
+
+    public void setEcotax(Integer ecotax) {
+        this.ecotax = ecotax;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getMinimalQuantity() {
+        return minimalQuantity;
+    }
+
+    public void setMinimalQuantity(Integer minimalQuantity) {
+        this.minimalQuantity = minimalQuantity;
+    }
+
+    public Integer getWholesalePrice() {
+        return wholesalePrice;
+    }
+
+    public void setWholesalePrice(Integer wholesalePrice) {
+        this.wholesalePrice = wholesalePrice;
+    }
+
+    public Integer getUnitPriceRatio() {
+        return unitPriceRatio;
+    }
+
+    public void setUnitPriceRatio(Integer unitPriceRatio) {
+        this.unitPriceRatio = unitPriceRatio;
+    }
+
+    public Integer getAdditionalShippingCost() {
+        return additionalShippingCost;
+    }
+
+    public void setAdditionalShippingCost(Integer additionalShippingCost) {
+        this.additionalShippingCost = additionalShippingCost;
+    }
+
+    public Integer getOutOfStock() {
+        return outOfStock;
+    }
+
+    public void setOutOfStock(Integer outOfStock) {
+        this.outOfStock = outOfStock;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public Integer getHeigth() {
+        return heigth;
+    }
+
+    public void setHeigth(Integer heigth) {
+        this.heigth = heigth;
+    }
+
+    public Integer getDepth() {
+        return depth;
+    }
+
+    public void setDepth(Integer depth) {
+        this.depth = depth;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Integer getQuantityDiscount() {
+        return quantityDiscount;
+    }
+
+    public void setQuantityDiscount(Integer quantityDiscount) {
+        this.quantityDiscount = quantityDiscount;
+    }
+
+    public Integer getCustomizable() {
+        return customizable;
+    }
+
+    public void setCustomizable(Integer customizable) {
+        this.customizable = customizable;
+    }
+
+    public Integer getUploadableFiles() {
+        return uploadableFiles;
+    }
+
+    public void setUploadableFiles(Integer uploadableFiles) {
+        this.uploadableFiles = uploadableFiles;
+    }
     
     @XmlElement(name="id_shop_default")
     protected Integer idShopDefault;

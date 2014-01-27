@@ -9,7 +9,9 @@ package br.com.atsinformatica.erp.controller;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.prestashop.model.product.Language;
 import br.com.atsinformatica.prestashop.model.product.Name;
+import br.com.atsinformatica.prestashop.model.product.Price;
 import br.com.atsinformatica.prestashop.model.product.Product;
+import java.util.List;
 
 /**
  *
@@ -20,13 +22,17 @@ public class ProdutoController {
     /**
      *  Adiciona um produto no prestashop e caso possua categoria ele salva em uma
      *  existente ou cria uma e associa.
-     * @param produtoERP
+     * @param listProdutoERP
      */
-    public void createProductPrestashop(ProdutoERPBean produtoERP) {
+    public void createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
         
-        if(produtoERP == null)return;
+        if(listProdutoERP == null || listProdutoERP.size() == 0)return;
         else{
-            Product product = createProduct(produtoERP);
+            for (ProdutoERPBean produtoERPBean : listProdutoERP) {
+                Product product = createProduct(produtoERPBean);
+                
+            }
+            
             
         }
     }
@@ -36,15 +42,19 @@ public class ProdutoController {
            
             Name name = new Name();
             name.getLanguage().add(new Language(produtoERP.getDescricao()));
-
-            p.setName(name);
             
+            Price price = new Price();
+            price.setContent(produtoERP.getPreco().toString());
+            
+            p.setName(name);
+            p.setPrice(price);
+            p.setReference(produtoERP.getReferencia());
             
             produtoERP.getEstoqueDisponivel();
-            produtoERP.getPreco();
+            
             produtoERP.getPrecoCusto();
             produtoERP.getRefFabricante();
-            produtoERP.getReferencia();
+            
             produtoERP.getUnidadeEnt();
             produtoERP.getUnidadeSaida();
             
