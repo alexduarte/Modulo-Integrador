@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.midler.ui;
 
+import br.com.atsinformatica.erp.controller.ProdutoController;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
@@ -159,7 +160,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
-        refreshSincCad();
+       iniciaSincronizacao(refreshSincCad());
     }//GEN-LAST:event_jBtRefreshActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -214,7 +215,15 @@ public class PanelHistorico extends javax.swing.JPanel {
      * virtual
      */
     private void iniciaSincronizacao(List lista) {
-        return;
+        try{
+            if(lista.isEmpty())
+                return;
+            ProdutoController controller = new ProdutoController();
+            controller.createProductPrestashop((List<ProdutoERPBean>)lista);        
+            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
+        }catch(Exception e){
+            logger.error("Erro ao efetuar sincronização: "+e);
+        }      
     }
 
     /**
