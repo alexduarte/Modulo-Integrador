@@ -46,8 +46,8 @@ public class ProdutoERPBean {
         this.descricao = rs.getString("descricao");
         this.descricao2 = rs.getString("descricao2");
         this.descricao3 = rs.getString("descricao3");
-        this.categoria = rs.getString("grupo");
-        this.subCategoria = rs.getString("subgrupo");
+        this.categoria = rs.getString("descgrupo");
+        this.subCategoria = rs.getString("descsub");
         this.referencia = rs.getString("referencia");
         this.refFabricante = rs.getString("reffabricante");
         this.unidadeEnt = rs.getString("unidadeent");
