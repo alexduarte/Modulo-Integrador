@@ -30,30 +30,23 @@ public class CategoriaController {
      * Cria uma lista de Categoria no prestashop
      *
      * @param categoriaERP
+     * @param subCategoriaERP
+     * @return
      */
-    public Category createCategoryPrestashop(CategoriaERPBean categoriaERP) {
+    public int createCategoryAndSubCategoryPrestashop(String categoriaERP, String subCategoriaERP) {
 
         List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
+        if (!checksCategoryExists(categoriaERP, listCategoryPrestaShop)) {
+            return new SubCategoriaController().createSubCategoryPrestaShop(new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(categoriaERP)),subCategoriaERP);
+            
+            
 
-        if (!checksCategoryExists(categoriaERP.getDescricao(), listCategoryPrestaShop)) {
-            Category category = new Category();
-//            category.setDataAdd(new Date());
-//            category.setDataUpd(new Date());
-            
-            LinkRewrite linkRewrite = new LinkRewrite();
-            linkRewrite.getLanguage().add(new Language(categoriaERP.getDescricao().toLowerCase()));
-            category.setLinkRewrite(linkRewrite);
-            
-            Name name = new Name();
-            name.getLanguage().add(new Language(categoriaERP.getDescricao()));
-            category.setName(name);
-            
-            CategoryPrestashopDAO dao = new CategoryPrestashopDAO();
-            return dao.postCategory(Category.URLCATEGORY, category);
-            
-        }else
-            JOptionPane.showConfirmDialog(null,"Categoria já existente no sistema");
-        return null;
+        } else {
+            JOptionPane.showConfirmDialog(null, "Categoria já existente no sistema");
+            return 0;
+        }
+        
+        
     }
 
     /**
@@ -75,7 +68,6 @@ public class CategoriaController {
             }
         }
         return categoriesNotRegistered;
-
     }
 
     /**
@@ -99,4 +91,20 @@ public class CategoriaController {
             return false;
         }
     }
+
+    private Category addCategoryPrestashop(String categoriaERP) {
+        Category category = new Category();
+        category.setDataAdd(new Date());
+        category.setDataUpd(new Date());
+
+        LinkRewrite linkRewrite = new LinkRewrite();
+        linkRewrite.getLanguage().add(new Language(categoriaERP.toLowerCase()));
+        category.setLinkRewrite(linkRewrite);
+
+        Name name = new Name();
+        name.getLanguage().add(new Language(categoriaERP));
+        category.setName(name);
+        return category;
+    }
+
 }

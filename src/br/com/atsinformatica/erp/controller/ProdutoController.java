@@ -7,10 +7,12 @@
 package br.com.atsinformatica.erp.controller;
 
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
+import br.com.atsinformatica.prestashop.model.category.Category;
 import br.com.atsinformatica.prestashop.model.product.Language;
 import br.com.atsinformatica.prestashop.model.product.Name;
 import br.com.atsinformatica.prestashop.model.product.Price;
 import br.com.atsinformatica.prestashop.model.product.Product;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ import java.util.List;
  */
 public class ProdutoController {
     
+    List<Product> listProduct;
     /**
      *  Adiciona um produto no prestashop e caso possua categoria ele salva em uma
      *  existente ou cria uma e associa.
@@ -26,14 +29,12 @@ public class ProdutoController {
      */
     public void createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
         
-        if(listProdutoERP == null || listProdutoERP.size() == 0)return;
-        else{
+        if(listProdutoERP.isEmpty() || listProdutoERP == null) {
+        } else{
+            listProduct = new ArrayList<>();
             for (ProdutoERPBean produtoERPBean : listProdutoERP) {
-                Product product = createProduct(produtoERPBean);
-                
+                listProduct.add(createProduct(produtoERPBean));         
             }
-            
-            
         }
     }
 
@@ -55,8 +56,8 @@ public class ProdutoController {
             produtoERP.getEstoqueDisponivel();
             produtoERP.getUnidadeEnt();
             
-            
-            
+            p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(),produtoERP.getSubCategoria()));
+                      
             return p;
     }
 }

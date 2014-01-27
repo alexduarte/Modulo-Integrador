@@ -56,13 +56,12 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      * @param t
      * @return
      */
-    public Category postCategory(String path, Category t) {
+    public int postCategory(String path, Category t) {
         Prestashop prestashopCategory = new Prestashop(t);
         String xml = createTOXML(prestashopCategory);
         xml = xml.replace("ns2", "xlink");
         Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
-
-        return post.getCategory();
+        return Integer.parseInt(post.getCategory().getId());
     }
     
     /**

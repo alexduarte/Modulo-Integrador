@@ -26,14 +26,15 @@ import javax.xml.bind.annotation.XmlType;
             "idParent",
             "levelDepth",
             "active",
-//            "dataAdd",
-//            "dataUpd",
+            "dataAdd",
+            "dataUpd",
             "idShopDefault",
             "isRootCategory",
             "name",
             "description",
-            "linkRewrite"}
-)
+            "linkRewrite"
+        })
+
 public class Category {
 
     public static String URLCATEGORY = "categories/";
@@ -53,11 +54,11 @@ public class Category {
     @XmlElement(name = "active")
     private Short active;
 
-//    @XmlElement(name = "date_add")
-//    private String dataAdd;
-//
-//    @XmlElement(name = "date_upd")
-//    private String dataUpd;
+    @XmlElement(name = "date_add")
+    private String dataAdd;
+
+    @XmlElement(name = "date_upd")
+    private String dataUpd;
 
     @XmlElement(name = "id_Shop_default")
     private Short idShopDefault;
@@ -80,6 +81,11 @@ public class Category {
         this.idShopDefault = 1;
         this.active = 1;
         this.isRootCategory = 0;
+        this.position = 0;
+    }
+
+    public void setIdParent(Integer idParent) {
+        this.idParent = idParent;
     }
 
     public String getId() {
@@ -102,23 +108,23 @@ public class Category {
         return active;
     }
 
-//    public String getDataAdd() {
-//        return dataAdd;
-//    }
-//
-//    public void setDataAdd(Date dataAdd) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        this.dataAdd = sdf.format(dataAdd);
-//    }
-//
-//    public String getDataUpd() {
-//        return dataUpd;
-//    }
-//
-//    public void setDataUpd(Date dataAdd) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        this.dataAdd = sdf.format(dataAdd);
-//    }
+    public String getDataAdd() {
+        return dataAdd;
+    }
+
+    public void setDataAdd(Date dataAdd) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.dataAdd = sdf.format(dataAdd);
+    }
+
+    public String getDataUpd() {
+        return dataUpd;
+    }
+
+    public void setDataUpd(Date dataAdd) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.dataAdd = sdf.format(dataAdd);
+    }
 
     public Short getIdShopDefault() {
         return idShopDefault;
