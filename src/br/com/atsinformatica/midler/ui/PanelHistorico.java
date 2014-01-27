@@ -230,7 +230,7 @@ public class PanelHistorico extends javax.swing.JPanel {
                     modelBean.setItemDescricao(bean.getDescricao());
                     modelBean.setOrigem("ERP");
                     modelBean.setSincronizado(false);
-                    modelSincronizar.add(bean);
+                    modelSincronizar.add(modelBean);
                 } else {
                     break;
                 }
