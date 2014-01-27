@@ -4,10 +4,8 @@
  */
 package br.com.atsinformatica.erp.entity;
 
-import br.com.atsinformatica.midler.tablemodel.bean.SincronizarModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  *

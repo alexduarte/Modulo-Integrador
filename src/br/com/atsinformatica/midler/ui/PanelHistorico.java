@@ -145,14 +145,17 @@ public class PanelHistorico extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    ///Timer para movimentações
     private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
         // TODO add your handling code here:
     }//GEN-LAST:event_timerMovOnTime
 
+    ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
        iniciaSincronizacao(refreshSincCad());
     }//GEN-LAST:event_timerCadastroOnTime
 
+    //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
         refreshSincCad();
     }//GEN-LAST:event_jBtRefreshActionPerformed
