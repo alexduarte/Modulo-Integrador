@@ -49,14 +49,12 @@ public class ProdutoController {
             p.setName(name);
             p.setPrice(price);
             p.setReference(produtoERP.getReferencia());
-            
-            produtoERP.getEstoqueDisponivel();
-            
+            p.setSupplierReference(produtoERP.getRefFabricante());
+
             produtoERP.getPrecoCusto();
-            produtoERP.getRefFabricante();
-            
+            produtoERP.getEstoqueDisponivel();
             produtoERP.getUnidadeEnt();
-            produtoERP.getUnidadeSaida();
+            
             
             
             return p;
