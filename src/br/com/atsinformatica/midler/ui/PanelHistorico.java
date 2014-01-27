@@ -124,30 +124,32 @@ public class PanelHistorico extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(title_historico)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(880, 880, 880)
-                        .addComponent(jBtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(title_historico))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(881, 881, 881)
+                            .addComponent(jBtRefresh))))
                 .addContainerGap(300, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(title_historico)
-                .addGap(18, 18, 18)
-                .addComponent(jBtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(16, 16, 16)
+                .addComponent(jBtRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     ///Timer para movimentações
     private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
-        // TODO add your handling code here:
+        return;
     }//GEN-LAST:event_timerMovOnTime
 
     ///Timer para cadastro 
@@ -212,7 +214,7 @@ public class PanelHistorico extends javax.swing.JPanel {
      * virtual
      */
     private void iniciaSincronizacao(List lista) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return;
     }
 
     /**
@@ -232,7 +234,7 @@ public class PanelHistorico extends javax.swing.JPanel {
                     modelBean.setEntidade("produto");
                     modelBean.setItemDescricao(bean.getDescricao());
                     modelBean.setOrigem("ERP");
-                    modelBean.setSincronizado(false);
+                    modelBean.setSincronizado(false); 
                     modelSincronizar.add(modelBean);
                 } else {
                     break;
