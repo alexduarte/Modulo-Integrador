@@ -36,13 +36,9 @@ public class ProdutoController {
            
             Name name = new Name();
             name.getLanguage().add(new Language(produtoERP.getDescricao()));
-            
-            
-            
-            
-            
-            
+
             p.setName(name);
+            
             
             produtoERP.getEstoqueDisponivel();
             produtoERP.getPreco();

@@ -6,20 +6,19 @@
 
 package br.com.atsinformatica.erp.controller;
 
-import br.com.atsinformatica.erp.entity.SubCategoriaERPBean;
-import java.util.List;
-
 /**
  *
  * @author ricardosilva
  */
 public class SubCategoriaController {
     
-    
-//    public List<Cate
-//    public void createSubCategoryPrestaShop(List<SubCategoriaERPBean> ListSubCategoria){
-//        
-//        
-//        
-//    }
+    public void createSubCategoryPrestaShop(String listSubCategorias){
+        
+        if(listSubCategorias.isEmpty()) return;       
+        String subCategorias[] = listSubCategorias.split("/");
+        
+        for (int i = 0; i < subCategorias.length; i++) {
+             
+        }    
+    }
 }

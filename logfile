@@ -942,3 +942,8 @@ At line 1, column 438
 2014-01-24 14:59:20,183 (ParaUrlDAO.java:149) INFO main br.com.atsinformatica.erp.dao.ParaUrlDAO - Lista de url retornada com sucesso.
 >>>>>>> 7e39c55b8bb4dbec6f4e1eba320aff707432a92c
 >>>>>>> 003a3e1075eda5df76103812711b6fe8a96fcdf6
+2014-01-24 17:58:24,539 (ConexaoATS.java:90) INFO main br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectando...
+2014-01-24 17:58:24,645 (ConexaoATS.java:97) ERROR main br.com.atsinformatica.midler.jdbc.ConexaoATS - Erro ao conectar: org.firebirdsql.jdbc.FBSQLException: GDS Exception. 335544344. I/O error during "CreateFile (open)" operation for file "C:\BD\PILOTO\RESULTH.FB"
+Error while trying to open file
+null
+2014-01-24 17:58:24,645 (ParaUrlDAO.java:152) ERROR main br.com.atsinformatica.erp.dao.ParaUrlDAO - Erro ao retornar lista de url: java.lang.NullPointerException
