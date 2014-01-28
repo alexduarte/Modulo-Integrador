@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlType;
             "isRootCategory",
             "name",
             "description",
-            "linkRewrite"
+            "linkRewrite",
+            "position"    
         })
 
 public class Category {
