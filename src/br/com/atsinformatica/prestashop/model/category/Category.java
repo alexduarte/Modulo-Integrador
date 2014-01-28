@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
             "id",
             "idParent",
             "levelDepth",
+            "position",
             "active",
             "dataAdd",
             "dataUpd",

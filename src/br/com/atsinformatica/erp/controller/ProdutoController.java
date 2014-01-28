@@ -7,7 +7,6 @@
 package br.com.atsinformatica.erp.controller;
 
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.prestashop.model.category.Category;
 import br.com.atsinformatica.prestashop.model.product.Language;
 import br.com.atsinformatica.prestashop.model.product.Name;
 import br.com.atsinformatica.prestashop.model.product.Price;
