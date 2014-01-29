@@ -45,6 +45,8 @@ import org.xml.sax.XMLReader;
  * @author ricardosilva
  */
 public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
+    
+    
 
     /**
      * Adiciona um item Categoria
@@ -105,8 +107,8 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
         List<Category> listCategory = new ArrayList<>();
         for (AccessXMLAttribute attribute : getListItens.getCategories().getCategory()) {
             Prestashop prestashop = getPrestaShopItem(getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(ClientResponse.class));
-            //listCategory.add(prestashop);
-            System.err.println("");
+            listCategory.add(prestashop.getCategory());
+
         }
         return listCategory;
     }
@@ -147,7 +149,7 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      * @param prestashopCategory
      * @return
      */
-    protected String createTOXML(Prestashop prestashopCategory) {
+    public String createTOXML(Prestashop prestashopCategory) {
         try {
             JAXBContext context = JAXBContext.newInstance(prestashopCategory.getClass());
             Marshaller marshaller = context.createMarshaller();

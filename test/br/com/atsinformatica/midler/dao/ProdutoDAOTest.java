@@ -44,7 +44,7 @@ public class ProdutoDAOTest extends TestCase {
     
     public static TestSuite suite(){
         TestSuite suite = new TestSuite();
-        suite.addTest(new ProdutoDAOTest("testListaASincronizar"));
+        suite.addTest(new ProdutoDAOTest("testAtualizaStatusImportacao"));
         return suite;
     } 
     /**
@@ -64,6 +64,18 @@ public class ProdutoDAOTest extends TestCase {
             fail("Falha ao testar método listaASincronizar.");
             
         }
+        
+    }
+    @Test
+    public void testAtualizaStatusImportacao(){
+       try{
+           System.out.println("atualizaStatusImportacao");
+           ProdutoDAO instance = new ProdutoDAO();
+           instance.atualizaStatusImportacao("000002", 0);
+       } catch(Exception e){
+           fail("Falha ao testar metodo atualizaStatusImportacao: "+e);
+           
+       }
         
     }
 }

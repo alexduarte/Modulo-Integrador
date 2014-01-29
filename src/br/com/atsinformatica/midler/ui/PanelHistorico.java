@@ -12,6 +12,7 @@ import br.com.atsinformatica.midler.dao.ProdutoDAO;
 import br.com.atsinformatica.midler.tablemodel.bean.SincronizarModel;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.table.TableColumn;
@@ -25,7 +26,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     //Resolver para grid sincronizar
 
     private AnnotationResolver resolverSinc = new AnnotationResolver(SincronizarModel.class);
-    private String fields = "entidade,itemDescricao,origem,sincronizado";
+    private String fields = "id,entidade,xml,dataEnt,dataInteg";
     //model para grid  sincronizar
     private ObjectTableModel modelSincronizar = new ObjectTableModel(resolverSinc, fields);
     private static Logger logger = Logger.getLogger(PanelHistorico.class);
@@ -74,37 +75,30 @@ public class PanelHistorico extends javax.swing.JPanel {
 
         jTbSincronizar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Entidade", "Descrição", "Origem", "Sincronizado"
+                "Id", "Entidade", "XML", "Data entrada", "Data importacao"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -155,14 +149,15 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-       iniciaSincronizacao(refreshSincCad());
+        //iniciaSincronizacao(refreshSincCad());
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
-       iniciaSincronizacao(refreshSincCad());
+        
+        //iniciaSincronizacao(refreshSincCad());
+        
     }//GEN-LAST:event_jBtRefreshActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtRefresh;
     private javax.swing.JScrollPane jScrollPane1;
@@ -178,7 +173,7 @@ public class PanelHistorico extends javax.swing.JPanel {
         for (int i = 0; i < 19; i++) {
             modelSincronizar.add(null);
         }
-        TableColumn colSinc = jTbSincronizar.getColumnModel().getColumn(3);
+        TableColumn colSinc = jTbSincronizar.getColumnModel().getColumn(0);
         colSinc.setPreferredWidth(10);
 
     }
@@ -215,16 +210,27 @@ public class PanelHistorico extends javax.swing.JPanel {
      * virtual
      */
     private void iniciaSincronizacao(List lista) {
-        try{
-            if(lista.isEmpty())
+        try {
+            /**
+             * Passos para a integração:
+             * - enviar lista de itens pendentes para a loja 
+             * - verificar itens que foram gravados e setar status  de importado no erp
+             * - com lista de importado em maos, verificar parametro de itens mantidos e manter itens abaixo na grid
+             */
+            if (lista.isEmpty()) {
                 return;
+            }
             ProdutoController controller = new ProdutoController();
-            controller.createProductPrestashop((List<ProdutoERPBean>)lista);        
+            controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            
+            
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
-        }catch(Exception e){
-            logger.error("Erro ao efetuar sincronização: "+e);
-        }      
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização: " + e);
+        }
     }
+    
+    
 
     /**
      * Inicia processo de preparação de ítens para sincronização
@@ -232,28 +238,23 @@ public class PanelHistorico extends javax.swing.JPanel {
     private List<ProdutoERPBean> refreshSincCad() {
         ProdutoDAO prodDao = new ProdutoDAO();
         try {
-            List<ProdutoERPBean> listaProd = prodDao.listaASincronizar();
-            ParaEcomBean paraEcom = new ParaEcomDAO().listaTodos().get(0);
+            List<ProdutoERPBean> listaProd = prodDao.listaASincronizar();            
             modelSincronizar.clear();
             //verifica numero de itens sincronizados que devem ser mantidos
+            int i= 1;
             for (ProdutoERPBean bean : listaProd) {
-                //verifica se numero de itens a serem sincronizados ultrapassa itens informados no parametro
-                if (modelSincronizar.getRowCount() != paraEcom.getQtdeRegistros()) {
-                    SincronizarModel modelBean = new SincronizarModel();
-                    modelBean.setEntidade("produto");
-                    modelBean.setItemDescricao(bean.getDescricao());
-                    modelBean.setOrigem("ERP");
-                    modelBean.setSincronizado(false); 
-                    modelSincronizar.add(modelBean);
-                } else {
-                    break;
-                }
+                //verifica se numero de itens a serem sincronizados ultrapassa itens informados no parametro              
+                SincronizarModel modelBean = new SincronizarModel();
+                modelBean.setId(i);
+                modelBean.setEntidade("produto");
+                modelBean.setDataEnt(new Date());
+                modelBean.setDataInteg(null);
+                modelSincronizar.add(modelBean);              
+                i++;
             }
             return listaProd;
         } catch (Exception e) {
             return null;
         }
     }
-    
-    
 }

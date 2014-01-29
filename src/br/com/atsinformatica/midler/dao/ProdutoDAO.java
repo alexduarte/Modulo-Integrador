@@ -4,9 +4,13 @@
  */
 package br.com.atsinformatica.midler.dao;
 
+import br.com.atsinformatica.erp.dao.ParaEcomDAO;
+import br.com.atsinformatica.erp.dao.ProdutoERPDAO;
+import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,8 +63,9 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
         Statement stmt = null;
         ResultSet rs = null;
         try{
-            conn = ConexaoATS.conectaERP();
-            String sql = " SELECT produto.codprod, (compprod.estoque - compprod.quantbloqueada) AS estoquedisponivel, produto.descricao, " +
+            ParaEcomBean paraBean = new ParaEcomDAO().listaTodos().get(0);
+            conn = ConexaoATS.conectaERP();            
+            String sql = " SELECT FIRST "+paraBean.getQtdeRegistros()+"  produto.codprod, (compprod.estoque - compprod.quantbloqueada) AS estoquedisponivel, produto.descricao, " +
                          " produto.descricao2, produto.descricao3, sub.descgrupo, sub.descsub, " +
                          " produto.referencia, produto.reffabricante, " +
                          "        produto.unidadeent, produto.unidadesaida, produto.preco, produto.preco2, " +
@@ -89,10 +94,32 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
         finally{
             conn.close();
             rs.close();
-            stmt.close();
-            
-            
+            stmt.close();           
         }
     }
-    
+    /**
+     * Atualiza status de importação do produto
+     * @param codProd código do produto
+     * @param codStatus código do status do produto
+     */
+    public void atualizaStatusImportacao(String codProd, int codStatus) throws SQLException{
+        PreparedStatement pstmt = null;        
+        try{
+            conn = ConexaoATS.conectaERP();
+            conn.setAutoCommit(false);
+            String querie = "update produto set importaproduto =? where codprod = ?";
+            pstmt = conn.prepareStatement(querie);
+            pstmt.setInt(1, codStatus);
+            pstmt.setString(2, codProd);
+            pstmt.executeUpdate();
+            conn.commit();            
+            logger.info("Status de importação do produto, atualizado com sucesso!");
+        }catch(Exception e){
+            logger.error("Erro ao atualizar status de importação do produto: "+e);        
+        }finally{
+            conn.close();
+            pstmt.close();
+        }
+        
+    }
 }

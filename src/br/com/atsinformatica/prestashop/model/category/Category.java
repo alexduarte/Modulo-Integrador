@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
             "id",
             "idParent",
             "levelDepth",
+            "position",
             "active",
             "dataAdd",
             "dataUpd",
@@ -32,8 +33,7 @@ import javax.xml.bind.annotation.XmlType;
             "isRootCategory",
             "name",
             "description",
-            "linkRewrite",
-            "position"    
+            "linkRewrite"  
         })
 
 public class Category {

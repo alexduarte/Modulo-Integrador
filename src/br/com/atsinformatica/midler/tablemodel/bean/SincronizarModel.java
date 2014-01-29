@@ -5,20 +5,24 @@
 package br.com.atsinformatica.midler.tablemodel.bean;
 
 import com.towel.el.annotation.Resolvable;
+import java.util.Date;
 
 /**
  *
  * @author AlexsanderPimenta
  */
 public class SincronizarModel {
+    
+    @Resolvable(colName = "Id")
+    private int id;
     @Resolvable(colName = "Entidade")
     private String entidade;
-    @Resolvable(colName = "Descrição")
-    private String itemDescricao;
-    @Resolvable(colName = "Origem")
-    private String origem;
-    @Resolvable(colName = "Sincronizado")
-    private boolean sincronizado;
+    @Resolvable(colName = "XML")
+    private String xml;
+    @Resolvable(colName = "Data entrada")
+    private Date dataEnt;
+    @Resolvable(colName = "Data integração")
+    private Date dataInteg;
 
     /**
      * @return the entidade
@@ -35,45 +39,61 @@ public class SincronizarModel {
     }
 
     /**
-     * @return the itemDescricao
+     * @return the id
      */
-    public String getItemDescricao() {
-        return itemDescricao;
+    public int getId() {
+        return id;
     }
 
     /**
-     * @param itemDescricao the itemDescricao to set
+     * @param id the id to set
      */
-    public void setItemDescricao(String itemDescricao) {
-        this.itemDescricao = itemDescricao;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
-     * @return the origem
+     * @return the xml
      */
-    public String getOrigem() {
-        return origem;
+    public String getXml() {
+        return xml;
     }
 
     /**
-     * @param origem the origem to set
+     * @param xml the xml to set
      */
-    public void setOrigem(String origem) {
-        this.origem = origem;
+    public void setXml(String xml) {
+        this.xml = xml;
     }
 
     /**
-     * @return the sincronizado
+     * @return the dataEnt
      */
-    public boolean isSincronizado() {
-        return sincronizado;
+    public Date getDataEnt() {
+        return dataEnt;
     }
 
     /**
-     * @param sincronizado the sincronizado to set
+     * @param dataEnt the dataEnt to set
      */
-    public void setSincronizado(boolean sincronizado) {
-        this.sincronizado = sincronizado;
+    public void setDataEnt(Date dataEnt) {
+        this.dataEnt = dataEnt;
     }
+
+    /**
+     * @return the dataInteg
+     */
+    public Date getDataInteg() {
+        return dataInteg;
+    }
+
+    /**
+     * @param dataInteg the dataInteg to set
+     */
+    public void setDataInteg(Date dataInteg) {
+        this.dataInteg = dataInteg;
+    }
+
+    
     
 }

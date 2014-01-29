@@ -57,8 +57,7 @@ public class ProdutoERPBean {
         this.precoCusto = rs.getDouble("precocusto");
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
-        
-        
+       
     }  
     /**
      * @return the codProd

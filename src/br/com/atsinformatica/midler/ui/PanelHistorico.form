@@ -85,11 +85,12 @@
         <Component class="javax.swing.JTable" name="jTbSincronizar">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="4" rowCount="16">
+              <Table columnCount="5" rowCount="16">
+                <Column editable="false" title="Id" type="java.lang.Object"/>
                 <Column editable="false" title="Entidade" type="java.lang.Object"/>
-                <Column editable="false" title="Descri&#xe7;&#xe3;o" type="java.lang.Object"/>
-                <Column editable="false" title="Origem" type="java.lang.Object"/>
-                <Column editable="false" title="Sincronizado" type="java.lang.Boolean"/>
+                <Column editable="false" title="XML" type="java.lang.Object"/>
+                <Column editable="false" title="Data entrada" type="java.lang.Object"/>
+                <Column editable="false" title="Data importacao" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>

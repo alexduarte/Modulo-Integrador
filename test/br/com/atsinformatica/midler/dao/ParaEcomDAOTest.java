@@ -8,6 +8,7 @@ package br.com.atsinformatica.midler.dao;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import java.util.List;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,7 +21,7 @@ import static org.junit.Assert.*;
  *
  * @author AlexsanderPimenta
  */
-public class ParaEcomDAOTest extends TestSuite{
+public class ParaEcomDAOTest extends TestCase{
     
     public ParaEcomDAOTest(String testCase) {
         super(testCase);
@@ -45,12 +46,12 @@ public class ParaEcomDAOTest extends TestSuite{
     
      public static TestSuite suite(){
         TestSuite suite = new TestSuite();
-        suite.addTest(new ParaUrlDAOTest("testUltimoRegistro"));
-        suite.addTest(new ParaUrlDAOTest("testGravar"));
-        suite.addTest(new ParaUrlDAOTest("testAlterar"));
-        suite.addTest(new ParaUrlDAOTest("testListaTodos"));
-        suite.addTest(new ParaUrlDAOTest("testAbrir"));       
-        suite.addTest(new ParaUrlDAOTest("testDeletar"));      
+        suite.addTest(new ParaEcomDAOTest("testUltimoRegistro"));
+        suite.addTest(new ParaEcomDAOTest("testGravar"));
+        suite.addTest(new ParaEcomDAOTest("testAlterar"));
+        suite.addTest(new ParaEcomDAOTest("testListaTodos"));
+        suite.addTest(new ParaEcomDAOTest("testAbrir"));       
+        suite.addTest(new ParaEcomDAOTest("testDeletar"));      
         return  suite;
     }
 
