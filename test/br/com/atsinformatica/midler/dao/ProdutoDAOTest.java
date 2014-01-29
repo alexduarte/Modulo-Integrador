@@ -44,18 +44,18 @@ public class ProdutoDAOTest extends TestCase {
     
     public static TestSuite suite(){
         TestSuite suite = new TestSuite();
-        suite.addTest(new ProdutoDAOTest("testAtualizaStatusImportacao"));
+        suite.addTest(new ProdutoDAOTest("testAbrir"));
         return suite;
     } 
     /**
      * Test of listaASincronizar method, of class ProdutoDAO.
      */
     @Test
-    public void testListaASincronizar() {
+    public void testListaTodos() {
         try{
             System.out.println("listaASincronizar");
             ProdutoDAO instance = new ProdutoDAO();
-            List<ProdutoERPBean> result = instance.listaASincronizar();
+            List<ProdutoERPBean> result = instance.listaTodos();
             for(ProdutoERPBean prod: result){
                 System.out.println("Produto: "+prod + "\n");               
             }          
@@ -77,5 +77,18 @@ public class ProdutoDAOTest extends TestCase {
            
        }
         
+    }
+    
+    @Test
+    public void testAbrir(){
+        try{
+            System.out.println("abrir");
+            ProdutoDAO instance = new ProdutoDAO();
+            ProdutoERPBean bean = instance.abrir("000002");
+            assertNotNull(bean);
+        }catch(Exception e){
+            fail("Falha ao testar metodo abrir: "+e);
+            
+        }
     }
 }

@@ -5,13 +5,16 @@
 package br.com.atsinformatica.midler.ui;
 
 import br.com.atsinformatica.erp.controller.ProdutoController;
+import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
+import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
+import br.com.atsinformatica.midler.dao.IGenericDAO;
 import br.com.atsinformatica.midler.dao.ProdutoDAO;
-import br.com.atsinformatica.midler.tablemodel.bean.SincronizarModel;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -25,8 +28,8 @@ import org.apache.log4j.Logger;
 public class PanelHistorico extends javax.swing.JPanel {
     //Resolver para grid sincronizar
 
-    private AnnotationResolver resolverSinc = new AnnotationResolver(SincronizarModel.class);
-    private String fields = "id,entidade,xml,dataEnt,dataInteg";
+    private AnnotationResolver resolverSinc = new AnnotationResolver(HistoricoIntegraERPBean.class);
+    private String fields = "id,entidade,codEntidade,dataEnt,dataInteg";
     //model para grid  sincronizar
     private ObjectTableModel modelSincronizar = new ObjectTableModel(resolverSinc, fields);
     private static Logger logger = Logger.getLogger(PanelHistorico.class);
@@ -154,9 +157,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
-        
-        //iniciaSincronizacao(refreshSincCad());
-        
+        refreshSincCad();
     }//GEN-LAST:event_jBtRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtRefresh;
@@ -211,50 +212,74 @@ public class PanelHistorico extends javax.swing.JPanel {
      */
     private void iniciaSincronizacao(List lista) {
         try {
-            /**
-             * Passos para a integração:
-             * - enviar lista de itens pendentes para a loja 
-             * - verificar itens que foram gravados e setar status  de importado no erp
-             * - com lista de importado em maos, verificar parametro de itens mantidos e manter itens abaixo na grid
-             */
             if (lista.isEmpty()) {
                 return;
-            }
+            }            
             ProdutoController controller = new ProdutoController();
-            controller.createProductPrestashop((List<ProdutoERPBean>) lista);
-            
-            
+            controller.createProductPrestashop((List<ProdutoERPBean>) lista);            
+            atualizaDataInt(lista); 
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização: " + e);
         }
     }
-    
-    
 
     /**
      * Inicia processo de preparação de ítens para sincronização
      */
-    private List<ProdutoERPBean> refreshSincCad() {
-        ProdutoDAO prodDao = new ProdutoDAO();
+    private void refreshSincCad() {
         try {
-            List<ProdutoERPBean> listaProd = prodDao.listaASincronizar();            
+            ///lista de itens pendentes de sincronização
+            List<HistoricoIntegraERPBean> listaHist = new HistoricoIntegraDAO().listaPendentes();
+            //Lista de itens a sincronizar na loja virtual
+            List itens = new ArrayList();
             modelSincronizar.clear();
-            //verifica numero de itens sincronizados que devem ser mantidos
-            int i= 1;
-            for (ProdutoERPBean bean : listaProd) {
-                //verifica se numero de itens a serem sincronizados ultrapassa itens informados no parametro              
-                SincronizarModel modelBean = new SincronizarModel();
-                modelBean.setId(i);
-                modelBean.setEntidade("produto");
-                modelBean.setDataEnt(new Date());
-                modelBean.setDataInteg(null);
-                modelSincronizar.add(modelBean);              
-                i++;
+            for (HistoricoIntegraERPBean bean : listaHist) {
+                itens.add(retornaItensSinc(bean));
+                modelSincronizar.add(bean);
             }
-            return listaProd;
+            if (!itens.isEmpty()) {
+                iniciaSincronizacao(itens);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private Object retornaItensSinc(HistoricoIntegraERPBean bean) {
+        try {
+            Object obj = null;
+            if (bean != null) {
+                //TODO: Pesquisar algum padrão de projeto que torna este processo automático
+                if (bean.getEntidade().equals("produto")) {
+                    obj = new ProdutoDAO().abrir(bean.getCodEntidade());
+                }
+            }
+            return obj;
         } catch (Exception e) {
             return null;
         }
+    }
+
+    /**
+     * Atualiza data de integração de itens pendentes na tabela de historico de sincronizacao
+     * @param lista lista de itens
+     */
+    private void atualizaDataInt(List lista) {
+       try{
+           HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
+          if(!lista.isEmpty()){
+              for(ProdutoERPBean prodBean : (List<ProdutoERPBean>)lista){
+                  if(prodBean.isImportadoLoja()){
+                      HistoricoIntegraERPBean bean = new HistoricoIntegraERPBean();
+                      bean.setCodEntidade(prodBean.getCodProd());
+                      bean.setDataInteg(new Date());
+                      dao.alterar(bean);
+                  }
+                  
+              }
+          } 
+       }catch(Exception e){
+           
+       }
     }
 }

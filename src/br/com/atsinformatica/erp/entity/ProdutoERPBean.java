@@ -31,6 +31,7 @@ public class ProdutoERPBean {
     private String codGrade;
     private String categoria;
     private String subCategoria;
+    private boolean importadoLoja;
     
     
     public ProdutoERPBean(){
@@ -57,6 +58,7 @@ public class ProdutoERPBean {
         this.precoCusto = rs.getDouble("precocusto");
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
+        this.setImportadoLoja(false);
        
     }  
     /**
@@ -314,6 +316,20 @@ public class ProdutoERPBean {
      */
     public void setSubCategoria(String subCategoria) {
         this.subCategoria = subCategoria;
+    }
+
+    /**
+     * @return the importadoERP
+     */
+    public boolean isImportadoLoja() {
+        return importadoLoja;
+    }
+
+    /**
+     * @param importadoERP the importadoERP to set
+     */
+    public void setImportadoLoja(boolean importadoLoja) {
+        this.importadoLoja = importadoLoja;
     }
        
     
