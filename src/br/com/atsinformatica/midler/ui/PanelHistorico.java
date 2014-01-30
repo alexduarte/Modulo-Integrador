@@ -167,20 +167,22 @@ public class PanelHistorico extends javax.swing.JPanel {
     private javax.swing.JLabel title_historico;
     // End of variables declaration//GEN-END:variables
 
-    private void carregaGridSincronizar() {
-        TableColumn colEnt = jTbSincronizar.getColumnModel().getColumn(3);
-        //TableColumn colInt = jTbSincronizar.getColumnModel().getColumn(4);
-
-        colEnt.setCellRenderer(new DateCellRenderer());
+    private void carregaGridSincronizar() {   
+        //TableColumn colInt = jTbSincronizar.getColumnModel().getColumn(4);   
         //colInt.setCellRenderer(new DateCellRenderer());
         jTbSincronizar.setModel(modelSincronizar);
+        //
         jTbSincronizar.setAutoCreateRowSorter(true);
         modelSincronizar.clear();
         for (int i = 0; i < 19; i++) {
             modelSincronizar.add(null);
         }
         TableColumn colSinc = jTbSincronizar.getColumnModel().getColumn(0);
+        TableColumn colEnt = jTbSincronizar.getColumnModel().getColumn(3);
+        TableColumn colInt = jTbSincronizar.getColumnModel().getColumn(4);
         colSinc.setPreferredWidth(10);
+        colEnt.setCellRenderer(new DateCellRenderer());
+        colInt.setCellRenderer(new DateCellRenderer());
 
     }
 
