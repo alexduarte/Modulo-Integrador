@@ -6,11 +6,12 @@
 
 package br.com.atsinformatica.erp.controller;
 
+import br.com.atsinformatica.prestashop.model.node.Name;
+import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.prestashop.model.product.Language;
-import br.com.atsinformatica.prestashop.model.product.Name;
-import br.com.atsinformatica.prestashop.model.product.Price;
-import br.com.atsinformatica.prestashop.model.product.Product;
+import br.com.atsinformatica.prestashop.model.node.*;
+import br.com.atsinformatica.prestashop.model.root.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 

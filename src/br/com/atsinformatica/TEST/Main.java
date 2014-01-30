@@ -6,10 +6,8 @@
 package br.com.atsinformatica.TEST;
 
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
-import br.com.atsinformatica.prestashop.model.category.Category;
+import br.com.atsinformatica.prestashop.model.root.Category;
 import java.util.List;
-
-
 
 /**
  *
@@ -21,7 +19,8 @@ public class Main {
 
         //--------NOVO----------------//
         CategoryPrestashopDAO daoC = new CategoryPrestashopDAO();
-        List<Category> category = daoC.get(Category.URLCATEGORY);
+        List<Category> get = daoC.get(Category.URLCATEGORY);
+        Category category = daoC.getId(Category.URLCATEGORY,4);
 
     }
 

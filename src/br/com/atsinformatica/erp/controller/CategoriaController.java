@@ -5,13 +5,13 @@
  */
 package br.com.atsinformatica.erp.controller;
 
+import br.com.atsinformatica.prestashop.model.node.Name;
+import br.com.atsinformatica.prestashop.model.node.LinkRewrite;
+import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
-import br.com.atsinformatica.prestashop.model.category.Category;
-import br.com.atsinformatica.prestashop.model.category.Language;
-import br.com.atsinformatica.prestashop.model.category.LinkRewrite;
-import br.com.atsinformatica.prestashop.model.category.Name;
+import br.com.atsinformatica.prestashop.model.root.Category;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;

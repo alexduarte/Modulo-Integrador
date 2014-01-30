@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.com.atsinformatica.prestashop.model.category;
+package br.com.atsinformatica.prestashop.model.node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "language"
 })
-@XmlRootElement(name = "Link_rewrite")
-public class LinkRewrite {
+@XmlRootElement(name = "description_short")
+public class DescriptionShort {
 
     @XmlElement(required = true)
     protected List<Language> language;
@@ -33,5 +33,22 @@ public class LinkRewrite {
             language = new ArrayList<Language>();
         }
         return this.language;
+    }
+    
+    /**
+     * Retorna String em do language 1
+     * @return String default
+     */
+    public String getTextDescriptionShort(){
+        return language.get(0).getContent();
+    }
+    
+    /**
+     * Retorna language do item selecionado se existente
+     * @param index
+     * @return
+     */
+    public String getTextDescriptionShort(int index){
+        return language.get(index).getContent();
     }
 }

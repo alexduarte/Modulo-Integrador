@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.prestashop.model.category;
+package br.com.atsinformatica.prestashop.model.root;
 
+
+import br.com.atsinformatica.prestashop.model.node.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 /**
  *
@@ -19,21 +17,19 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "category")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(
-        name = "category",
+@XmlType(name = "category",
         propOrder = {
             "id",
             "idParent",
-            "levelDepth",
-            "position",
             "active",
-            "dataAdd",
-            "dataUpd",
             "idShopDefault",
             "isRootCategory",
+            "position",
+            "dataAdd",
+            "dataUpd",            
             "name",
             "description",
-            "linkRewrite"  
+            "linkRewrite",
         })
 
 public class Category {
@@ -46,14 +42,11 @@ public class Category {
     @XmlElement(name = "id_parent")
     private Integer idParent;
 
-    @XmlElement(name = "level_depth")
-    private Integer levelDepth;
-    
-    @XmlElement(name = "position")
-    private Integer position;
-
     @XmlElement(name = "active")
     private Short active;
+
+    @XmlElement(name = "position")
+    private Integer position;
 
     @XmlElement(name = "date_add")
     private String dataAdd;
@@ -61,7 +54,7 @@ public class Category {
     @XmlElement(name = "date_upd")
     private String dataUpd;
 
-    @XmlElement(name = "id_Shop_default")
+    @XmlElement(name = "id_shop_default")
     private Short idShopDefault;
 
     @XmlElement(name = "is_root_category")
@@ -77,16 +70,11 @@ public class Category {
     private LinkRewrite linkRewrite;
 
     public Category() {
-        this.idParent = 0;
-        this.levelDepth = 0;
+        
         this.idShopDefault = 1;
         this.active = 1;
         this.isRootCategory = 0;
         this.position = 0;
-    }
-
-    public void setIdParent(Integer idParent) {
-        this.idParent = idParent;
     }
 
     public String getId() {
@@ -101,12 +89,16 @@ public class Category {
         return idParent;
     }
 
-    public Integer getLevelDepth() {
-        return levelDepth;
+    public void setIdParent(Integer idParent) {
+        this.idParent = idParent;
     }
 
     public Short getActive() {
         return active;
+    }
+
+    public Integer getPosition() {
+        return position;
     }
 
     public String getDataAdd() {
@@ -131,8 +123,16 @@ public class Category {
         return idShopDefault;
     }
 
+    public void setIdShopDefault(Short idShopDefault) {
+        this.idShopDefault = idShopDefault;
+    }
+
     public Short getIsRootCategory() {
         return isRootCategory;
+    }
+
+    public void setIsRootCategory(Short isRootCategory) {
+        this.isRootCategory = isRootCategory;
     }
 
     public Name getName() {
@@ -157,14 +157,6 @@ public class Category {
 
     public void setLinkRewrite(LinkRewrite linkRewrite) {
         this.linkRewrite = linkRewrite;
-    }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
     }
     
 }

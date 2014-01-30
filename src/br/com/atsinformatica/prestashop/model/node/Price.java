@@ -6,17 +6,14 @@
 //
 
 
-package br.com.atsinformatica.prestashop.model.product;
+package br.com.atsinformatica.prestashop.model.node;
 
+import br.com.atsinformatica.prestashop.model.product.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -28,7 +25,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="not_filterable" use="required" type="{http://www.w3.org/2001/XMLSchema}NMTOKEN" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -37,18 +33,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name="", propOrder = {
     "content"
 })
-@XmlRootElement(name = "type")
-public class Type {
+@XmlRootElement(name = "price")
+public class Price {
 
     @XmlValue
     protected String content;
-    @XmlAttribute(name = "not_filterable", required = true)
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "NMTOKEN")
-    protected String notFilterable;
 
     /**
      * Obtiene el valor de la propiedad content.
@@ -72,30 +64,6 @@ public class Type {
      */
     public void setContent(String value) {
         this.content = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad notFilterable.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNotFilterable() {
-        return notFilterable;
-    }
-
-    /**
-     * Define el valor de la propiedad notFilterable.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNotFilterable(String value) {
-        this.notFilterable = value;
     }
 
 }
