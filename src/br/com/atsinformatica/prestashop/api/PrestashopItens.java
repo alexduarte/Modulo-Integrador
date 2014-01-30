@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
     "categories",
 })
 @XmlRootElement(name = "prestashop")
-public class GetListItens {
+public class PrestashopItens {
 
     @XmlElement(name = "product_features")
     protected ProductFeatures productFeatures;

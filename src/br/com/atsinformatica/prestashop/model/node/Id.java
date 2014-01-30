@@ -6,13 +6,14 @@
 //
 
 
-package br.com.atsinformatica.prestashop.model.product;
+package br.com.atsinformatica.prestashop.model.node;
 
+import br.com.atsinformatica.prestashop.model.product.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 
 /**
@@ -24,9 +25,6 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}product"/>
- *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -35,37 +33,37 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = {
-    "product"
+@XmlType(name = "", propOrder = {
+    "content"
 })
-@XmlRootElement(name = "prestashop")
-public class PrestashopProduct {
+@XmlRootElement(name = "id")
+public class Id {
 
-    @XmlElement(required = true)
-    protected Product product;
+    @XmlValue
+    protected String content;
 
     /**
-     * Obtiene el valor de la propiedad product.
+     * Obtiene el valor de la propiedad content.
      * 
      * @return
      *     possible object is
-     *     {@link Product }
+     *     {@link String }
      *     
      */
-    public Product getProduct() {
-        return product;
+    public String getContent() {
+        return content;
     }
 
     /**
-     * Define el valor de la propiedad product.
+     * Define el valor de la propiedad content.
      * 
      * @param value
      *     allowed object is
-     *     {@link Product }
+     *     {@link String }
      *     
      */
-    public void setProduct(Product value) {
-        this.product = value;
+    public void setContent(String value) {
+        this.content = value;
     }
 
 }

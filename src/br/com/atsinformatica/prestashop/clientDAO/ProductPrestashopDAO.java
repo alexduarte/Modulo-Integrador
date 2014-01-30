@@ -8,9 +8,9 @@ package br.com.atsinformatica.prestashop.clientDAO;
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
-import br.com.atsinformatica.prestashop.api.GetListItens;
-import br.com.atsinformatica.prestashop.model.product_feature.PrestashopProductFeature;
-import br.com.atsinformatica.prestashop.model.product_feature.ProductFeature;
+import br.com.atsinformatica.prestashop.api.PrestashopItens;
+import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
+import br.com.atsinformatica.prestashop.model.root.Product;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -34,7 +34,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * @author ricardosilva
  */
-public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<ProductFeature> {
+public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
 
     /**
      * Adiciona um item Produto
@@ -43,10 +43,10 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
      * @param t
      */
     @Override
-    public void post(String path, ProductFeature t) {
-        PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
-        String xml = createTOXML(prestashopProductFeature);
-        xml = xml.replace("ns2", "xlink"); 
+    public void post(String path, Product t) {
+        Prestashop prestashop = new Prestashop();
+        prestashop.setProduct(t);
+        String xml = createTOXML(prestashop);
         ClientResponse clientResponse = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
         System.out.println(clientResponse.getStatus());
     }
@@ -57,12 +57,12 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
      * @param t
      * @return
      */
-    public ProductFeature postProductFeature(String path, ProductFeature t) {
-        PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
-        String xml = createTOXML(prestashopProductFeature);
-        xml = xml.replace("ns2", "xlink"); 
-        PrestashopProductFeature post = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(PrestashopProductFeature.class, xml);
-        return post.getProductFeature();
+    public Product postProduct(String path, Product t) {
+        Prestashop prestashop = new Prestashop();
+        prestashop.setProduct(t);
+        String xml = createTOXML(prestashop);
+        Prestashop post = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
+        return post.getProduct();
     }
     
     /**
@@ -72,11 +72,11 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
      * @param t
      */
     @Override
-    public void put(String path, ProductFeature t, int key) {
+    public void put(String path, Product t, int key) {
 
-        PrestashopProductFeature prestashopProductFeature = new PrestashopProductFeature(t);
-        String xml = createTOXML(prestashopProductFeature);
-        xml = xml.replace("ns2", "xlink");
+        Prestashop prestashop = new Prestashop();
+        prestashop.setProduct(t);
+        String xml = createTOXML(prestashop);
         ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
         System.out.println(response);
     }
@@ -88,14 +88,14 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
      * @return
      */
     @Override
-    public List<ProductFeature> get(String path) {
+    public List<Product> get(String path) {
 
-        GetListItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(GetListItens.class);
+        PrestashopItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(PrestashopItens.class);
 
-        List<ProductFeature> listProdFeature = new ArrayList<>();
-        for (AccessXMLAttribute attribute : getListItens.getProductFeatures().getProductFeature()) {
-            PrestashopProductFeature prestashop = getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
-            listProdFeature.add(prestashop.getProductFeature());
+        List<Product> listProdFeature = new ArrayList<>();
+        for (AccessXMLAttribute attribute : getListItens.getProducts().getProduct()) {
+            Prestashop prestashop = getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(Prestashop.class);
+            listProdFeature.add(prestashop.getProduct());
         }
         return listProdFeature;
     }
@@ -108,9 +108,9 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
      * @return
      */
     @Override
-    public ProductFeature getId(String path, int key) {
-        PrestashopProductFeature prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(PrestashopProductFeature.class);
-        return prestashop.getProductFeature();
+    public Product getId(String path, int key) {
+        Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
+        return prestashop.getProduct();
     }
     /**
      * Retorna um a WebResource (função obrigatória);
@@ -133,22 +133,22 @@ public class ProductFeaturePrestashopDAO implements IGenericPrestashopDAO<Produc
     /**
      * Retorna um a WebResource (função obrigatória);
      *
-     * @param prestashopProductFeature
+     * @param Prestashop
      * @return
      */
-    protected String createTOXML(PrestashopProductFeature prestashopProductFeature) {
+    protected String createTOXML(Prestashop Prestashop) {
         try {
-            JAXBContext context = JAXBContext.newInstance(prestashopProductFeature.getClass());
+            JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
             
             StringWriter out = new StringWriter();
             
-            marshaller.marshal(prestashopProductFeature, new StreamResult(out));
+            marshaller.marshal(Prestashop, new StreamResult(out));
             System.out.println(out);
             return out.toString();
         } catch (JAXBException ex) {
-            Logger.getLogger(ProductFeaturePrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProductPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }

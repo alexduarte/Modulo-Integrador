@@ -5,12 +5,12 @@
  */
 package br.com.atsinformatica.erp.controller;
 
+import br.com.atsinformatica.prestashop.model.node.Name;
+import br.com.atsinformatica.prestashop.model.node.LinkRewrite;
+import br.com.atsinformatica.prestashop.model.node.Description;
+import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
-import br.com.atsinformatica.prestashop.model.category.Category;
-import br.com.atsinformatica.prestashop.model.category.Description;
-import br.com.atsinformatica.prestashop.model.category.Language;
-import br.com.atsinformatica.prestashop.model.category.LinkRewrite;
-import br.com.atsinformatica.prestashop.model.category.Name;
+import br.com.atsinformatica.prestashop.model.root.Category;
 import java.util.List;
 
 /**
@@ -66,7 +66,6 @@ public class SubCategoriaController {
         Category category = new Category();
         category.setDescription(d);
         category.setName(n);
-        category.setPosition(1);
         category.setLinkRewrite(linkRewrite);
         category.setIdParent(idParent);
 
