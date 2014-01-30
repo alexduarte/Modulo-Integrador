@@ -5,7 +5,6 @@
 package br.com.atsinformatica.midler.dao;
 
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
-import br.com.atsinformatica.erp.dao.ProdutoERPDAO;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;

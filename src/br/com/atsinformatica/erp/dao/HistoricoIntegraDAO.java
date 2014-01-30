@@ -37,7 +37,7 @@ public class HistoricoIntegraDAO implements GenericERPDAO<HistoricoIntegraERPBea
         try {
             conn = ConexaoATS.conectaERP();
             conn.setAutoCommit(false);
-            String querie = "UPDATE HISTINTECOM SET dataint = ?"
+            String querie = "UPDATE HISTINTEGECOM SET dataint = ?"
                     + " where codentidade = ?";
             pstmt = conn.prepareStatement(querie);
             pstmt.setDate(1, new Date(object.getDataInteg().getTime()));
@@ -69,7 +69,7 @@ public class HistoricoIntegraDAO implements GenericERPDAO<HistoricoIntegraERPBea
         ResultSet rs = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String sql = "select * from histintecom";
+            String sql = "select * from histintegecom";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();
@@ -80,7 +80,6 @@ public class HistoricoIntegraDAO implements GenericERPDAO<HistoricoIntegraERPBea
             return listHistBean;
         } catch (Exception e) {
             return null;
-
         } finally {
             stmt.close();
             rs.close();
@@ -96,22 +95,19 @@ public class HistoricoIntegraDAO implements GenericERPDAO<HistoricoIntegraERPBea
             ParaEcomBean paraEcomBean = new ParaEcomDAO().listaTodos().get(0);
             List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();
             if (paraEcomBean.getQtdMantido() != 0) {
-                String sql = "select first "+ paraEcomBean.getQtdMantido() +" histintecom.* from histintecom "
-                           + "where histintecom.dataint is not null "
-                           + "order by histintecom.dataint desc";
+                String sql = "select first "+ paraEcomBean.getQtdMantido() +" histintegecom.* from histintegecom "
+                           + "where histintegecom.dataint is not null "
+                           + "order by histintegecom.dataint desc";
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(sql);
-
                 while (rs.next()) {
                     HistoricoIntegraERPBean bean = new HistoricoIntegraERPBean(rs);
                     listHistBean.add(bean);
                 }
             }
-
             return listHistBean;
         } catch (Exception e) {
             return null;
-
         } finally {
             stmt.close();
             rs.close();
@@ -130,7 +126,7 @@ public class HistoricoIntegraDAO implements GenericERPDAO<HistoricoIntegraERPBea
         ResultSet rs = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String sql = "select * from histintecom where dataint is null";
+            String sql = "select * from histintegecom where dataint is null";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();

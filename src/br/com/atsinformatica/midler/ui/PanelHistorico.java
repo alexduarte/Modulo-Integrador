@@ -4,13 +4,12 @@
  */
 package br.com.atsinformatica.midler.ui;
 
-import br.com.atsinformatica.erp.controller.ProdutoController;
+import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.midler.dao.IGenericDAO;
 import br.com.atsinformatica.midler.dao.ProdutoDAO;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
@@ -152,7 +151,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-        //iniciaSincronizacao(refreshSincCad());
+        refreshSincCad();
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar
@@ -169,7 +168,13 @@ public class PanelHistorico extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void carregaGridSincronizar() {
+        TableColumn colEnt = jTbSincronizar.getColumnModel().getColumn(3);
+        //TableColumn colInt = jTbSincronizar.getColumnModel().getColumn(4);
+
+        colEnt.setCellRenderer(new DateCellRenderer());
+        //colInt.setCellRenderer(new DateCellRenderer());
         jTbSincronizar.setModel(modelSincronizar);
+        jTbSincronizar.setAutoCreateRowSorter(true);
         modelSincronizar.clear();
         for (int i = 0; i < 19; i++) {
             modelSincronizar.add(null);
@@ -210,14 +215,14 @@ public class PanelHistorico extends javax.swing.JPanel {
      * @param lista Lista de itens a serem sincronizados no ERP ou na loja
      * virtual
      */
-    private void iniciaSincronizacao(List lista) {
+    private void iniciaSincronizacaoLoja(List lista) {
         try {
             if (lista.isEmpty()) {
                 return;
-            }            
-            ProdutoController controller = new ProdutoController();
-            controller.createProductPrestashop((List<ProdutoERPBean>) lista);            
-            atualizaDataInt(lista); 
+            }
+            // ProdutoController controller = new ProdutoController();
+            // controller.createProductPrestashop((List<ProdutoERPBean>) lista);            
+            atualizaDataInt(lista);
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização: " + e);
@@ -230,21 +235,31 @@ public class PanelHistorico extends javax.swing.JPanel {
     private void refreshSincCad() {
         try {
             ///lista de itens pendentes de sincronização
-            List<HistoricoIntegraERPBean> listaHist = new HistoricoIntegraDAO().listaPendentes();
+            List<HistoricoIntegraERPBean> listaPend = new HistoricoIntegraDAO().listaPendentes();
+            List<HistoricoIntegraERPBean> listaUltimos = new HistoricoIntegraDAO().listaUltimosInteg();
             //Lista de itens a sincronizar na loja virtual
             List itens = new ArrayList();
-            modelSincronizar.clear();
-            for (HistoricoIntegraERPBean bean : listaHist) {
-                itens.add(retornaItensSinc(bean));
-                modelSincronizar.add(bean);
-            }
-            if (!itens.isEmpty()) {
-                iniciaSincronizacao(itens);
+            if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
+                modelSincronizar.clear();
+                modelSincronizar.addAll(listaUltimos);
+            } else {
+                for (HistoricoIntegraERPBean bean : listaPend) {
+                    itens.add(retornaItensSinc(bean));
+                    modelSincronizar.add(bean);
+                }
+                iniciaSincronizacaoLoja(itens);
             }
         } catch (Exception e) {
+            logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
         }
     }
 
+    /**
+     * Retorna item a serem sincronizados na loja virtual
+     *
+     * @param bean
+     * @return item ser sincronizado na loja virtual
+     */
     private Object retornaItensSinc(HistoricoIntegraERPBean bean) {
         try {
             Object obj = null;
@@ -256,30 +271,37 @@ public class PanelHistorico extends javax.swing.JPanel {
             }
             return obj;
         } catch (Exception e) {
+            logger.error("Erro ao retornar ítens: " + e);
             return null;
         }
     }
 
     /**
-     * Atualiza data de integração de itens pendentes na tabela de historico de sincronizacao
+     * Atualiza data de integração de itens pendentes na tabela de historico de
+     * sincronizacao
+     *
      * @param lista lista de itens
      */
     private void atualizaDataInt(List lista) {
-       try{
-           HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
-          if(!lista.isEmpty()){
-              for(ProdutoERPBean prodBean : (List<ProdutoERPBean>)lista){
-                  if(prodBean.isImportadoLoja()){
-                      HistoricoIntegraERPBean bean = new HistoricoIntegraERPBean();
-                      bean.setCodEntidade(prodBean.getCodProd());
-                      bean.setDataInteg(new Date());
-                      dao.alterar(bean);
-                  }
-                  
-              }
-          } 
-       }catch(Exception e){
-           
-       }
+        try {
+            HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
+            modelSincronizar.clear();
+            if (!lista.isEmpty()) {
+                for (ProdutoERPBean prodBean : (List<ProdutoERPBean>) lista) {
+                    HistoricoIntegraERPBean bean = null;
+                    // if(prodBean.isImportadoLoja()){
+                    bean = new HistoricoIntegraERPBean();
+                    bean.setCodEntidade(prodBean.getCodProd());
+                    bean.setDataInteg(new Date());
+                    dao.alterar(bean);
+                }
+            }
+            //lista ultimos registros
+            List<HistoricoIntegraERPBean> listaUltimos = dao.listaUltimosInteg();
+            if (!listaUltimos.isEmpty()) {
+                modelSincronizar.addAll(listaUltimos);
+            }
+        } catch (Exception e) {
+        }
     }
 }

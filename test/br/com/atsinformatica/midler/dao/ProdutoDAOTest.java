@@ -44,7 +44,7 @@ public class ProdutoDAOTest extends TestCase {
     
     public static TestSuite suite(){
         TestSuite suite = new TestSuite();
-        suite.addTest(new ProdutoDAOTest("testAbrir"));
+        suite.addTest(new ProdutoDAOTest("testListaTodos"));
         return suite;
     } 
     /**

@@ -50,7 +50,7 @@ public class HistoricoIntegraDAOTest extends TestCase {
     
     public static TestSuite suite(){
         TestSuite suite = new TestSuite();
-        suite.addTest(new HistoricoIntegraDAOTest("testListaUltimosInteg"));
+        suite.addTest(new HistoricoIntegraDAOTest("testListaTodos"));
       //  suite.addTest(new HistoricoIntegraDAOTest("testAlterar"));
         
         return suite;
