@@ -113,7 +113,6 @@ public class CategoriaController {
         Category category = new Category();
         category.setDataAdd(new Date());
         category.setDataUpd(new Date());
-
         LinkRewrite linkRewrite = new LinkRewrite();
         linkRewrite.getLanguage().add(new Language(categoriaERP.toLowerCase()));
         category.setLinkRewrite(linkRewrite);
