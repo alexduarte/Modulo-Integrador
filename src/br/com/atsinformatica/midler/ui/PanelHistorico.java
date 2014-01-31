@@ -151,7 +151,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-        refreshSincCad();
+        //refreshSincCad();
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar
@@ -228,7 +228,7 @@ public class PanelHistorico extends javax.swing.JPanel {
             atualizaDataInt(novaLista);
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização: " + e);
+            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);        
         }
     }
 
