@@ -8,6 +8,7 @@ package br.com.atsinformatica.erp.controller;
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
+import br.com.atsinformatica.prestashop.clientDAO.ProductPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
@@ -20,29 +21,34 @@ import java.util.List;
  */
 public class ProdutoController {
 
-    List<Product> listProduct;
+    List<ProdutoERPBean> listProduct;
 
     /**
      * Adiciona um produto no prestashop e caso possua categoria ele salva em
      * uma existente ou cria uma e associa.
      *
      * @param listProdutoERP
-     * @return 
+     * @return
      */
-    public List<Product> createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
+    public List<ProdutoERPBean> createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
 
         if (listProdutoERP.isEmpty() || listProdutoERP == null) {
             return null;
         } else {
             listProduct = new ArrayList<>();
             for (ProdutoERPBean produtoERPBean : listProdutoERP) {
-                listProduct.add(createProduct(produtoERPBean));
+                if (createProduct(produtoERPBean)) {
+                    produtoERPBean.setImportadoLoja(true);
+                    listProduct.add(produtoERPBean);
+                } else {
+                    listProduct.add(produtoERPBean);
+                }
             }
             return listProduct;
         }
     }
 
-    private Product createProduct(ProdutoERPBean produtoERP) {
+    private boolean createProduct(ProdutoERPBean produtoERP) {
 
         Product p = new Product();
 
@@ -56,11 +62,7 @@ public class ProdutoController {
         p.setPrice(price);
 
         p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(), produtoERP.getSubCategoria()));
-
-        /*
-         *Adicionar os outros itens produtos
-         *
-         */
-        return p;
+        ProductPrestashopDAO productPrestashopDAO = new ProductPrestashopDAO();
+        return productPrestashopDAO.postWithVerification(Product.URLPRODUCTS, p);
     }
 }

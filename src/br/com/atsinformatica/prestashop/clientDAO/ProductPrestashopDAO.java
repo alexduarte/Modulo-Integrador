@@ -13,6 +13,7 @@ import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -41,18 +42,24 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
      *
      * @param path
      * @param t
+     * @return boolean
      */
-    @Override
-    public void post(String path, Product t) {
+    public boolean postWithVerification(String path, Product t) {
+
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
         ClientResponse clientResponse = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
-        System.out.println(clientResponse.getStatus());
+        if (clientResponse.getStatus() == 201) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Adiciona um item e retorna o objeto salvo
+     *
      * @param path
      * @param t
      * @return
@@ -64,7 +71,7 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         Prestashop post = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
         return post.getProduct();
     }
-    
+
     /**
      * Atualiza um item específico de Produto.
      *
@@ -111,6 +118,7 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
         return prestashop.getProduct();
     }
+
     /**
      * Retorna um a WebResource (função obrigatória);
      *
@@ -139,10 +147,10 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         try {
             JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
             Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT,Boolean.TRUE);
-            
+            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
             StringWriter out = new StringWriter();
-            
+
             marshaller.marshal(Prestashop, new StreamResult(out));
             System.out.println(out);
             return out.toString();
@@ -150,5 +158,13 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
             Logger.getLogger(ProductPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
+    }
+
+    @Override
+    public void post(String path, Product t) {
+        Prestashop prestashop = new Prestashop();
+        prestashop.setProduct(t);
+        String xml = createTOXML(prestashop);
+        ClientResponse clientResponse = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
     }
 }
