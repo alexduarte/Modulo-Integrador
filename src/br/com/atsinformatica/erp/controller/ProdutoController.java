@@ -27,15 +27,18 @@ public class ProdutoController {
      * uma existente ou cria uma e associa.
      *
      * @param listProdutoERP
+     * @return 
      */
-    public void createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
+    public List<Product> createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
 
         if (listProdutoERP.isEmpty() || listProdutoERP == null) {
+            return null;
         } else {
             listProduct = new ArrayList<>();
             for (ProdutoERPBean produtoERPBean : listProdutoERP) {
                 listProduct.add(createProduct(produtoERPBean));
             }
+            return listProduct;
         }
     }
 
