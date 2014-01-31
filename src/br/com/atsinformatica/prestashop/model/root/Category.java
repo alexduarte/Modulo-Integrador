@@ -7,6 +7,7 @@ package br.com.atsinformatica.prestashop.model.root;
 
 
 import br.com.atsinformatica.prestashop.model.node.*;
+import br.com.atsinformatica.utils.Funcoes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.xml.bind.annotation.*;
@@ -24,7 +25,7 @@ import javax.xml.bind.annotation.*;
             "active",
             "idShopDefault",
             "isRootCategory",
-            "position",
+            //"position",
             "dataAdd",
             "dataUpd",            
             "name",
@@ -45,8 +46,8 @@ public class Category {
     @XmlElement(name = "active")
     private Short active;
 
-    @XmlElement(name = "position")
-    private Integer position;
+//    @XmlElement(name = "position")
+//    private Integer position;
 
     @XmlElement(name = "date_add")
     private String dataAdd;
@@ -74,7 +75,8 @@ public class Category {
         this.idShopDefault = 1;
         this.active = 1;
         this.isRootCategory = 0;
-        this.position = 0;
+        //this.position = 0;
+        this.idParent = 0;
     }
 
     public String getId() {
@@ -97,9 +99,9 @@ public class Category {
         return active;
     }
 
-    public Integer getPosition() {
-        return position;
-    }
+//    public Integer getPosition() {
+//        return position;
+//    }
 
     public String getDataAdd() {
         return dataAdd;
@@ -116,7 +118,7 @@ public class Category {
 
     public void setDataUpd(Date dataAdd) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.dataAdd = sdf.format(dataAdd);
+        this.dataUpd = sdf.format(dataAdd);
     }
 
     public Short getIdShopDefault() {
@@ -156,6 +158,7 @@ public class Category {
     }
 
     public void setLinkRewrite(LinkRewrite linkRewrite) {
+        linkRewrite.getLanguage().get(0).setContent(Funcoes.ReplaceAcento(linkRewrite.getLanguage().get(0).getContent()));
         this.linkRewrite = linkRewrite;
     }
     
