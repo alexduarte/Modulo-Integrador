@@ -11,7 +11,6 @@ import br.com.atsinformatica.midler.ui.PanelPrincipal;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-
 /**
  *
  * @author AlexsanderPimenta
@@ -25,9 +24,10 @@ public class Main {
         LayoutUtil.configuraLookAndFeel(new NimbusLookAndFeel());
         PanelPrincipal principal = PanelPrincipal.getInstance();
         //verifica se arquivo de configuração existe, caso não exista, dispara mensagem de alerta para que o usuario possa cria-lo
-        if (!PropertiesManager.getFile().exists())
+        if (!PropertiesManager.getFile().exists()) {
             JOptionPane.showMessageDialog(principal, "Antes de utilizar o módulo sincronizador é necessário configurá-lo! Acesse a rotina de configurações\n"
                     + "e certifique-se de que todos os campos obrigatórios foram devidamente preenchidos.");
-            principal.setVisible(true);
+        }
+        principal.setVisible(true);
     }
 }
