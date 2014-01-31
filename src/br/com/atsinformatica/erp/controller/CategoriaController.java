@@ -54,7 +54,7 @@ public class CategoriaController {
     public List<CategoriaERPBean> checkAllCategory() throws SQLException {
 
         List<CategoriaERPBean> listCategoriaERP = new CategoriaERPDAO().listaTodos();
-        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
 
         categoriesNotRegistered = new ArrayList<>();
         for (CategoriaERPBean categoriaERPBean : listCategoriaERP) {
@@ -79,7 +79,7 @@ public class CategoriaController {
             return "";
         } else {
             for (Category categoriaPrestashopBean : listCategoryPrestaShop) {
-                if (categoriaPrestashopBean.getDescription().getTextDescription().equals(descricao)) {
+                if (categoriaPrestashopBean.getName().getTextName().toLowerCase().equals(descricao.toLowerCase())) {
                     return categoriaPrestashopBean.getId();
                 }
             }
@@ -101,7 +101,7 @@ public class CategoriaController {
             return false;
         } else {
             for (Category categoriaPrestashopBean : listCategoryPrestaShop) {
-                if (categoriaPrestashopBean.getDescription().getTextDescription().equals(descricao)) {
+                if (categoriaPrestashopBean.getName().getTextName().toLowerCase().equals(descricao.toLowerCase())) {
                     return true;
                 }
             }

@@ -8,6 +8,7 @@ package br.com.atsinformatica.prestashop.model.root;
 
 
 import br.com.atsinformatica.prestashop.model.node.*;
+import br.com.atsinformatica.utils.Funcoes;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -530,6 +531,8 @@ public class Product {
     }
 
     public void setLinkRewrite(LinkRewrite linkRewrite) {
+        linkRewrite.getLanguage().get(0).setContent(Funcoes.ReplaceAcento(linkRewrite.getLanguage().get(0).getContent()));
+        linkRewrite.getLanguage().get(0).setContent(linkRewrite.getLanguage().get(0).getContent().replaceAll("[ ]+", "-"));
         this.linkRewrite = linkRewrite;
     }
 

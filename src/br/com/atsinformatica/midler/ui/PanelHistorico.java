@@ -151,7 +151,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-        refreshSincCad();
+        //refreshSincCad();
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar

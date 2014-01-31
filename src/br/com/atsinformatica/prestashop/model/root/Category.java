@@ -76,7 +76,7 @@ public class Category {
         this.active = 1;
         this.isRootCategory = 0;
         //this.position = 0;
-        this.idParent = 0;
+        this.idParent = 2;
     }
 
     public String getId() {
@@ -159,6 +159,7 @@ public class Category {
 
     public void setLinkRewrite(LinkRewrite linkRewrite) {
         linkRewrite.getLanguage().get(0).setContent(Funcoes.ReplaceAcento(linkRewrite.getLanguage().get(0).getContent()));
+        linkRewrite.getLanguage().get(0).setContent(linkRewrite.getLanguage().get(0).getContent().replaceAll("[ ]+", "-"));
         this.linkRewrite = linkRewrite;
     }
     

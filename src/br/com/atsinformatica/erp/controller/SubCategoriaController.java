@@ -32,11 +32,11 @@ public class SubCategoriaController {
         if (subCategoriaERP.isEmpty()) {
             return idParent;
         }
-        int idPai = 0;
+        int idPai = idParent;
         String listsubCategoria[] = subCategoriaERP.split("/");
-        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
+        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
         for (String subCategoria : listsubCategoria) {
-            idPai = checksCategoryExists(subCategoria, listCategoryPrestaShop,idParent);    
+            idPai = checksCategoryExists(subCategoria, listCategoryPrestaShop,idPai);    
             }
         return idPai;
     }
@@ -78,7 +78,7 @@ public class SubCategoriaController {
             return createOnPrestaShop(descricao, idParent);
         } else {
             for (Category categoriaPrestashopBean : listCategoryPrestaShop) {
-                if (categoriaPrestashopBean.getDescription().getTextDescription().equals(descricao)) {
+                if (categoriaPrestashopBean.getName().getTextName().toLowerCase().equals(descricao.toLowerCase())) {
                     return Integer.parseInt(categoriaPrestashopBean.getId());
                 }
             }

@@ -49,7 +49,7 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        ClientResponse clientResponse = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
+        ClientResponse clientResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
         if (clientResponse.getStatus() == 201) {
             return true;
         } else {
@@ -68,7 +68,7 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        Prestashop post = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
+        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
         return post.getProduct();
     }
 
@@ -165,6 +165,6 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        ClientResponse clientResponse = getWebResource().path("product_features").type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
+        ClientResponse clientResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
     }
 }

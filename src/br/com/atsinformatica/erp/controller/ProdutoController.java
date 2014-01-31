@@ -58,9 +58,11 @@ public class ProdutoController {
         Price price = new Price();
         price.setContent(produtoERP.getPreco().toString());
 
+        LinkRewrite linkRewrite = new LinkRewrite();
+        linkRewrite.getLanguage().add(new Language(produtoERP.getDescricao()));
         p.setName(name);
         p.setPrice(price);
-
+        p.setLinkRewrite(linkRewrite);
         p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(), produtoERP.getSubCategoria()));
         ProductPrestashopDAO productPrestashopDAO = new ProductPrestashopDAO();
         return productPrestashopDAO.postWithVerification(Product.URLPRODUCTS, p);
