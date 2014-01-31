@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,12 +35,13 @@ public class CategoriaController {
     public int createCategoryAndSubCategoryPrestashop(String categoriaERP, String subCategoriaERP) {
 
         List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
-        if (!checksCategoryExists(categoriaERP, listCategoryPrestaShop)) {
+        String idParent = checksCategoryExists(categoriaERP, listCategoryPrestaShop);
+        if (idParent.isEmpty()) {
             return new SubCategoriaController().createSubCategoryPrestaShop(new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(categoriaERP)),subCategoriaERP);
         } else {
-            //JOptionPane.showConfirmDialog(null, "Categoria já existente no sistema");
-            return 0;
+            return new SubCategoriaController().createSubCategoryPrestaShop(Integer.valueOf(idParent),subCategoriaERP);
         }  
+        
     }
 
     /**
@@ -58,7 +58,7 @@ public class CategoriaController {
 
         categoriesNotRegistered = new ArrayList<>();
         for (CategoriaERPBean categoriaERPBean : listCategoriaERP) {
-            if (!checksCategoryExists(categoriaERPBean.getDescricao(), listCategoryPrestaShop)) {
+            if (!checksCategoryExistsAll(categoriaERPBean.getDescricao(), listCategoryPrestaShop)) {
                 categoriesNotRegistered.add(categoriaERPBean);
             }
         }
@@ -73,7 +73,29 @@ public class CategoriaController {
      * @param listPrestashop
      * @return boolean
      */
-    private boolean checksCategoryExists(String descricao, List<Category> listCategoryPrestaShop) {
+    private String checksCategoryExists(String descricao, List<Category> listCategoryPrestaShop) {
+
+        if (listCategoryPrestaShop.isEmpty()) {
+            return "";
+        } else {
+            for (Category categoriaPrestashopBean : listCategoryPrestaShop) {
+                if (categoriaPrestashopBean.getDescription().getTextDescription().equals(descricao)) {
+                    return categoriaPrestashopBean.getId();
+                }
+            }
+            return "";
+        }
+    }
+
+    /**
+     * Compara o descrição de um item no ERP com o do presta e verifica se o
+     * mesmo existe no Prestashop
+     *
+     * @param descricao
+     * @param listPrestashop
+     * @return boolean
+     */
+    private boolean checksCategoryExistsAll(String descricao, List<Category> listCategoryPrestaShop) {
 
         if (listCategoryPrestaShop.isEmpty()) {
             return false;
@@ -86,7 +108,7 @@ public class CategoriaController {
             return false;
         }
     }
-
+    
     private Category addCategoryPrestashop(String categoriaERP) {
         Category category = new Category();
         category.setDataAdd(new Date());
