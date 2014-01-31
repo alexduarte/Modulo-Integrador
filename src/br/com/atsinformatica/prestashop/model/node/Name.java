@@ -6,6 +6,7 @@
 
 package br.com.atsinformatica.prestashop.model.node;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,11 +30,10 @@ public class Name {
     protected List<Language> language;
 
     public List<Language> getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(List<Language> language) {
-        this.language = language;
+        if (language == null) {
+            language = new ArrayList<Language>();
+        }
+        return this.language;
     }
 
     @Override

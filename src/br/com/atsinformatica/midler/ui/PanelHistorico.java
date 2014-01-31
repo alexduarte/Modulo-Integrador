@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.midler.ui;
 
+import br.com.atsinformatica.erp.controller.ProdutoController;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
@@ -167,7 +168,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     private javax.swing.JLabel title_historico;
     // End of variables declaration//GEN-END:variables
 
-    private void carregaGridSincronizar() {   
+    private void carregaGridSincronizar() {
         //TableColumn colInt = jTbSincronizar.getColumnModel().getColumn(4);   
         //colInt.setCellRenderer(new DateCellRenderer());
         jTbSincronizar.setModel(modelSincronizar);
@@ -222,9 +223,10 @@ public class PanelHistorico extends javax.swing.JPanel {
             if (lista.isEmpty()) {
                 return;
             }
-            // ProdutoController controller = new ProdutoController();
-            // controller.createProductPrestashop((List<ProdutoERPBean>) lista);            
-            atualizaDataInt(lista);
+            ProdutoController controller = new ProdutoController();
+            //controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            atualizaDataInt(novaLista);
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização: " + e);
@@ -291,11 +293,12 @@ public class PanelHistorico extends javax.swing.JPanel {
             if (!lista.isEmpty()) {
                 for (ProdutoERPBean prodBean : (List<ProdutoERPBean>) lista) {
                     HistoricoIntegraERPBean bean = null;
-                    // if(prodBean.isImportadoLoja()){
-                    bean = new HistoricoIntegraERPBean();
-                    bean.setCodEntidade(prodBean.getCodProd());
-                    bean.setDataInteg(new Date());
-                    dao.alterar(bean);
+                    if (prodBean.isImportadoLoja()) {
+                        bean = new HistoricoIntegraERPBean();
+                        bean.setCodEntidade(prodBean.getCodProd());
+                        bean.setDataInteg(new Date());
+                        dao.alterar(bean);
+                    }
                 }
             }
             //lista ultimos registros
