@@ -726,7 +726,7 @@ public class Funcoes {
                 .replace('Ç', 'C')
                 .replace('ñ', 'n')
                 .replace('Ñ', 'N')
-                .replaceAll("[^a-zA-Z]", " ");
+                .replaceAll("[^a-zA-Z0-9]", " ");
 
         return acentos;
     }
