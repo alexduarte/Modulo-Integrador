@@ -5,7 +5,9 @@
  */
 package br.com.atsinformatica.TEST;
 
+import br.com.atsinformatica.erp.controller.ProdutoController;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
+import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.prestashop.model.root.Category;
 import java.util.List;
 
@@ -19,10 +21,13 @@ public class Main {
 
         //--------NOVO----------------//
         CategoryPrestashopDAO daoC = new CategoryPrestashopDAO();
-        List<Category> get = daoC.get(Category.URLCATEGORY);
+        //List<Category> get = daoC.get(Category.URLCATEGORY);
         Category category = daoC.getId(Category.URLCATEGORY,4);
         category.setId(null);
+        category.getName().getLanguage().remove(0);
+        category.getName().getLanguage().add(new Language("calcados"));
         daoC.post(Category.URLCATEGORY, category);
+        
     }
 
 }
