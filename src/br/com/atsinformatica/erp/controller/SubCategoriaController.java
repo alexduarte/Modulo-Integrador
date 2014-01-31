@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class SubCategoriaController {
 
-    int idPai = 0;
+    
 
     /**
      * Cria uma as subcategorias no prestashop
@@ -32,7 +32,7 @@ public class SubCategoriaController {
         if (subCategoriaERP.isEmpty()) {
             return idParent;
         }
-        
+        int idPai = 0;
         String listsubCategoria[] = subCategoriaERP.split("/");
         List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get("categories/");
         for (String subCategoria : listsubCategoria) {
