@@ -7,8 +7,8 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
-import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
-import br.com.atsinformatica.prestashop.api.PrestashopItens;
+import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
+import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
 import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
@@ -91,7 +91,6 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
     public List<Product> get(String path) {
 
         PrestashopItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(PrestashopItens.class);
-
         List<Product> listProdFeature = new ArrayList<>();
         for (AccessXMLAttribute attribute : getListItens.getProducts().getProduct()) {
             Prestashop prestashop = getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(Prestashop.class);

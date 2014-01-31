@@ -6,7 +6,7 @@
 //
 
 
-package br.com.atsinformatica.prestashop.api;
+package br.com.atsinformatica.prestashop.model.list.prestashop;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -38,64 +38,18 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
+@XmlType(name = "categories",propOrder = "id")
 public class AccessXMLAttribute {
 	
-    @XmlAttribute(name = "href", namespace = "http://www.w3.org/1999/xlink", required = true)
-    @XmlSchemaType(name = "anyURI")
-    protected String href;
     @XmlAttribute(name = "id", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    @XmlSchemaType(name = "NMTOKEN")
-    protected String identifier;
-
-    /**
-     * Obtiene el valor de la propiedad href.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-   
-    public String getHref() {
-        return href;
-    }
-
-    /**
-     * Define el valor de la propiedad href.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setHref(String value) {
-        this.href = value;
-    }
-
-    /**
-     * Obtiene el valor de la propiedad id.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+    protected String id;
+    
     public String getId() {
-        return identifier;
+        return id;
     }
 
-    /**
-     * Define el valor de la propiedad id.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {
-        this.identifier = value;
+    public void setId(String id) {
+        this.id = id;
     }
-
 }

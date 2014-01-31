@@ -1,10 +1,11 @@
-package br.com.atsinformatica.prestashop.api;
+package br.com.atsinformatica.prestashop.model.list.prestashop;
 
-import br.com.atsinformatica.prestashop.list.Categories;
-import br.com.atsinformatica.prestashop.list.ProductFeatures;
-import br.com.atsinformatica.prestashop.list.Products;
+import br.com.atsinformatica.prestashop.model.list.Categories;
+import br.com.atsinformatica.prestashop.model.list.ProductFeatures;
+import br.com.atsinformatica.prestashop.model.list.Products;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -18,6 +19,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "prestashop")
 public class PrestashopItens {
 
+    @XmlAttribute(name = "xmlns:xlink", required = true)
+    protected String xmlns = "http://www.w3.org/1999/xlink";
+    
     @XmlElement(name = "product_features")
     protected ProductFeatures productFeatures;
     

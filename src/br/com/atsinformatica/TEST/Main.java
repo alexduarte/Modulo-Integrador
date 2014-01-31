@@ -21,7 +21,8 @@ public class Main {
         CategoryPrestashopDAO daoC = new CategoryPrestashopDAO();
         List<Category> get = daoC.get(Category.URLCATEGORY);
         Category category = daoC.getId(Category.URLCATEGORY,4);
-
+        category.setId(null);
+        daoC.post(Category.URLCATEGORY, category);
     }
 
 }

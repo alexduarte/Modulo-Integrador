@@ -7,8 +7,8 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
-import br.com.atsinformatica.prestashop.api.AccessXMLAttribute;
-import br.com.atsinformatica.prestashop.api.PrestashopItens;
+import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
+import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
 import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Category;
 import com.sun.jersey.api.client.Client;
@@ -88,12 +88,10 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
     public List<Category> get(String path) {
 
         PrestashopItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(PrestashopItens.class);
-
         List<Category> listCategory = new ArrayList<>();
-        for (AccessXMLAttribute attribute : getListItens.getCategories().getCategory()) {
-            Prestashop prestashop = getWebResource().path(path).path(attribute.getId()).type(MediaType.APPLICATION_XML).get(Prestashop.class);
-            listCategory.add(prestashop.getCategory());
-
+        for (AccessXMLAttribute accessXMLAttribute : getListItens.getCategories().getCategory()) {
+            Prestashop prestashop = getWebResource().path(path).path(accessXMLAttribute.getId()).type(MediaType.APPLICATION_XML).get(Prestashop.class);
+            listCategory.add(prestashop.getCategory());  
         }
         return listCategory;
     }
