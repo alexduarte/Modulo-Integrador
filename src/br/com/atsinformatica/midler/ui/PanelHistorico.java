@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
  */
 public class PanelHistorico extends javax.swing.JPanel {
     //Resolver para grid sincronizar
-
     private AnnotationResolver resolverSinc = new AnnotationResolver(HistoricoIntegraERPBean.class);
     private String fields = "id,entidade,codEntidade,dataEnt,dataInteg";
     //model para grid  sincronizar

@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.erp.entity;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -39,7 +40,7 @@ public class ProdutoERPBean {
         
     }
 
-    public ProdutoERPBean(ResultSet rs) throws SQLException {
+    public ProdutoERPBean(ResultSet rs) throws SQLException, UnsupportedEncodingException {
         this.codProd = rs.getString("codprod");
         this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
         this.descricao = rs.getString("descricao");

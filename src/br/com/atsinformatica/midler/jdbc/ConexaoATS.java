@@ -89,7 +89,7 @@ public class ConexaoATS {
             String senhaDecrypt = bt.decrypt(PropertiesManager.getConfig().getProperty("erp.senha"));
             logger.info("Conectando...");
             Class.forName("org.firebirdsql.jdbc.FBDriver").newInstance();
-            setConnection(DriverManager.getConnection("jdbc:firebirdsql://" + diretorio, usuario, senhaDecrypt));
+            setConnection(DriverManager.getConnection("jdbc:firebirdsql://" + diretorio+"?encoding=ISO8859_1", usuario, senhaDecrypt));
             setStmt(getConnection().createStatement());
             logger.info("Conectado com sucesso!");
             return getConnection();
