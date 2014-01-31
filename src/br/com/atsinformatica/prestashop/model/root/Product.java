@@ -62,6 +62,8 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "product")
 public class Product {
 
+    public static String URLPRODUCTS = "products/";
+    
     @XmlElement(name = "id", required = true)
     protected Id id;
 //    @XmlElement(name = "id_manufacturer")
