@@ -4,7 +4,6 @@
  */
 package br.com.atsinformatica.utils;
 
-
 import java.awt.AWTKeyStroke;
 import java.awt.Component;
 import java.awt.Graphics2D;
@@ -53,14 +52,13 @@ import javax.swing.text.MaskFormatter;
 import org.codehaus.plexus.util.Base64;
 import sun.misc.BASE64Decoder;
 
-
 /**
  *
  * @author AlexsanderPimenta
  */
 public class Funcoes {
 
-   // private static Logger logger = Logger.getLogger(Funcoes.class.getName());
+    // private static Logger logger = Logger.getLogger(Funcoes.class.getName());
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
     public static final int MOEDA = 1;
@@ -72,9 +70,8 @@ public class Funcoes {
     private static final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
 //    public static List<GridGradeComposta> removeDuplicateWithOrder(List<GridGradeComposta> lista) {
-  //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-   // }
-
+    //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    // }
     private Funcoes() {
     }
 
@@ -159,15 +156,16 @@ public class Funcoes {
                 JTextArea field = (JTextArea) c;
                 field.setFocusable(habDesab);
             }
-           /** if(c instanceof com.jidesoft.swing.CheckBoxList){
-                CheckBoxList checkBox = (com.jidesoft.swing.CheckBoxList)c;
-                
-                checkBox.setEnabled(habDesab);
-                checkBox.setFocusable(habDesab);
-                checkBox.setCheckBoxEnabled(habDesab);
-            }**/
-            if(c instanceof JCheckBox){
-                JCheckBox checkBox = (JCheckBox)c;
+            /**
+             * if(c instanceof com.jidesoft.swing.CheckBoxList){ CheckBoxList
+             * checkBox = (com.jidesoft.swing.CheckBoxList)c;
+             *
+             * checkBox.setEnabled(habDesab); checkBox.setFocusable(habDesab);
+             * checkBox.setCheckBoxEnabled(habDesab);
+            }*
+             */
+            if (c instanceof JCheckBox) {
+                JCheckBox checkBox = (JCheckBox) c;
                 checkBox.setEnabled(habDesab);
             }
 //            if(c instanceof HTMLEditorPane){
@@ -179,18 +177,16 @@ public class Funcoes {
 //                JTable table = (JTable)c;
 //                table.setEnabled(habDesab);
 //            }
-            if(c instanceof JButton){
-                JButton button = (JButton)c;
+            if (c instanceof JButton) {
+                JButton button = (JButton) c;
                 button.setEnabled(habDesab);
             }
 //            if(c instanceof JXDatePicker){
 //                JXDatePicker dateP = (JXDatePicker)c;
 //                dateP.setEnabled(habDesab);
 //            }
-                
+
         }
-
-
 
     }
 
@@ -257,7 +253,6 @@ public class Funcoes {
 
         HashSet conj = new HashSet(panel.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
 
-
         for (int i = 0; i < panel.getComponentCount(); i++) {
 
             Component c = panel.getComponent(i);
@@ -268,8 +263,6 @@ public class Funcoes {
                 //panel.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, conj);
 
                 //}
-
-
             }
 
         }
@@ -278,26 +271,26 @@ public class Funcoes {
 
     public static void passaCamposComEnter(JFrame frame) {
 
-
         // Colocando enter para pular de campo  
         HashSet conj = new HashSet(frame.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
         conj.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_ENTER, 0));
         //setando a chave de foco em um frame, para ENTER
         frame.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, conj);
 
-
-
     }
 
     public static Short retornaValorNum(Boolean value) {
-        if (value) return 1;       
+        if (value) {
+            return 1;
+        }
         return 0;
-        
+
     }
-    
-    public static String retornaStrBol(Boolean value){
-        if(value)
+
+    public static String retornaStrBol(Boolean value) {
+        if (value) {
             return "Sim";
+        }
         return "Nao";
     }
 
@@ -329,14 +322,13 @@ public class Funcoes {
     public static void setaAcaoBotao(JButton btn) {
         btn.registerKeyboardAction(
                 btn.getActionForKeyStroke(
-                KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
+                        KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
                 JComponent.WHEN_FOCUSED);
 
-
         btn.registerKeyboardAction(
                 btn.getActionForKeyStroke(
-                KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
+                        KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true),
                 JComponent.WHEN_FOCUSED);
 
@@ -361,16 +353,16 @@ public class Funcoes {
      * @param i posição
      * @return a string em uma determinada posição
      */
-/**    public static FileName retornaStrDir(String diretorio) {
-        FileName file = new FileName(diretorio, '/', '.');
-        return file;
-    }**/
+    /**
+     * public static FileName retornaStrDir(String diretorio) { FileName file =
+     * new FileName(diretorio, '/', '.'); return file;
+    }*
+     */
 //    
 //    public static String retornaNomeEcom(String diretorio){
 //        String str = diretorio;
 //        String tx[]
 //    }
-
     public static String formataCampoMoeda(String valor) {
         DecimalFormat decimalFormat = new DecimalFormat("R$ #,##0.00");
 
@@ -398,7 +390,6 @@ public class Funcoes {
         while (txt.contains(" ")) {
             txt = txt.replaceAll(" ", " ").trim();
         }
-
 
         StringBuffer sb = new StringBuffer(txt);
 
@@ -635,7 +626,7 @@ public class Funcoes {
     }
 //---------------------------------------------------------------------------------------------//
 
-public static BufferedImage resizeImg(BufferedImage img, int width, int height) {
+    public static BufferedImage resizeImg(BufferedImage img, int width, int height) {
 
         if ((width > 0 && height == 0) || (width == 0 && height > 0)) {
             int size = (width > 0) ? width : height;
@@ -718,27 +709,25 @@ public static BufferedImage resizeImg(BufferedImage img, int width, int height) 
 //
 //    }
     //CORREÇÃO DOS ACENTOS
-
     public static String ReplaceAcento(String acentos) {
 
         //String acentos = "À,Â,È,É,Ê,Ë,Ï,Î,Ô,Û,Ù,à,â,è,é,ê,ë,ï,î,ô,û,ù";
+        acentos = acentos.replaceAll("[ãâàáä]", "a")
+                .replaceAll("[êèéë&]", "e")
+                .replaceAll("[îìíï]", "i")
+                .replaceAll("[õôòóö]", "o")
+                .replaceAll("[ûúùü]", "u")
+                .replaceAll("[ÃÂÀÁÄ]", "A")
+                .replaceAll("[ÊÈÉË]", "E")
+                .replaceAll("[ÎÌÍÏ]", "I")
+                .replaceAll("[ÕÔÒÓÖ]", "O")
+                .replaceAll("[ÛÙÚÜ]", "U")
+                .replace('ç', 'c')
+                .replace('Ç', 'C')
+                .replace('ñ', 'n')
+                .replace('Ñ', 'N')
+                .replaceAll("[^a-zA-Z0-9]", " ");
 
-        acentos = acentos.replaceAll("[èéêë]", "e");
-        acentos = acentos.replaceAll("[ûùüú]", "u");
-        acentos = acentos.replaceAll("[ïîíì]", "i");
-        acentos = acentos.replaceAll("[àâáã]", "a");
-        acentos = acentos.replaceAll("[ôóòõ]", "o");
-
-        acentos = acentos.replaceAll("[ÈÉÊË]", "E");
-        acentos = acentos.replaceAll("[ÛÙÜÚ]", "U");
-        acentos = acentos.replaceAll("[ÏÎÌÍ]", "I");
-        acentos = acentos.replaceAll("[ÀÂÃÁ]", "A");
-        acentos = acentos.replaceAll("[ÔÕÓÒ]", "O");
-
-        acentos = acentos.replaceAll("ç", "c");
-        acentos = acentos.replaceAll("Ç", "C");
-
-        //JOptionPane.showMessageDialog(null, acentos);
         return acentos;
     }
 
@@ -770,15 +759,13 @@ public static BufferedImage resizeImg(BufferedImage img, int width, int height) 
 //            logger.error("Erro ao redimensionar imagem: " + e);
 //
 //        }
-  ///  }
-    
-    
-    public static void validaData(String dateStr){
-        try{
+    ///  }
+    public static void validaData(String dateStr) {
+        try {
             Date data = df.parse(dateStr);
-           // return data;
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"Formato de data incorreto, redigite novamente");
+            // return data;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Formato de data incorreto, redigite novamente");
             return;
         }
     }

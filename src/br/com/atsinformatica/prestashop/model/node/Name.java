@@ -41,5 +41,12 @@ public class Name {
         return "Name{" + "language=" + language + '}';
     }
     
+    /**
+     * Retorna String em do language 1
+     * @return String default
+     */
+    public String getTextName(){
+        return language.get(0).getContent();
+    }
     
 }
