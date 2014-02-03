@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
  */
 public class PanelHistorico extends javax.swing.JPanel {
     //Resolver para grid sincronizar
+
     private AnnotationResolver resolverSinc = new AnnotationResolver(HistoricoIntegraERPBean.class);
     private String fields = "id,entidade,codEntidade,dataEnt,dataInteg";
     //model para grid  sincronizar
@@ -151,7 +152,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
-        //refreshSincCad();
+        refreshSincCad();
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar
@@ -209,54 +210,33 @@ public class PanelHistorico extends javax.swing.JPanel {
             logger.error("Erro ao setar timer de sincronização: " + e);
         }
     }
-
-    /**
-     * Recebe lista de itens a serem sincronizados e inicia processo de
-     * sincronização
-     *
-     * @param lista Lista de itens a serem sincronizados no ERP ou na loja
-     * virtual
-     */
-    private void iniciaSincronizacaoLoja(List lista) {
-        try {
-            if (lista.isEmpty()) {
-                return;
-            }
-            ProdutoController controller = new ProdutoController();
-            //controller.createProductPrestashop((List<ProdutoERPBean>) lista);
-            List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
-            atualizaDataInt(novaLista);
-            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);        
-        }
-    }
-
-    /**
+    
+      /**
      * Inicia processo de preparação de ítens para sincronização
      */
     private void refreshSincCad() {
         try {
+            modelSincronizar.clear();
             ///lista de itens pendentes de sincronização
             List<HistoricoIntegraERPBean> listaPend = new HistoricoIntegraDAO().listaPendentes();
+            //lista de ultimos itens sincronizados na loja virtual
             List<HistoricoIntegraERPBean> listaUltimos = new HistoricoIntegraDAO().listaUltimosInteg();
             //Lista de itens a sincronizar na loja virtual
             List itens = new ArrayList();
             if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
-                modelSincronizar.clear();
                 modelSincronizar.addAll(listaUltimos);
             } else {
                 for (HistoricoIntegraERPBean bean : listaPend) {
                     itens.add(retornaItensSinc(bean));
                     modelSincronizar.add(bean);
                 }
-                iniciaSincronizacaoLoja(itens);
+                //iniciaSincronizacaoLoja(itens);
             }
         } catch (Exception e) {
             logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
         }
     }
-
+    
     /**
      * Retorna item a serem sincronizados na loja virtual
      *
@@ -279,6 +259,28 @@ public class PanelHistorico extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Recebe lista de itens a serem sincronizados e inicia processo de
+     * sincronização
+     *
+     * @param lista Lista de itens a serem sincronizados no ERP ou na loja
+     * virtual
+     */
+    private void iniciaSincronizacaoLoja(List lista) {
+        try {
+            if (lista.isEmpty()) {
+                return;
+            }
+            ProdutoController controller = new ProdutoController();
+            //controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            atualizaDataInt(novaLista);
+            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
+        }
+    }
+    
     /**
      * Atualiza data de integração de itens pendentes na tabela de historico de
      * sincronizacao

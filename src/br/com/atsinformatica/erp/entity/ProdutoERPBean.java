@@ -33,6 +33,7 @@ public class ProdutoERPBean {
     private String categoria;
     private String subCategoria;
     private boolean importadoLoja;
+    private ProdImgBean  media;
     
     
     public ProdutoERPBean(){
@@ -60,6 +61,7 @@ public class ProdutoERPBean {
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
         this.setImportadoLoja(false);
+        
        
     }  
     /**
@@ -331,6 +333,20 @@ public class ProdutoERPBean {
      */
     public void setImportadoLoja(boolean importadoLoja) {
         this.importadoLoja = importadoLoja;
+    }
+
+    /**
+     * @return the media
+     */
+    public ProdImgBean getMedia() {
+        return media;
+    }
+
+    /**
+     * @param media the media to set
+     */
+    public void setMedia(ProdImgBean media) {
+        this.media = media;
     }
        
     
