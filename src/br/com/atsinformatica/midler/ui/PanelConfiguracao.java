@@ -137,6 +137,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        fields1 = new com.thoughtworks.xstream.core.util.Fields();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -755,9 +756,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
     private void jBTSelecionaDirErp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBTSelecionaDirErp1ActionPerformed
         JFileChooser chooser = new JFileChooser();
-
         int returnVal = chooser.showOpenDialog(null);
-
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             FileERPBean file = new FileERPBean();
             file.setCaminho(chooser.getSelectedFile().getAbsolutePath());
@@ -808,6 +807,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jtQtdemantFocusLost
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private com.thoughtworks.xstream.core.util.Fields fields1;
     private javax.swing.JButton jBConexao;
     private javax.swing.JButton jBTSelecionaDirErp1;
     private javax.swing.JButton jBalterar;
