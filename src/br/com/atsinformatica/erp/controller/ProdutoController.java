@@ -49,15 +49,11 @@ public class ProdutoController {
     }
 
     private boolean createProduct(ProdutoERPBean produtoERP) {
-
         Product p = new Product();
-
         Name name = new Name();
         name.getLanguage().add(new Language(produtoERP.getDescricao()));
-
         Price price = new Price();
         price.setContent(produtoERP.getPreco().toString());
-
         LinkRewrite linkRewrite = new LinkRewrite();
         linkRewrite.getLanguage().add(new Language(produtoERP.getDescricao()));
         p.setName(name);
