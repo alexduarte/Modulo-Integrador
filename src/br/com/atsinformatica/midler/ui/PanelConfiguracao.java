@@ -137,7 +137,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
-        fields1 = new com.thoughtworks.xstream.core.util.Fields();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -177,7 +176,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jBalterar = new javax.swing.JButton();
         jBincluir = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel14.setText("Senha:");
@@ -807,7 +806,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jtQtdemantFocusLost
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private com.thoughtworks.xstream.core.util.Fields fields1;
     private javax.swing.JButton jBConexao;
     private javax.swing.JButton jBTSelecionaDirErp1;
     private javax.swing.JButton jBalterar;

@@ -2,10 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.midler.dao;
+package br.com.atsinformatica.erp.dao;
 
-import br.com.atsinformatica.erp.dao.ParaEcomDAO;
-import br.com.atsinformatica.erp.dao.ProdImgDAO;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdImgBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;

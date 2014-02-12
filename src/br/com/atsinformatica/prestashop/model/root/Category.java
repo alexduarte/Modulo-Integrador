@@ -71,7 +71,7 @@ public class Category {
     private LinkRewrite linkRewrite;
 
     public Category() {
-        
+        //this.id = String.valueOf(70);        
         this.idShopDefault = 1;
         this.active = 1;
         this.isRootCategory = 0;

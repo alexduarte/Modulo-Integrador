@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author AlexsanderPimenta
  */
-public class HistoricoIntegraDAO implements GenericERPDAO<HistoricoIntegraERPBean> {
+public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean> {
 
     private static Logger logger = Logger.getLogger(HistoricoIntegraDAO.class);
     private Connection conn;

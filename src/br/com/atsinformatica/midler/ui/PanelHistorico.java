@@ -11,7 +11,7 @@ import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.midler.dao.ProdutoDAO;
+import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.util.ArrayList;
@@ -210,8 +210,8 @@ public class PanelHistorico extends javax.swing.JPanel {
             logger.error("Erro ao setar timer de sincronização: " + e);
         }
     }
-    
-      /**
+
+    /**
      * Inicia processo de preparação de ítens para sincronização
      */
     private void refreshSincCad() {
@@ -230,13 +230,13 @@ public class PanelHistorico extends javax.swing.JPanel {
                     itens.add(retornaItensSinc(bean));
                     modelSincronizar.add(bean);
                 }
-                //iniciaSincronizacaoLoja(itens);
+                iniciaSincronizacaoLoja(itens);
             }
         } catch (Exception e) {
             logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
         }
     }
-    
+
     /**
      * Retorna item a serem sincronizados na loja virtual
      *
@@ -272,7 +272,6 @@ public class PanelHistorico extends javax.swing.JPanel {
                 return;
             }
             ProdutoController controller = new ProdutoController();
-            //controller.createProductPrestashop((List<ProdutoERPBean>) lista);
             List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
             atualizaDataInt(novaLista);
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
@@ -280,7 +279,7 @@ public class PanelHistorico extends javax.swing.JPanel {
             logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
         }
     }
-    
+
     /**
      * Atualiza data de integração de itens pendentes na tabela de historico de
      * sincronizacao

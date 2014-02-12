@@ -5,7 +5,6 @@
 package br.com.atsinformatica.erp.dao;
 
 import br.com.atsinformatica.erp.entity.ProdImgBean;
-import br.com.atsinformatica.midler.dao.IGenericDAO;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,10 +61,7 @@ public class ProdImgDAO implements IGenericDAO<ProdImgBean> {
             rs.close();
             pstmt.close();
             conn.close();
-        }
-        
-        
-    
+        }   
     }
 
     @Override

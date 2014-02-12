@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.atsinformatica.prestashop.model.root;
 
 import br.com.atsinformatica.prestashop.model.node.Name;
@@ -21,21 +20,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
         name = "product_feature",
-        propOrder = {"id","position","name"}
-)
+        propOrder = {"id", "position", "name"})
 public class ProductFeature {
-    
+
     @XmlElement(name = "id")
     private String id;
- 
     @XmlElement(name = "position")
     private String position;
- 
     @XmlElement(name = "name")
     private Name name;
- 
+
     //Gerar métodos get/set
-        public String getId() {
+    public String getId() {
         return id;
     }
 
