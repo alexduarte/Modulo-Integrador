@@ -101,7 +101,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMainPanel.setLayout(jMainPanelLayout);
         jMainPanelLayout.setHorizontalGroup(
             jMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1263, Short.MAX_VALUE)
         );
         jMainPanelLayout.setVerticalGroup(
             jMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
