@@ -7,7 +7,7 @@
 *.jar
 *.properties
 
-config
+config.ini
 # Ignorar todos os diretórios e arquivos em um diretório.
 tmp/**/* 
 lib/*
