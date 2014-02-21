@@ -303,8 +303,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
     private void JHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHistoricoActionPerformed
         jMainPanel.removeAll();
-        jMainPanel.updateUI();
-        
+        jMainPanel.updateUI();        
         this.setjStatus("Histórico de sincronizações");
         panelHistorico = new PanelHistorico();
         panelHistorico.setSize(this.getWidth(), 495);
@@ -314,7 +313,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_JHistoricoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        jMainPanel.removeAll();
+        jMainPanel.updateUI();
         PanelListaPedidos panelListaPedidos = new PanelListaPedidos();
         panelListaPedidos.setSize(this.getWidth(), 495);
         jMainPanel.add(panelListaPedidos);
