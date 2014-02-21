@@ -108,7 +108,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         //atualiza ui
         this.updateUI();
 
-        setBorder(null);
+        setBorder(null); 
 
     }//GEN-LAST:event_jBfecharActionPerformed
 
