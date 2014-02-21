@@ -1506,3 +1506,6 @@
 2014-02-12 10:59:36,556 (ConexaoATS.java:94) INFO Thread-2 br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
 2014-02-12 10:59:36,558 (ParaUrlDAO.java:148) INFO Thread-2 br.com.atsinformatica.erp.dao.ParaUrlDAO - Lista de url retornada com sucesso.
 2014-02-12 10:59:36,623 (PanelHistorico.java:279) ERROR Thread-2 br.com.atsinformatica.midler.ui.PanelHistorico - Erro ao efetuar sincronização na loja virtual: com.sun.jersey.api.client.UniformInterfaceException: POST http://localhost/prestashop/api/categories/ returned a response status of 400 Bad Request
+2014-02-21 08:51:03,686 (ConexaoATS.java:90) INFO AWT-EventQueue-0 br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectando...
+2014-02-21 08:51:04,646 (ConexaoATS.java:94) INFO AWT-EventQueue-0 br.com.atsinformatica.midler.jdbc.ConexaoATS - Conectado com sucesso!
+2014-02-21 08:51:04,909 (ParaEcomDAO.java:157) INFO AWT-EventQueue-0 br.com.atsinformatica.erp.dao.ParaEcomDAO - Lista de parametros, retornada com sucesso!
