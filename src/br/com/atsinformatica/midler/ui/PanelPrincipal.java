@@ -159,6 +159,11 @@ public class PanelPrincipal extends javax.swing.JFrame {
         );
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/Accounting-Purchase-order-icon.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Inicial");
 
@@ -307,6 +312,14 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMainPanel.add(panelHistorico);
         jMainPanel.validate();
     }//GEN-LAST:event_JHistoricoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        PanelListaPedidos panelListaPedidos = new PanelListaPedidos();
+        panelListaPedidos.setSize(this.getWidth(), 495);
+        jMainPanel.add(panelListaPedidos);
+        jMainPanel.validate();       
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
