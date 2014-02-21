@@ -54,8 +54,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         bt.setPassword("senha001");
         //iniciando painel de configurações
         //desabilita campos       
-        Funcoes.habilitaDesabCampos(jPanel3, false);
-        Funcoes.habilitaDesabCampos(jPanel5, false);
+        habDesabCampos(false);
         //carrega arquivo de configurações
         carregaArquivoConfig();
         //verifica se banco foi criado em diretorio especificado
@@ -611,9 +610,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jCbLFiliaisMousePressed
 
     private void jBincluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBincluirActionPerformed
+        habDesabCampos(true);
         principal.setjOperacao("Inclusão");
-        Funcoes.habilitaDesabCampos(jPanel3, true);
-        Funcoes.habilitaDesabCampos(jPanel5, true);
         Funcoes.limpaTela(jPanel3);
         jBcancelar.setEnabled(true);
         jBgravar.setEnabled(true);
@@ -624,9 +622,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jBincluirActionPerformed
 
     private void jBalterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBalterarActionPerformed
+        habDesabCampos(true);
         principal.setjOperacao("Alteração");
-        Funcoes.habilitaDesabCampos(jPanel3, true);
-        Funcoes.habilitaDesabCampos(jPanel5, true);
         jBcancelar.setEnabled(true);
         jBgravar.setEnabled(true);
         jBalterar.setEnabled(false);
@@ -647,7 +644,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             setaArquivoConfiguracao(erp);
             cadastraParaEcom();
             cadastraParaUrl();
-            Funcoes.habilitaDesabCampos(this, false);
+            habDesabCampos(false);
             jBincluir.setEnabled(false);
             jBcancelar.setEnabled(false);
             jBgravar.setEnabled(false);
@@ -672,8 +669,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             } else {
                 carregaArquivoConfig();
             }
-            Funcoes.habilitaDesabCampos(jPanel3, false);
-            Funcoes.habilitaDesabCampos(jPanel5, false);
+            habDesabCampos(false);
             
             //urlModel.clear();
             jBConexao.setEnabled(false);
@@ -980,5 +976,15 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             return false;
         }
         return true;
+    }
+    
+    
+    
+    private void habDesabCampos(boolean hab){
+        Funcoes.habilitaDesabCampos(jPIntervaloSinc1, hab);
+        Funcoes.habilitaDesabCampos(jPanel3, hab);
+        Funcoes.habilitaDesabCampos(jPanel4, hab);
+        Funcoes.habilitaDesabCampos(jPanel5, hab);
+        
     }
 }
