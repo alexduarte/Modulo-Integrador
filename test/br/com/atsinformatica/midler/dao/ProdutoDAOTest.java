@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.midler.dao;
 
+import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import java.util.List;
 import junit.framework.TestCase;

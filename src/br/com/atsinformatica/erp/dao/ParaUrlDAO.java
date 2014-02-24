@@ -5,7 +5,6 @@
 package br.com.atsinformatica.erp.dao;
 
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
-import br.com.atsinformatica.midler.dao.IGenericDAO;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.utils.Funcoes;
 import java.sql.Connection;

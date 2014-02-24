@@ -137,13 +137,10 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
             JAXBContext context = JAXBContext.newInstance(prestashopCategory.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
             StringWriter out = new StringWriter();
-
             marshaller.marshal(prestashopCategory, new StreamResult(out));
             System.out.println(out);
             return out.toString();
-
         } catch (JAXBException ex) {
             Logger.getLogger(CategoryPrestashopDAO.class
                     .getName()).log(Level.SEVERE, null, ex);
