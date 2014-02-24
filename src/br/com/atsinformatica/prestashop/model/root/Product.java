@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "product", propOrder = {
     "id",
+    "ean13",
 //    "idManufacturer",
 //    "idSupplier",
     "idCategoryDefault",
@@ -24,10 +25,10 @@ import javax.xml.bind.annotation.*;
 //    "quantity",
 //    "type",
 //    "idShopDefault",
-//    "width",
-//    "height",
+    "width",
+    "height",
 //    "depth",
-//    "weight",
+    "weight",
 //    "quantityDiscount",
 //    "cacheIsPack",
 //    "cacheHasAttachments",
@@ -42,12 +43,12 @@ import javax.xml.bind.annotation.*;
 //    "customizable",
 //    "textFields",
 //    "uploadableFiles",
-//    "active",
+    "active",
 //    "redirectType",
 //    "idProductRedirected",
 //    "availableForOrder",
 //    "availableDate",
-//    "condition",
+    "condition",
 //    "showPrice",
 //    "indexed",
 //    "visibility",
@@ -57,7 +58,7 @@ import javax.xml.bind.annotation.*;
     "linkRewrite",
     "name",
     "price",
-//    "description",
+    "description",
 //    "descriptionShort",
 })
 @XmlRootElement(name = "product")
@@ -67,6 +68,8 @@ public class Product {
     
     @XmlElement(name = "id", required = true)
     protected Id id;
+    @XmlElement(name ="ean13")
+    protected String ean13;
 //    @XmlElement(name = "id_manufacturer")
 //    protected Integer idManufacturer;
 //    @XmlElement(name = "id_supplier")
@@ -87,14 +90,14 @@ public class Product {
 //    protected Type type;
 //    @XmlElement(name = "id_shop_default")
 //    protected Integer idShopDefault;
-//    @XmlElement(name = "width")
-//    protected String width;
-//    @XmlElement(name = "height")
-//    protected String height;
+    @XmlElement(name = "width")
+    protected String width;
+    @XmlElement(name = "height")
+    protected String height;
 //    @XmlElement(name = "depth")
 //    protected String depth;
-//    @XmlElement(name = "weight")
-//    protected String weight;
+    @XmlElement(name = "weight")
+    protected String weight;
 //    @XmlElement(name = "quantity_discount")
 //    protected Integer quantityDiscount;
 //    @XmlElement(name = "cache_is_pack")
@@ -104,8 +107,8 @@ public class Product {
 //
 //    @XmlElement(name = "is_virtual")
 //    protected Integer isVirtual;
-//    @XmlElement(name = "on_sale")
-//    protected Integer onSale;
+    @XmlElement(name = "on_sale")
+    protected Integer onSale;
 //    @XmlElement(name = "online_only")
 //    protected Integer onlineOnly;
 //    @XmlElement(name = "ecotax")
@@ -124,8 +127,8 @@ public class Product {
 //    protected Integer textFields;
 //    @XmlElement(name = "uploadable_files")
 //    protected Integer uploadableFiles;
-//    @XmlElement(name = "active")
-//    protected Integer active;
+    @XmlElement(name = "active")
+    protected Integer active;
 //    @XmlElement(name = "redirect_type")
 //    protected String redirectType;
 //    @XmlElement(name = "id_product_redirected")
@@ -134,8 +137,8 @@ public class Product {
 //    protected Integer availableForOrder;
 //    @XmlElement(name = "available_date")
 //    protected String availableDate;
-//    @XmlElement(name = "condition")
-//    protected String condition;
+    @XmlElement(name = "condition")
+    protected String condition;
 //    @XmlElement(name = "show_price")
 //    protected Integer showPrice;   
 //    @XmlElement(name = "indexed")
@@ -154,8 +157,8 @@ public class Product {
     protected Name name;
     @XmlElement(name = "price")
     protected Price price;
-//    @XmlElement(name = "description")
-//    protected Description description;
+    @XmlElement(name = "description")
+    protected Description description;
 //    @XmlElement(name = "description_short")
 //    protected DescriptionShort descriptionShort;
     public Product() {
@@ -166,15 +169,15 @@ public class Product {
 //        cacheDefaultAttribute = null;
 //        idTaxRulesGroup = 1;
 //        idShopDefault = 1;
-//        width = "0.000000";
-//        height = "0.000000";
+        width = "0.000000";
+        height = "0.000000";
 //        depth = "0.000000";
-//        weight = "0.000000";
+        weight = "0.000000";
 //        quantityDiscount = 0;
 //        cacheIsPack = 0;
 //        cacheHasAttachments = 0;
 //        isVirtual = 0;
-//        onSale = 0;
+        onSale = 0;
 //        onlineOnly = 0;
 //        ecotax = "0.000000";
 //        minimalQuantity = 1;
@@ -184,11 +187,11 @@ public class Product {
 //        customizable = 0;
 //        textFields = 0;
 //        uploadableFiles = 0;
-//        active = 0;
+        active = 0;
 //        redirectType = "404";
 //        idProductRedirected = 0;
 //        availableForOrder = 1;
-//        condition = "new";
+        condition = "new";
 //        showPrice = 1;
 //        indexed = 1;
 //        visibility = "both";
@@ -283,22 +286,22 @@ public class Product {
 //        this.idShopDefault = idShopDefault;
 //    }
 //
-//    public String getWidth() {
-//        return width;
-//    }
-//
-//    public void setWidth(String width) {
-//        this.width = width;
-//    }
-//
-//    public String getHeight() {
-//        return height;
-//    }
-//
-//    public void setHeight(String height) {
-//        this.height = height;
-//    }
-//
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
 //    public String getDepth() {
 //        return depth;
 //    }
@@ -307,14 +310,14 @@ public class Product {
 //        this.depth = depth;
 //    }
 //
-//    public String getWeight() {
-//        return weight;
-//    }
-//
-//    public void setWeight(String weight) {
-//        this.weight = weight;
-//    }
-//
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
 //    public Integer getQuantityDiscount() {
 //        return quantityDiscount;
 //    }
@@ -347,14 +350,14 @@ public class Product {
 //        this.isVirtual = isVirtual;
 //    }
 //
-//    public Integer getOnSale() {
-//        return onSale;
-//    }
-//
-//    public void setOnSale(Integer onSale) {
-//        this.onSale = onSale;
-//    }
-//
+    public Integer getOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(Integer onSale) {
+        this.onSale = onSale;
+    }
+
 //    public Integer getOnlineOnly() {
 //        return onlineOnly;
 //    }
@@ -426,15 +429,15 @@ public class Product {
 //    public void setUploadableFiles(Integer uploadableFiles) {
 //        this.uploadableFiles = uploadableFiles;
 //    }
-//
-//    public Integer getActive() {
-//        return active;
-//    }
-//
-//    public void setActive(Integer active) {
-//        this.active = active;
-//    }
-//
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
 //    public String getRedirectType() {
 //        return redirectType;
 //    }
@@ -468,14 +471,14 @@ public class Product {
 //        this.availableDate = sdf.format(availableDate);
 //    }
 //
-//    public String getCondition() {
-//        return condition;
-//    }
-//
-//    public void setCondition(String condition) {
-//        this.condition = condition;
-//    }
-//
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
 //    public Integer getShowPrice() {
 //        return showPrice;
 //    }
@@ -552,13 +555,13 @@ public class Product {
         this.price = price;
     }
 
-//    public Description getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(Description description) {
-//        this.description = description;
-//    }
+    public Description getDescription() {
+        return description;
+    }
+
+    public void setDescription(Description description) {
+        this.description = description;
+    }
 
 //    public DescriptionShort getDescriptionShort() {
 //        return descriptionShort;

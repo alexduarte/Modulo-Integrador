@@ -6,7 +6,6 @@
 
 package br.com.atsinformatica.prestashop.model.node;
 
-import br.com.atsinformatica.prestashop.model.product.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
