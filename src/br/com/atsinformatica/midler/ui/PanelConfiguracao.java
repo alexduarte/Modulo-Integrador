@@ -513,7 +513,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                                 .addComponent(jTUrlKey, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(jButton1)))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
