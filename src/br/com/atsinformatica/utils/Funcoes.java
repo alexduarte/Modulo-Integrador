@@ -242,7 +242,7 @@ public class Funcoes {
         String comando = "java -jar" + new File(" ").getAbsolutePath() + "\\Sincronizador.jar";
 
         try {
-            Process Processo = Runtime.getRuntime().exec(comando);
+            Process processo = Runtime.getRuntime().exec(comando);
         } catch (IOException MensagemdeErro) {
             System.out.println(MensagemdeErro);
         }

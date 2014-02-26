@@ -30,8 +30,9 @@ public class ParaEcomDAO implements IGenericDAO<ParaEcomBean> {
         try {
             conn = ConexaoATS.conectaERP();
             conn.setAutoCommit(false);
-            String querie = "INSERT INTO PARAECOM (CODPARAECOM, MINUTOSCADASTRO, MINUTOSMOV, QTDEREGISTROS, QTDEMANTIDOS, ATIVASINCRONIZACAO) "
-                    + " VALUES (?, ?, ?, ?, ?, ?)";
+            String querie = "INSERT INTO PARAECOM (CODPARAECOM, MINUTOSCADASTRO, MINUTOSMOV, QTDEREGISTROS, QTDEMANTIDOS, "
+                    + " ATIVASINCRONIZACAO, CODEMPRESAECOM, CODVENDENDECOM) "
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, ultimoRegistro());
             pstmt.setInt(2, object.getMinutoscadastrados());
@@ -39,6 +40,8 @@ public class ParaEcomDAO implements IGenericDAO<ParaEcomBean> {
             pstmt.setInt(4, object.getQtdeRegistros());
             pstmt.setInt(5, object.getQtdMantido());
             pstmt.setInt(6, object.getAtivaSincronizacao());
+            pstmt.setString(7, object.getCodEmpresaEcom());
+            pstmt.setString(8, object.getCodVendendEcom());
             pstmt.executeUpdate();
             conn.commit();
             logger.info("Parametros salvos com sucesso!");
@@ -61,7 +64,9 @@ public class ParaEcomDAO implements IGenericDAO<ParaEcomBean> {
                     + " MINUTOSMOV = ?,"
                     + " QTDEREGISTROS = ?,"
                     + " QTDEMANTIDOS = ?,"
-                    + " ATIVASINCRONIZACAO = ? "
+                    + " ATIVASINCRONIZACAO = ?, "
+                    + " CODEMPRESAECOM = ?,"
+                    + " CODVENDENDECOM = ? "
                     + " WHERE CODPARAECOM = ?";
             pstmt = conn.prepareStatement(querie);
             pstmt.setInt(1, object.getMinutoscadastrados());
@@ -69,7 +74,9 @@ public class ParaEcomDAO implements IGenericDAO<ParaEcomBean> {
             pstmt.setInt(3, object.getQtdeRegistros());
             pstmt.setInt(4, object.getQtdMantido());
             pstmt.setInt(5, object.getAtivaSincronizacao());
-            pstmt.setString(6, object.getCodparaecom());
+            pstmt.setString(6, object.getCodEmpresaEcom());
+            pstmt.setString(7, object.getCodVendendEcom());
+            pstmt.setString(8, object.getCodparaecom());
             pstmt.executeUpdate();
             conn.commit();
             logger.info("Parametros alterados com sucesso!");
@@ -152,6 +159,8 @@ public class ParaEcomDAO implements IGenericDAO<ParaEcomBean> {
                 paraEcom.setQtdeRegistros(rs.getInt("QTDEREGISTROS"));
                 paraEcom.setQtdMantido(rs.getInt("QTDEMANTIDOS"));
                 paraEcom.setAtivaSincronizacao(rs.getInt("ATIVASINCRONIZACAO"));
+                paraEcom.setCodEmpresaEcom(rs.getString("CODEMPRESAECOM"));
+                paraEcom.setCodVendendEcom(rs.getString("CODVENDENDECOM"));
                 listaParaEcom.add(paraEcom);
             }
             logger.info("Lista de parametros, retornada com sucesso!");

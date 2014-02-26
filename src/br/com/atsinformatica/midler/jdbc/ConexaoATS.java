@@ -44,7 +44,7 @@ public class ConexaoATS {
      * @return String com mensagem de sucesso ou falha
      * @throws InstantiationException
      */
-    public static String conectarERP(String diretorio, String usuario, String senha) throws InstantiationException {
+    public static String conectaERP(String diretorio, String usuario, String senha) throws InstantiationException {
         try {
             logger.info("Conectando...");
             //controle criado para o caso do usuário digitar "/"
@@ -107,9 +107,7 @@ public class ConexaoATS {
     /**
      * @return the connection
      */
-    public static Connection getConnection() {
-        
-        
+    public static Connection getConnection() {        
         return connection;
     }
 
