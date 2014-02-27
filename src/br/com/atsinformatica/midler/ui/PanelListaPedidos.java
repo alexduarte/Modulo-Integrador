@@ -36,13 +36,21 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"001", "Maria José da Silva", "R$ 200,00", "Aguardando pagamento", "PagSeguro/Cartão", "01/02/2014 00:18:50"},
-                {"002", "Antônio Augusto", "R$ 19.90", "Enviado", "PayPal/Boleto", "31/01/2014 14:25:10"}
+                {"789", "001", "Maria José da Silva", "R$ 200,00", "Aguardando pagamento", "01/02/2014 00:18:48", "PagSeguro/Cartão", "01/02/2014 00:18:50"},
+                {"790", "002", "Antônio Augusto", "R$ 19.90", "Enviado", "31/01/2014 14:22:10", "PayPal/Boleto", "31/01/2014 14:25:10"}
             },
             new String [] {
-                "Cód. Pedido", "Cliente", "Valor", "Status", "Forma de pagamento", "Hora integração"
+                "Cód. Pedido Resulth", "Cód. Pedido", "Cliente", "Valor", "Status", "Data do pedido", "Forma de pagamento", "Hora integração"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -67,13 +75,11 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 916, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jBfechar)))
+                        .addComponent(jBfechar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -85,7 +91,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBfechar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

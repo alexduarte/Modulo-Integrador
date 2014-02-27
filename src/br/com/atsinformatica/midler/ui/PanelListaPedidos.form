@@ -37,15 +37,12 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="jScrollPane1" alignment="1" pref="916" max="32767" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="jBfechar" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jScrollPane1" alignment="0" min="-2" pref="997" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -60,7 +57,7 @@
                   <Component id="jScrollPane1" min="-2" pref="357" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jBfechar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="20" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -76,7 +73,11 @@
             <Component class="javax.swing.JTable" name="jTable1">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="2">
+                  <Table columnCount="8" rowCount="2">
+                    <Column editable="true" title="C&#xf3;d. Pedido Resulth" type="java.lang.Object">
+                      <Data value="789"/>
+                      <Data value="790"/>
+                    </Column>
                     <Column editable="true" title="C&#xf3;d. Pedido" type="java.lang.Object">
                       <Data value="001"/>
                       <Data value="002"/>
@@ -92,6 +93,10 @@
                     <Column editable="true" title="Status" type="java.lang.Object">
                       <Data value="Aguardando pagamento"/>
                       <Data value="Enviado"/>
+                    </Column>
+                    <Column editable="true" title="Data do pedido" type="java.lang.String">
+                      <Data value="01/02/2014 00:18:48"/>
+                      <Data value="31/01/2014 14:22:10"/>
                     </Column>
                     <Column editable="true" title="Forma de pagamento" type="java.lang.Object">
                       <Data value="PagSeguro/Cart&#xe3;o"/>
