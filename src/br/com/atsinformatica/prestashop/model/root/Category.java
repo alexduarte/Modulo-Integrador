@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.*;
             "name",
             "description",
             "linkRewrite",
+            "idErp",
         })
 
 public class Category {
@@ -69,6 +70,9 @@ public class Category {
 
     @XmlElement(name = "link_rewrite")
     private LinkRewrite linkRewrite;
+    
+    @XmlElement(name = "id_erp")
+    private String idEpr;
 
     public Category() {
         //this.id = String.valueOf(70);        
@@ -161,6 +165,20 @@ public class Category {
         linkRewrite.getLanguage().get(0).setContent(Funcoes.ReplaceAcento(linkRewrite.getLanguage().get(0).getContent()));
         linkRewrite.getLanguage().get(0).setContent(linkRewrite.getLanguage().get(0).getContent().replaceAll("[ ]+", "-"));
         this.linkRewrite = linkRewrite;
+    }
+
+    /**
+     * @return the idEpr
+     */
+    public String getIdEpr() {
+        return idEpr;
+    }
+
+    /**
+     * @param idEpr the idEpr to set
+     */
+    public void setIdEpr(String idEpr) {
+        this.idEpr = idEpr;
     }
     
 }
