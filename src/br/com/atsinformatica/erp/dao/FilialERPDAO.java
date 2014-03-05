@@ -7,178 +7,87 @@
 package br.com.atsinformatica.erp.dao;
 
 import br.com.atsinformatica.erp.entity.FilialERPBean;
-import br.com.atsinformatica.midler.jdbc.ConnectionFactory;
+import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
- * @author ricardosilva
+ * @author AlexsanderPimenta
  */
-public class FilialERPDAO{
+public class FilialERPDAO implements IGenericDAO<FilialERPBean>{
     
-    Connection dbConnection = null;
-    PreparedStatement preparedStatementInsert = null;
-    PreparedStatement preparedStatementUpdate = null;
+    private Connection conn;
+    private Logger logger = Logger.getLogger(FilialERPDAO.class);
 
-    PreparedStatement preparedStatementDelete = null;
-    PreparedStatement preparedStatementList = null;
+    @Override
+    public void gravar(FilialERPBean object) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-    /**
-     * Salva os produtos criados
-     *
-     * @param filial
-     * @throws SQLException
-     */
-    public void salvaFilialERP(FilialERPBean filial) throws SQLException {
-        try {
-            //cria a conexao com o Banco de dados e desabilita o autocommit
-            dbConnection = ConnectionFactory.getDBConnection();
-            dbConnection.setAutoCommit(false);
+    @Override
+    public void alterar(FilialERPBean object) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-            //prepara a execução da SQL
-            String SQL_SALVAR = "";
-            preparedStatementInsert = dbConnection.prepareStatement(SQL_SALVAR);
+    @Override
+    public void deletar(String id) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-            //Atribui os valores no lugar das interrogações e executa a SQL
-            preparedStatementInsert.setInt(1, 999);
-            preparedStatementInsert.setString(2, "mkyong101");
-            preparedStatementInsert.executeUpdate();
-
-            //Commita a operação ou faz rollback
-            preparedStatementUpdate.executeUpdate();
-        } catch (SQLException e) {
-
-            System.out.println(e.getMessage());
-            dbConnection.rollback();
-
-        } finally {
-
-            if (preparedStatementInsert != null) {
-                preparedStatementInsert.close();
-            }
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-
-        }
+    @Override
+    public FilialERPBean abrir(String id) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
-     * Atualiza produtos
-     *
-     * @param filial 
-     * @throws SQLException
+     * Lista todas filiaias cadastradas no ERP
+     * @param diretorio diretorio do banco 
+     * @param usuario usuário do banco 
+     * @param senha senha do banco 
+     * @return lista de filiais cadastradas
+     * @throws SQLException 
      */
-    public void atualizarFilialERP(FilialERPBean filial) throws SQLException {
-        try {
-            //cria a conexao com o Banco de dados e desabilita o autocommit
-            dbConnection = ConnectionFactory.getDBConnection();
-            dbConnection.setAutoCommit(false);
-
-            //prepara a execução da SQL
-            String SQL_UPDATE = "";
-            preparedStatementUpdate = dbConnection.prepareStatement(SQL_UPDATE);
-
-            //Atribui os valores no lugar das interrogações e executa a SQL
-            preparedStatementUpdate.setInt(1, 999);
-            preparedStatementUpdate.setString(2, "mkyong101");
-            preparedStatementUpdate.executeUpdate();
-
-            //Commita a operação ou faz rollback
-            preparedStatementUpdate.executeUpdate();
-        } catch (SQLException e) {
-
-            System.out.println(e.getMessage());
-            dbConnection.rollback();
-
-        } finally {
-
-            if (preparedStatementUpdate != null) {
-                preparedStatementUpdate.close();
+    @Override
+    public List<FilialERPBean> listaTodos() throws SQLException {
+        List<FilialERPBean> filiais = new ArrayList<>();
+        Statement stmt = null;
+        ResultSet rs = null;
+        try{
+            //se nao existir conexao, cria nova
+            if(ConexaoATS.getConnection().isClosed())ConexaoATS.conectaERP();
+            conn = ConexaoATS.getConnection();            
+            String sql = " select codempresa, nomeempresa "
+                       + " from filiais order by nomeempresa asc ";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                FilialERPBean bean = new FilialERPBean();
+                bean.setCodEmpresa(rs.getString("codempresa"));
+                bean.setNomeEmpresa(rs.getString("nomeempresa"));
+                filiais.add(bean);
             }
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-
-        }
+            logger.info("Filiais retornada com sucesso.");           
+            return filiais ;           
+        }catch(Exception e){
+            logger.error("Erro ao retornar filiais: "+e);
+           return null;           
+        }finally{
+            stmt.close();
+            rs.close();
+        }       
+    }
+    @Override
+    public String ultimoRegistro() throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Deletar item
-     * @param filial
-     * @throws SQLException
-     */
-    public void deleteFilialERP(FilialERPBean filial) throws SQLException {
-        try {
-            //cria a conexao com o Banco de dados e desabilita o autocommit
-            dbConnection = ConnectionFactory.getDBConnection();
-            dbConnection.setAutoCommit(false);
-
-            //prepara a execução da SQL
-            String SQL_DELETE = "DELETE produto WHERE id = ?";
-            preparedStatementDelete = dbConnection.prepareStatement(SQL_DELETE);
-
-            //Atribui os valores no lugar das interrogações e executa a SQL
-            preparedStatementDelete.setInt(1, 999);
-            preparedStatementDelete.executeUpdate();
-
-            //Commita a operação ou faz rollback
-            preparedStatementDelete.executeUpdate();
-        } catch (SQLException e) {
-
-            System.out.println(e.getMessage());
-            dbConnection.rollback();
-
-        } finally {
-
-            if (preparedStatementInsert != null) {
-                preparedStatementInsert.close();
-            }
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-
-        }
-    }
-
-    public void listPedidoERP() throws SQLException {
-        try {
-            //cria a conexao com o Banco de dados e desabilita o autocommit
-            dbConnection = ConnectionFactory.getDBConnection();
-            dbConnection.setAutoCommit(false);
-
-            //prepara a execução da SQL
-            String SQL_LIST = "";
-            preparedStatementList = dbConnection.prepareStatement(SQL_LIST);
-
-            //Recebe os valores no lugar das interrogações e executa a SQL
-            ResultSet rs = preparedStatementList.executeQuery();
-            while (rs.next()) {
-                String userid = rs.getString("USER_ID");
-                String username = rs.getString("USERNAME");
-
-                System.out.println("userid : " + userid);
-                System.out.println("username : " + username);
-            }
-
-            //Commita a operação ou faz rollback
-        } catch (SQLException e) {
-
-            System.out.println(e.getMessage());
-            dbConnection.rollback();
-
-        } finally {
-
-            if (preparedStatementList != null) {
-                preparedStatementList.close();
-            }
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-
-        }
-    } 
+   
+    
+    
 }

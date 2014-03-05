@@ -4,11 +4,15 @@
  */
 package br.com.atsinformatica.midler.ui;
 
-
+import br.com.atsinformatica.erp.controller.trigger.TriggerController;
+import br.com.atsinformatica.erp.dao.FilialERPDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
+import br.com.atsinformatica.erp.dao.VendedorERPDAO;
+import br.com.atsinformatica.erp.entity.FilialERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
+import br.com.atsinformatica.erp.entity.VendedorERPBean;
 import br.com.atsinformatica.midler.entity.ERPBean;
 import br.com.atsinformatica.midler.entity.FileERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
@@ -29,7 +33,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import org.jasypt.util.text.BasicTextEncryptor;
-//import org.apache.log4j.Logger;
 
 /**
  *
@@ -54,10 +57,11 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         bt.setPassword("senha001");
         //iniciando painel de configurações
         //desabilita campos       
-        Funcoes.habilitaDesabCampos(jPanel3, false);
-        Funcoes.habilitaDesabCampos(jPanel5, false);
-        //carrega arquivo de configurações
+        habDesabCampos(false);
+        carregaGrid();
+        //carrega arquivo de configurações        
         carregaArquivoConfig();
+        
         //verifica se banco foi criado em diretorio especificado
         if (jBincluir.isEnabled()) {
             jBincluir.requestFocus();
@@ -72,7 +76,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      * Carrega arquivo de configurações
      */
     private void carregaArquivoConfig() {
-        try {
+        try {           
             //verifica se arquivo existe
             if (PropertiesManager.getFile().exists()) {
                 ParaEcomDAO dao = new ParaEcomDAO();
@@ -93,9 +97,12 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                 jBalterar.setEnabled(true);
                 jBincluir.setEnabled(false);
                 jBfechar.setEnabled(true);
+                carregaComboFiliais();
+                carregaComboVendedores();
+                selecionaFilial(bean.getCodEmpresaEcom());
+                selecionaVendedor(bean.getCodVendendEcom());
+                preencheGrid();
             }
-            carregaGrid();
-
         } catch (Exception e) {
             System.out.println("Erro : " + e);
             //logger.error("Erro ao carregar arquivo de configuração: " + e.getMessage());
@@ -120,7 +127,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             config.store(fileos, "Arquivo de configurações do Midler");
             //fecha arquivo
             fileos.close();
-            JOptionPane.showMessageDialog(null, "Configurações salva com sucesso!");
+            // JOptionPane.showMessageDialog(null, "Configurações salva com sucesso!");
             //logger.info("Arquivo de configurações salvo com sucesso!");
         } catch (Exception e) {
             //logger.error("Erro ao criar arquivo de configurações :" + e.getMessage());
@@ -162,6 +169,10 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         jTMinMov1 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jBTSelecionaDirErp1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jCbFilial = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
+        jCBVendedor = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jTURL = new javax.swing.JTextField();
@@ -343,6 +354,12 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel2.setText("Filial e-commerce:");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel6.setText("Vendedor:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -371,19 +388,24 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
                             .addComponent(jTUsuarioERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(3, 3, 3)
-                                .addComponent(jLabel14))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jTsenhaERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBConexao))))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel14))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTdiretorioERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBTSelecionaDirErp1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jBTSelecionaDirErp1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(153, 153, 153)
+                                .addComponent(jTsenhaERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCbFilial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jCBVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBConexao))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -421,7 +443,17 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                     .addComponent(jTUsuarioERP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBConexao)
                     .addComponent(jTsenhaERP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCbFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jCBVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(181, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("ERP", jPanel3);
@@ -481,7 +513,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                                 .addComponent(jTUrlKey, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(jButton1)))))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -611,9 +643,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jCbLFiliaisMousePressed
 
     private void jBincluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBincluirActionPerformed
+        habDesabCampos(true);
         principal.setjOperacao("Inclusão");
-        Funcoes.habilitaDesabCampos(jPanel3, true);
-        Funcoes.habilitaDesabCampos(jPanel5, true);
         Funcoes.limpaTela(jPanel3);
         jBcancelar.setEnabled(true);
         jBgravar.setEnabled(true);
@@ -624,9 +655,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     }//GEN-LAST:event_jBincluirActionPerformed
 
     private void jBalterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBalterarActionPerformed
+        habDesabCampos(true);
         principal.setjOperacao("Alteração");
-        Funcoes.habilitaDesabCampos(jPanel3, true);
-        Funcoes.habilitaDesabCampos(jPanel5, true);
         jBcancelar.setEnabled(true);
         jBgravar.setEnabled(true);
         jBalterar.setEnabled(false);
@@ -637,6 +667,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
     private void jBgravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBgravarActionPerformed
         ERPBean erp = new ERPBean();
+        TriggerController triggerController = new TriggerController();
         try {
             erp.setCaminho(jTdiretorioERP1.getText());
             erp.setUsuario(jTUsuarioERP1.getText());
@@ -647,14 +678,15 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             setaArquivoConfiguracao(erp);
             cadastraParaEcom();
             cadastraParaUrl();
-            Funcoes.habilitaDesabCampos(this, false);
+            habDesabCampos(false);
             jBincluir.setEnabled(false);
             jBcancelar.setEnabled(false);
             jBgravar.setEnabled(false);
+            triggerController.createTriggers();
+            JOptionPane.showMessageDialog(null, "Configurações salva com sucesso!");
             JOptionPane.showMessageDialog(null, "A aplicação será encerrada para que as configurações sejam efetivadas.");
             Funcoes.reiniciaAplicacao();
         } catch (Exception e) {
-            // logger.error("Erro ao gravar: " + e);
             JOptionPane.showMessageDialog(null, "Erro ao gravar: " + e.getMessage());
             PropertiesManager.getConfig().clear();
         }
@@ -672,9 +704,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             } else {
                 carregaArquivoConfig();
             }
-            Funcoes.habilitaDesabCampos(jPanel3, false);
-            Funcoes.habilitaDesabCampos(jPanel5, false);
-            
+            habDesabCampos(false);
             //urlModel.clear();
             jBConexao.setEnabled(false);
             jBcancelar.setEnabled(false);
@@ -701,7 +731,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void jBConexaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBConexaoActionPerformed
         File file = new File("config.ini");
         try {
-            String senha = jTsenhaERP1.getText();
+            String senha = new String(jTsenhaERP1.getPassword());
             if (file.exists()) {
                 Properties config = getProperties();
                 //se arquivo de configuração não esta vazio
@@ -710,14 +740,15 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                     if (!config.getProperty("erp.senha").equals(jTsenhaERP1.getText())) {
                         senha = jTsenhaERP1.getText();
                     }
-                    JOptionPane.showMessageDialog(null, ConexaoATS.conectarERP(jTdiretorioERP1.getText(), jTUsuarioERP1.getText(), senha));
+                    JOptionPane.showMessageDialog(null, ConexaoATS.conectaERP(jTdiretorioERP1.getText(), jTUsuarioERP1.getText(), senha));
                 } else {
-                    JOptionPane.showMessageDialog(null, ConexaoATS.conectarERP(jTdiretorioERP1.getText(), jTUsuarioERP1.getText(), senha));
+                    JOptionPane.showMessageDialog(null, ConexaoATS.conectaERP(jTdiretorioERP1.getText(), jTUsuarioERP1.getText(), senha));
                 }
             } else {
-                JOptionPane.showMessageDialog(null, ConexaoATS.conectarERP(jTdiretorioERP1.getText(), jTUsuarioERP1.getText(), senha));
+                JOptionPane.showMessageDialog(null, ConexaoATS.conectaERP(jTdiretorioERP1.getText(), jTUsuarioERP1.getText(), senha));
             }
-            ConexaoATS.fechaConexao();
+            carregaComboFiliais();
+            carregaComboVendedores();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -814,6 +845,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private javax.swing.JButton jBgravar;
     private javax.swing.JButton jBincluir;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jCBVendedor;
+    private javax.swing.JComboBox jCbFilial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -821,9 +854,11 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPIntervaloSinc1;
     private javax.swing.JPanel jPanel3;
@@ -861,20 +896,23 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         return properties;
     }
 
-    private void carregaGrid() {
+    private void carregaGrid() {     
+        jTbUrl.setModel(urlModel);
+        jTbUrl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        urlModel.setEditableDefault(false);
+        urlModel.setColEditable(1, true);
+        urlModel.setColEditable(2, true);
+        TableColumn colCod = jTbUrl.getColumnModel().getColumn(0);
+        colCod.setPreferredWidth(70);
+        TableColumn colUrl = jTbUrl.getColumnModel().getColumn(1);
+        colUrl.setPreferredWidth(311);
+        TableColumn colUrlKey = jTbUrl.getColumnModel().getColumn(2);
+        colUrlKey.setPreferredWidth(311);
+    }
+
+    private void preencheGrid() {
         ParaUrlDAO dao = new ParaUrlDAO();
         try {
-            jTbUrl.setModel(urlModel);
-            jTbUrl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            urlModel.setEditableDefault(false);
-            urlModel.setColEditable(1, true);
-            urlModel.setColEditable(2, true);
-            TableColumn colCod = jTbUrl.getColumnModel().getColumn(0);
-            colCod.setPreferredWidth(70);
-            TableColumn colUrl = jTbUrl.getColumnModel().getColumn(1);
-            colUrl.setPreferredWidth(311);
-            TableColumn colUrlKey = jTbUrl.getColumnModel().getColumn(2);
-            colUrlKey.setPreferredWidth(311);          
             List<ParaUrlWsdlBean> listaParaUrl = dao.listaTodos();
             if (!listaParaUrl.isEmpty()) {
                 for (ParaUrlWsdlBean bean : listaParaUrl) {
@@ -882,8 +920,9 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Erro ao preencher grid: " + e);
+            e.printStackTrace();
         }
+
     }
 
     /**
@@ -899,6 +938,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             paraEcom.setQtdMantido(Integer.parseInt(jtQtdemant.getText()));
             paraEcom.setAtivaSincronizacao(Funcoes.retornaValorNum(jRSim2.isSelected()));
             paraEcom.setCodparaecom(getCodParaEcom());
+            paraEcom.setCodEmpresaEcom(((FilialERPBean) jCbFilial.getSelectedItem()).getCodEmpresa());
+            paraEcom.setCodVendendEcom(((VendedorERPBean) jCBVendedor.getSelectedItem()).getCodVendedor());
             if (principal.getjOperacao().equals("Inclusão")) {
                 dao.gravar(paraEcom);
             } else if (principal.getjOperacao().equals("Alteração")) {
@@ -978,7 +1019,73 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             jTabbedPane1.setSelectedIndex(1);
             jTURL.requestFocus();
             return false;
+        } else if (jCbFilial.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Selecione uma filial.");
+            jTabbedPane1.setSelectedIndex(0);
+            jCbFilial.requestFocus();
+            return false;
+        } else if (jCBVendedor.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Selecione uma vendedor.");
+            jTabbedPane1.setSelectedIndex(0);
+            jCBVendedor.requestFocus();
+            return false;
         }
         return true;
+    }
+
+    private void carregaComboFiliais() {
+        try {
+            List<FilialERPBean> filiais = new FilialERPDAO().listaTodos();
+            if (filiais != null) {
+                jCbFilial.removeAllItems();
+                for (FilialERPBean filial : filiais) {
+                    jCbFilial.addItem(filial);
+                }
+            } else {
+                jCbFilial.removeAll();
+                jCbFilial.removeAllItems();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private void carregaComboVendedores() {
+        try {
+            List<VendedorERPBean> vendedores = new VendedorERPDAO().listaTodos();
+            if (vendedores != null) {
+                jCBVendedor.removeAllItems();
+                for (VendedorERPBean vendedor : vendedores) {
+                    jCBVendedor.addItem(vendedor);
+                }
+            } else {
+                jCBVendedor.removeAll();
+                jCBVendedor.removeAllItems();
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void selecionaFilial(String codFilial) {
+        for (int i = 0; i < jCbFilial.getItemCount(); i++) {
+            if (codFilial.equals(((FilialERPBean) jCbFilial.getItemAt(i)).getCodEmpresa())) {
+                jCbFilial.setSelectedIndex(i);
+            }
+        }
+    }
+
+    public void selecionaVendedor(String codVendedor) {
+        for (int i = 0; i < jCBVendedor.getItemCount(); i++) {
+            if (codVendedor.equals(((VendedorERPBean) jCBVendedor.getItemAt(i)).getCodVendedor())) {
+                jCBVendedor.setSelectedIndex(i);
+            }
+        }
+    }
+
+    private void habDesabCampos(boolean hab) {
+        Funcoes.habilitaDesabCampos(jPIntervaloSinc1, hab);
+        Funcoes.habilitaDesabCampos(jPanel3, hab);
+        Funcoes.habilitaDesabCampos(jPanel4, hab);
+        Funcoes.habilitaDesabCampos(jPanel5, hab);
+
     }
 }
