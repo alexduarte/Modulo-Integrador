@@ -29,7 +29,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     //Resolver para grid sincronizar
 
     private AnnotationResolver resolverSinc = new AnnotationResolver(HistoricoIntegraERPBean.class);
-    private String fields = "id,entidade,codEntidade,dataEnt,dataInteg";
+    private String fields = "id,entidade,codEntidade,dataEnt,dataInteg,tipoOperacao";
     //model para grid  sincronizar
     private ObjectTableModel modelSincronizar = new ObjectTableModel(resolverSinc, fields);
     private static Logger logger = Logger.getLogger(PanelHistorico.class);
@@ -71,36 +71,36 @@ public class PanelHistorico extends javax.swing.JPanel {
             }
         });
 
-        setBorder(javax.swing.BorderFactory.createBevelBorder(0));
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         title_historico.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         title_historico.setText("Histórico de sincronização ");
 
         jTbSincronizar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Entidade", "XML", "Data entrada", "Data importacao"
+                "Id", "Entidade", "XML", "Data entrada", "Tipo da operação", "Data importacao"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

@@ -24,13 +24,16 @@ public class HistoricoIntegraERPBean {
     private Date dataEnt;
     @Resolvable(colName = "Data integração")
     private Date dataInteg;
-
+    @Resolvable(colName = "Tipo Operação")
+    private String tipoOperacao;
+    
     public HistoricoIntegraERPBean(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
         this.entidade = rs.getString("entidade");
         this.codEntidade = rs.getString("codentidade");
         this.dataEnt = rs.getDate("dataent");
         this.dataInteg = rs.getDate("dataint");
+        this.tipoOperacao = rs.getString("tipooper");
     }
     
     public HistoricoIntegraERPBean(){
@@ -109,6 +112,20 @@ public class HistoricoIntegraERPBean {
      */
     public void setDataInteg(Date dataInteg) {
         this.dataInteg = dataInteg;
+    }
+
+    /**
+     * @return the tipoOperacao
+     */
+    public String getTipoOperacao() {
+        return tipoOperacao;
+    }
+
+    /**
+     * @param tipoOperacao the tipoOperacao to set
+     */
+    public void setTipoOperacao(String tipoOperacao) {
+        this.tipoOperacao = tipoOperacao;
     }
     
     
