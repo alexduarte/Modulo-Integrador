@@ -33,7 +33,6 @@ public class CategoriaController {
      * @return
      */
     public int createCategoryAndSubCategoryPrestashop(String categoriaERP, String subCategoriaERP) {
-
         List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
         String idParent = checksCategoryExists(categoriaERP, listCategoryPrestaShop);
         if (idParent.isEmpty()) {
@@ -96,7 +95,6 @@ public class CategoriaController {
      * @return boolean
      */
     private boolean checksCategoryExistsAll(String descricao, List<Category> listCategoryPrestaShop) {
-
         if (listCategoryPrestaShop.isEmpty()) {
             return false;
         } else {
