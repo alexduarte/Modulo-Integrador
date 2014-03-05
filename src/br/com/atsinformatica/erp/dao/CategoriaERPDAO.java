@@ -23,11 +23,9 @@ public class CategoriaERPDAO{
 
     private Connection conn;
     
-    public List<CategoriaERPBean> listaTodos() throws SQLException {
-        
+    public List<CategoriaERPBean> listaTodos() throws SQLException {        
         Statement stmt = null;
-        ResultSet rs = null;
-        
+        ResultSet rs = null;        
         try{
             List<CategoriaERPBean> listaCategoria = new ArrayList<>();
             conn = ConexaoATS.conectaERP();

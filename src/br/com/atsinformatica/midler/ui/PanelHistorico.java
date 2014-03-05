@@ -247,9 +247,12 @@ public class PanelHistorico extends javax.swing.JPanel {
         try {
             Object obj = null;
             if (bean != null) {
-                //TODO: Pesquisar algum padrão de projeto que torna este processo automático
+                //TODO: Melhorar este processo
                 if (bean.getEntidade().equals("produto")) {
                     obj = new ProdutoDAO().abrir(bean.getCodEntidade());
+                }
+                if(bean.getEntidade().equals("categoria")){
+                    
                 }
             }
             return obj;
