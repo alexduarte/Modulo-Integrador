@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.midler.ui;
 
+import br.com.atsinformatica.erp.controller.CategoriaController;
 import br.com.atsinformatica.erp.controller.ProdutoController;
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
@@ -279,7 +280,10 @@ public class PanelHistorico extends javax.swing.JPanel {
             }
            for(Object obj : lista){
                if(obj.getClass().equals(CategoriaEcomBean.class)){
-                   System.err.println("categoria");
+                   //faz o post das categorias pendentes de sincronização
+                   //System.err.println("categoria");
+                 //  CategoriaController catController = new CategoriaController();
+                 //  catController.createCategoryAndSubCategoryPrestashop(fields, fields);
                }            
            }
           //  ProdutoController controller = new ProdutoController();            

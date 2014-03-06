@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyboardFocusManager;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -43,14 +42,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.text.MaskFormatter;
-import org.codehaus.plexus.util.Base64;
-import sun.misc.BASE64Decoder;
 
 /**
  *
@@ -189,34 +185,38 @@ public class Funcoes {
         }
 
     }
+    
+    
+    //Não esta sendo utilizado!!!
+    
 
-    //criptografa a senha
-    public static String criptografaSenha(String senha) {
-        try {
-            //tipo de criptografia
-            byte[] encoded = Base64.encodeBase64(senha.getBytes());
-            //logger.info("Senha criptografada com sucesso!");
-            return new String(encoded);
-        } catch (Exception e) {
-            //logger.error("Erro ao criptografar senha: " + e.getMessage());
-            return null;
-        }
-    }
-
-    //descriptografa a senha
-    public static String descriptografaSenha(String senha) {
-        try {
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] str = decoder.decodeBuffer(senha);
-            //recebe senha descriptografada
-            String strDecoded = new String(str, "UTF-8");
-            //logger.info("Senha descriptografada com sucesso!");
-            return strDecoded;
-        } catch (Exception e) {
-            //logger.error("Erro ao descriptografar senha: " + e.getMessage());
-            return null;
-        }
-    }
+//    //criptografa a senha
+//    public static String criptografaSenha(String senha) {
+//        try {
+//            //tipo de criptografia
+//            byte[] encoded = Base64.encodeBase64(senha.getBytes());
+//            //logger.info("Senha criptografada com sucesso!");
+//            return new String(encoded);
+//        } catch (Exception e) {
+//            //logger.error("Erro ao criptografar senha: " + e.getMessage());
+//            return null;
+//        }
+//    }
+//
+//    //descriptografa a senha
+//    public static String descriptografaSenha(String senha) {
+//        try {
+//            BASE64Decoder decoder = new BASE64Decoder();
+//            byte[] str = decoder.decodeBuffer(senha);
+//            //recebe senha descriptografada
+//            String strDecoded = new String(str, "UTF-8");
+//            //logger.info("Senha descriptografada com sucesso!");
+//            return strDecoded;
+//        } catch (Exception e) {
+//            //logger.error("Erro ao descriptografar senha: " + e.getMessage());
+//            return null;
+//        }
+//    }
 
     public static void verificaCamposVazio(JPanel panel) {
 
