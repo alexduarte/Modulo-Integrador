@@ -220,10 +220,11 @@ public class PanelHistorico extends javax.swing.JPanel {
     private void refreshSincCad() {
         try {
             modelSincronizar.clear();
+            HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
             ///lista de itens pendentes de sincronização
-            List<HistoricoIntegraERPBean> listaPend = new HistoricoIntegraDAO().listaPendentes();
+            List<HistoricoIntegraERPBean> listaPend = dao.listaPendentes();
             //lista de ultimos itens sincronizados na loja virtual
-            List<HistoricoIntegraERPBean> listaUltimos = new HistoricoIntegraDAO().listaUltimosInteg();
+            List<HistoricoIntegraERPBean> listaUltimos = dao.listaUltimosInteg();
             //Lista de itens a sincronizar na loja virtual
             List itens = new ArrayList();
             if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
