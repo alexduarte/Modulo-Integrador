@@ -157,8 +157,7 @@ public class Funcoes {
              * checkBox = (com.jidesoft.swing.CheckBoxList)c;
              *
              * checkBox.setEnabled(habDesab); checkBox.setFocusable(habDesab);
-             * checkBox.setCheckBoxEnabled(habDesab);
-            }*
+             * checkBox.setCheckBoxEnabled(habDesab); }*
              */
             if (c instanceof JCheckBox) {
                 JCheckBox checkBox = (JCheckBox) c;
@@ -185,11 +184,8 @@ public class Funcoes {
         }
 
     }
-    
-    
-    //Não esta sendo utilizado!!!
-    
 
+    //Não esta sendo utilizado!!!
 //    //criptografa a senha
 //    public static String criptografaSenha(String senha) {
 //        try {
@@ -217,7 +213,6 @@ public class Funcoes {
 //            return null;
 //        }
 //    }
-
     public static void verificaCamposVazio(JPanel panel) {
 
         Component components[] = panel.getComponents();
@@ -355,15 +350,14 @@ public class Funcoes {
      */
     /**
      * public static FileName retornaStrDir(String diretorio) { FileName file =
-     * new FileName(diretorio, '/', '.'); return file;
-    }*
+     * new FileName(diretorio, '/', '.'); return file; }*
      */
 //    
 //    public static String retornaNomeEcom(String diretorio){
 //        String str = diretorio;
 //        String tx[]
 //    }
-    public static String formataCampoMoeda(String valor) {
+    public static String formataCampoMoeda(Object valor) {
         DecimalFormat decimalFormat = new DecimalFormat("R$ #,##0.00");
 
         return decimalFormat.format(valor);
@@ -768,5 +762,63 @@ public class Funcoes {
             JOptionPane.showMessageDialog(null, "Formato de data incorreto, redigite novamente");
             return;
         }
+    }
+
+    /**
+     * Função de Recurso para ratornar o nome do status de acordo com o Código
+     * do Status informado.
+     *
+     * @param codStatus
+     * @return O nome do status
+     */
+    public static String getOrderStatus(String codStatus) {
+        String Status = null;
+
+        switch (codStatus) {
+            case "1":
+                Status = "Aguardando confirmação do pagamento ";
+                break;
+            case "2":
+                Status = "Pagamento aceito";
+                break;
+            case "3":
+                Status = "Preparação em progresso";
+                break;
+            case "4":
+                Status = "Enviado";
+                break;
+            case "5":
+                Status = "Entregue";
+                break;
+            case "6":
+                Status = "Cancelado";
+                break;
+            case "7":
+                Status = "Reeembolsado";
+                break;
+            case "8":
+                Status = "Erro no pagamento";
+                break;
+            case "9":
+                Status = "Pedido retornado";
+                break;
+            case "10":
+                Status = "Aguardando transferência bancária";
+                break;
+            case "11":
+                Status = "Aguardando pagamento PayPal";
+                break;
+            case "12":
+                Status = "Pagamento aceito remotamente";
+                break;
+            case "13":
+                Status = "Nota Fiscal";
+                break;
+            case "14":
+                Status = "Finalizado";
+                break;
+        }
+
+        return Status;
     }
 }
