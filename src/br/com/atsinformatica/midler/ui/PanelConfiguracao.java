@@ -19,6 +19,7 @@ import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.midler.properties.OrderedProperties;
 import br.com.atsinformatica.midler.properties.PropertiesManager;
 import br.com.atsinformatica.utils.Funcoes;
+import org.apache.log4j.Logger;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.awt.event.KeyEvent;
@@ -46,6 +47,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private String fieldResolver = "codParaUrlWsdl,urlWSDL,urlKey";
     private ObjectTableModel urlModel = new ObjectTableModel(resolver, fieldResolver);
     private String codParaEcom;
+    private static Logger logger = Logger.getLogger(PanelConfiguracao.class);
 
     /**
      * Creates new form PanelConfiguracao
@@ -60,8 +62,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         habDesabCampos(false);
         carregaGrid();
         //carrega arquivo de configurações        
-        carregaArquivoConfig();
-        
+        carregaArquivoConfig();      
         //verifica se banco foi criado em diretorio especificado
         if (jBincluir.isEnabled()) {
             jBincluir.requestFocus();
@@ -114,7 +115,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      * Caso o arquivo de configuração não exista, cria novo
      * @param erpBean - Bean do ERP
      */
-
     private void setaArquivoConfiguracao(ERPBean erpBean) throws IOException {
         OrderedProperties config = new OrderedProperties();
         FileOutputStream fileos = new FileOutputStream("config.ini");
@@ -228,11 +228,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
 
         buttonGroup1.add(jRSim2);
         jRSim2.setText("Sim");
-        jRSim2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRSim2jRSimActionPerformed(evt);
-            }
-        });
 
         buttonGroup1.add(jRNao2);
         jRNao2.setText("Não");
@@ -369,20 +364,12 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jtQtdereg, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jtQtdemant, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(342, 342, 342)
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1)
+                            .addComponent(jtQtdereg, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jtQtdemant, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel12)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,10 +377,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                             .addComponent(jTUsuarioERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
                         .addComponent(jLabel14))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTdiretorioERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBTSelecionaDirErp1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -405,7 +388,18 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jCBVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBConexao))))
+                            .addComponent(jBConexao)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jPIntervaloSinc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(342, 342, 342)
+                                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTdiretorioERP1, javax.swing.GroupLayout.PREFERRED_SIZE, 593, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBTSelecionaDirErp1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -513,7 +507,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
                                 .addComponent(jTUrlKey, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(28, 28, 28)
                                 .addComponent(jButton1)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -754,10 +748,6 @@ public class PanelConfiguracao extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jBConexaoActionPerformed
 
-    private void jRSim2jRSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRSim2jRSimActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRSim2jRSimActionPerformed
-
     private void jTsenhaERP1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTsenhaERP1FocusLost
         if (jTsenhaERP1.getPassword().length > 1 && jTsenhaERP1.getPassword().length < 5) {
             JOptionPane.showMessageDialog(null, "Informe no mínimo 5 caracteres para a senha.");
@@ -835,6 +825,7 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             jtQtdemant.requestFocus();
         }
     }//GEN-LAST:event_jtQtdemantFocusLost
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jBConexao;
@@ -913,7 +904,8 @@ public class PanelConfiguracao extends javax.swing.JPanel {
     private void preencheGrid() {
         ParaUrlDAO dao = new ParaUrlDAO();
         try {
-            List<ParaUrlWsdlBean> listaParaUrl = dao.listaTodos();
+            urlModel.clear();
+            List<ParaUrlWsdlBean> listaParaUrl = dao.listaTodos();            
             if (!listaParaUrl.isEmpty()) {
                 for (ParaUrlWsdlBean bean : listaParaUrl) {
                     urlModel.add(bean);
@@ -955,14 +947,13 @@ public class PanelConfiguracao extends javax.swing.JPanel {
             List<ParaUrlWsdlBean> listaParaUrl = urlModel.getData();
             ParaUrlDAO dao = new ParaUrlDAO();
             for (ParaUrlWsdlBean paraUrl : listaParaUrl) {
-                if (principal.getjOperacao().equals("Inclusão")) {
-                    dao.gravar(paraUrl);
-                }
-                if (principal.getjOperacao().equals("Alteração")) {
-                    dao.alterar(paraUrl);
-                }
+                dao.gravar(paraUrl);                               
             }
+            verificaDeletados(listaParaUrl);
+            logger.info("Url cadastrada com sucesso.");
         } catch (Exception e) {
+            logger.error("Erro ao cadastrar url: "+e);
+            
         }
     }
 
@@ -978,6 +969,26 @@ public class PanelConfiguracao extends javax.swing.JPanel {
      */
     public void setCodParaEcom(String codParaEcom) {
         this.codParaEcom = codParaEcom;
+    }
+    
+    /**
+     * Verifica quais itens foram deletados na grid
+     * @param listaData 
+     */
+    private void verificaDeletados(List<ParaUrlWsdlBean> listaGrid){
+        try{            
+            ParaUrlDAO dao = new ParaUrlDAO();
+            List<ParaUrlWsdlBean> listaParaUrl = dao.listaTodos();            
+                for(ParaUrlWsdlBean urlErp : listaParaUrl){
+                    if(!listaGrid.contains(urlErp)){
+                        dao.deletar(urlErp.getCodParaUrlWsdl());
+                    }
+                
+                }
+        }catch(Exception e){
+            logger.error("Erro ao verificar itens deletados: "+e);
+            
+        }
     }
 
     /**

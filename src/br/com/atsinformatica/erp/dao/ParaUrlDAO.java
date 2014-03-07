@@ -15,7 +15,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.jasypt.util.text.BasicTextEncryptor;
 
 /**
  *
@@ -34,8 +33,8 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
         try {
             conn = ConexaoATS.conectaERP();            
             conn.setAutoCommit(false);
-            String querie = "INSERT INTO PARAURL (CODPARAURL, URLWSDL, URLKEY) VALUES (?,?,?)";
-            object.setCodParaUrlWsdl(ultimoRegistro());
+            String querie = "UPDATE OR INSERT INTO PARAURL (CODPARAURL, URL, URLKEY) VALUES (?,?,?)";
+            if(object.getCodParaUrlWsdl()==null)object.setCodParaUrlWsdl(ultimoRegistro());
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, object.getCodParaUrlWsdl());
             pstmt.setString(2, object.getUrlWSDL());
@@ -57,7 +56,7 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
         PreparedStatement pstmt = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String querie = "UPDATE PARAURL set URLWSDL = ?, URLKEY = ?  "
+            String querie = "UPDATE PARAURL set URL = ?, URLKEY = ?  "
                           + " WHERE CODPARAURL = ? ";
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(querie);
@@ -80,7 +79,6 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
     @Override
     public void deletar(String id) throws SQLException {
         PreparedStatement pstmt = null;
-        BasicTextEncryptor bt = new BasicTextEncryptor();
         try {
             conn = ConexaoATS.conectaERP();
             String querie = "DELETE FROM PARAURL WHERE CODPARAURL = ?";
@@ -112,7 +110,7 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
             ParaUrlWsdlBean paraUrlBean = new ParaUrlWsdlBean();
             while(rs.next()){
                 paraUrlBean.setCodParaUrlWsdl(rs.getString("CODPARAURL"));
-                paraUrlBean.setUrlWSDL(rs.getString("URLWSDL"));
+                paraUrlBean.setUrlWSDL(rs.getString("URL"));
                 paraUrlBean.setUrlKey(rs.getString("URLKEY"));
             }         
             logger.info("Url/WSDl retornado com sucesso!");
@@ -141,7 +139,7 @@ public class ParaUrlDAO implements IGenericDAO<ParaUrlWsdlBean> {
             while(rs.next()){
                 ParaUrlWsdlBean paraUrl = new ParaUrlWsdlBean();
                 paraUrl.setCodParaUrlWsdl(rs.getString("CODPARAURL"));
-                paraUrl.setUrlWSDL(rs.getString("URLWSDL"));
+                paraUrl.setUrlWSDL(rs.getString("URL"));
                 paraUrl.setUrlKey(rs.getString("URLKEY"));
                 listaParaUrl.add(paraUrl);                      
             }           
