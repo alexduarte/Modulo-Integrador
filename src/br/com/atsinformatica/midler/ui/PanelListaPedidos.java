@@ -3,8 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.com.atsinformatica.midler.ui;
+
+import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
+import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
+import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
+import br.com.atsinformatica.midler.components.renderer.MoneyCellRenderer;
+import br.com.atsinformatica.midler.components.renderer.StatusPedidoCellRenderer;
+import com.towel.el.annotation.AnnotationResolver;
+import com.towel.swing.table.ObjectTableModel;
+import java.util.List;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.table.TableColumn;
+import org.apache.log4j.Logger;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenu;
+import javax.swing.JTable;
 
 /**
  *
@@ -12,11 +32,20 @@ package br.com.atsinformatica.midler.ui;
  */
 public class PanelListaPedidos extends javax.swing.JPanel {
 
+    private AnnotationResolver resolver = new AnnotationResolver(ListaPedidoERPBean.class);
+    private String fields = "codPedidoResulth,codPedido,cliente,valor,status,dataPedido,formaPagamento,horaIntegracao";
+    private ObjectTableModel objTableModelListaPedido = new ObjectTableModel(resolver, fields);
+    private static Logger logger = Logger.getLogger(PanelListaPedidos.class);
+//            
+
     /**
      * Creates new form PanelListaPedidos
      */
     public PanelListaPedidos() {
         initComponents();
+        carregarGridListaPedido();
+        refleshGrid();
+        criandoMenuPopUp();
     }
 
     /**
@@ -31,7 +60,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTbListaPedido = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jBfechar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -40,24 +69,20 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         jRadioButton4 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTbListaPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"789", "001", "Maria José da Silva", "R$ 200,00", "Aguardando pagamento", "01/02/2014 00:18:48", "PagSeguro/Cartão", "01/02/2014 00:18:50"},
-                {"790", "002", "Antônio Augusto", "R$ 19.90", "Enviado", "31/01/2014 14:22:10", "PayPal/Boleto", "31/01/2014 14:25:10"}
+                {}
             },
             new String [] {
-                "Cód. Pedido Resulth", "Cód. Pedido", "Cliente", "Valor", "Status", "Data do pedido", "Forma de pagamento", "Hora integração"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            }
+        ));
+        jTbListaPedido.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTbListaPedidoMousePressed(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTbListaPedido);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Listagem de pedidos em aberto");
@@ -175,7 +200,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         //atualiza ui
         this.updateUI();
 
-        setBorder(null); 
+        setBorder(null);
 
     }//GEN-LAST:event_jBfecharActionPerformed
 
@@ -191,6 +216,16 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
+    private void jTbListaPedidoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbListaPedidoMousePressed
+        //Seleciona a linha no ponto em que o mouse é clicado
+        Point point = evt.getPoint();
+        int currentRow = jTbListaPedido.rowAtPoint(point);
+        System.out.println("Numero " + currentRow);
+        jTbListaPedido.setRowSelectionInterval(currentRow, currentRow);
+
+
+    }//GEN-LAST:event_jTbListaPedidoMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -203,6 +238,159 @@ public class PanelListaPedidos extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTbListaPedido;
     // End of variables declaration//GEN-END:variables
+
+    private void carregarGridListaPedido() {
+        jTbListaPedido.setModel(objTableModelListaPedido);
+        jTbListaPedido.setAutoCreateRowSorter(true);
+        objTableModelListaPedido.clear();
+        for (int i = 0; i < 19; i++) {
+            objTableModelListaPedido.add(null);
+        }
+        //Fazendo referencia a campo do Grid
+        TableColumn colStatus = jTbListaPedido.getColumnModel().getColumn(4);
+        TableColumn colDtPedido = jTbListaPedido.getColumnModel().getColumn(5);
+        TableColumn colDtIntegracao = jTbListaPedido.getColumnModel().getColumn(7);
+        TableColumn colValor = jTbListaPedido.getColumnModel().getColumn(3);
+
+        //Renderizando valores do Grid
+        colStatus.setCellRenderer(new StatusPedidoCellRenderer());
+        colDtPedido.setCellRenderer(new DateCellRenderer());
+        colDtIntegracao.setCellRenderer(new DateCellRenderer());
+        colValor.setCellRenderer(new MoneyCellRenderer());
+
+    }
+
+    private void refleshGrid() {
+        try {
+            objTableModelListaPedido.clear();
+            ListaPedidoDAO dao = new ListaPedidoDAO();
+            //Lista de Pedidos com Status diferente de Finalizado e Cancelado
+            List<ListaPedidoERPBean> listaPedidos = dao.listaTodos();
+
+            if (!listaPedidos.isEmpty()) {
+                objTableModelListaPedido.addAll(listaPedidos);
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao caregar lista de pedidos: " + e);
+        }
+    }
+
+    public void criandoMenuPopUp() {
+
+        //Declarando MenuPopUp
+        JPopupMenu popupMenu = new JPopupMenu();
+
+        //Criando itens do menu
+        JMenuItem menuItemFinalizarPedido = new JMenuItem("Finalizar Pedido");
+        JMenuItem menuItemCancelarPedido  = new JMenuItem("Cancelar Pedido");
+
+        //Criando Menu para sub menu de Status
+        JMenu menuAtualizarStatusPedido = new JMenu("Atualizar o status do pedido");
+
+        //Criando menu de status
+        JMenuItem SubItemAguardandoConfirmacaoPagamento = new JMenuItem("Aguardando confirmação do pagamento");
+        JMenuItem subItemNotaFiscal                     = new JMenuItem("Nota fiscal");
+        JMenuItem subItemEnviado                        = new JMenuItem("Enviado");
+        JMenuItem subItemEntregue                       = new JMenuItem("Entregue");
+        JMenuItem subItemCancelado                      = new JMenuItem("Cancelado");
+
+        //Adicionando o menu no subMenu Status
+        menuAtualizarStatusPedido.add(SubItemAguardandoConfirmacaoPagamento);
+        menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemNotaFiscal);
+        menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemEnviado);
+        menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemEntregue);
+        menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemCancelado);
+
+        //Adicionado o MenuItem no Menu
+        popupMenu.add(menuItemFinalizarPedido);
+        popupMenu.addSeparator();
+        popupMenu.add(menuItemCancelarPedido);
+        popupMenu.addSeparator();
+        popupMenu.add(menuAtualizarStatusPedido);
+
+        //Adicionando o MenuPopUP na Grid
+        jTbListaPedido.setComponentPopupMenu(popupMenu);
+
+        //Crianco ação ao clicar no MenuPopUp (Finalizar Pedido).
+        menuItemFinalizarPedido.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.out.println("Selecionado Finaliza pedido");
+            }
+        });
+
+        //Crianco ação ao clicar no MenuPopUp (Cancelar Pedido).
+        menuItemCancelarPedido.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Selecionado Cancelar pedido");
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Aguardando confirmação do pagamento)
+        SubItemAguardandoConfirmacaoPagamento.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Aguardando confirmação do pagamento");
+
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Nota Fiscal)
+        subItemNotaFiscal.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Nota Fiscal");
+
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Enviado)
+        subItemEnviado.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Enviado");
+
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Entregue)
+        subItemEntregue.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Entregue");
+
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Cancelar)
+        subItemCancelado.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Cancelar");
+
+            }
+        });
+
+    }
+    
+    public void finalizarPedido(){
+        
+    }
+
 }
