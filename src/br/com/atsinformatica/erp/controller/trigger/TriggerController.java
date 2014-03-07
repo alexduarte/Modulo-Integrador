@@ -36,8 +36,7 @@ public class TriggerController {
            if(!verificaTrigger("fabricante_ecomm_ai"))triggerFabricante.createTriggerAi();
            if(!verificaTrigger("fabricante_ecomm_ad"))triggerFabricante.createTriggerAd();
            //compprod
-           if(!verificaTrigger("compprod_ecomm_au"))triggerCompProd.createTriggerAu();
-           
+           if(!verificaTrigger("compprod_ecomm_au"))triggerCompProd.createTriggerAu();          
         }catch(Exception e){
             
         }        

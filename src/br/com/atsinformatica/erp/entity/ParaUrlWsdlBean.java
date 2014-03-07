@@ -5,6 +5,7 @@
 package br.com.atsinformatica.erp.entity;
 
 import com.towel.el.annotation.Resolvable;
+import java.util.Objects;
 
 /**
  * Bean de configuração de lista de url/wsdl
@@ -60,5 +61,30 @@ public class ParaUrlWsdlBean {
     public void setUrlKey(String urlKey) {
         this.urlKey = urlKey;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ParaUrlWsdlBean other = (ParaUrlWsdlBean) obj;
+        if (!Objects.equals(this.codParaUrlWsdl, other.codParaUrlWsdl)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
+    
     
 }
