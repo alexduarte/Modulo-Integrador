@@ -23,7 +23,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -33,9 +35,11 @@ import javax.swing.JTable;
 public class PanelListaPedidos extends javax.swing.JPanel {
 
     private AnnotationResolver resolver = new AnnotationResolver(ListaPedidoERPBean.class);
-    private String fields = "codPedidoResulth,codPedido,cliente,valor,status,dataPedido,formaPagamento,horaIntegracao";
+    private String fields = "codPedidoResulth,codPedidoEcom,cliente,valor,status,dataPedido,formaPagamento,horaIntegracao";
     private ObjectTableModel objTableModelListaPedido = new ObjectTableModel(resolver, fields);
     private static Logger logger = Logger.getLogger(PanelListaPedidos.class);
+    //Linha da Tabela selecionada, vai ser capturada no evento MousePressed
+    private int linhaSelecionada = -1;
 //            
 
     /**
@@ -219,9 +223,9 @@ public class PanelListaPedidos extends javax.swing.JPanel {
     private void jTbListaPedidoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbListaPedidoMousePressed
         //Seleciona a linha no ponto em que o mouse é clicado
         Point point = evt.getPoint();
-        int currentRow = jTbListaPedido.rowAtPoint(point);
-        System.out.println("Numero " + currentRow);
-        jTbListaPedido.setRowSelectionInterval(currentRow, currentRow);
+        linhaSelecionada = jTbListaPedido.rowAtPoint(point);
+        System.out.println("Numero " + linhaSelecionada);
+        //jTbListaPedido.setRowSelectionInterval(linhaSelecionada, linhaSelecionada);
 
 
     }//GEN-LAST:event_jTbListaPedidoMousePressed
@@ -285,17 +289,17 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         //Criando itens do menu
         JMenuItem menuItemFinalizarPedido = new JMenuItem("Finalizar Pedido");
-        JMenuItem menuItemCancelarPedido  = new JMenuItem("Cancelar Pedido");
+        JMenuItem menuItemCancelarPedido = new JMenuItem("Cancelar Pedido");
 
         //Criando Menu para sub menu de Status
         JMenu menuAtualizarStatusPedido = new JMenu("Atualizar o status do pedido");
 
         //Criando menu de status
         JMenuItem SubItemAguardandoConfirmacaoPagamento = new JMenuItem("Aguardando confirmação do pagamento");
-        JMenuItem subItemNotaFiscal                     = new JMenuItem("Nota fiscal");
-        JMenuItem subItemEnviado                        = new JMenuItem("Enviado");
-        JMenuItem subItemEntregue                       = new JMenuItem("Entregue");
-        JMenuItem subItemCancelado                      = new JMenuItem("Cancelado");
+        JMenuItem subItemNotaFiscal = new JMenuItem("Nota fiscal");
+        JMenuItem subItemEnviado = new JMenuItem("Enviado");
+        JMenuItem subItemEntregue = new JMenuItem("Entregue");
+        JMenuItem subItemCancelado = new JMenuItem("Cancelado");
 
         //Adicionando o menu no subMenu Status
         menuAtualizarStatusPedido.add(SubItemAguardandoConfirmacaoPagamento);
@@ -323,8 +327,13 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                System.out.println("Selecionado Finaliza pedido");
+                int yes;
+                //Confirmação para finalizar o pedido.
+                yes = JOptionPane.showConfirmDialog(null, "Deseja finalizar o pedido", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) //Chamdndo a função que finaliza o pedido
+                {
+                    finalizarPedido();
+                }
             }
         });
 
@@ -388,9 +397,27 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         });
 
     }
-    
-    public void finalizarPedido(){
-        
+
+    public void finalizarPedido() {
+
+        try {
+
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+            listaPedidoERPBean.setDataFinalizacaoPedido(new Date());
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoFinalizarPedido(listaPedidoERPBean)) {
+                listaPedidoDAO.finalizarPedido(listaPedidoERPBean);
+            } else {
+                System.out.println("Não pode finalizar esse pedido.");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao finalizar pedidos: " + e);
+        }
+
     }
 
 }
