@@ -40,7 +40,7 @@
                       <Component id="jBcancelar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jBfechar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="351" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="360" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jTabbedPane1" pref="0" max="32767" attributes="0"/>
@@ -101,21 +101,33 @@
                           </Group>
                           <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTUsuarioERP1" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jPIntervaloSinc1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="342" max="-2" attributes="0"/>
+                              <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
-                                      <Component id="jTsenhaERP1" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jTdiretorioERP1" min="-2" pref="593" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jBTSelecionaDirErp1" min="-2" pref="123" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
+                                          <Component id="jTsenhaERP1" min="-2" pref="150" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jCbFilial" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="jCbFilial" max="32767" attributes="0"/>
+                                  <Component id="jTUsuarioERP1" alignment="0" min="-2" pref="147" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -123,20 +135,6 @@
                                   <Component id="jCBVendedor" alignment="0" min="-2" pref="237" max="-2" attributes="0"/>
                                   <Component id="jBConexao" min="-2" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jPIntervaloSinc1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="342" max="-2" attributes="0"/>
-                                      <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jTdiretorioERP1" alignment="0" min="-2" pref="593" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jBTSelecionaDirErp1" min="-2" pref="123" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -512,7 +510,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="37" max="32767" attributes="0"/>
+                      <EmptySpace pref="46" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
