@@ -13,10 +13,13 @@ import java.sql.Statement;
 import java.util.List;
 import org.apache.log4j.Logger;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
+import br.com.atsinformatica.utils.Funcoes;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.sql.Date;
 
 /**
- *  
+ *
  * @author kennedimalheiros
  */
 public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
@@ -53,13 +56,14 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
         try {
             conn = ConexaoATS.conectaERP();
             String sql = "SELECT PC.CODPEDIDO, PC.IDPEDIDOECOM, C.NOME, PC.TOTALPEDIDO,"
-                    + "       PC.STATUSPEDIDO, PC.DATAPEDIDO, PC.OBSERVACAO1, PC.DATASINC"
+                    + "       PC.STATUSPEDIDOECOM, PC.DATAPEDIDO, PC.OBSERVACAO1, PC.DTSINCECOM"
                     + "  FROM PEDIDOC PC JOIN"
                     + "       CLIENTE C ON C.CODCLIENTE = PC.CODCLIENTE"
                     + " WHERE PC.IDPEDIDOECOM IS NOT NULL"
-                    + "   -- Status diferente de (Finalizado = 14)  e (Cancelado = 6)"
-                    + "   AND PC.statuspedido <> '14'"
-                    + "   AND PC.statuspedido <> '6'";
+                    + "    -- STATUS DIFERENTE DE (FINALIZADO = 14)  E (CANCELADO = 6)"
+                    + "   AND PC.STATUSPEDIDOECOM <> 14N"
+                    + "   AND PC.STATUSPEDIDOECOM <> 6"
+                    + "   AND PC.STATUSPEDIDOECOM >  0";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             List<ListaPedidoERPBean> listaPedBean = new ArrayList<>();
@@ -82,37 +86,65 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
     public String ultimoRegistro() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public boolean finalizarPedido() throws SQLException{
-        Statement stmt = null;
-        ResultSet rs = null;
 
+    public boolean validacaoFinalizarPedido(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String sql = "SELECT PC.CODPEDIDO, PC.IDPEDIDOECOM, C.NOME, PC.TOTALPEDIDO,"
-                    + "       PC.STATUSPEDIDO, PC.DATAPEDIDO, PC.OBSERVACAO1, PC.DATASINC"
-                    + "  FROM PEDIDOC PC JOIN"
-                    + "       CLIENTE C ON C.CODCLIENTE = PC.CODCLIENTE"
-                    + " WHERE PC.IDPEDIDOECOM IS NOT NULL"
-                    + "   -- Status diferente de (Finalizado = 14)  e (Cancelado = 6)"
-                    + "   AND PC.statuspedido <> 1 4"
-                    + "   AND PC.statuspedido <> 6 "
-                    + "   AND PC.statuspedido <  0 ";
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-          
-  
-            return true;
+
+            String sql = "   SELECT * FROM PEDIDOC P"
+                    + "           WHERE P.CODPEDIDO = ?"
+                    + "             AND P.IDPEDIDOECOM = ?"
+                    + "             AND P.STATUSPEDIDOECOM > 2  -- SE FOR MAIOR QUE 2 (FEZ O PAGAMENTO)"
+                    + "             AND P.STATUSPEDIDOECOM <> 6 -- NÃO ESTA CANCELADO";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(2, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+            rs = pstmt.executeQuery();
+            logger.error("Verificação de Finalizar Pedido com sucesso. ");
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
-             return false;
+            logger.error("Erro na Verificação de Finalizar Pedido: " + e);
+            return false;
         } finally {
-            stmt.close();
+            pstmt.close();
             rs.close();
             conn.close();
         }
+    }
 
-       
-        
+    public boolean finalizarPedido(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ? , p.dtfinalizapedidoecom = ? "
+                    + "  WHERE P.CODPEDIDO = ?"
+                    + "    AND P.IDPEDIDOECOM = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, "14");
+            pstmt.setDate(2, new Date(listaPedidoERPBean.getDataFinalizacaoPedido().getTime()));
+            //Função preencheCom completa o Codigo do Pedido para 8, completando com zeros a esquerda.
+            pstmt.setString(3, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(4, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+
+            pstmt.executeUpdate();
+
+            logger.info("Pedido Finalizado com sucesso!");
+            return true;
+        } catch (SQLException e) {
+            logger.error("Erro ao Finalizar Pedido: " + e);
+            return false;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
     }
 
 }
