@@ -19,7 +19,7 @@ public class ListaPedidoERPBean {
     @Resolvable(colName = "Cód. Pedido Resulth")
     private int codPedidoResulth;
     @Resolvable(colName = "Cód. Pedido")
-    private int codPedido;
+    private int codPedidoEcom;
     @Resolvable(colName = "Cliente")
     private String cliente;
     @Resolvable(colName = "Valor")
@@ -33,15 +33,17 @@ public class ListaPedidoERPBean {
     @Resolvable(colName = "Hora integração")
     private Date horaIntegracao;
 
+    private Date dataFinalizacaoPedido;
+    
     public ListaPedidoERPBean(ResultSet rs) throws SQLException{
         this.codPedidoResulth = rs.getInt("CODPEDIDO");       
-        this.codPedido        = rs.getInt("IDPEDIDOECOM");    
+        this.codPedidoEcom    = rs.getInt("IDPEDIDOECOM");    
         this.cliente          = rs.getString("NOME");         
         this.valor            = rs.getDouble("TOTALPEDIDO");  
-        this.status           = rs.getString("STATUSPEDIDO"); 
+        this.status           = rs.getString("STATUSPEDIDOECOM"); 
         this.dataPedido       = rs.getDate("DATAPEDIDO");
         this.formaPagamento   = rs.getString("OBSERVACAO1");       
-        this.horaIntegracao   = rs.getDate("DATASINC");
+        this.horaIntegracao   = rs.getDate("DTSINCECOM");
     }
 
     public ListaPedidoERPBean() {
@@ -57,12 +59,12 @@ public class ListaPedidoERPBean {
         this.codPedidoResulth = codPedidoResulth;
     }
 
-    public int getCodPedido() {
-        return codPedido;
+    public int getCodPedidoEcom() {
+        return codPedidoEcom;
     }
 
-    public void setCodPedido(int codPedido) {
-        this.codPedido = codPedido;
+    public void setCodPedidoEcom(int codPedidoEcom) {
+        this.codPedidoEcom = codPedidoEcom;
     }
 
     public String getCliente() {
@@ -111,6 +113,14 @@ public class ListaPedidoERPBean {
 
     public void setHoraIntegracao(Date horaIntegracao) {
         this.horaIntegracao = horaIntegracao;
+    }
+
+    public Date getDataFinalizacaoPedido() {
+        return dataFinalizacaoPedido;
+    }
+
+    public void setDataFinalizacaoPedido(Date dataFinalizacaoPedido) {
+        this.dataFinalizacaoPedido = dataFinalizacaoPedido;
     }
     
     
