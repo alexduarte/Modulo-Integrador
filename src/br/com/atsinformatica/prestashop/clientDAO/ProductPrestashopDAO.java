@@ -13,7 +13,6 @@ import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -148,9 +147,7 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
             JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
             StringWriter out = new StringWriter();
-
             marshaller.marshal(Prestashop, new StreamResult(out));
             System.out.println(out);
             return out.toString();

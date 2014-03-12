@@ -10,6 +10,7 @@ import br.com.atsinformatica.prestashop.model.node.LinkRewrite;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
+import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.root.Category;
 import java.sql.SQLException;
@@ -32,14 +33,15 @@ public class CategoriaController {
      * @param subCategoriaERP
      * @return
      */
-    public int createCategoryAndSubCategoryPrestashop(String categoriaERP, String subCategoriaERP) {
-        List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
-        String idParent = checksCategoryExists(categoriaERP, listCategoryPrestaShop);
-        if (idParent.isEmpty()) {
-            return new SubCategoriaController().createSubCategoryPrestaShop(new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(categoriaERP)),subCategoriaERP);
-        } else {
-            return new SubCategoriaController().createSubCategoryPrestaShop(Integer.valueOf(idParent),subCategoriaERP);
-        }  
+    public int createCategoryPrestashop(CategoriaEcomBean cat) {
+        //List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
+        //String idParent = checksCategoryExists(categoriaERP, listCategoryPrestaShop);
+        //if (idParent.isEmpty()) {
+           // return new SubCategoriaController().createSubCategoryPrestaShop(new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(categoriaERP)),subCategoriaERP);
+        return new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(cat));
+        //} else {
+         //   return new SubCategoriaController().createSubCategoryPrestaShop(Integer.valueOf(idParent),subCategoriaERP);
+       // }  
         
     }
 
@@ -107,18 +109,33 @@ public class CategoriaController {
         }
     }
     
-    private Category addCategoryPrestashop(String categoriaERP) {
-        Category category = new Category();
-        category.setDataAdd(new Date());
-        category.setDataUpd(new Date());
-        LinkRewrite linkRewrite = new LinkRewrite();
-        linkRewrite.getLanguage().add(new Language(categoriaERP.toLowerCase()));
-        category.setLinkRewrite(linkRewrite);
-
-        Name name = new Name();
-        name.getLanguage().add(new Language(categoriaERP));
-        category.setName(name);
-        return category;
+//    private Category addCategoryPrestashop(String categoriaERP) {
+//        Category category = new Category();
+//        category.setDataAdd(new Date());
+//        category.setDataUpd(new Date());
+//        LinkRewrite linkRewrite = new LinkRewrite();
+//        linkRewrite.getLanguage().add(new Language(categoriaERP.toLowerCase()));
+//        category.setLinkRewrite(linkRewrite);
+//
+//        Name name = new Name();
+//        name.getLanguage().add(new Language(categoriaERP));
+//        category.setName(name);
+//        return category;
+//    }
+    
+    
+      private Category addCategoryPrestashop(CategoriaEcomBean cat) {
+         Category category = new Category();
+         category.setDataAdd(new Date());
+         category.setDataUpd(new Date());
+       //  category.setIdErp(cat.getCodCategoria());
+         LinkRewrite linkRewrite = new LinkRewrite();
+         linkRewrite.getLanguage().add(new Language(cat.getDescricao().toLowerCase()));
+         category.setLinkRewrite(linkRewrite);
+         Name name = new Name();
+         name.getLanguage().add(new Language(cat.getDescricao()));
+         category.setName(name);
+         return category;
     }
 
 }

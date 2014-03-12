@@ -27,11 +27,12 @@ import javax.xml.bind.annotation.*;
             "isRootCategory",
             //"position",
             "dataAdd",
-            "dataUpd",            
+            "dataUpd",
+            "idErp",
             "name",
             "description",
             "linkRewrite",
-            "idErp",
+            
         })
 
 public class Category {
@@ -55,6 +56,9 @@ public class Category {
 
     @XmlElement(name = "date_upd")
     private String dataUpd;
+    
+    @XmlElement(name = "id_erp")
+    private String idErp;
 
     @XmlElement(name = "id_shop_default")
     private Short idShopDefault;
@@ -71,8 +75,7 @@ public class Category {
     @XmlElement(name = "link_rewrite")
     private LinkRewrite linkRewrite;
     
-    @XmlElement(name = "id_erp")
-    private String idEpr;
+    
 
     public Category() {
         //this.id = String.valueOf(70);        
@@ -168,17 +171,17 @@ public class Category {
     }
 
     /**
-     * @return the idEpr
+     * @return the idErp
      */
-    public String getIdEpr() {
-        return idEpr;
+    public String getIdErp() {
+        return idErp;
     }
 
     /**
-     * @param idEpr the idEpr to set
+     * @param idErp the idErp to set
      */
-    public void setIdEpr(String idEpr) {
-        this.idEpr = idEpr;
+    public void setIdErp(String idErp) {
+        this.idErp = idErp;
     }
     
 }

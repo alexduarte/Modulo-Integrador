@@ -31,7 +31,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * @author ricardosilva
  */
-public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
+public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implements IGenericPrestashopDAO<Category> {
     
     /**
      * Adiciona um item Categoria
@@ -70,7 +70,6 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
      */
     @Override
     public void put(String path, Category t, int key) {
-
         Prestashop prestashopCategory = new Prestashop();
         prestashopCategory.setCategory(t);
         String xml = createTOXML(prestashopCategory);
@@ -108,43 +107,43 @@ public class CategoryPrestashopDAO implements IGenericPrestashopDAO<Category> {
         Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
         return prestashop.getCategory();
     }
-    /**
-     * Retorna um a WebResource (função obrigatória);
-     *
-     * @return
-     */
-    protected WebResource getWebResource() {
-        try {
-            ClientConfig config = new DefaultClientConfig();
-            Client client = Client.create(config);
-            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
-            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
-            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    /**
-     * Retorna um a WebResource (função obrigatória);
-     *
-     * @param prestashopCategory
-     * @return
-     */
-    public String createTOXML(Prestashop prestashopCategory) {
-        try {
-            JAXBContext context = JAXBContext.newInstance(prestashopCategory.getClass());
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            StringWriter out = new StringWriter();
-            marshaller.marshal(prestashopCategory, new StreamResult(out));
-            System.out.println(out);
-            return out.toString();
-        } catch (JAXBException ex) {
-            Logger.getLogger(CategoryPrestashopDAO.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
+//    /**
+//     * Retorna um a WebResource (função obrigatória);
+//     *
+//     * @return
+//     */
+//    protected WebResource getWebResource() {
+//        try {
+//            ClientConfig config = new DefaultClientConfig();
+//            Client client = Client.create(config);
+//            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
+//            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
+//            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * Retorna um a WebResource (função obrigatória);
+//     *
+//     * @param prestashopCategory
+//     * @return
+//     */
+//    public String createTOXML(Prestashop prestashopCategory) {
+//        try {
+//            JAXBContext context = JAXBContext.newInstance(prestashopCategory.getClass());
+//            Marshaller marshaller = context.createMarshaller();
+//            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            StringWriter out = new StringWriter();
+//            marshaller.marshal(prestashopCategory, new StreamResult(out));
+//            System.out.println(out);
+//            return out.toString();
+//        } catch (JAXBException ex) {
+//            Logger.getLogger(CategoryPrestashopDAO.class
+//                    .getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return "";
+//    }
 }

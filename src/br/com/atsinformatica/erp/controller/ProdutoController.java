@@ -62,7 +62,7 @@ public class ProdutoController {
         p.setLinkRewrite(linkRewrite);
         PSMediaDAO mediaDAO = new PSMediaDAO();
         mediaDAO.post("", produtoERP.getMedia());
-        p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(), produtoERP.getSubCategoria()));
+      //  p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(), produtoERP.getSubCategoria()));
         ProductPrestashopDAO productPrestashopDAO = new ProductPrestashopDAO();
         return productPrestashopDAO.postWithVerification(Product.URLPRODUCTS, p);
     }

@@ -107,8 +107,8 @@ public class Product {
 //
 //    @XmlElement(name = "is_virtual")
 //    protected Integer isVirtual;
-    @XmlElement(name = "on_sale")
-    protected Integer onSale;
+//    @XmlElement(name = "on_sale")
+//    protected Integer onSale;
 //    @XmlElement(name = "online_only")
 //    protected Integer onlineOnly;
 //    @XmlElement(name = "ecotax")
@@ -177,7 +177,7 @@ public class Product {
 //        cacheIsPack = 0;
 //        cacheHasAttachments = 0;
 //        isVirtual = 0;
-        onSale = 0;
+//        onSale = 0;
 //        onlineOnly = 0;
 //        ecotax = "0.000000";
 //        minimalQuantity = 1;
@@ -350,13 +350,13 @@ public class Product {
 //        this.isVirtual = isVirtual;
 //    }
 //
-    public Integer getOnSale() {
-        return onSale;
-    }
-
-    public void setOnSale(Integer onSale) {
-        this.onSale = onSale;
-    }
+//    public Integer getOnSale() {
+//        return onSale;
+//    }
+//
+//    public void setOnSale(Integer onSale) {
+//        this.onSale = onSale;
+//    }
 
 //    public Integer getOnlineOnly() {
 //        return onlineOnly;
