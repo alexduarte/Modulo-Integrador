@@ -9,7 +9,7 @@ import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import org.apache.log4j.Logger;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,10 +40,30 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
             String querie = "UPDATE HISTINTEGECOM SET dataint = ?"
                     + " where codentidade = ?";
             pstmt = conn.prepareStatement(querie);
-            pstmt.setDate(1, new Date(object.getDataInteg().getTime()));
+//            pstmt.setDate(1, new Date(object.getDataInteg().getTime()));
             pstmt.setString(2, object.getCodEntidade());
             pstmt.executeUpdate();
             conn.commit();
+            logger.info("Historico de integração alterado com sucesso!");
+        } catch (Exception e) {
+            logger.error("Erro ao alterar histórico de integração: " + e);
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }
+    
+    public void alteraDataInt(int id) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            Date dataAtual = new Date();
+            String querie = "UPDATE HISTINTEGECOM SET dataint = ?"
+                    + " where codentidade = ?";
+            pstmt = conn.prepareStatement(querie);
+            pstmt.setDate(1, new java.sql.Date(dataAtual.getTime()));
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
             logger.info("Historico de integração alterado com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao alterar histórico de integração: " + e);
@@ -132,6 +152,9 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
             List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();
             while (rs.next()) {
                 HistoricoIntegraERPBean bean = new HistoricoIntegraERPBean(rs);
+                //objeto da entidade que deverá ser sincronizada
+                if(bean.getEntidade().equals("produto")) bean.setObjectSinc(new ProdutoDAO().abrir(bean.getCodEntidade()));
+                if(bean.getEntidade().equals("categoria")) bean.setObjectSinc(new CategoriaEcomDAO().abrir(bean.getCodEntidade()));
                 listHistBean.add(bean);
             }
             return listHistBean;

@@ -225,15 +225,27 @@ public class PanelHistorico extends javax.swing.JPanel {
             //lista de ultimos itens sincronizados na loja virtual
             List<HistoricoIntegraERPBean> listaUltimos = new HistoricoIntegraDAO().listaUltimosInteg();
             //Lista de itens a sincronizar na loja virtual
-            List itens = new ArrayList();
+            List itensPost = new ArrayList();           
+            List itensPut = new ArrayList();
+            List itensDelete = new ArrayList();
             if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
                 modelSincronizar.addAll(listaUltimos);
             } else {
                 for (HistoricoIntegraERPBean bean : listaPend) {
-                    itens.add(retornaItensSinc(bean));
+                    if (bean.getTipoOperacao().equals("insert")) {                        
+                        itensPost.add(bean);
+                    }
+                    if (bean.getTipoOperacao().equals("update")) {
+                        itensPut.add(bean);
+                    }
+                    if (bean.getTipoOperacao().equals("delete")) {
+                        itensDelete.add(bean);
+                    }
                     modelSincronizar.add(bean);
                 }
-               sincPost(itens);
+                sincPost(itensPost);
+                sincPut(itensPut);
+                sincDelete(itensDelete);
             }
         } catch (Exception e) {
             logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
@@ -251,13 +263,14 @@ public class PanelHistorico extends javax.swing.JPanel {
             Object obj = null;
             if (bean != null) {
                 //TODO: Melhorar este processo
-                if(bean.getEntidade().equals("categoria")){
-                    obj = new CategoriaEcomDAO().abrir(bean.getCodEntidade());          
+                if (bean.getEntidade().equals("categoria")) {
+                    obj = new CategoriaEcomDAO().abrir(bean.getCodEntidade());
                 }
                 if (bean.getEntidade().equals("produto")) {
                     obj = new ProdutoDAO().abrir(bean.getCodEntidade());
-                }                
-                if(bean.getEntidade().equals("fabricante")){}
+                }
+                if (bean.getEntidade().equals("fabricante")) {
+                }
             }
             return obj;
         } catch (Exception e) {
@@ -278,56 +291,57 @@ public class PanelHistorico extends javax.swing.JPanel {
             if (lista.isEmpty()) {
                 return;
             }
-           for(Object obj : lista){
-               if(obj.getClass().equals(CategoriaEcomBean.class)){
-                   CategoriaEcomBean catEcom = (CategoriaEcomBean) obj;
-                   //faz o post das categorias pendentes de sincronização
-                   //System.err.println("categoria");
-                   CategoriaController catController = new CategoriaController();
-                   catController.createCategoryPrestashop(catEcom);
-               }            
-           }
-          //  ProdutoController controller = new ProdutoController();            
-           // List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
-           // atualizaDataInt(novaLista);
+            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>)lista) {                
+                if (obj.getObjectSinc().getClass().equals(CategoriaEcomBean.class)) {
+                    CategoriaEcomBean catEcom = (CategoriaEcomBean) obj.getObjectSinc();
+                    //faz o post das categorias pendentes de sincronização
+                    CategoriaController catController = new CategoriaController();
+                    int cod = catController.createCategoryPrestashop(catEcom);
+                    catEcom.setIdCategoriaEcom(cod);
+                    CategoriaEcomDAO dao = new CategoriaEcomDAO();
+                    //salvando código da categoria cadastrada 
+                    dao.alteraIdEcom(catEcom);
+                    atualizaDataInt(obj);
+                }
+            }
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
         }
     }
-    
-     private void sincPut(List lista) {
+
+    private void sincPut(List lista) {
         try {
             if (lista.isEmpty()) {
                 return;
             }
-           for(Object obj : lista){
-               if(obj.getClass().equals(CategoriaEcomBean.class)){
-                   System.err.println("categoria");
-               }            
-           }
-          //  ProdutoController controller = new ProdutoController();            
-           // List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
-           // atualizaDataInt(novaLista);
+            for (Object obj : lista) {
+                if (obj.getClass().equals(CategoriaEcomBean.class)) {
+                    System.err.println("categoria");
+                }
+            }
+            //  ProdutoController controller = new ProdutoController();            
+            // List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            // atualizaDataInt(novaLista);
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
         }
-    }     
-     
+    }
+
     private void sincDelete(List lista) {
         try {
             if (lista.isEmpty()) {
                 return;
             }
-           for(Object obj : lista){
-               if(obj.getClass().equals(CategoriaEcomBean.class)){
-                   System.err.println("categoria");
-               }            
-           }
-          //  ProdutoController controller = new ProdutoController();            
-           // List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
-           // atualizaDataInt(novaLista);
+            for (Object obj : lista) {
+                if (obj.getClass().equals(CategoriaEcomBean.class)) {
+                    System.err.println("categoria");
+                }
+            }
+            //  ProdutoController controller = new ProdutoController();            
+            // List novaLista = controller.createProductPrestashop((List<ProdutoERPBean>) lista);
+            // atualizaDataInt(novaLista);
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
@@ -340,21 +354,11 @@ public class PanelHistorico extends javax.swing.JPanel {
      *
      * @param lista lista de itens
      */
-    private void atualizaDataInt(List lista) {
+    private void atualizaDataInt(HistoricoIntegraERPBean obj) {
         try {
             HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
             modelSincronizar.clear();
-            if (!lista.isEmpty()) {
-                for (ProdutoERPBean prodBean : (List<ProdutoERPBean>) lista) {
-                    HistoricoIntegraERPBean bean = null;
-                    if (prodBean.isImportadoLoja()) {
-                        bean = new HistoricoIntegraERPBean();
-                        bean.setCodEntidade(prodBean.getCodProd());
-                        bean.setDataInteg(new Date());
-                        dao.alterar(bean);
-                    }
-                }
-            }
+            dao.alteraDataInt(obj.getId());            
             //lista ultimos registros
             List<HistoricoIntegraERPBean> listaUltimos = dao.listaUltimosInteg();
             if (!listaUltimos.isEmpty()) {
@@ -364,4 +368,3 @@ public class PanelHistorico extends javax.swing.JPanel {
         }
     }
 }
-

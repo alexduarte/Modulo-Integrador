@@ -10,13 +10,20 @@ import br.com.atsinformatica.prestashop.model.node.LinkRewrite;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaERPDAO;
+import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
+import br.com.atsinformatica.prestashop.model.node.Description;
 import br.com.atsinformatica.prestashop.model.root.Category;
+import br.com.atsinformatica.utils.Funcoes;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -28,10 +35,8 @@ public class CategoriaController {
 
     /**
      * Cria uma lista de Categoria no prestashop
-     *
-     * @param categoriaERP
-     * @param subCategoriaERP
-     * @return
+     *@param cat  Categoria
+     * @return 
      */
     public int createCategoryPrestashop(CategoriaEcomBean cat) {
         //List<Category> listCategoryPrestaShop = new CategoryPrestashopDAO().get(Category.URLCATEGORY);
@@ -75,7 +80,6 @@ public class CategoriaController {
      * @return boolean
      */
     private String checksCategoryExists(String descricao, List<Category> listCategoryPrestaShop) {
-
         if (listCategoryPrestaShop.isEmpty()) {
             return "";
         } else {
@@ -127,14 +131,22 @@ public class CategoriaController {
       private Category addCategoryPrestashop(CategoriaEcomBean cat) {
          Category category = new Category();
          category.setDataAdd(new Date());
-         category.setDataUpd(new Date());
-       //  category.setIdErp(cat.getCodCategoria());
+         category.setDataUpd(new Date());        
+         category.setIdErp(Integer.parseInt(cat.getCodCategoria()));         
          LinkRewrite linkRewrite = new LinkRewrite();
          linkRewrite.getLanguage().add(new Language(cat.getDescricao().toLowerCase()));
+         if(cat.getCodCategoriaSuperior() != null){
+             try{
+                 CategoriaEcomDAO dao = new CategoriaEcomDAO();
+                 CategoriaEcomBean sub = dao.abrir(cat.getCodCategoriaSuperior());
+                 category.setIdParent(sub.getIdCategoriaEcom());
+             }catch(SQLException ex){
+                 Logger.getLogger(CategoriaController.class).error("Erro ao retornar categoria superior: "+ex);
+             }             
+         }
          category.setLinkRewrite(linkRewrite);
-         Name name = new Name();
-         name.getLanguage().add(new Language(cat.getDescricao()));
-         category.setName(name);
+         category.setDescription(new Description(cat.getDescricaoCompleta()));
+         category.setName(new Name(cat.getDescricao()));
          return category;
     }
 

@@ -58,7 +58,7 @@ public class Category {
     private String dataUpd;
     
     @XmlElement(name = "id_erp")
-    private String idErp;
+    private Integer idErp;
 
     @XmlElement(name = "id_shop_default")
     private Short idShopDefault;
@@ -116,7 +116,7 @@ public class Category {
 
     public void setDataAdd(Date dataAdd) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.dataAdd = sdf.format(dataAdd);
+        sdf.format(dataAdd);
     }
 
     public String getDataUpd() {
@@ -173,15 +173,17 @@ public class Category {
     /**
      * @return the idErp
      */
-    public String getIdErp() {
+    public Integer getIdErp() {
         return idErp;
     }
 
     /**
      * @param idErp the idErp to set
      */
-    public void setIdErp(String idErp) {
+    public void setIdErp(Integer idErp) {
         this.idErp = idErp;
     }
+
+   
     
 }

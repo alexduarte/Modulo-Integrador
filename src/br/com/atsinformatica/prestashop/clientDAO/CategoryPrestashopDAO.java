@@ -74,7 +74,6 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
         prestashopCategory.setCategory(t);
         String xml = createTOXML(prestashopCategory);
         ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
-        System.out.println(response);
     }
 
     /**
@@ -85,7 +84,6 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
      */
     @Override
     public List<Category> get(String path) {
-
         PrestashopItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(PrestashopItens.class);
         List<Category> listCategory = new ArrayList<>();
         for (AccessXMLAttribute accessXMLAttribute : getListItens.getCategories().getCategory()) {

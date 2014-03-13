@@ -31,8 +31,9 @@ public class TriggerCategoria implements ITrigger {
                              "active after update position 0 " +
                              "AS " +
                              "begin " +
-                             "    INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "    VALUES ('categoria', NEW.codcategoria, current_timestamp, NULL, 'update'); " +
+                             "  if (Old.idcategoriaecom is not null) then   "+
+                             "      INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
+                             "      VALUES ('categoria', NEW.codcategoria, current_timestamp, NULL, 'update'); " +
                              "end ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
