@@ -39,8 +39,7 @@ public class PSMediaDAO implements IGenericPrestashopDAO<ProdImgBean> {
         try {
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             ImageIcon img = new ImageIcon(t.getFoto());
-            String s = new String(t.getFoto());
-            
+            String s = new String(t.getFoto());            
             nameValuePairs.add(new BasicNameValuePair("", s));            
             post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         // Execute HTTP Post Request
@@ -64,6 +63,11 @@ public class PSMediaDAO implements IGenericPrestashopDAO<ProdImgBean> {
 
     @Override
     public ProdImgBean getId(String path, int key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(String path, String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

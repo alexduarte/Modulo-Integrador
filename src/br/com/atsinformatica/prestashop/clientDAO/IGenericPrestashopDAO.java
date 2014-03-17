@@ -22,4 +22,6 @@ public interface IGenericPrestashopDAO<T> {
     public List<T> get(String path);
     
     public T getId(String path,int key);
+    
+    public void delete(String path, String id);
 }

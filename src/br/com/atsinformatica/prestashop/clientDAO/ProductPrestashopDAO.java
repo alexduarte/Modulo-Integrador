@@ -164,4 +164,9 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         String xml = createTOXML(prestashop);
         ClientResponse clientResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
     }
+
+    @Override
+    public void delete(String path, String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

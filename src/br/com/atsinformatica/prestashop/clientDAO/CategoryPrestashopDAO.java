@@ -35,6 +35,7 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
         System.out.println(response.getStatus());
     }
     
+    @Override
     public void delete(String path, String idCategorie) {
         Prestashop prestashopCategory = new Prestashop();
         Category cat = new Category();
