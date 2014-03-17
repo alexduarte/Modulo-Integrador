@@ -105,7 +105,7 @@ public class PSMediaDAOTest extends TestCase {
         ProdImgBean t = null;
         int key = 0;
         PSMediaDAO instance = new PSMediaDAO();
-        instance.put(path, t, key);
+//        instance.put(path, t, key);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

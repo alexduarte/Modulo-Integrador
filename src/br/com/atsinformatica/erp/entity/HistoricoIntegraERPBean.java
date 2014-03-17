@@ -27,7 +27,7 @@ public class HistoricoIntegraERPBean {
     private Date dataInteg;
     @Resolvable(colName = "Tipo Operação")
     private String tipoOperacao;
-    
+    //Objeto generico de sincronização
     private Object objectSinc;
     
     public HistoricoIntegraERPBean(ResultSet rs) throws SQLException {

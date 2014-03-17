@@ -17,7 +17,7 @@ public interface IGenericPrestashopDAO<T> {
   
     public void post(String path,T t);
     
-    public void put(String path,T t,int key);
+    public void put(String path,T t);
     
     public List<T> get(String path);
     

@@ -91,7 +91,7 @@ public class CategoryPrestashopDAOTest extends TestCase {
         Category t = null;
         int key = 0;
         CategoryPrestashopDAO instance = new CategoryPrestashopDAO();
-        instance.put(path, t, key);
+//        instance.put(path, t, key);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -78,12 +78,12 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
      * @param t
      */
     @Override
-    public void put(String path, Product t, int key) {
+    public void put(String path, Product t) {
 
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
+        ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
         System.out.println(response);
     }
 

@@ -59,7 +59,7 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
             conn = ConexaoATS.conectaERP();
             Date dataAtual = new Date();
             String querie = "UPDATE HISTINTEGECOM SET dataint = ?"
-                    + " where codentidade = ?";
+                    + " where id = ?";
             pstmt = conn.prepareStatement(querie);
             pstmt.setDate(1, new java.sql.Date(dataAtual.getTime()));
             pstmt.setInt(2, id);
@@ -146,7 +146,8 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
         ResultSet rs = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String sql = "select * from histintegecom where dataint is null";
+            ParaEcomBean paraEcomBean = new ParaEcomDAO().listaTodos().get(0);
+            String sql = "select first "+ paraEcomBean.getQtdeRegistros() +" histintegecom.* from histintegecom where dataint is null";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();

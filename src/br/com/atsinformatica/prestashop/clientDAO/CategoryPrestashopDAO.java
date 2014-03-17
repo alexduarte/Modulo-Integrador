@@ -5,27 +5,14 @@
  */
 package br.com.atsinformatica.prestashop.clientDAO;
 
-import br.com.atsinformatica.erp.dao.ParaUrlDAO;
-import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
 import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Category;
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import java.io.StringWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.*;
-import javax.xml.transform.stream.StreamResult;
 
 /**
  *
@@ -47,6 +34,17 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
         ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
         System.out.println(response.getStatus());
     }
+    
+    public void delete(String path, String idCategorie) {
+        Prestashop prestashopCategory = new Prestashop();
+        Category cat = new Category();
+        cat.setId(idCategorie);
+        prestashopCategory.setCategory(cat);
+        String xml = createTOXML(prestashopCategory);
+        getWebResource().path(path).path(idCategorie).type(MediaType.APPLICATION_XML).delete();
+        //ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).delete(ClientResponse.class, xml);
+        //System.out.println(response.getStatus());
+    }
 
     /**
      * Adiciona uma categoria e retorna o objeto salvo
@@ -58,7 +56,7 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
         Prestashop prestashopCategory = new Prestashop();
         prestashopCategory.setCategory(t);
         String xml = createTOXML(prestashopCategory);
-        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
+        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);        
         return Integer.parseInt(post.getCategory().getId());
     }
     
@@ -69,11 +67,12 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
      * @param t
      */
     @Override
-    public void put(String path, Category t, int key) {
+    public void put(String path, Category t) {
         Prestashop prestashopCategory = new Prestashop();
         prestashopCategory.setCategory(t);
         String xml = createTOXML(prestashopCategory);
-        ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
+        ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);        
+        System.out.println("Response: "+response);
     }
 
     /**
@@ -105,43 +104,5 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
         Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
         return prestashop.getCategory();
     }
-//    /**
-//     * Retorna um a WebResource (função obrigatória);
-//     *
-//     * @return
-//     */
-//    protected WebResource getWebResource() {
-//        try {
-//            ClientConfig config = new DefaultClientConfig();
-//            Client client = Client.create(config);
-//            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
-//            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
-//            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
-//        } catch (SQLException ex) {
-//            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * Retorna um a WebResource (função obrigatória);
-//     *
-//     * @param prestashopCategory
-//     * @return
-//     */
-//    public String createTOXML(Prestashop prestashopCategory) {
-//        try {
-//            JAXBContext context = JAXBContext.newInstance(prestashopCategory.getClass());
-//            Marshaller marshaller = context.createMarshaller();
-//            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//            StringWriter out = new StringWriter();
-//            marshaller.marshal(prestashopCategory, new StreamResult(out));
-//            System.out.println(out);
-//            return out.toString();
-//        } catch (JAXBException ex) {
-//            Logger.getLogger(CategoryPrestashopDAO.class
-//                    .getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return "";
-//    }
+
 }

@@ -116,16 +116,16 @@ public class Category {
 
     public void setDataAdd(Date dataAdd) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.format(dataAdd);
+        this.dataAdd = sdf.format(dataAdd);
     }
 
     public String getDataUpd() {
         return dataUpd;
     }
 
-    public void setDataUpd(Date dataAdd) {
+    public void setDataUpd(Date dataUpd) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.dataUpd = sdf.format(dataAdd);
+        this.dataUpd = sdf.format(dataUpd);
     }
 
     public Short getIdShopDefault() {

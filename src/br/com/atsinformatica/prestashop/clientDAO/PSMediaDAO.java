@@ -53,7 +53,7 @@ public class PSMediaDAO implements IGenericPrestashopDAO<ProdImgBean> {
     }
 
     @Override
-    public void put(String path, ProdImgBean t, int key) {
+    public void put(String path, ProdImgBean t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
