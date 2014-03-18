@@ -36,15 +36,8 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
     }
     
     @Override
-    public void delete(String path, String idCategorie) {
-        Prestashop prestashopCategory = new Prestashop();
-        Category cat = new Category();
-        cat.setId(idCategorie);
-        prestashopCategory.setCategory(cat);
-        String xml = createTOXML(prestashopCategory);
+    public void delete(String path, String idCategorie) {        
         getWebResource().path(path).path(idCategorie).type(MediaType.APPLICATION_XML).delete();
-        //ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).delete(ClientResponse.class, xml);
-        //System.out.println(response.getStatus());
     }
 
     /**
