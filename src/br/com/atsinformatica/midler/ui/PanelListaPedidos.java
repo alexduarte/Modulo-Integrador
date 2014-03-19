@@ -7,11 +7,13 @@ package br.com.atsinformatica.midler.ui;
 
 import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
+import br.com.atsinformatica.midler.components.InformacoesEnvioPedido;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.MoneyCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.StatusPedidoCellRenderer;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
+import java.awt.Label;
 import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -24,9 +26,12 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -328,8 +333,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int yes;
-                //Confirmação para finalizar o pedido.
-                yes = JOptionPane.showConfirmDialog(null, "Deseja finalizar o pedido", "Confirmação", JOptionPane.YES_NO_OPTION);
+                yes = JOptionPane.showConfirmDialog(null, "Deseja finalizar o pedido?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (yes == JOptionPane.YES_OPTION) {
                     //Chamdndo a função que finaliza o pedido
                     finalizarPedido();
@@ -343,8 +347,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int yes;
-                //Confirmação para finalizar o pedido.
-                yes = JOptionPane.showConfirmDialog(null, "Deseja cancelar o pedido", "Confirmação", JOptionPane.YES_NO_OPTION);
+                yes = JOptionPane.showConfirmDialog(null, "Deseja cancelar o pedido?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if (yes == JOptionPane.YES_OPTION) {
                     //Chamdndo a função
                     cancelarPedido();
@@ -357,7 +360,12 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Aguardando confirmação do pagamento");
+                int yes;
+                yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para \n(Aguardando confirmação do pagamento)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) {
+                    //Chamdndo a função
+                    statusAguadandoPagamento();
+                }
 
             }
         });
@@ -367,8 +375,12 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Nota Fiscal");
-
+                int yes;
+                yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para (Nota Fiscal)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) {
+                    //Chamdndo a função
+                    statusNotaFiscal();
+                }
             }
         });
 
@@ -377,30 +389,45 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Enviado");
 
+                String codPedidoEcom = String.valueOf(jTbListaPedido.getValueAt(linhaSelecionada, 1));
+                String codPedidoResulth = String.valueOf(jTbListaPedido.getValueAt(linhaSelecionada, 0));
+
+                InformacoesEnvioPedido janelaInformacoesEnvioPedido = new InformacoesEnvioPedido(null, true, codPedidoResulth, codPedidoEcom);
+
+                janelaInformacoesEnvioPedido.setVisible(true);
+                 
+                //Atualizando Grid
+                 refleshGrid();
+               
             }
         });
 
         //Criando ação ao clicar no SubMenu (Entregue)
-        subItemEntregue.addActionListener(new ActionListener() {
+        subItemEntregue.addActionListener(
+                new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Entregue");
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        System.out.println("Entregue");
 
-            }
-        });
+                    }
+                }
+        );
 
         //Criando ação ao clicar no SubMenu (Cancelar)
-        subItemCancelado.addActionListener(new ActionListener() {
+        subItemCancelado.addActionListener(
+                new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancelar");
+                    @Override
+                    public void actionPerformed(ActionEvent e
+                    ) {
+                        System.out.println("Cancelar");
 
-            }
-        });
+                    }
+                }
+        );
 
     }
 
@@ -410,6 +437,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
             listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
             listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
             listaPedidoERPBean.setDataFinalizacaoPedido(new Date());
 
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
@@ -448,29 +476,51 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            logger.error("Erro ao finalizar pedidos: " + e);
+            logger.error("Erro ao cancelar pedidos: " + e);
         }
     }
-    
-    public void statusAguadandoPagamento(){
+
+    public void statusAguadandoPagamento() {
         try {
             ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
             listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
             listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
 
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
-            if (listaPedidoDAO.validacaoCancelarPedido(listaPedidoERPBean)) {
-                if (listaPedidoDAO.cancelarPedido(listaPedidoERPBean)) {
-                    JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
+            if (listaPedidoDAO.validacaoStatusAguadandoPagamento(listaPedidoERPBean)) {
+                if (listaPedidoDAO.StatusAguadandoPagamento(listaPedidoERPBean)) {
+                    JOptionPane.showMessageDialog(null, "Status (AguadandoPagamento) do pedido alterado com sucesso!");
                     //Atualizando Grid
                     refleshGrid();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser cancelado!");
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
             }
 
         } catch (Exception e) {
-            logger.error("Erro ao finalizar pedidos: " + e);
+            logger.error("Erro ao mudar status do pedidos para (Aguardando Pagamento): " + e);
+        }
+    }
+
+    public void statusNotaFiscal() {
+        try {
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoStatusNotaFiscal(listaPedidoERPBean)) {
+                if (listaPedidoDAO.StatusNotaFiscal(listaPedidoERPBean)) {
+                    JOptionPane.showMessageDialog(null, "Status (Nota Fiscal) do pedido alterado com sucesso!");
+                    //Atualizando Grid
+                    refleshGrid();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao mudar status do pedidos para (Nota Fiscal): " + e);
         }
     }
 
