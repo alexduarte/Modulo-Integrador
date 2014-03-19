@@ -176,7 +176,8 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             rs.close();
             conn.close();
         }
-    }    
+    }
+
     public boolean cancelarPedido(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
         PreparedStatement pstmt = null;
         try {
@@ -203,38 +204,188 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             conn.close();
             pstmt.close();
         }
-    }    
-    
-    
-  public boolean validacaoStatusAguadandoPagamento(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+    }
+
+    public boolean validacaoStatusAguadandoPagamento(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
             conn = ConexaoATS.conectaERP();
 
-            String sql = "   SELECT * FROM PEDIDOC P"
-                    + "           WHERE P.CODPEDIDO = ?"
-                    + "             AND P.IDPEDIDOECOM = ?"
-                    + "             AND P.STATUSPEDIDOECOM <> 14 -- NÃO ESTA FINALIZADO";
+            String sql = "   SELECT * FROM PEDIDOC P "
+                    + "           WHERE P.CODPEDIDO = ? "
+                    + "             AND P.IDPEDIDOECOM = ? "
+                    + "             AND P.STATUSPEDIDOECOM <> 6 -- NÃO ESTA CANCELADO "
+                    + "             AND P.STATUSPEDIDOECOM <> 14 -- NÃO ESTA FINALIZADO "
+                    + "             AND P.STATUSPEDIDOECOM <> 2 -- NÃO FOI CONFIRMADO O PAGAMENTO "
+                    + "             AND P.STATUSPEDIDOECOM <> 4 -- MERCADORIA NÃO FOI ENVIADA";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
             pstmt.setString(2, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
             rs = pstmt.executeQuery();
-            logger.error("Verificação de cancelar Pedido com sucesso. ");
+            logger.error("Verificação de Status (AguadandoPagamento) do Pedido com sucesso. ");
             if (rs.next()) {
                 return true;
             } else {
                 return false;
             }
         } catch (Exception e) {
-            logger.error("Erro na Verificação de cancelar Pedido: " + e);
+            logger.error("Erro na Verificação de Status (AguadandoPagamento) do Pedido: " + e);
             return false;
         } finally {
             pstmt.close();
             rs.close();
             conn.close();
         }
-    }        
-    
+    }
+
+    public boolean StatusAguadandoPagamento(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ? "
+                    + "  WHERE P.CODPEDIDO = ?"
+                    + "    AND P.IDPEDIDOECOM = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, "1");
+            //Função preencheCom completa o Codigo do Pedido para 8, completando com zeros a esquerda.
+            pstmt.setString(2, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(3, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+
+            pstmt.executeUpdate();
+
+            logger.info("Mudança de status de Pedido para (Aguadando Pagamento)com sucesso!");
+            return true;
+        } catch (SQLException e) {
+            logger.error("Erro ao Mudar status do Pedido para (Aguadando Pagamento): " + e);
+            return false;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }
+
+    public boolean validacaoStatusNotaFiscal(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+
+            String sql = "   SELECT * FROM PEDIDOC P "
+                    + "           WHERE P.CODPEDIDO = ? "
+                    + "             AND P.IDPEDIDOECOM = ? "
+                    + "             AND P.STATUSPEDIDOECOM <> 6 -- NÃO ESTA CANCELADO "
+                    + "             AND P.STATUSPEDIDOECOM <> 14 -- NÃO ESTA FINALIZADO "
+                    + "             AND P.STATUSPEDIDOECOM <> 2 -- NÃO FOI CONFIRMADO O PAGAMENTO "
+                    + "             AND P.STATUSPEDIDOECOM <> 4 -- MERCADORIA NÃO FOI ENVIADA";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(2, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+            rs = pstmt.executeQuery();
+            logger.error("Verificação para alteração do Status (Nota Fiscal) do Pedido com sucesso. ");
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Erro na Verificação para alteração do Statos (Nota Fiscal) do Pedido: " + e);
+            return false;
+        } finally {
+            pstmt.close();
+            rs.close();
+            conn.close();
+        }
+    }
+
+    public boolean StatusNotaFiscal(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ? "
+                    + "  WHERE P.CODPEDIDO = ?"
+                    + "    AND P.IDPEDIDOECOM = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, "13");
+            //Função preencheCom completa o Codigo do Pedido para 8, completando com zeros a esquerda.
+            pstmt.setString(2, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(3, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+
+            pstmt.executeUpdate();
+
+            logger.info("Mudança de status de Pedido para (Nota Fiscal)com sucesso!");
+            return true;
+        } catch (SQLException e) {
+            logger.error("Erro ao Mudar status do Pedido para (Nota Fiscal): " + e);
+            return false;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }
+
+    public boolean validacaoStatusEnviado(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+
+            String sql = "   SELECT * FROM PEDIDOC P "
+                    + "           WHERE P.CODPEDIDO = ? "
+                    + "             AND P.IDPEDIDOECOM = ? "
+                    + "             AND P.STATUSPEDIDOECOM = 3 -- SE ESTIVER COM O STATUS (PREPARAÇÃO EM PROGRESSO) E PORQUE JA FOI FEITO O PAGAMENTO.";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(2, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+            rs = pstmt.executeQuery();
+            logger.error("Verificação para alteração do Status (Enviado) do Pedido com sucesso. ");
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Erro na Verificação para alteração do Statos (Enviado) do Pedido: " + e);
+            return false;
+        } finally {
+            pstmt.close();
+            rs.close();
+            conn.close();
+        }
+    }
+
+    public boolean StatusEnviado(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ?, P.DATAENVIOPEDIDOECOM = ?, P.CODRASTREIACOM = ?"
+                    + "  WHERE P.CODPEDIDO = ?"
+                    + "    AND P.IDPEDIDOECOM = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, "4");
+            pstmt.setDate(2, new Date(listaPedidoERPBean.getDataEnvioPedidoEcom().getTime()));
+            pstmt.setString(3, listaPedidoERPBean.getCodRastreiaEcom());
+            //Função preencheCom completa o Codigo do Pedido para 8, completando com zeros a esquerda.
+            pstmt.setString(4, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(5, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+
+            pstmt.executeUpdate();
+
+            logger.info("Mudança de status de Pedido para (Enviado)com sucesso!");
+            return true;
+        } catch (SQLException e) {
+            logger.error("Erro ao Mudar status do Pedido para (Enviado): " + e);
+            return false;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }
+
 }
