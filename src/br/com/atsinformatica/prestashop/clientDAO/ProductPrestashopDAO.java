@@ -13,7 +13,6 @@ import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -79,12 +78,12 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
      * @param t
      */
     @Override
-    public void put(String path, Product t, int key) {
+    public void put(String path, Product t) {
 
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        ClientResponse response = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
+        ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
         System.out.println(response);
     }
 
@@ -148,9 +147,7 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
             JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
             StringWriter out = new StringWriter();
-
             marshaller.marshal(Prestashop, new StreamResult(out));
             System.out.println(out);
             return out.toString();
@@ -166,5 +163,10 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
         ClientResponse clientResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
+    }
+
+    @Override
+    public void delete(String path, String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -8,6 +8,7 @@ import com.towel.el.annotation.Resolvable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 
@@ -26,6 +27,8 @@ public class HistoricoIntegraERPBean {
     private Date dataInteg;
     @Resolvable(colName = "Tipo Operação")
     private String tipoOperacao;
+    //Objeto generico de sincronização
+    private Object objectSinc;
     
     public HistoricoIntegraERPBean(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
@@ -127,6 +130,21 @@ public class HistoricoIntegraERPBean {
     public void setTipoOperacao(String tipoOperacao) {
         this.tipoOperacao = tipoOperacao;
     }
+
+    /**
+     * @return the objectSinc
+     */
+    public Object getObjectSinc() {
+        return objectSinc;
+    }
+
+    /**
+     * @param objectSinc the objectSinc to set
+     */
+    public void setObjectSinc(Object objectSinc) {
+        this.objectSinc = objectSinc;
+    }
+
     
     
 }

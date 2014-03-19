@@ -26,6 +26,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "name")      
 public class Name {
     
+    
+    public Name(){
+        
+    }
+    
+    public Name(String name){
+        getLanguage().add(new Language(name));
+    }
+    
     @XmlElement(required = true)
     protected List<Language> language;
 

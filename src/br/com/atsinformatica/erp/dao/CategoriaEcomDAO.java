@@ -24,12 +24,60 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
     private static Logger logger = Logger.getLogger(CategoriaEcomDAO.class);
     @Override
     public void gravar(CategoriaEcomBean object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     @Override
     public void alterar(CategoriaEcomBean object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         PreparedStatement pstmt = null;        
+        try{
+            conn = ConexaoATS.conectaERP();
+            String querie = "UPDATE CATEGORIASECOM " +
+                            "SET DESCRICAO = ?, " +
+                            "    PRINCIPAL = ?, " +
+                            "    CODCATEGORIASUPERIOR = ?, " +
+                            "    DESCRICAODETALHADA = ?, " +
+                            "    DESCRICAOCOMPLETA = ?, " +
+                            "    IDCATEGORIAECOM = ? " +
+                            "WHERE (CODCATEGORIA = ?) ";
+            pstmt = conn.prepareStatement(querie);
+            pstmt.setString(1, object.getDescricao());
+            pstmt.setString(2, object.getPrincipal());
+            pstmt.setString(3, object.getCodCategoriaSuperior());
+            pstmt.setString(4, object.getDescricaoDetalhada());
+            pstmt.setString(5, object.getDescricaoCompleta());
+            pstmt.setInt(6, object.getIdCategoriaEcom());
+            pstmt.setString(7, object.getCodCategoria());
+            pstmt.executeUpdate();
+            logger.info("Categoria alterada com sucesso.");
+        }catch(Exception e){
+            logger.error("Erro ao altera categoria: "+e);
+            
+        }finally{
+            pstmt.close();
+            conn.close();
+        }
+    }
+     
+    public void alteraIdEcom(CategoriaEcomBean object) throws SQLException {
+         PreparedStatement pstmt = null;        
+        try{
+            conn = ConexaoATS.conectaERP();
+            String querie = "UPDATE CATEGORIASECOM " +
+                            "SET IDCATEGORIAECOM = ? " +
+                            "WHERE (CODCATEGORIA = ?) ";
+            pstmt = conn.prepareStatement(querie);
+            pstmt.setInt(1, object.getIdCategoriaEcom());
+            pstmt.setString(2, object.getCodCategoria());
+            pstmt.executeUpdate();
+            logger.info("Id da categoria da loja virtual gravado com sucesso.");
+        }catch(Exception e){
+            logger.error("Erro ao gravar id da categoria da loja virtual: "+e);
+            
+        }finally{
+            pstmt.close();
+            conn.close();
+        }
     }
 
     @Override
@@ -57,7 +105,7 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
             CategoriaEcomBean categoria = null;
             while(rs.next()){
                 categoria = new CategoriaEcomBean();
-                categoria.setCodCategoria(rs.getString("CODCATEGORIA"));
+                categoria.setCodCategoria(rs.getString("CODCATEGORIA").trim());
                 categoria.setCodCategoriaSuperior(rs.getString("CODCATEGORIASUPERIOR"));
                 categoria.setDescricao(rs.getString("DESCRICAO"));
                 categoria.setPrincipal(rs.getString("PRINCIPAL"));
