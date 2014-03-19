@@ -147,4 +147,94 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
         }
     }
 
+    public boolean validacaoCancelarPedido(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+
+            String sql = "   SELECT * FROM PEDIDOC P"
+                    + "           WHERE P.CODPEDIDO = ?"
+                    + "             AND P.IDPEDIDOECOM = ?"
+                    + "             AND P.STATUSPEDIDOECOM <> 14 -- NÃO ESTA FINALIZADO";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(2, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+            rs = pstmt.executeQuery();
+            logger.error("Verificação de cancelar Pedido com sucesso. ");
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Erro na Verificação de cancelar Pedido: " + e);
+            return false;
+        } finally {
+            pstmt.close();
+            rs.close();
+            conn.close();
+        }
+    }    
+    public boolean cancelarPedido(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ? , p.dtfinalizapedidoecom = ? "
+                    + "  WHERE P.CODPEDIDO = ?"
+                    + "    AND P.IDPEDIDOECOM = ?";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, "6");
+            pstmt.setDate(2, new Date(listaPedidoERPBean.getDataFinalizacaoPedido().getTime()));
+            //Função preencheCom completa o Codigo do Pedido para 8, completando com zeros a esquerda.
+            pstmt.setString(3, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(4, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+
+            pstmt.executeUpdate();
+
+            logger.info("Pedido Cancelado com sucesso!");
+            return true;
+        } catch (SQLException e) {
+            logger.error("Erro ao Cancelar Pedido: " + e);
+            return false;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }    
+    
+    
+  public boolean validacaoStatusAguadandoPagamento(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+
+            String sql = "   SELECT * FROM PEDIDOC P"
+                    + "           WHERE P.CODPEDIDO = ?"
+                    + "             AND P.IDPEDIDOECOM = ?"
+                    + "             AND P.STATUSPEDIDOECOM <> 14 -- NÃO ESTA FINALIZADO";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
+            pstmt.setString(2, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
+            rs = pstmt.executeQuery();
+            logger.error("Verificação de cancelar Pedido com sucesso. ");
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Erro na Verificação de cancelar Pedido: " + e);
+            return false;
+        } finally {
+            pstmt.close();
+            rs.close();
+            conn.close();
+        }
+    }        
+    
 }
