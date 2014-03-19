@@ -330,8 +330,8 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                 int yes;
                 //Confirmação para finalizar o pedido.
                 yes = JOptionPane.showConfirmDialog(null, "Deseja finalizar o pedido", "Confirmação", JOptionPane.YES_NO_OPTION);
-                if (yes == JOptionPane.YES_OPTION) //Chamdndo a função que finaliza o pedido
-                {
+                if (yes == JOptionPane.YES_OPTION) {
+                    //Chamdndo a função que finaliza o pedido
                     finalizarPedido();
                 }
             }
@@ -342,7 +342,13 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Selecionado Cancelar pedido");
+                int yes;
+                //Confirmação para finalizar o pedido.
+                yes = JOptionPane.showConfirmDialog(null, "Deseja cancelar o pedido", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) {
+                    //Chamdndo a função
+                    cancelarPedido();
+                }
             }
         });
 
@@ -399,7 +405,6 @@ public class PanelListaPedidos extends javax.swing.JPanel {
     }
 
     public void finalizarPedido() {
-
         try {
 
             ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
@@ -409,15 +414,64 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoFinalizarPedido(listaPedidoERPBean)) {
-                listaPedidoDAO.finalizarPedido(listaPedidoERPBean);
+                if (listaPedidoDAO.finalizarPedido(listaPedidoERPBean)) {
+                    JOptionPane.showMessageDialog(null, "Pedido finalizado com sucesso!");
+                    //Atualizando Grid
+                    refleshGrid();
+                }
             } else {
-                System.out.println("Não pode finalizar esse pedido.");
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser finalizado!");
             }
 
         } catch (Exception e) {
             logger.error("Erro ao finalizar pedidos: " + e);
         }
+    }
 
+    public void cancelarPedido() {
+        try {
+
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+            listaPedidoERPBean.setDataFinalizacaoPedido(new Date());
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoCancelarPedido(listaPedidoERPBean)) {
+                if (listaPedidoDAO.cancelarPedido(listaPedidoERPBean)) {
+                    JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
+                    //Atualizando Grid
+                    refleshGrid();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser cancelado!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao finalizar pedidos: " + e);
+        }
+    }
+    
+    public void statusAguadandoPagamento(){
+        try {
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoCancelarPedido(listaPedidoERPBean)) {
+                if (listaPedidoDAO.cancelarPedido(listaPedidoERPBean)) {
+                    JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
+                    //Atualizando Grid
+                    refleshGrid();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser cancelado!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao finalizar pedidos: " + e);
+        }
     }
 
 }
