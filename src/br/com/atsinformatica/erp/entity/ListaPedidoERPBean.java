@@ -36,6 +36,7 @@ public class ListaPedidoERPBean {
     private Date dataFinalizacaoPedido;
     private Date dataEnvioPedidoEcom;
     private String codRastreiaEcom;
+    private String numDocumetoEntrega;
     
     public ListaPedidoERPBean(ResultSet rs) throws SQLException{
         this.codPedidoResulth = rs.getInt("CODPEDIDO");       
@@ -139,6 +140,14 @@ public class ListaPedidoERPBean {
 
     public void setCodRastreiaEcom(String codRastreiaEcom) {
         this.codRastreiaEcom = codRastreiaEcom;
+    }
+
+    public String getNumDocumetoEntrega() {
+        return numDocumetoEntrega;
+    }
+
+    public void setNumDocumetoEntrega(String numDocumetoEntrega) {
+        this.numDocumetoEntrega = numDocumetoEntrega;
     }
     
     
