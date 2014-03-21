@@ -7,13 +7,12 @@ package br.com.atsinformatica.midler.ui;
 
 import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
-import br.com.atsinformatica.midler.components.InformacoesEnvioPedido;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.MoneyCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.StatusPedidoCellRenderer;
+import br.com.atsinformatica.utils.Funcoes;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
-import java.awt.Label;
 import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -22,16 +21,9 @@ import org.apache.log4j.Logger;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Date;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
 /**
  *
@@ -73,10 +65,14 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jBfechar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        cbStatus = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        tDtIni = new javax.swing.JFormattedTextField();
+        tDtFim = new javax.swing.JFormattedTextField();
+        jLabel5 = new javax.swing.JLabel();
+        btFiltra = new javax.swing.JButton();
 
         jTbListaPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,54 +104,78 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             }
         });
 
-        jRadioButton1.setText("Status");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-
-        jRadioButton2.setText("Forma de pagamento");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-
-        jRadioButton4.setText("Data do pedido");
-        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton4ActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Filtragem de pedidos");
+
+        jLabel3.setText("Status:");
+
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Aguardando confirmação do pagamento", "Pagamento aceito", "Emissão nota fiscal", "Pedido enviado", "Pedido entregue", "Pedido finalizado", "Pedido cancelado", "Pagamento recusado", "Pagamento estornado", "Pedido devolvido" }));
+        cbStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbStatusActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Período de:");
+
+        try {
+            tDtIni.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            tDtFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel5.setText("a");
+
+        btFiltra.setText("Filtra");
+        btFiltra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFiltraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
-                        .addGap(12, 12, 12)
-                        .addComponent(jRadioButton4)
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)))
+                        .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tDtIni, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tDtFim, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btFiltra)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton4)
-                    .addComponent(jRadioButton2)))
+                    .addComponent(jLabel3)
+                    .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(tDtIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tDtFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(btFiltra)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -172,7 +192,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 12, Short.MAX_VALUE)))
+                        .addGap(0, 29, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -182,7 +202,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBfechar)
@@ -213,41 +233,61 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jBfecharActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
-
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
-
     private void jTbListaPedidoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTbListaPedidoMousePressed
         //Seleciona a linha no ponto em que o mouse é clicado
         Point point = evt.getPoint();
         linhaSelecionada = jTbListaPedido.rowAtPoint(point);
-        System.out.println("Numero " + linhaSelecionada);
         //jTbListaPedido.setRowSelectionInterval(linhaSelecionada, linhaSelecionada);
 
 
     }//GEN-LAST:event_jTbListaPedidoMousePressed
 
+    private void cbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStatusActionPerformed
+        System.out.println("ss" + cbStatus.getSelectedItem());
+
+    }//GEN-LAST:event_cbStatusActionPerformed
+
+    private void btFiltraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFiltraActionPerformed
+
+        refleshGridFiltros(Funcoes.getCodStatus(cbStatus.getSelectedItem().toString()), null, null);
+        
+//        //Se for valida entra no IF
+//        if ((Funcoes.validarData(tDtIni.getText())) && (Funcoes.validarData(tDtFim.getText()))) {
+//
+//            System.out.println("Data Valida");
+//
+//            if ((Funcoes.comparaDatas(new Date(tDtIni.getText()), new Date(tDtFim.getText())))) {
+//                System.out.println("nao compara");
+//            } else {
+//
+//            }
+//
+//        } else {
+//            System.out.println("saindo");
+//            return;
+//        }
+//        System.out.println("sss");
+
+
+    }//GEN-LAST:event_btFiltraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btFiltra;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox cbStatus;
     private javax.swing.JButton jBfechar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTbListaPedido;
+    private javax.swing.JFormattedTextField tDtFim;
+    private javax.swing.JFormattedTextField tDtIni;
     // End of variables declaration//GEN-END:variables
 
     private void carregarGridListaPedido() {
@@ -287,6 +327,23 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         }
     }
 
+    private void refleshGridFiltros(int codStatus, Date dtIni, Date dtFim) {
+        try {
+            objTableModelListaPedido.clear();
+            ListaPedidoDAO dao = new ListaPedidoDAO();
+
+            List<ListaPedidoERPBean> listaPedidos = dao.listaTodosComFiltro(codStatus, null, null);
+
+            if (!listaPedidos.isEmpty()) {
+                objTableModelListaPedido.addAll(listaPedidos);
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao caregar lista de pedidos: " + e);
+        }
+    }
+
+
     public void criandoMenuPopUp() {
 
         //Declarando MenuPopUp
@@ -301,21 +358,30 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         //Criando menu de status
         JMenuItem SubItemAguardandoConfirmacaoPagamento = new JMenuItem("Aguardando confirmação do pagamento");
+        JMenuItem subItemPagamentoRecusado = new JMenuItem("Pagamento recusado");
+        JMenuItem subItemPagamentoAceito = new JMenuItem("Pagamento aceito");
         JMenuItem subItemNotaFiscal = new JMenuItem("Nota fiscal");
         JMenuItem subItemEnviado = new JMenuItem("Enviado");
+        JMenuItem subItemPagamentoEstornado = new JMenuItem("Pagamento estornado");
         JMenuItem subItemEntregue = new JMenuItem("Entregue");
-        JMenuItem subItemCancelado = new JMenuItem("Cancelado");
+        JMenuItem subItemPedidoDevolvido = new JMenuItem("Pedido devolvido");
 
         //Adicionando o menu no subMenu Status
         menuAtualizarStatusPedido.add(SubItemAguardandoConfirmacaoPagamento);
+        menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemPagamentoRecusado);
+        menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemPagamentoAceito);
         menuAtualizarStatusPedido.addSeparator();
         menuAtualizarStatusPedido.add(subItemNotaFiscal);
         menuAtualizarStatusPedido.addSeparator();
         menuAtualizarStatusPedido.add(subItemEnviado);
         menuAtualizarStatusPedido.addSeparator();
+        menuAtualizarStatusPedido.add(subItemPagamentoEstornado);
+        menuAtualizarStatusPedido.addSeparator();
         menuAtualizarStatusPedido.add(subItemEntregue);
         menuAtualizarStatusPedido.addSeparator();
-        menuAtualizarStatusPedido.add(subItemCancelado);
+        menuAtualizarStatusPedido.add(subItemPedidoDevolvido);
 
         //Adicionado o MenuItem no Menu
         popupMenu.add(menuItemFinalizarPedido);
@@ -370,6 +436,34 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             }
         });
 
+        //Criando ação ao clicar no SubMenu (Pagamento Recusado)
+        subItemPagamentoRecusado.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int yes;
+                yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para (Pagamento Recusado)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) {
+
+                    statusPagamentoRecusado();
+                }
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Pagamento Aceito)
+        subItemPagamentoAceito.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int yes;
+                yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para (Pagamento aceito)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) {
+                    //Chamdndo a função
+                    statusPagamentoAceito();
+                }
+            }
+        });
+
         //Criando ação ao clicar no SubMenu (Nota Fiscal)
         subItemNotaFiscal.addActionListener(new ActionListener() {
 
@@ -395,11 +489,26 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
                 InformacoesEnvioPedido janelaInformacoesEnvioPedido = new InformacoesEnvioPedido(null, true, codPedidoResulth, codPedidoEcom);
 
-                janelaInformacoesEnvioPedido.setVisible(true);
-                 
                 //Atualizando Grid
-                 refleshGrid();
-               
+                refleshGrid();
+                janelaInformacoesEnvioPedido.setVisible(true);
+
+            }
+        });
+
+        //Criando ação ao clicar no SubMenu (Pagamento Estornado)
+        subItemPagamentoEstornado.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int yes;
+                yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para (Pagamento Estornado)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                if (yes == JOptionPane.YES_OPTION) {
+                    //Chamdndo a função
+                    statusPagamentoEstornado();
+                }
+
             }
         });
 
@@ -410,21 +519,33 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e
                     ) {
-                        System.out.println("Entregue");
+                        String codPedidoEcom = String.valueOf(jTbListaPedido.getValueAt(linhaSelecionada, 1));
+                        String codPedidoResulth = String.valueOf(jTbListaPedido.getValueAt(linhaSelecionada, 0));
+
+                        InformacoesEnvioPedido janelaInformacoesEnvioPedido = new InformacoesEnvioPedido(null, true, codPedidoResulth, codPedidoEcom);
+
+                        //Atualizando Grid
+                        refleshGrid();
+                        janelaInformacoesEnvioPedido.setVisible(true);
 
                     }
                 }
         );
 
-        //Criando ação ao clicar no SubMenu (Cancelar)
-        subItemCancelado.addActionListener(
+        //Criando ação ao clicar no SubMenu (Pedido devolvido)
+        subItemPedidoDevolvido.addActionListener(
                 new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e
                     ) {
-                        System.out.println("Cancelar");
+                        int yes;
+                        yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para (Pedido devolvido)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                        if (yes == JOptionPane.YES_OPTION) {
+                            //Chamado a função
+                            statusPedidoDevolvido();
 
+                        }
                     }
                 }
         );
@@ -443,9 +564,9 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoFinalizarPedido(listaPedidoERPBean)) {
                 if (listaPedidoDAO.finalizarPedido(listaPedidoERPBean)) {
-                    JOptionPane.showMessageDialog(null, "Pedido finalizado com sucesso!");
                     //Atualizando Grid
                     refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Pedido finalizado com sucesso!");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Esse pedido não pode ser finalizado!");
@@ -467,9 +588,9 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoCancelarPedido(listaPedidoERPBean)) {
                 if (listaPedidoDAO.cancelarPedido(listaPedidoERPBean)) {
-                    JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
                     //Atualizando Grid
                     refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Esse pedido não pode ser cancelado!");
@@ -489,9 +610,9 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusAguadandoPagamento(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusAguadandoPagamento(listaPedidoERPBean)) {
-                    JOptionPane.showMessageDialog(null, "Status (AguadandoPagamento) do pedido alterado com sucesso!");
                     //Atualizando Grid
                     refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Status (AguadandoPagamento) do pedido alterado com sucesso!");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
@@ -499,6 +620,52 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         } catch (Exception e) {
             logger.error("Erro ao mudar status do pedidos para (Aguardando Pagamento): " + e);
+        }
+    }
+
+    public void statusPagamentoRecusado() {
+        try {
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoStatusPagamentoRecusado(listaPedidoERPBean)) {
+                if (listaPedidoDAO.StatusPagamentoRecusado(listaPedidoERPBean)) {
+                    //Atualizando Grid
+                    refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Status (Pagamento recusado) do pedido alterado com sucesso!");
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao mudar status do pedidos para (Pagemento recusado): " + e);
+        }
+    }
+
+    public void statusPagamentoAceito() {
+        try {
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoStatusPagamentoAceito(listaPedidoERPBean)) {
+                if (listaPedidoDAO.StatusPagamentoAceito(listaPedidoERPBean)) {
+                    //Atualizando Grid
+                    refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Status (Pagamento aceito) do pedido alterado com sucesso!");
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao mudar status do pedidos para (Pagemento aceito): " + e);
         }
     }
 
@@ -511,9 +678,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusNotaFiscal(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusNotaFiscal(listaPedidoERPBean)) {
-                    JOptionPane.showMessageDialog(null, "Status (Nota Fiscal) do pedido alterado com sucesso!");
                     //Atualizando Grid
                     refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Status (Nota Fiscal) do pedido alterado com sucesso!");
+
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
@@ -521,6 +689,53 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         } catch (Exception e) {
             logger.error("Erro ao mudar status do pedidos para (Nota Fiscal): " + e);
+        }
+    }
+
+    public void statusPedidoDevolvido() {
+        try {
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoStatusPedidoDevolvido(listaPedidoERPBean)) {
+                if (listaPedidoDAO.StatusPedidoDevolvido(listaPedidoERPBean)) {
+                    //Atualizando Grid
+                    refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Status (Pedido devolvido) do pedido alterado com sucesso!");
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao mudar status do pedidos para (Pedido devolvido): " + e);
+        }
+    }
+
+    public void statusPagamentoEstornado() {
+        try {
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+            listaPedidoERPBean.setCodPedidoResulth((int) jTbListaPedido.getValueAt(linhaSelecionada, 0));
+            listaPedidoERPBean.setCodPedidoEcom((int) jTbListaPedido.getValueAt(linhaSelecionada, 1));
+
+            ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
+            if (listaPedidoDAO.validacaoStatusPagamentoEstornado(listaPedidoERPBean)) {
+                if (listaPedidoDAO.StatusPagamentoEstornado(listaPedidoERPBean)) {
+
+                    //Atualizando Grid
+                    refleshGrid();
+                    JOptionPane.showMessageDialog(null, "Status (Pagamanto estornado) do pedido alterado com sucesso!");
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Esse pedido não pode ser alterado o status!");
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao mudar status do pedidos para (Pagamento estornado): " + e);
         }
     }
 
