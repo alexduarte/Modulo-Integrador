@@ -782,7 +782,7 @@ public class Funcoes {
                 Status = "Pagamento aceito";
                 break;
             case "3":
-                Status = "Preparação em progresso";
+                Status = "Separação de estoque";
                 break;
             case "4":
                 Status = "Enviado";
@@ -794,13 +794,13 @@ public class Funcoes {
                 Status = "Cancelado";
                 break;
             case "7":
-                Status = "Reeembolsado";
+                Status = "Estornado";
                 break;
             case "8":
-                Status = "Erro no pagamento";
+                Status = "Pagamento recusado";
                 break;
             case "9":
-                Status = "Pedido retornado";
+                Status = "Pedido devolvido";
                 break;
             case "10":
                 Status = "Aguardando transferência bancária";
@@ -821,4 +821,60 @@ public class Funcoes {
 
         return Status;
     }
+
+    public static int getCodStatus(String nomeStatus) {
+        int codStatus = 0;
+        switch (nomeStatus) {
+            case "Aguardando confirmação do pagamento":
+                codStatus = 1;
+                break;
+            case "Pagamento aceito":
+                codStatus = 2;
+                break;
+            case "Emissão nota fiscal":
+                codStatus = 13;
+                break;
+            case "Pedido enviado":
+                codStatus = 4;
+                break;
+            case "Pedido entregue":
+                codStatus = 5;
+                break;
+            case "Pedido finalizado":
+                codStatus = 14;
+                break;
+            case "Pedido cancelado":
+                codStatus = 6;
+                break;
+            case "Pagamento recusado":
+                codStatus = 8;
+                break;
+            case "Pagamento estornado":
+                codStatus = 7;
+                break;
+            case "Pedido devolvido":
+                codStatus = 9;
+                break;
+        }
+        return codStatus;
+
+    }
+
+    /**
+     * Validar se a data é valida, com retorno.
+     *
+     * @param dateStr
+     * @return True ou False
+     */
+    public static boolean validarData(String dateStr) {
+        try {
+            Date data = df.parse(dateStr);
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Formato de data incorreto, redigite novamente");
+            return false;
+        }
+    }
+
 }
