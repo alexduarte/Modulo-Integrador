@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -69,10 +70,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         cbStatus = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
-        tDtIni = new javax.swing.JFormattedTextField();
-        tDtFim = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         btFiltra = new javax.swing.JButton();
+        jdtIni = new org.jdesktop.swingx.JXDatePicker();
+        jdtFim = new org.jdesktop.swingx.JXDatePicker();
 
         jTbListaPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,7 +109,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         jLabel3.setText("Status:");
 
-        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Aguardando confirmação do pagamento", "Pagamento aceito", "Emissão nota fiscal", "Pedido enviado", "Pedido entregue", "Pedido finalizado", "Pedido cancelado", "Pagamento recusado", "Pagamento estornado", "Pedido devolvido" }));
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todos", "Aguardando confirmação do pagamento", "Pagamento aceito", "Emissão nota fiscal", "Pedido enviado", "Pedido entregue", "Pedido finalizado", "Pedido cancelado", "Pagamento recusado", "Pagamento estornado", "Pedido devolvido" }));
         cbStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbStatusActionPerformed(evt);
@@ -117,21 +118,9 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
         jLabel4.setText("Período de:");
 
-        try {
-            tDtIni.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        try {
-            tDtFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         jLabel5.setText("a");
 
-        btFiltra.setText("Filtra");
+        btFiltra.setText("Filtrar");
         btFiltra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btFiltraActionPerformed(evt);
@@ -154,14 +143,14 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tDtIni, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jdtIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tDtFim, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jdtFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btFiltra)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 425, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,10 +161,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     .addComponent(jLabel3)
                     .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(tDtIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tDtFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(btFiltra)))
+                    .addComponent(btFiltra)
+                    .addComponent(jdtIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jdtFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -192,7 +181,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 29, Short.MAX_VALUE)))
+                        .addGap(0, 85, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -243,30 +232,12 @@ public class PanelListaPedidos extends javax.swing.JPanel {
     }//GEN-LAST:event_jTbListaPedidoMousePressed
 
     private void cbStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbStatusActionPerformed
-        System.out.println("ss" + cbStatus.getSelectedItem());
 
     }//GEN-LAST:event_cbStatusActionPerformed
 
     private void btFiltraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFiltraActionPerformed
 
-        refleshGridFiltros(Funcoes.getCodStatus(cbStatus.getSelectedItem().toString()), null, null);
-        
-//        //Se for valida entra no IF
-//        if ((Funcoes.validarData(tDtIni.getText())) && (Funcoes.validarData(tDtFim.getText()))) {
-//
-//            System.out.println("Data Valida");
-//
-//            if ((Funcoes.comparaDatas(new Date(tDtIni.getText()), new Date(tDtFim.getText())))) {
-//                System.out.println("nao compara");
-//            } else {
-//
-//            }
-//
-//        } else {
-//            System.out.println("saindo");
-//            return;
-//        }
-//        System.out.println("sss");
+        refleshGridFiltros(Funcoes.getCodStatus(cbStatus.getSelectedItem().toString()));
 
 
     }//GEN-LAST:event_btFiltraActionPerformed
@@ -286,8 +257,8 @@ public class PanelListaPedidos extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTbListaPedido;
-    private javax.swing.JFormattedTextField tDtFim;
-    private javax.swing.JFormattedTextField tDtIni;
+    private org.jdesktop.swingx.JXDatePicker jdtFim;
+    private org.jdesktop.swingx.JXDatePicker jdtIni;
     // End of variables declaration//GEN-END:variables
 
     private void carregarGridListaPedido() {
@@ -327,12 +298,21 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         }
     }
 
-    private void refleshGridFiltros(int codStatus, Date dtIni, Date dtFim) {
+    private void refleshGridFiltros(int codStatus) {
         try {
+
+            ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
+
+            listaPedidoERPBean.setStatus(String.valueOf(codStatus));
+            if ((jdtIni.getDate() != null) || jdtFim.getDate() != null) {
+                listaPedidoERPBean.setDtIni(new Date(jdtIni.getDate().getTime()));
+                listaPedidoERPBean.setDtFim(new Date(jdtFim.getDate().getTime()));
+            }
+
             objTableModelListaPedido.clear();
             ListaPedidoDAO dao = new ListaPedidoDAO();
 
-            List<ListaPedidoERPBean> listaPedidos = dao.listaTodosComFiltro(codStatus, null, null);
+            List<ListaPedidoERPBean> listaPedidos = dao.listaTodosComFiltro(listaPedidoERPBean);
 
             if (!listaPedidos.isEmpty()) {
                 objTableModelListaPedido.addAll(listaPedidos);
@@ -342,7 +322,6 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             logger.error("Erro ao caregar lista de pedidos: " + e);
         }
     }
-
 
     public void criandoMenuPopUp() {
 
@@ -489,9 +468,9 @@ public class PanelListaPedidos extends javax.swing.JPanel {
 
                 InformacoesEnvioPedido janelaInformacoesEnvioPedido = new InformacoesEnvioPedido(null, true, codPedidoResulth, codPedidoEcom);
 
+                janelaInformacoesEnvioPedido.setVisible(true);
                 //Atualizando Grid
                 refleshGrid();
-                janelaInformacoesEnvioPedido.setVisible(true);
 
             }
         });
@@ -522,11 +501,11 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                         String codPedidoEcom = String.valueOf(jTbListaPedido.getValueAt(linhaSelecionada, 1));
                         String codPedidoResulth = String.valueOf(jTbListaPedido.getValueAt(linhaSelecionada, 0));
 
-                        InformacoesEnvioPedido janelaInformacoesEnvioPedido = new InformacoesEnvioPedido(null, true, codPedidoResulth, codPedidoEcom);
+                        ConfirmacaoEntrega janelaInformacoesEntrega = new ConfirmacaoEntrega(null, true, codPedidoResulth, codPedidoEcom);
 
+                        janelaInformacoesEntrega.setVisible(true);
                         //Atualizando Grid
                         refleshGrid();
-                        janelaInformacoesEnvioPedido.setVisible(true);
 
                     }
                 }

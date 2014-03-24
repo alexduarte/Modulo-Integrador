@@ -50,7 +50,7 @@
                                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="29" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="85" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -140,16 +140,16 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tDtIni" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="jdtIni" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="tDtFim" min="-2" pref="80" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jdtFim" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="btFiltra" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="425" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -162,10 +162,10 @@
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tDtIni" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tDtFim" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btFiltra" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jdtIni" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jdtFim" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -186,7 +186,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="11">
-                    <StringItem index="0" value="Selecione"/>
+                    <StringItem index="0" value="Todos"/>
                     <StringItem index="1" value="Aguardando confirma&#xe7;&#xe3;o do pagamento"/>
                     <StringItem index="2" value="Pagamento aceito"/>
                     <StringItem index="3" value="Emiss&#xe3;o nota fiscal"/>
@@ -209,20 +209,6 @@
                 <Property name="text" type="java.lang.String" value="Per&#xed;odo de:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="tDtIni">
-              <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                  <Format format="##/##/####" subtype="-1" type="5"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JFormattedTextField" name="tDtFim">
-              <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                  <Format format="##/##/####" subtype="-1" type="5"/>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
                 <Property name="text" type="java.lang.String" value="a"/>
@@ -230,11 +216,15 @@
             </Component>
             <Component class="javax.swing.JButton" name="btFiltra">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Filtra"/>
+                <Property name="text" type="java.lang.String" value="Filtrar"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btFiltraActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXDatePicker" name="jdtIni">
+            </Component>
+            <Component class="org.jdesktop.swingx.JXDatePicker" name="jdtFim">
             </Component>
           </SubComponents>
         </Container>
