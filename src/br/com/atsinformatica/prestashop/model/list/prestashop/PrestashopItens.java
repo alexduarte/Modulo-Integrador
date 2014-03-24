@@ -1,8 +1,11 @@
 package br.com.atsinformatica.prestashop.model.list.prestashop;
 
 import br.com.atsinformatica.prestashop.model.list.Categories;
+import br.com.atsinformatica.prestashop.model.list.Declinations;
+import br.com.atsinformatica.prestashop.model.list.Images;
 import br.com.atsinformatica.prestashop.model.list.ProductFeatures;
 import br.com.atsinformatica.prestashop.model.list.Products;
+import br.com.atsinformatica.prestashop.model.root.Image;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -15,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
     "productFeatures",
     "products",
     "categories",
+    "images",
 })
 @XmlRootElement(name = "prestashop")
 public class PrestashopItens {
@@ -30,6 +34,10 @@ public class PrestashopItens {
     
     @XmlElement(name = "categories")
     protected Categories categories;
+    
+    @XmlElement(name = "images")
+    private Images images;
+    
 
     //----------Getters e Setters-----------------//
     
@@ -55,6 +63,20 @@ public class PrestashopItens {
 
     public void setCategories(Categories categories) {
         this.categories = categories;
+    }
+
+    /**
+     * @return the images
+     */
+    public Images getImages() {
+        return images;
+    }
+
+    /**
+     * @param images the images to set
+     */
+    public void setImages(Images images) {
+        this.images = images;
     }
 
 }

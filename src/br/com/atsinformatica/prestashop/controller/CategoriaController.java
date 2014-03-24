@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.erp.controller;
+package br.com.atsinformatica.prestashop.controller;
 
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.LinkRewrite;
 import br.com.atsinformatica.prestashop.model.node.Language;
-import br.com.atsinformatica.erp.entity.CategoriaERPBean;
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
@@ -16,7 +15,6 @@ import br.com.atsinformatica.prestashop.model.node.Description;
 import br.com.atsinformatica.prestashop.model.root.Category;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,7 +23,7 @@ import org.apache.log4j.Logger;
  */
 public class CategoriaController {
 
-    List<CategoriaERPBean> categoriesNotRegistered;
+   
 
     /**
      * Cria uma lista de Categoria no prestashop
@@ -76,7 +74,7 @@ public class CategoriaController {
         category.setIdErp(Integer.parseInt(cat.getCodCategoria()));
         LinkRewrite linkRewrite = new LinkRewrite();
         linkRewrite.getLanguage().add(new Language(cat.getDescricao().toLowerCase()));
-        if (cat.getCodCategoriaSuperior() != null) {
+        if (cat.getCodCategoriaSuperior() != null && !cat.getCodCategoriaSuperior().equals("")) {
             try {
                 CategoriaEcomDAO dao = new CategoriaEcomDAO();
                 CategoriaEcomBean sub = dao.abrir(cat.getCodCategoriaSuperior());

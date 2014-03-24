@@ -1,8 +1,8 @@
-package br.com.atsinformatica.prestashop.model.root.prestashop;
+package br.com.atsinformatica.prestashop.model.root;
 
 
 
-import br.com.atsinformatica.prestashop.model.root.*;
+import br.com.atsinformatica.prestashop.model.node.Content;
 import javax.xml.bind.annotation.*;
 
 /**
@@ -15,6 +15,9 @@ import javax.xml.bind.annotation.*;
     "productFeature",
     "category",
     "product",
+    "image",
+    "content",
+    
 })
 @XmlRootElement(name = "prestashop")
 public class Prestashop{
@@ -30,10 +33,18 @@ public class Prestashop{
     
     @XmlElement(name = "product",required = true)
     protected Product product;
+    
+    @XmlElement(name = "image",required = true)
+    private Image image;
+    
+    @XmlElement(name = "content",required = true)
+    private byte[] content;
 
     public ProductFeature getProductFeature() {
         return productFeature;
     }
+    
+    
 
     public void setProductFeature(ProductFeature value) {
         this.productFeature = value;
@@ -66,6 +77,34 @@ public class Prestashop{
     @Override
     public String toString() {
         return "Prestashop{" + "xmlns=" + xmlns + ", productFeature=" + productFeature + ", category=" + category + ", product=" + product + '}';
+    }
+
+    /**
+     * @return the image
+     */
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * @param image the image to set
+     */
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    /**
+     * @return the content
+     */
+    public byte[] getContent() {
+        return content;
+    }
+
+    /**
+     * @param content the content to set
+     */
+    public void setContent(byte[] content) {
+        this.content = content;
     }
 }
 

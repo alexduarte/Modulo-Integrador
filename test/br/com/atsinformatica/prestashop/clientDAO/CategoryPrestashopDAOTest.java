@@ -5,7 +5,7 @@
 package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.prestashop.model.root.Category;
-import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
+import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import com.sun.jersey.api.client.WebResource;
 import java.util.List;
 import junit.framework.TestCase;

@@ -9,7 +9,7 @@ import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
-import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
+import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
 import com.sun.jersey.api.client.Client;

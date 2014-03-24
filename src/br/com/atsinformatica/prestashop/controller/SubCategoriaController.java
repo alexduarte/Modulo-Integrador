@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.erp.controller;
+package br.com.atsinformatica.prestashop.controller;
 
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.LinkRewrite;

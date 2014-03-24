@@ -7,7 +7,7 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
-import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
+import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Category;
 import com.sun.jersey.api.client.ClientResponse;
 import java.util.ArrayList;

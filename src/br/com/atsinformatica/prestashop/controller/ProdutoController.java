@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.atsinformatica.erp.controller;
+package br.com.atsinformatica.prestashop.controller;
 
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.prestashop.clientDAO.PSMediaDAO;
 import br.com.atsinformatica.prestashop.clientDAO.ProductPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.prestashop.model.root.Product;
@@ -60,8 +59,7 @@ public class ProdutoController {
         p.setName(name);
         p.setPrice(price);
         p.setLinkRewrite(linkRewrite);
-        PSMediaDAO mediaDAO = new PSMediaDAO();
-        mediaDAO.post("", produtoERP.getMedia());
+      //  mediaDAO.post("", produtoERP.getMedia());
       //  p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(), produtoERP.getSubCategoria()));
         ProductPrestashopDAO productPrestashopDAO = new ProductPrestashopDAO();
         return productPrestashopDAO.postWithVerification(Product.URLPRODUCTS, p);

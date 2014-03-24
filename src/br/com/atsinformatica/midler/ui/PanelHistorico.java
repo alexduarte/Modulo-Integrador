@@ -5,15 +5,15 @@
  */
 package br.com.atsinformatica.midler.ui;
 
-import br.com.atsinformatica.erp.controller.CategoriaController;
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
+import br.com.atsinformatica.prestashop.controller.CategoriaController;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
-import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
+import br.com.atsinformatica.prestashop.controller.ImageController;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.sql.SQLException;
@@ -124,15 +124,13 @@ public class PanelHistorico extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 909, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(title_historico))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(881, 881, 881)
-                            .addComponent(jBtRefresh))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(title_historico)
+                        .addGap(556, 556, 556)
+                        .addComponent(jBtRefresh)))
                 .addContainerGap(300, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -229,6 +227,7 @@ public class PanelHistorico extends javax.swing.JPanel {
             List itensPost = new ArrayList();
             List itensPut = new ArrayList();
             List itensDelete = new ArrayList();
+            //sincPost(itensPost);
             if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
                 modelSincronizar.addAll(listaUltimos);
             } else {
@@ -249,37 +248,13 @@ public class PanelHistorico extends javax.swing.JPanel {
                 sincDelete(itensDelete);
                 modelSincronizar.addAll(new HistoricoIntegraDAO().listaUltimosInteg());
             }
+            
+            sincImage();
         } catch (Exception e) {
             logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
         }
     }
 
-    /**
-     * Retorna item a serem sincronizados na loja virtual
-     *
-     * @param bean
-     * @return item ser sincronizado na loja virtual
-     */
-    private Object retornaItensSinc(HistoricoIntegraERPBean bean) {
-        try {
-            Object obj = null;
-            if (bean != null) {
-                //TODO: Melhorar este processo
-                if (bean.getEntidade().equals("categoria")) {
-                    obj = new CategoriaEcomDAO().abrir(bean.getCodEntidade());
-                }
-                if (bean.getEntidade().equals("produto")) {
-                    obj = new ProdutoDAO().abrir(bean.getCodEntidade());
-                }
-                if (bean.getEntidade().equals("fabricante")) {
-                }
-            }
-            return obj;
-        } catch (Exception e) {
-            logger.error("Erro ao retornar ítens: " + e);
-            return null;
-        }
-    }
 
     /**
      * Recebe lista de itens a serem sincronizados e inicia processo de
@@ -289,19 +264,22 @@ public class PanelHistorico extends javax.swing.JPanel {
      * virtual
      */
     private void sincPost(List lista) {
+        CategoriaController catController = null;
         try {
             if (lista.isEmpty()) {
                 return;
             }
+           // ImageController imgCtrl = new ImageController();
+           // imgCtrl.createImagePrestaShop();
             for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
                 if (obj.getObjectSinc().getClass().equals(CategoriaEcomBean.class)) {
                     CategoriaEcomBean catEcom = (CategoriaEcomBean) obj.getObjectSinc();
                     //faz o post das categorias pendentes de sincronização
-                    CategoriaController catController = new CategoriaController();
+                    catController = new CategoriaController();
                     int cod = catController.createCategoryPrestashop(catEcom);
                     if(cod!=0){
                       catEcom.setIdCategoriaEcom(cod);
-                      CategoriaEcomDAO dao = new CategoriaEcomDAO();
+                        CategoriaEcomDAO dao = new CategoriaEcomDAO();
                       //salvando código da categoria cadastrada 
                       dao.alteraIdEcom(catEcom);
                       atualizaDataInt(obj); 
@@ -361,5 +339,10 @@ public class PanelHistorico extends javax.swing.JPanel {
         HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
         modelSincronizar.clear();
         dao.alteraDataInt(obj.getId());       
+    }
+
+    private void sincImage() {
+        ImageController controller = new ImageController();
+        controller.getImages();
     }
 }
