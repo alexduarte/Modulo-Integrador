@@ -36,8 +36,6 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
         this.lCodPedidoResulth.setText(codPedidoResulth);
         this.codPedidoResulth = codPedidoResulth;
         this.codPedidoEcom = codPedidoEcom;
-        tDataEnvioPedidoEcom.setText(String.valueOf(getDateTime()));
-
 
     }
     private String codPedidoResulth;
@@ -62,6 +60,7 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         tCodigoRastreio = new javax.swing.JTextField();
@@ -69,16 +68,19 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
         bCancelar = new javax.swing.JButton();
         bConfirmar = new javax.swing.JButton();
         lCodPedidoResulth = new javax.swing.JLabel();
-        tDataEnvioPedidoEcom = new javax.swing.JFormattedTextField();
+        jDataEnvioPedidoEcom = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Informações do Envio do Pedido.");
         setModal(true);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Código do Pedido:");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Código de rastreio:");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Data Envio:");
 
         bCancelar.setText("Cancelar");
@@ -95,13 +97,8 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
             }
         });
 
+        lCodPedidoResulth.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lCodPedidoResulth.setText("0000000000");
-
-        try {
-            tDataEnvioPedidoEcom.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,7 +124,7 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(lCodPedidoResulth)))
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(tDataEnvioPedidoEcom))))
+                            .addComponent(jDataEnvioPedidoEcom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -144,12 +141,12 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tDataEnvioPedidoEcom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jDataEnvioPedidoEcom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bCancelar)
                     .addComponent(bConfirmar))
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -160,7 +157,7 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
         int yes;
         yes = JOptionPane.showConfirmDialog(null, "Deseja alterar o status do pedido para (Enviado)?", "Confirmação", JOptionPane.YES_NO_OPTION);
         if (yes == JOptionPane.YES_OPTION) {
-            statusEnviado(codPedidoEcom, codPedidoResulth, tCodigoRastreio.getText(), tDataEnvioPedidoEcom.getText());
+            statusEnviado(codPedidoEcom, codPedidoResulth, tCodigoRastreio.getText(), new Date(jDataEnvioPedidoEcom.getDate().getTime()));
         }
         //Fechando a janela.
         this.dispose();
@@ -216,21 +213,22 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bCancelar;
     private javax.swing.JButton bConfirmar;
+    private org.jdesktop.swingx.JXDatePicker jDataEnvioPedidoEcom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JLabel lCodPedidoResulth;
     private javax.swing.JTextField tCodigoRastreio;
-    private javax.swing.JFormattedTextField tDataEnvioPedidoEcom;
     // End of variables declaration//GEN-END:variables
 
-    public void statusEnviado(String codPedidoEcom, String codPedidoResulth, String codRastreiamento, String dataEnvioPedidoEcom) {
+    public void statusEnviado(String codPedidoEcom, String codPedidoResulth, String codRastreiamento, Date dataEnvioPedidoEcom) {
         try {
             ListaPedidoERPBean listaPedidoERPBean = new ListaPedidoERPBean();
             listaPedidoERPBean.setCodPedidoResulth(Integer.valueOf(codPedidoResulth));
             listaPedidoERPBean.setCodPedidoEcom(Integer.valueOf(codPedidoEcom));
             listaPedidoERPBean.setCodRastreiaEcom(codRastreiamento);
-            listaPedidoERPBean.setDataEnvioPedidoEcom(new Date(dataEnvioPedidoEcom));
+            listaPedidoERPBean.setDataEnvioPedidoEcom(dataEnvioPedidoEcom);
 
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusEnviado(listaPedidoERPBean)) {
