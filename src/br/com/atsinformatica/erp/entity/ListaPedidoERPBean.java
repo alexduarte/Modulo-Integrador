@@ -37,6 +37,9 @@ public class ListaPedidoERPBean {
     private Date dataEnvioPedidoEcom;
     private String codRastreiaEcom;
     private String numDocumetoEntrega;
+    private Date dtIni;
+    private Date dtFim;
+    
     
     public ListaPedidoERPBean(ResultSet rs) throws SQLException{
         this.codPedidoResulth = rs.getInt("CODPEDIDO");       
@@ -148,6 +151,22 @@ public class ListaPedidoERPBean {
 
     public void setNumDocumetoEntrega(String numDocumetoEntrega) {
         this.numDocumetoEntrega = numDocumetoEntrega;
+    }
+
+    public Date getDtIni() {
+        return dtIni;
+    }
+
+    public void setDtIni(Date dtIni) {
+        this.dtIni = dtIni;
+    }
+
+    public Date getDtFim() {
+        return dtFim;
+    }
+
+    public void setDtFim(Date dtFim) {
+        this.dtFim = dtFim;
     }
     
     
