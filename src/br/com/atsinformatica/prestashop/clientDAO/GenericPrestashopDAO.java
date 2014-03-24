@@ -6,7 +6,7 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
-import br.com.atsinformatica.prestashop.model.root.prestashop.Prestashop;
+import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -35,6 +35,7 @@ public class GenericPrestashopDAO<T> {
      */
     protected WebResource getWebResource() {
         try {
+            
             ClientConfig config = new DefaultClientConfig();
             Client client = Client.create(config);
             List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
@@ -45,6 +46,8 @@ public class GenericPrestashopDAO<T> {
         }
         return null;
     }
+    
+    
     
      /**
      * Retorna um a WebResource (função obrigatória);

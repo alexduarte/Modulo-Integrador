@@ -5,7 +5,6 @@
 package br.com.atsinformatica.erp.dao;
 
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
-import br.com.atsinformatica.erp.entity.ProdImgBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import java.sql.Connection;
@@ -69,8 +68,8 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
             while(rs.next()){
                 prodBean = new ProdutoERPBean(rs);
                 //media do produto
-                ProdImgBean media = new ProdImgDAO().abrir(id);
-                if(media!=null)prodBean.setMedia(media);
+//                ProdImgBean media = new ProdImgDAO().abrir(id);
+//                if(media!=null)prodBean.setMedia(media);
             }
             logger.info("Produto retornado com sucesso.");
             return prodBean;

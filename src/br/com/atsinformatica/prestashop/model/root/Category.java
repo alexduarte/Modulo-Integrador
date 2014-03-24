@@ -31,8 +31,7 @@ import javax.xml.bind.annotation.*;
             "idErp",
             "name",
             "description",
-            "linkRewrite",
-            
+            "linkRewrite",            
         })
 
 public class Category {
@@ -68,6 +67,8 @@ public class Category {
 
     @XmlElement(name = "name")
     private Name name;
+    
+    
 
     @XmlElement(name = "description")
     private Description description;
