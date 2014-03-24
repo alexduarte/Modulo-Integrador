@@ -83,7 +83,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
 
     }
 
-    public List<ListaPedidoERPBean> listaTodosComFiltro(int idStatus, Date dtIni, Date dtFim) throws SQLException {
+    public List<ListaPedidoERPBean> listaTodosComFiltro(ListaPedidoERPBean listaPedidoERPBean) throws SQLException {
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -94,22 +94,31 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
                     + "       PC.STATUSPEDIDOECOM, PC.DATAPEDIDO, PC.OBSERVACAO1, PC.DTSINCECOM "
                     + "  FROM PEDIDOC PC JOIN "
                     + "       CLIENTE C ON C.CODCLIENTE = PC.CODCLIENTE "
-                    + " WHERE PC.IDPEDIDOECOM IS NOT NULL "
-                    + "   AND PC.STATUSPEDIDOECOM = ? ";
+                    + " WHERE PC.IDPEDIDOECOM IS NOT NULL ";
 
-//            //Se tiver selecionado data, adicionar na SQL
-//            if (!"".equals(dtIni) && !"".equals(dtFim)) {
-//                sql += "   AND PC.DATAPEDIDO BETWEEN ? AND ?";
-//            }
+            //Se não selecionar nehum status vai buscar de todos status
+            if (!listaPedidoERPBean.getStatus().equals("0")) {
+                sql += "   AND PC.STATUSPEDIDOECOM = ? ";
+                if ((listaPedidoERPBean.getDtIni() != null) && (listaPedidoERPBean.getDtFim() != null)) {
+                    sql += "   AND PC.DATAPEDIDO BETWEEN ? AND ?";
+                }
+            } else if ((listaPedidoERPBean.getDtIni() != null) && (listaPedidoERPBean.getDtFim() != null)) {
+                sql += "   AND PC.DATAPEDIDO BETWEEN ? AND ?";
+            }
 
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, String.valueOf(idStatus));
-
-//            if (!"".equals(dtIni) && !"".equals(dtFim)) {
-//                pstmt.setDate(2, new Date(dtIni.getTime()));
-//                pstmt.setDate(3, new Date(dtFim.getTime()));
-//            }
+            //Se não selecionar nehum status vai buscar de todos status
+            if (!listaPedidoERPBean.getStatus().equals("0")) {
+                pstmt.setString(1, listaPedidoERPBean.getStatus());
+                if ((listaPedidoERPBean.getDtIni() != null) && (listaPedidoERPBean.getDtFim() != null)) {
+                    pstmt.setDate(2, new Date(listaPedidoERPBean.getDtIni().getTime()));
+                    pstmt.setDate(3, new Date(listaPedidoERPBean.getDtFim().getTime()));
+                }
+            } else if ((listaPedidoERPBean.getDtIni() != null) && (listaPedidoERPBean.getDtFim() != null)) {
+                pstmt.setDate(1, new Date(listaPedidoERPBean.getDtIni().getTime()));
+                pstmt.setDate(2, new Date(listaPedidoERPBean.getDtFim().getTime()));
+            }
 
             rs = pstmt.executeQuery();
 
@@ -592,13 +601,13 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
         PreparedStatement pstmt = null;
         try {
             conn = ConexaoATS.conectaERP();
-            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ?, P.CODRASTREIAECOM = ?"
+            String sql = " UPDATE PEDIDOC P SET P.STATUSPEDIDOECOM = ?, P.CODRETORNOENVIOECOM = ?"
                     + "  WHERE P.CODPEDIDO = ?"
                     + "    AND P.IDPEDIDOECOM = ?";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, "5");
-            pstmt.setString(2, listaPedidoERPBean.getCodRastreiaEcom());
+            pstmt.setString(2, listaPedidoERPBean.getNumDocumetoEntrega());
             //Função preencheCom completa o Codigo do Pedido para 8, completando com zeros a esquerda.
             pstmt.setString(3, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
             pstmt.setString(4, String.valueOf(listaPedidoERPBean.getCodPedidoEcom()));
