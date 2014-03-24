@@ -149,9 +149,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="tSenha">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="123"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lMensageLogin">
       <Properties>

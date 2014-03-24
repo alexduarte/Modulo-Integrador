@@ -72,8 +72,6 @@ public class FrameLogin extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/images/logo-w186.png"))); // NOI18N
 
-        tSenha.setText("123");
-
         lMensageLogin.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lMensageLogin.setForeground(new java.awt.Color(255, 0, 51));
         lMensageLogin.setText("Login ou Senha Inválida!");
@@ -160,7 +158,6 @@ public class FrameLogin extends javax.swing.JFrame {
                 this.dispose();
             }else{
                 
-                System.out.println("erro");
                 lMensageLogin.setText("Login ou Senha Inválida");
             }
         } catch (SQLException ex) {
