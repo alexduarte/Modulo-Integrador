@@ -26,7 +26,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * @author AlexsanderPimenta
  */
-public class GenericPrestashopDAO<T> {
+public class GenericPrestashopDAO<T>  {
   
      /**
      * Retorna um a WebResource (função obrigatória);
@@ -46,9 +46,7 @@ public class GenericPrestashopDAO<T> {
         }
         return null;
     }
-    
-    
-    
+       
      /**
      * Retorna um a WebResource (função obrigatória);
      *

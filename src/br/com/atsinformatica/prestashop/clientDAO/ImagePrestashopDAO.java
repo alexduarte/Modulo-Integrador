@@ -6,13 +6,10 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
-import br.com.atsinformatica.prestashop.model.node.Content;
 import br.com.atsinformatica.prestashop.model.node.Legend;
-import br.com.atsinformatica.prestashop.model.root.Category;
 import br.com.atsinformatica.prestashop.model.root.Image;
 import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.core.util.Base64;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -24,9 +21,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.ws.rs.core.MediaType;
-import org.jvnet.lafplugin.XMLElement;
 
 /**
  *
@@ -50,7 +45,7 @@ public class ImagePrestashopDAO extends GenericPrestashopDAO<Image> implements I
             FormDataMultiPart bodyPart = part.field("image", image,
             imageType);
             //Content content = new Content();
-            prestashop.setImage(t);
+           // prestashop.setImage(t);
             //content.setContent(image);
             //prestashop.setContent(image);
             String xml = createTOXML(prestashop);

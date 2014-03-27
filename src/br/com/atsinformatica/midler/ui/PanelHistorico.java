@@ -227,6 +227,7 @@ public class PanelHistorico extends javax.swing.JPanel {
             List itensPost = new ArrayList();
             List itensPut = new ArrayList();
             List itensDelete = new ArrayList();
+            List itensGet = new ArrayList();
             //sincPost(itensPost);
             if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
                 modelSincronizar.addAll(listaUltimos);

@@ -16,50 +16,50 @@ public class ProdutoERPBean {
     
     private String codProd;
     private Double estoqueDisponivel;
-    private String descricao;
-    private String descricao2;
-    private String descricao3;
-    private String referencia;
-    private String refFabricante;
-    private String unidadeEnt;
-    private String unidadeSaida;
-    private Double preco;
-    private Double preco2;
-    private Double preco3;
-    private Double preco4;
-    private Double precoCusto;
+    private String nomeProd;
+    private int condicao;
+    private String codBarras;
+    private String codCategoria;
+    private String codFabricante;
+    private Double altura;
+    private Double largura;
+    private Double profundidade;
+    private String codAtributo1;
+    private Double precoCheio;
+    private Double precoFinal;
+    private String codAtributo2;
+    private String palavrasChave;
+    private String metaDescricao;
+    private String descricaoCompleta;
     private int grade;
     private String codGrade;
-    private String categoria;
-    private String subCategoria;
+   
     private boolean importadoLoja;
-    
-    
+       
     public ProdutoERPBean(){
         super();
         
     }
-
     public ProdutoERPBean(ResultSet rs) throws SQLException, UnsupportedEncodingException {
         this.codProd = rs.getString("codprod");
         this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
-        this.descricao = rs.getString("descricao");
-        this.descricao2 = rs.getString("descricao2");
-        this.descricao3 = rs.getString("descricao3");
-        this.categoria = rs.getString("descgrupo");
-        this.subCategoria = rs.getString("descsub");
-        this.referencia = rs.getString("referencia");
-        this.refFabricante = rs.getString("reffabricante");
-        this.unidadeEnt = rs.getString("unidadeent");
-        this.unidadeSaida = rs.getString("unidadesaida");
-        this.preco = rs.getDouble("preco");
-        this.preco2 = rs.getDouble("preco2");
-        this.preco3 = rs.getDouble("preco3");
-        this.preco4 = rs.getDouble("preco4");
-        this.precoCusto = rs.getDouble("precocusto");
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
-        this.setImportadoLoja(false);
+        this.codFabricante = rs.getString("codfabric");
+        this.altura = rs.getDouble("altura");
+        this.largura = rs.getDouble("largura");
+        this.codBarras = rs.getString("codbarras");
+        this.codCategoria = rs.getString("codcategoria");
+        this.condicao = rs.getInt("condicao");
+        this.descricaoCompleta = rs.getString("descricaocompleta");
+        this.nomeProd = rs.getString("nomeprod");
+        this.metaDescricao = rs.getString("metadescricao");
+        this.palavrasChave = rs.getString("palavraschave");
+        this.codAtributo1 = rs.getString("codatributo1");
+        this.codAtributo2 = rs.getString("codatributo2");
+        this.precoCheio = rs.getDouble("precocheio");
+        this.precoFinal = rs.getDouble("precofinal");
+       
         
        
     }  
@@ -92,157 +92,199 @@ public class ProdutoERPBean {
     }
 
     /**
-     * @return the descricao
+     * @return the nomeProd
      */
-    public String getDescricao() {
-        return descricao;
+    public String getNomeProd() {
+        return nomeProd;
     }
 
     /**
-     * @param descricao the descricao to set
+     * @param nomeProd the nomeProd to set
      */
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setNomeProd(String nomeProd) {
+        this.nomeProd = nomeProd;
     }
 
     /**
-     * @return the descricao2
+     * @return the condicao
      */
-    public String getDescricao2() {
-        return descricao2;
+    public int getCondicao() {
+        return condicao;
     }
 
     /**
-     * @param descricao2 the descricao2 to set
+     * @param condicao the condicao to set
      */
-    public void setDescricao2(String descricao2) {
-        this.descricao2 = descricao2;
+    public void setCondicao(int condicao) {
+        this.condicao = condicao;
     }
 
     /**
-     * @return the descricao3
+     * @return the codBarras
      */
-    public String getDescricao3() {
-        return descricao3;
+    public String getCodBarras() {
+        return codBarras;
     }
 
     /**
-     * @param descricao3 the descricao3 to set
+     * @param codBarras the codBarras to set
      */
-    public void setDescricao3(String descricao3) {
-        this.descricao3 = descricao3;
+    public void setCodBarras(String codBarras) {
+        this.codBarras = codBarras;
     }
 
     /**
-     * @return the referencia
+     * @return the codCategoria
      */
-    public String getReferencia() {
-        return referencia;
+    public String getCodCategoria() {
+        return codCategoria;
     }
 
     /**
-     * @param referencia the referencia to set
+     * @param codCategoria the codCategoria to set
      */
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
+    public void setCodCategoria(String codCategoria) {
+        this.codCategoria = codCategoria;
     }
 
     /**
-     * @return the unidadeEnt
+     * @return the altura
      */
-    public String getUnidadeEnt() {
-        return unidadeEnt;
+    public Double getAltura() {
+        return altura;
     }
 
     /**
-     * @param unidadeEnt the unidadeEnt to set
+     * @param altura the altura to set
      */
-    public void setUnidadeEnt(String unidadeEnt) {
-        this.unidadeEnt = unidadeEnt;
+    public void setAltura(Double altura) {
+        this.altura = altura;
     }
 
     /**
-     * @return the unidadeSaida
+     * @return the largura
      */
-    public String getUnidadeSaida() {
-        return unidadeSaida;
+    public Double getLargura() {
+        return largura;
     }
 
     /**
-     * @param unidadeSaida the unidadeSaida to set
+     * @param largura the largura to set
      */
-    public void setUnidadeSaida(String unidadeSaida) {
-        this.unidadeSaida = unidadeSaida;
+    public void setLargura(Double largura) {
+        this.largura = largura;
     }
 
     /**
-     * @return the preco
+     * @return the profundidade
      */
-    public Double getPreco() {
-        return preco;
+    public Double getProfundidade() {
+        return profundidade;
     }
 
     /**
-     * @param preco the preco to set
+     * @param profundidade the profundidade to set
      */
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setProfundidade(Double profundidade) {
+        this.profundidade = profundidade;
     }
 
     /**
-     * @return the preco2
+     * @return the codAtributo1
      */
-    public Double getPreco2() {
-        return preco2;
+    public String getCodAtributo1() {
+        return codAtributo1;
     }
 
     /**
-     * @param preco2 the preco2 to set
+     * @param codAtributo1 the codAtributo1 to set
      */
-    public void setPreco2(Double preco2) {
-        this.preco2 = preco2;
+    public void setCodAtributo1(String codAtributo1) {
+        this.codAtributo1 = codAtributo1;
     }
 
     /**
-     * @return the preco3
+     * @return the precoCheio
      */
-    public Double getPreco3() {
-        return preco3;
+    public Double getPrecoCheio() {
+        return precoCheio;
     }
 
     /**
-     * @param preco3 the preco3 to set
+     * @param precoCheio the precoCheio to set
      */
-    public void setPreco3(Double preco3) {
-        this.preco3 = preco3;
+    public void setPrecoCheio(Double precoCheio) {
+        this.precoCheio = precoCheio;
     }
 
     /**
-     * @return the preco4
+     * @return the precoFinal
      */
-    public Double getPreco4() {
-        return preco4;
+    public Double getPrecoFinal() {
+        return precoFinal;
     }
 
     /**
-     * @param preco4 the preco4 to set
+     * @param precoFinal the precoFinal to set
      */
-    public void setPreco4(Double preco4) {
-        this.preco4 = preco4;
+    public void setPrecoFinal(Double precoFinal) {
+        this.precoFinal = precoFinal;
     }
 
     /**
-     * @return the precoCusto
+     * @return the codAtributo2
      */
-    public Double getPrecoCusto() {
-        return precoCusto;
+    public String getCodAtributo2() {
+        return codAtributo2;
     }
 
     /**
-     * @param precoCusto the precoCusto to set
+     * @param codAtributo2 the codAtributo2 to set
      */
-    public void setPrecoCusto(Double precoCusto) {
-        this.precoCusto = precoCusto;
+    public void setCodAtributo2(String codAtributo2) {
+        this.codAtributo2 = codAtributo2;
+    }
+
+    /**
+     * @return the palavrasChave
+     */
+    public String getPalavrasChave() {
+        return palavrasChave;
+    }
+
+    /**
+     * @param palavrasChave the palavrasChave to set
+     */
+    public void setPalavrasChave(String palavrasChave) {
+        this.palavrasChave = palavrasChave;
+    }
+
+    /**
+     * @return the metaDescricao
+     */
+    public String getMetaDescricao() {
+        return metaDescricao;
+    }
+
+    /**
+     * @param metaDescricao the metaDescricao to set
+     */
+    public void setMetaDescricao(String metaDescricao) {
+        this.metaDescricao = metaDescricao;
+    }
+
+    /**
+     * @return the descricaoCompleta
+     */
+    public String getDescricaoCompleta() {
+        return descricaoCompleta;
+    }
+
+    /**
+     * @param descricaoCompleta the descricaoCompleta to set
+     */
+    public void setDescricaoCompleta(String descricaoCompleta) {
+        this.descricaoCompleta = descricaoCompleta;
     }
 
     /**
@@ -274,79 +316,33 @@ public class ProdutoERPBean {
     }
 
     /**
-     * @return the refFabricante
-     */
-    public String getRefFabricante() {
-        return refFabricante;
-    }
-
-    /**
-     * @param refFabricante the refFabricante to set
-     */
-    public void setRefFabricante(String refFabricante) {
-        this.refFabricante = refFabricante;
-    }
-      
-    @Override
-    public String toString() {
-        return "ProdutoBean{" + "codProd=" + codProd + ", estoqueDisponivel=" + estoqueDisponivel + ", descricao=" + descricao + ", descricao2=" + descricao2 + ", descricao3=" + descricao3 + ", categoria="+ categoria +", subcategoria=" + subCategoria + ", referencia=" + referencia + ", refFabricante=" + refFabricante + ", unidadeEnt=" + unidadeEnt + ", unidadeSaida=" + unidadeSaida + ", preco=" + preco + ", preco2=" + preco2 + ", preco3=" + preco3 + ", preco4=" + preco4 + ", precoCusto=" + precoCusto + ", grade=" + grade + ", codGrade=" + codGrade + '}';
-    }
-
-    /**
-     * @return the categoria
-     */
-    public String getCategoria() {
-        return categoria;
-    }
-
-    /**
-     * @param categoria the categoria to set
-     */
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    /**
-     * @return the subCategoria
-     */
-    public String getSubCategoria() {
-        return subCategoria;
-    }
-
-    /**
-     * @param subCategoria the subCategoria to set
-     */
-    public void setSubCategoria(String subCategoria) {
-        this.subCategoria = subCategoria;
-    }
-
-    /**
-     * @return the importadoERP
+     * @return the importadoLoja
      */
     public boolean isImportadoLoja() {
         return importadoLoja;
     }
 
     /**
-     * @param importadoERP the importadoERP to set
+     * @param importadoLoja the importadoLoja to set
      */
     public void setImportadoLoja(boolean importadoLoja) {
         this.importadoLoja = importadoLoja;
     }
 
-//    /**
-//     * @return the media
-//     */
-//    public ProdImgBean getMedia() {
-//        return media;
-//    }
-//
-//    /**
-//     * @param media the media to set
-//     */
-//    public void setMedia(ProdImgBean media) {
-//        this.media = media;
-//    }
-       
+    /**
+     * @return the codFabricante
+     */
+    public String getCodFabricante() {
+        return codFabricante;
+    }
+
+    /**
+     * @param codFabricante the codFabricante to set
+     */
+    public void setCodFabricante(String codFabricante) {
+        this.codFabricante = codFabricante;
+    }
+
+    
     
 }
