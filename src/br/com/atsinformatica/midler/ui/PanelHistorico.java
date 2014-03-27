@@ -6,20 +6,31 @@
 package br.com.atsinformatica.midler.ui;
 
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
+import br.com.atsinformatica.erp.dao.ClienteERPDAO;
 import br.com.atsinformatica.prestashop.controller.CategoriaController;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
+import br.com.atsinformatica.erp.dao.PedidoERPDAO;
+import br.com.atsinformatica.erp.entity.CPFClienteBean;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
+import br.com.atsinformatica.erp.entity.ClienteEcomBean;
+import br.com.atsinformatica.erp.entity.EnderecoEcomBean;
+import br.com.atsinformatica.erp.entity.PedidoEcomBean;
+import br.com.atsinformatica.prestashop.controller.AddressController;
+import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
+import br.com.atsinformatica.prestashop.controller.CustomerController;
 import br.com.atsinformatica.prestashop.controller.ImageController;
+import br.com.atsinformatica.prestashop.controller.OrderController;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
 
@@ -147,12 +158,13 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para movimentações
     private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
-        return;
+        sincPedidos();
     }//GEN-LAST:event_timerMovOnTime
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
         refreshSincCad();
+        sincPedidos();
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar
@@ -248,13 +260,12 @@ public class PanelHistorico extends javax.swing.JPanel {
                 sincDelete(itensDelete);
                 modelSincronizar.addAll(new HistoricoIntegraDAO().listaUltimosInteg());
             }
-            
+
             sincImage();
         } catch (Exception e) {
             logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
         }
     }
-
 
     /**
      * Recebe lista de itens a serem sincronizados e inicia processo de
@@ -269,21 +280,21 @@ public class PanelHistorico extends javax.swing.JPanel {
             if (lista.isEmpty()) {
                 return;
             }
-           // ImageController imgCtrl = new ImageController();
-           // imgCtrl.createImagePrestaShop();
+            // ImageController imgCtrl = new ImageController();
+            // imgCtrl.createImagePrestaShop();
             for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
                 if (obj.getObjectSinc().getClass().equals(CategoriaEcomBean.class)) {
                     CategoriaEcomBean catEcom = (CategoriaEcomBean) obj.getObjectSinc();
                     //faz o post das categorias pendentes de sincronização
                     catController = new CategoriaController();
                     int cod = catController.createCategoryPrestashop(catEcom);
-                    if(cod!=0){
-                      catEcom.setIdCategoriaEcom(cod);
+                    if (cod != 0) {
+                        catEcom.setIdCategoriaEcom(cod);
                         CategoriaEcomDAO dao = new CategoriaEcomDAO();
-                      //salvando código da categoria cadastrada 
-                      dao.alteraIdEcom(catEcom);
-                      atualizaDataInt(obj); 
-                    }                    
+                        //salvando código da categoria cadastrada 
+                        dao.alteraIdEcom(catEcom);
+                        atualizaDataInt(obj);
+                    }
                 }
             }
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
@@ -302,7 +313,9 @@ public class PanelHistorico extends javax.swing.JPanel {
                     CategoriaEcomBean catEcom = (CategoriaEcomBean) obj.getObjectSinc();
                     //faz o put das categorias pendentes de sincronização
                     CategoriaController catController = new CategoriaController();
-                    if(catController.updateCategoryPrestashop(catEcom))atualizaDataInt(obj);
+                    if (catController.updateCategoryPrestashop(catEcom)) {
+                        atualizaDataInt(obj);
+                    }
                 }
             }
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
@@ -311,16 +324,104 @@ public class PanelHistorico extends javax.swing.JPanel {
         }
     }
 
+    private void sincPedidos() {
+        OrderController orderController = new OrderController();
+        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
+        List<PedidoEcomBean> listoPedido = null;
+
+        try {
+            listoPedido = orderController.syncListaOrder();
+        } catch (SQLException ex) {
+            java.util.logging.Logger.getLogger(PanelHistorico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (PedidoEcomBean pedido : listoPedido) {
+            sincGetPedido(Integer.valueOf(pedido.getId()));
+        }
+
+    }
+
+    private void sincGetPedido(int numPedido) {
+        OrderController orderController = new OrderController();
+        CustomerController customerController = new CustomerController();
+        AddressController addressController = new AddressController();
+        CPFModuleDataController cPFModuleDataController = new CPFModuleDataController();
+
+        PedidoEcomBean beanPedido;
+        ClienteEcomBean beanCliente;
+        EnderecoEcomBean beanEndereco;
+        CPFClienteBean beanCPF;
+        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
+
+        try {
+            beanPedido = orderController.syncOrderControllerPrestashop(numPedido);
+            beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(beanPedido.getId_customer()));
+            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(beanPedido.getId_address_delivery()));
+            beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(beanPedido.getId_customer()));
+
+            if (clienteERPDAO.verificacaoClienteEcomExiste(beanCliente.getId())) {  //Verificando se o cliente já foi sincronizado.
+                System.out.println("ja existe");
+
+            } else {
+                clienteERPDAO.gravarClienteComEndereco(beanCliente, beanEndereco, beanCPF); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+            }
+
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
+        }
+
+    }
+
+    private void sincGetAddress(int cod) {
+        AddressController addressController = new AddressController();
+        EnderecoEcomBean bean;
+//        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
+
+        try {
+            bean = addressController.syncAddressControllerPrestashop(cod);
+
+//            if (clienteERPDAO.verificacaoClienteEcomExiste(bean.getId())) {  //Verificando se o cliente já foi sincronizado.
+//                System.out.println("ja existe");
+//            } else {
+//                clienteERPDAO.gravar(bean); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+//            }
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
+        }
+
+    }
+
+    private void sincGetOrders(int cod) {
+        OrderController orderController = new OrderController();
+        PedidoEcomBean bean;
+//        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
+
+        try {
+            bean = orderController.syncOrderControllerPrestashop(cod);
+
+//            if (clienteERPDAO.verificacaoClienteEcomExiste(bean.getId())) {  //Verificando se o cliente já foi sincronizado.
+//                System.out.println("ja existe");
+//            } else {
+//                clienteERPDAO.gravar(bean); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+//            }
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
+        }
+
+    }
+
     private void sincDelete(List lista) {
         try {
             if (lista.isEmpty()) {
                 return;
             }
-             for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
+            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
                 if (obj.getEntidade().equals("categoria")) {
                     //faz o delete das categorias pendentes de sincronização
                     CategoriaController catController = new CategoriaController();
-                    if(catController.deleteCategoryPrestashop(obj.getCodEntidade()))atualizaDataInt(obj);
+                    if (catController.deleteCategoryPrestashop(obj.getCodEntidade())) {
+                        atualizaDataInt(obj);
+                    }
                 }
             }
             logger.info("Sincronização na loja virtual, efetuada com sucesso!");
@@ -338,7 +439,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     private void atualizaDataInt(HistoricoIntegraERPBean obj) throws SQLException {
         HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
         modelSincronizar.clear();
-        dao.alteraDataInt(obj.getId());       
+        dao.alteraDataInt(obj.getId());
     }
 
     private void sincImage() {
