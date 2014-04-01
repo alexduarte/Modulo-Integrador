@@ -22,6 +22,7 @@ public class EnderecoERPBean {
     private String other;
     private String phone;
     private String phone_mobile;
+    private String id_state;
 
     public String getId_customer() {
         return id_customer;
@@ -110,6 +111,15 @@ public class EnderecoERPBean {
     public void setPhone_mobile(String phone_mobile) {
         this.phone_mobile = phone_mobile;
     }
+
+    public String getId_state() {
+        return id_state;
+    }
+
+    public void setId_state(String id_state) {
+        this.id_state = id_state;
+    }
+    
     
     
 }
