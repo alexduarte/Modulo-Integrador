@@ -14,6 +14,11 @@ import javax.xml.bind.annotation.*;
     "category",
     "product",
     "image",
+    "customer",
+    "address",
+    "order",
+    "cpfModuleData",
+    "state",
     "combination",
     "productOption",
     "productOptionValue",    
@@ -48,9 +53,6 @@ public class Prestashop {
     
     @XmlElement(name = "stock_available")
     private StockAvailable stockAvailable;
-    
-//    @XmlElement(name = "content",required = true)
-//    private byte[] content;
 
     @XmlElement(name = "customer", required = true)
     protected Customer customer;
@@ -61,7 +63,10 @@ public class Prestashop {
     protected Order order;
 
     @XmlElement(name = "cpfmodule_data", required = true)
-    protected CPFModuleData cpfmodule_data;
+    protected CPFModuleData cpfModuleData;
+    
+    @XmlElement(name = "state", required = true)
+    private State state;
 
     public ProductFeature getProductFeature() {
         return productFeature;
@@ -209,11 +214,25 @@ public class Prestashop {
     }
 
     public CPFModuleData getCpfmodule_data() {
-        return cpfmodule_data;
+        return cpfModuleData;
     }
 
     public void setCpfmodule_data(CPFModuleData cpfmodule_data) {
-        this.cpfmodule_data = cpfmodule_data;
+        this.cpfModuleData = cpfmodule_data;
+    }
+
+    /**
+     * @return the state
+     */
+    public State getState() {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(State state) {
+        this.state = state;
     }
 
 }
