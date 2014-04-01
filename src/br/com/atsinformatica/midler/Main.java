@@ -5,6 +5,7 @@
 package br.com.atsinformatica.midler;
 
 import br.com.atsinformatica.midler.properties.PropertiesManager;
+import br.com.atsinformatica.midler.ui.FrameLogin;
 import br.com.atsinformatica.midler.ui.util.AtsKeyboardFocusManager;
 import br.com.atsinformatica.midler.ui.util.LayoutUtil;
 import br.com.atsinformatica.midler.ui.PanelPrincipal;
@@ -22,12 +23,12 @@ public class Main {
         AtsKeyboardFocusManager.install();
         //configura look and feel
         LayoutUtil.configuraLookAndFeel(new NimbusLookAndFeel());
-        PanelPrincipal principal = PanelPrincipal.getInstance();
+        FrameLogin frameLogin = new FrameLogin();
         //verifica se arquivo de configuração existe, caso não exista, dispara mensagem de alerta para que o usuario possa cria-lo
         if (!PropertiesManager.getFile().exists()) {
-            JOptionPane.showMessageDialog(principal, "Antes de utilizar o módulo sincronizador é necessário configurá-lo! Acesse a rotina de configurações\n"
+            JOptionPane.showMessageDialog(frameLogin, "Antes de utilizar o módulo sincronizador é necessário configurá-lo! Acesse a rotina de configurações\n"
                     + "e certifique-se de que todos os campos obrigatórios foram devidamente preenchidos.");
         }
-        principal.setVisible(true);
+        frameLogin.setVisible(true);
     }
 }
