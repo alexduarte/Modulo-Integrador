@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
     "other", //Outras informações do Endereço
     "phone", //Telefone
     "phone_mobile", //Telefone Movel
+    "id_state", //ID do Estado
 })
 
 public class Address {
@@ -57,6 +58,8 @@ public class Address {
     private String phone;
     @XmlElement(name = "phone_mobile")
     private String phone_mobile;
+    @XmlElement(name = "id_state")
+    private String id_state;
 
     public String getId_customer() {
         return id_customer;
@@ -144,6 +147,14 @@ public class Address {
 
     public void setPhone_mobile(String phone_mobile) {
         this.phone_mobile = phone_mobile;
+    }
+
+    public String getId_state() {
+        return id_state;
+    }
+
+    public void setId_state(String id_state) {
+        this.id_state = id_state;
     }
 
 }
