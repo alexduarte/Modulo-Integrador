@@ -4,6 +4,7 @@ import br.com.atsinformatica.prestashop.model.list.StockAvailables;
 import br.com.atsinformatica.prestashop.model.list.Categories;
 import br.com.atsinformatica.prestashop.model.list.Combinations;
 import br.com.atsinformatica.prestashop.model.list.Images;
+import br.com.atsinformatica.prestashop.model.list.Orders;
 import br.com.atsinformatica.prestashop.model.list.ProductFeatures;
 import br.com.atsinformatica.prestashop.model.list.ProductOptionValues;
 import br.com.atsinformatica.prestashop.model.list.ProductOptions;
@@ -25,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
     "productOptions",
     "productOptionValues",
     "stockAvailables",
+    "orders",
     
     
     
@@ -58,6 +60,9 @@ public class PrestashopItens {
     
     @XmlElement(name = "product_option_values")
     private ProductOptionValues productOptionValues;
+    
+    @XmlElement(name = "orders")
+    private Orders orders;
     
 
     //----------Getters e Setters-----------------//
@@ -154,6 +159,20 @@ public class PrestashopItens {
      */
     public void setProductOptionValues(ProductOptionValues productOptionValues) {
         this.productOptionValues = productOptionValues;
+    }
+
+    /**
+     * @return the orders
+     */
+    public Orders getOrders() {
+        return orders;
+    }
+
+    /**
+     * @param orders the orders to set
+     */
+    public void setOrders(Orders orders) {
+        this.orders = orders;
     }
 
 }
