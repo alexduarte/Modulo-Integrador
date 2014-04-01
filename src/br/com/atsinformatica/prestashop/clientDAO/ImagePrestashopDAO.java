@@ -10,7 +10,6 @@ import br.com.atsinformatica.prestashop.model.node.Legend;
 import br.com.atsinformatica.prestashop.model.root.Image;
 import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.multipart.FormDataMultiPart;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,9 +40,9 @@ public class ImagePrestashopDAO extends GenericPrestashopDAO<Image> implements I
             t.setLegend(new Legend("testeeeeeee"));
             File image = new File("C:\\chuteira-nike1.jpg");
             MediaType imageType = new MediaType("image", "jpeg");
-            FormDataMultiPart part = new FormDataMultiPart();
-            FormDataMultiPart bodyPart = part.field("image", image,
-            imageType);
+           // FormDataMultiPart part = new FormDataMultiPart();
+            //FormDataMultiPart bodyPart = part.field("image", image,
+            //imageType);
             //Content content = new Content();
            // prestashop.setImage(t);
             //content.setContent(image);
@@ -51,9 +50,9 @@ public class ImagePrestashopDAO extends GenericPrestashopDAO<Image> implements I
             String xml = createTOXML(prestashop);
            // Base64.encode(image)
             //FileInputStream image = new FileInputStream("C:\\chuteira-nike1.jpg");
-            ClientResponse response = getWebResource().path("images/products/3").type(MediaType.MULTIPART_FORM_DATA_TYPE)
-                    .post(ClientResponse.class, bodyPart);
-            System.out.println("Resposta: "+response.getStatus());
+            //ClientResponse response = getWebResource().path("images/products/3").type(MediaType.MULTIPART_FORM_DATA_TYPE)
+              //      .post(ClientResponse.class, bodyPart);
+            //System.out.println("Resposta: "+response.getStatus());
         } catch (Exception ex) {
             Logger.getLogger(ImagePrestashopDAO.class).error("Erro: "+ex);
         }
