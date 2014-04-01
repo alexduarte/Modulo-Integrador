@@ -5,21 +5,24 @@
  */
 package br.com.atsinformatica.midler.ui;
 
-import br.com.atsinformatica.erp.controller.CategoriaERPController;
-import br.com.atsinformatica.erp.controller.ProdutoERPController;
 import br.com.atsinformatica.erp.controller.SincERPController;
-import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
-import br.com.atsinformatica.prestashop.controller.CategoriaController;
+import br.com.atsinformatica.erp.dao.ClienteERPDAO;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
-import br.com.atsinformatica.erp.dao.ProdutoDAO;
+import br.com.atsinformatica.erp.dao.PedidoERPDAO;
+import br.com.atsinformatica.erp.entity.CPFClienteBean;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
-import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
-import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.prestashop.controller.ImageController;
-import br.com.atsinformatica.prestashop.controller.ProdutoController;
+import br.com.atsinformatica.erp.entity.ClienteERPBean;
+import br.com.atsinformatica.erp.entity.EnderecoERPBean;
+import br.com.atsinformatica.erp.entity.EstadoERPBean;
+import br.com.atsinformatica.erp.entity.PedidoERPBean;
+import br.com.atsinformatica.prestashop.controller.AddressController;
+import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
+import br.com.atsinformatica.prestashop.controller.CustomerController;
+import br.com.atsinformatica.prestashop.controller.OrderController;
+import br.com.atsinformatica.prestashop.controller.StateController;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.sql.SQLException;
@@ -154,7 +157,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para movimentações
     private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
-        return;
+        sincPedidos();
     }//GEN-LAST:event_timerMovOnTime
 
     ///Timer para cadastro 
@@ -239,15 +242,15 @@ public class PanelHistorico extends javax.swing.JPanel {
             } else {
                 for (HistoricoIntegraERPBean bean : listaPend) {
                     if (bean.getTipoOperacao().equals("insert")) {
-                       controller.post(bean.getObjectSinc());
+                        controller.post(bean.getObjectSinc());
                     }
                     if (bean.getTipoOperacao().equals("update")) {
-                       controller.update(bean.getObjectSinc());
+                        controller.update(bean.getObjectSinc());
                     }
                     if (bean.getTipoOperacao().equals("delete")) {
-                       controller.delete(bean.getCodEntidade());
+                        controller.delete(bean.getCodEntidade());
                     }
-                   // atualizaDataInt(bean);
+                    // atualizaDataInt(bean);
                     //modelSincronizar.add(bean);
                 }
                 modelSincronizar.addAll(new HistoricoIntegraDAO().listaUltimosInteg());
@@ -343,7 +346,6 @@ public class PanelHistorico extends javax.swing.JPanel {
 //            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
 //        }
 //    }
-
     /**
      * Atualiza data de integração de itens pendentes na tabela de historico de
      * sincronizacao
@@ -360,4 +362,71 @@ public class PanelHistorico extends javax.swing.JPanel {
 //        ImageController controller = new ImageController();
 //        controller.getImages();
 //    }
+    private void sincPedidos() {
+        OrderController orderController = new OrderController();
+        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
+        List<PedidoERPBean> listoPedido = null;
+
+        try {
+            //Buscando a lista de Pedidos que ainda não esta no banco de dados.
+            listoPedido = orderController.syncListaOrder();
+        } catch (SQLException ex) {
+
+            logger.error("Erro ao efetuar sincronização de Pedidos da loja virtual: " + ex);
+        }
+
+        /**
+         * Chamando o metodo sincGetPedido, que com o numero do pedido, busca o
+         * cliente, busca o endereço, busca o CPF. se tiver no banco ERP os
+         * dados do cliente apenas atualiza, se não tiver no banco ERP vai
+         * inserir os dados.
+         */
+        for (PedidoERPBean pedido : listoPedido) {
+            sincGetPedido(Integer.valueOf(pedido.getId()));
+        }
+
+    }
+
+    private void sincGetPedido(int numPedido) {
+        OrderController orderController = new OrderController();
+        CustomerController customerController = new CustomerController();
+        AddressController addressController = new AddressController();
+        CPFModuleDataController cPFModuleDataController = new CPFModuleDataController();
+        StateController stateController = new StateController();
+
+        PedidoERPBean beanPedido;
+        ClienteERPBean beanCliente;
+        EnderecoERPBean beanEndereco;
+        CPFClienteBean beanCPF;
+        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
+        EstadoERPBean estadoERPBean = new EstadoERPBean();
+        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
+
+        try {
+            beanPedido = orderController.syncOrderControllerPrestashop(numPedido);
+            beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(beanPedido.getId_customer()));
+            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(beanPedido.getId_address_delivery()));
+            beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(beanPedido.getId_customer()));
+
+            if (Integer.valueOf(beanEndereco.getId_state()) > 0) {
+                estadoERPBean = stateController.syncStateControllerPrestashop(Integer.valueOf(beanEndereco.getId_state()));
+            }
+
+            if (clienteERPDAO.verificacaoClienteEcomExiste(beanCliente.getId())) {  //Verificando se o cliente já foi sincronizado.
+                //Cliente já existe
+                clienteERPDAO.atualizarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean);
+
+            } else {
+                //Cliente não existe
+                clienteERPDAO.gravarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+            }
+
+            pedidoERPDAO.gravarPedido(beanPedido, "50000990");
+
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
+        }
+
+    }
+
 }
