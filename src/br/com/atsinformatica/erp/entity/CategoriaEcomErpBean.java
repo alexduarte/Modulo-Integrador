@@ -8,7 +8,7 @@ package br.com.atsinformatica.erp.entity;
  *
  * @author AlexsanderPimenta
  */
-public class CategoriaEcomBean {
+public class CategoriaEcomErpBean {
     
     private String codCategoria;
     private String descricao;

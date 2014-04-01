@@ -5,32 +5,28 @@
  */
 package br.com.atsinformatica.midler.ui;
 
+import br.com.atsinformatica.erp.controller.CategoriaERPController;
+import br.com.atsinformatica.erp.controller.ProdutoERPController;
+import br.com.atsinformatica.erp.controller.SincERPController;
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
-import br.com.atsinformatica.erp.dao.ClienteERPDAO;
 import br.com.atsinformatica.prestashop.controller.CategoriaController;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
-import br.com.atsinformatica.erp.dao.PedidoERPDAO;
-import br.com.atsinformatica.erp.entity.CPFClienteBean;
+import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
-import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
-import br.com.atsinformatica.erp.entity.ClienteEcomBean;
-import br.com.atsinformatica.erp.entity.EnderecoEcomBean;
-import br.com.atsinformatica.erp.entity.PedidoEcomBean;
-import br.com.atsinformatica.prestashop.controller.AddressController;
-import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
-import br.com.atsinformatica.prestashop.controller.CustomerController;
+import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
+import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.prestashop.controller.ImageController;
-import br.com.atsinformatica.prestashop.controller.OrderController;
+import br.com.atsinformatica.prestashop.controller.ProdutoController;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
 
@@ -158,13 +154,12 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     ///Timer para movimentações
     private void timerMovOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerMovOnTime
-        sincPedidos();
+        return;
     }//GEN-LAST:event_timerMovOnTime
 
     ///Timer para cadastro 
     private void timerCadastroOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerCadastroOnTime
         refreshSincCad();
-        sincPedidos();
     }//GEN-LAST:event_timerCadastroOnTime
 
     //Botão de atualizar
@@ -227,8 +222,8 @@ public class PanelHistorico extends javax.swing.JPanel {
      * Inicia processo de preparação de ítens para sincronização
      */
     private void refreshSincCad() {
-        List<HistoricoIntegraERPBean> listaPend = null;
-        List<HistoricoIntegraERPBean> listaUltimos = null;
+        HashSet<HistoricoIntegraERPBean> listaPend = null;
+        Set<HistoricoIntegraERPBean> listaUltimos = null;
         try {
             modelSincronizar.clear();
             ///lista de itens pendentes de sincronização
@@ -236,199 +231,118 @@ public class PanelHistorico extends javax.swing.JPanel {
             //lista de ultimos itens sincronizados na loja virtual
             listaUltimos = new HistoricoIntegraDAO().listaUltimosInteg();
             //Lista de itens a sincronizar na loja virtual
-            List itensPost = new ArrayList();
-            List itensPut = new ArrayList();
-            List itensDelete = new ArrayList();
+            //Set itens = new HashSet();
             //sincPost(itensPost);
+            SincERPController controller = new SincERPController();
             if (listaPend.isEmpty() && !listaUltimos.isEmpty()) {
                 modelSincronizar.addAll(listaUltimos);
             } else {
                 for (HistoricoIntegraERPBean bean : listaPend) {
                     if (bean.getTipoOperacao().equals("insert")) {
-                        itensPost.add(bean);
+                       controller.post(bean.getObjectSinc());
                     }
                     if (bean.getTipoOperacao().equals("update")) {
-                        itensPut.add(bean);
+                       controller.update(bean.getObjectSinc());
                     }
                     if (bean.getTipoOperacao().equals("delete")) {
-                        itensDelete.add(bean);
+                       controller.delete(bean.getCodEntidade());
                     }
-                    modelSincronizar.add(bean);
+                   // atualizaDataInt(bean);
+                    //modelSincronizar.add(bean);
                 }
-                sincPost(itensPost);
-                sincPut(itensPut);
-                sincDelete(itensDelete);
                 modelSincronizar.addAll(new HistoricoIntegraDAO().listaUltimosInteg());
             }
-
-            sincImage();
         } catch (Exception e) {
             logger.error("Erro ao atualizar lista de ítens a serem sincronizados: " + e);
         }
     }
 
-    /**
-     * Recebe lista de itens a serem sincronizados e inicia processo de
-     * sincronização
-     *
-     * @param lista Lista de itens a serem sincronizados no ERP ou na loja
-     * virtual
-     */
-    private void sincPost(List lista) {
-        CategoriaController catController = null;
-        try {
-            if (lista.isEmpty()) {
-                return;
-            }
-            // ImageController imgCtrl = new ImageController();
-            // imgCtrl.createImagePrestaShop();
-            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
-                if (obj.getObjectSinc().getClass().equals(CategoriaEcomBean.class)) {
-                    CategoriaEcomBean catEcom = (CategoriaEcomBean) obj.getObjectSinc();
-                    //faz o post das categorias pendentes de sincronização
-                    catController = new CategoriaController();
-                    int cod = catController.createCategoryPrestashop(catEcom);
-                    if (cod != 0) {
-                        catEcom.setIdCategoriaEcom(cod);
-                        CategoriaEcomDAO dao = new CategoriaEcomDAO();
-                        //salvando código da categoria cadastrada 
-                        dao.alteraIdEcom(catEcom);
-                        atualizaDataInt(obj);
-                    }
-                }
-            }
-            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
-        }
-    }
-
-    private void sincPut(List lista) {
-        try {
-            if (lista.isEmpty()) {
-                return;
-            }
-            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
-                if (obj.getObjectSinc().getClass().equals(CategoriaEcomBean.class)) {
-                    CategoriaEcomBean catEcom = (CategoriaEcomBean) obj.getObjectSinc();
-                    //faz o put das categorias pendentes de sincronização
-                    CategoriaController catController = new CategoriaController();
-                    if (catController.updateCategoryPrestashop(catEcom)) {
-                        atualizaDataInt(obj);
-                    }
-                }
-            }
-            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
-        }
-    }
-
-    private void sincPedidos() {
-        OrderController orderController = new OrderController();
-        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
-        List<PedidoEcomBean> listoPedido = null;
-
-        try {
-            listoPedido = orderController.syncListaOrder();
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(PanelHistorico.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        for (PedidoEcomBean pedido : listoPedido) {
-            sincGetPedido(Integer.valueOf(pedido.getId()));
-        }
-
-    }
-
-    private void sincGetPedido(int numPedido) {
-        OrderController orderController = new OrderController();
-        CustomerController customerController = new CustomerController();
-        AddressController addressController = new AddressController();
-        CPFModuleDataController cPFModuleDataController = new CPFModuleDataController();
-
-        PedidoEcomBean beanPedido;
-        ClienteEcomBean beanCliente;
-        EnderecoEcomBean beanEndereco;
-        CPFClienteBean beanCPF;
-        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
-
-        try {
-            beanPedido = orderController.syncOrderControllerPrestashop(numPedido);
-            beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(beanPedido.getId_customer()));
-            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(beanPedido.getId_address_delivery()));
-            beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(beanPedido.getId_customer()));
-
-            if (clienteERPDAO.verificacaoClienteEcomExiste(beanCliente.getId())) {  //Verificando se o cliente já foi sincronizado.
-                System.out.println("ja existe");
-
-            } else {
-                clienteERPDAO.gravarClienteComEndereco(beanCliente, beanEndereco, beanCPF); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
-            }
-
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
-        }
-
-    }
-
-    private void sincGetAddress(int cod) {
-        AddressController addressController = new AddressController();
-        EnderecoEcomBean bean;
-//        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
-
-        try {
-            bean = addressController.syncAddressControllerPrestashop(cod);
-
-//            if (clienteERPDAO.verificacaoClienteEcomExiste(bean.getId())) {  //Verificando se o cliente já foi sincronizado.
-//                System.out.println("ja existe");
-//            } else {
-//                clienteERPDAO.gravar(bean); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+//    /**
+//     * Recebe lista de itens a serem sincronizados e inicia processo de
+//     * sincronização
+//     *
+//     * @param lista Lista de itens a serem sincronizados no ERP ou na loja
+//     * virtual
+//     */
+//    private void sincPost(HashSet lista) {
+//        CategoriaController catController = null;
+//        ProdutoController prodController = null;
+//        try {
+//            if (lista.isEmpty()) {
+//                return;
 //            }
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
-        }
-
-    }
-
-    private void sincGetOrders(int cod) {
-        OrderController orderController = new OrderController();
-        PedidoEcomBean bean;
-//        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
-
-        try {
-            bean = orderController.syncOrderControllerPrestashop(cod);
-
-//            if (clienteERPDAO.verificacaoClienteEcomExiste(bean.getId())) {  //Verificando se o cliente já foi sincronizado.
-//                System.out.println("ja existe");
-//            } else {
-//                clienteERPDAO.gravar(bean); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+//            for (HistoricoIntegraERPBean obj : (Set<HistoricoIntegraERPBean>) lista) {
+//                if (obj.getObjectSinc().getClass().equals(CategoriaEcomErpBean.class)) {
+//                    CategoriaEcomErpBean catEcom = (CategoriaEcomErpBean) obj.getObjectSinc();
+//                    //faz o post das categorias pendentes de sincronização
+//                    catController = new CategoriaController();
+//                    int codCatEcom = catController.createCategoryPrestashop(catEcom);
+//                    if (codCatEcom != 0) {
+//                        catEcom.setIdCategoriaEcom(codCatEcom);
+//                        CategoriaEcomDAO dao = new CategoriaEcomDAO();
+//                        //salvando código da categoria cadastrada 
+//                        dao.alteraIdEcom(catEcom);
+//                        atualizaDataInt(obj);
+//                    }
+//                }
+//                if (obj.getObjectSinc().getClass().equals(ProdutoERPBean.class)) {
+//                    ProdutoERPBean prodErp = (ProdutoERPBean) obj.getObjectSinc();
+//                    int codProdEcom = prodController.createProductPrestashop(prodErp);
+//                    if (codProdEcom != 0) {
+//                        prodErp.setIdProdutoEcom(codProdEcom);
+//                        ProdutoDAO dao = new ProdutoDAO();
+//                        dao.alterar(prodErp);
+//                        atualizaDataInt(obj);
+//                    }
+//                }
+//                
 //            }
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
-        }
-
-    }
-
-    private void sincDelete(List lista) {
-        try {
-            if (lista.isEmpty()) {
-                return;
-            }
-            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
-                if (obj.getEntidade().equals("categoria")) {
-                    //faz o delete das categorias pendentes de sincronização
-                    CategoriaController catController = new CategoriaController();
-                    if (catController.deleteCategoryPrestashop(obj.getCodEntidade())) {
-                        atualizaDataInt(obj);
-                    }
-                }
-            }
-            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
-        } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
-        }
-    }
+//            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
+//        } catch (Exception e) {
+//            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
+//        }
+//    }
+//
+//    private void sincPut(List lista) {
+//        try {
+//            if (lista.isEmpty()) {
+//                return;
+//            }
+//            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
+//                if (obj.getObjectSinc().getClass().equals(CategoriaEcomErpBean.class)) {
+//                    CategoriaEcomErpBean catEcom = (CategoriaEcomErpBean) obj.getObjectSinc();
+//                    //faz o put das categorias pendentes de sincronização
+//                    CategoriaController catController = new CategoriaController();
+//                    if (catController.updateCategoryPrestashop(catEcom)) {
+//                        atualizaDataInt(obj);
+//                    }
+//                }
+//            }
+//            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
+//        } catch (Exception e) {
+//            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
+//        }
+//    }
+//
+//    private void sincDelete(List lista) {
+//        try {
+//            if (lista.isEmpty()) {
+//                return;
+//            }
+//            for (HistoricoIntegraERPBean obj : (List<HistoricoIntegraERPBean>) lista) {
+//                if (obj.getEntidade().equals("categoria")) {
+//                    //faz o delete das categorias pendentes de sincronização
+//                    CategoriaController catController = new CategoriaController();
+//                    if (catController.deleteCategoryPrestashop(obj.getCodEntidade())) {
+//                        atualizaDataInt(obj);
+//                    }
+//                }
+//            }
+//            logger.info("Sincronização na loja virtual, efetuada com sucesso!");
+//        } catch (Exception e) {
+//            logger.error("Erro ao efetuar sincronização na loja virtual: " + e);
+//        }
+//    }
 
     /**
      * Atualiza data de integração de itens pendentes na tabela de historico de
@@ -436,14 +350,14 @@ public class PanelHistorico extends javax.swing.JPanel {
      *
      * @param lista lista de itens
      */
-    private void atualizaDataInt(HistoricoIntegraERPBean obj) throws SQLException {
-        HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
-        modelSincronizar.clear();
-        dao.alteraDataInt(obj.getId());
-    }
-
-    private void sincImage() {
-        ImageController controller = new ImageController();
-        controller.getImages();
-    }
+//    private void atualizaDataInt(HistoricoIntegraERPBean obj) throws SQLException {
+//        HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
+//        modelSincronizar.clear();
+//        dao.alteraDataInt(obj.getId());
+//    }
+//
+//    private void sincImage() {
+//        ImageController controller = new ImageController();
+//        controller.getImages();
+//    }
 }

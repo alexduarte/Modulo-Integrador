@@ -34,7 +34,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * @author ricardosilva
  */
-public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
+public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implements IGenericPrestashopDAO<Product> {
 
     /**
      * Adiciona um item Produto
@@ -43,17 +43,13 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
      * @param t
      * @return boolean
      */
-    public boolean postWithVerification(String path, Product t) {
-
+    public int postWithVerification(String path, Product t) {
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        ClientResponse clientResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
-        if (clientResponse.getStatus() == 201) {
-            return true;
-        } else {
-            return false;
-        }
+        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
+        return Integer.parseInt(post.getProduct().getId().getContent());
+        
     }
 
     /**
@@ -118,44 +114,44 @@ public class ProductPrestashopDAO implements IGenericPrestashopDAO<Product> {
         return prestashop.getProduct();
     }
 
-    /**
-     * Retorna um a WebResource (função obrigatória);
-     *
-     * @return
-     */
-    protected WebResource getWebResource() {
-        try {
-            ClientConfig config = new DefaultClientConfig();
-            Client client = Client.create(config);
-            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
-            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
-            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    /**
-     * Retorna um a WebResource (função obrigatória);
-     *
-     * @param Prestashop
-     * @return
-     */
-    protected String createTOXML(Prestashop Prestashop) {
-        try {
-            JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
-            Marshaller marshaller = context.createMarshaller();
-            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            StringWriter out = new StringWriter();
-            marshaller.marshal(Prestashop, new StreamResult(out));
-            System.out.println(out);
-            return out.toString();
-        } catch (JAXBException ex) {
-            Logger.getLogger(ProductPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
-    }
+//    /**
+//     * Retorna um a WebResource (função obrigatória);
+//     *
+//     * @return
+//     */
+//    protected WebResource getWebResource() {
+//        try {
+//            ClientConfig config = new DefaultClientConfig();
+//            Client client = Client.create(config);
+//            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
+//            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
+//            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
+//
+//    /**
+//     * Retorna um a WebResource (função obrigatória);
+//     *
+//     * @param Prestashop
+//     * @return
+//     */
+//    protected String createTOXML(Prestashop Prestashop) {
+//        try {
+//            JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
+//            Marshaller marshaller = context.createMarshaller();
+//            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//            StringWriter out = new StringWriter();
+//            marshaller.marshal(Prestashop, new StreamResult(out));
+//            System.out.println(out);
+//            return out.toString();
+//        } catch (JAXBException ex) {
+//            Logger.getLogger(ProductPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return "";
+//    }
 
     @Override
     public void post(String path, Product t) {

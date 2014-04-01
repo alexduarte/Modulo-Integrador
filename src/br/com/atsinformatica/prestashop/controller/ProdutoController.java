@@ -5,12 +5,14 @@
  */
 package br.com.atsinformatica.prestashop.controller;
 
+import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.ProductPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.prestashop.model.root.Product;
+import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,38 +32,34 @@ public class ProdutoController {
      * @param listProdutoERP
      * @return
      */
-    public List<ProdutoERPBean> createProductPrestashop(List<ProdutoERPBean> listProdutoERP) {
+    public int createProductPrestashop(ProdutoERPBean produtoErp) throws SQLException {
+        // return listProduct;
+        return new ProductPrestashopDAO().postWithVerification(Product.URLPRODUCTS, createProduct(produtoErp));
 
-        if (listProdutoERP.isEmpty() || listProdutoERP == null) {
-            return null;
-        } else {
-            listProduct = new ArrayList<>();
-            for (ProdutoERPBean produtoERPBean : listProdutoERP) {
-                if (createProduct(produtoERPBean)) {
-                    produtoERPBean.setImportadoLoja(true);
-                    listProduct.add(produtoERPBean);
-                } else {
-                    listProduct.add(produtoERPBean);
-                }
-            }
-            return listProduct;
-        }
     }
 
-    private boolean createProduct(ProdutoERPBean produtoERP) {
+    private Product createProduct(ProdutoERPBean produtoERP) throws SQLException {
         Product p = new Product();
-        Name name = new Name();
-        name.getLanguage().add(new Language(produtoERP.getDescricao()));
+        Name name = new Name();        
+        name.getLanguage().add(new Language(produtoERP.getNomeProd()));
+        
         Price price = new Price();
-        price.setContent(produtoERP.getPreco().toString());
+        price.setContent(String.valueOf(produtoERP.getPrecoCheio()));
         LinkRewrite linkRewrite = new LinkRewrite();
-        linkRewrite.getLanguage().add(new Language(produtoERP.getDescricao()));
+        linkRewrite.getLanguage().add(new Language(produtoERP.getDescricaoCompleta()));
+       // p.setEan13(produtoERP.getCodBarras());
+        p.setIdCategoryDefault(new CategoriaEcomDAO().abrir(produtoERP.getCodCategoria()).getIdCategoriaEcom());
+        p.setDepth(String.valueOf(produtoERP.getProfundidade()));
+        p.setWeight(String.valueOf(produtoERP.getPeso()));
+        p.setWidth(String.valueOf(produtoERP.getLargura()));
+        p.setHeight(String.valueOf(produtoERP.getAltura()));
+       // p.setMetaDescription(new MetaDescription(produtoERP.getMetaDescricao()));
+       // p.setMetaKeyWord(new MetaKeyWord(produtoERP.getPalavrasChave()));
+       // p.setDescription(new Description(produtoERP.getDescricaoCompleta()));
+        //p.setIdErp(Integer.parseInt(produtoERP.getCodProd()));
         p.setName(name);
         p.setPrice(price);
         p.setLinkRewrite(linkRewrite);
-      //  mediaDAO.post("", produtoERP.getMedia());
-      //  p.setIdCategoryDefault(new CategoriaController().createCategoryAndSubCategoryPrestashop(produtoERP.getCategoria(), produtoERP.getSubCategoria()));
-        ProductPrestashopDAO productPrestashopDAO = new ProductPrestashopDAO();
-        return productPrestashopDAO.postWithVerification(Product.URLPRODUCTS, p);
+        return p;
     }
 }

@@ -1,6 +1,7 @@
 package br.com.atsinformatica.prestashop.model.root;
 
-import br.com.atsinformatica.prestashop.model.node.Content;
+
+
 import javax.xml.bind.annotation.*;
 
 /**
@@ -13,11 +14,11 @@ import javax.xml.bind.annotation.*;
     "category",
     "product",
     "image",
-    "content",
-    "customer",
-    "address",
-    "order",
-    "cpfmodule_data",})
+    "combination",
+    "productOption",
+    "productOptionValue",    
+    "stockAvailable",  
+})
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
 
@@ -35,9 +36,21 @@ public class Prestashop {
 
     @XmlElement(name = "image", required = true)
     private Image image;
-
-    @XmlElement(name = "content", required = true)
-    private byte[] content;
+    
+    @XmlElement(name = "combination")
+    private Combination combination;
+    
+    @XmlElement(name = "product_option")
+    private ProductOption productOption;
+    
+    @XmlElement(name = "product_option_value")
+    private ProductOptionValue productOptionValue;
+    
+    @XmlElement(name = "stock_available")
+    private StockAvailable stockAvailable;
+    
+//    @XmlElement(name = "content",required = true)
+//    private byte[] content;
 
     @XmlElement(name = "customer", required = true)
     protected Customer customer;
@@ -53,7 +66,7 @@ public class Prestashop {
     public ProductFeature getProductFeature() {
         return productFeature;
     }
-
+    
     public void setProductFeature(ProductFeature value) {
         this.productFeature = value;
     }
@@ -101,18 +114,74 @@ public class Prestashop {
         this.image = image;
     }
 
+//    /**
+//     * @return the content
+//     */
+//    public byte[] getContent() {
+//        return content;
+//    }
+//
+//    /**
+//     * @param content the content to set
+//     */
+//    public void setContent(byte[] content) {
+//        this.content = content;
+//    }
+
     /**
-     * @return the content
+     * @return the combination
      */
-    public byte[] getContent() {
-        return content;
+    public Combination getCombination() {
+        return combination;
     }
 
     /**
-     * @param content the content to set
+     * @param combination the combination to set
      */
-    public void setContent(byte[] content) {
-        this.content = content;
+    public void setCombination(Combination combination) {
+        this.combination = combination;
+    }
+
+    /**
+     * @return the productOption
+     */
+    public ProductOption getProductOption() {
+        return productOption;
+    }
+
+    /**
+     * @param productOption the productOption to set
+     */
+    public void setProductOption(ProductOption productOption) {
+        this.productOption = productOption;
+    }
+
+    /**
+     * @return the productOptionValue
+     */
+    public ProductOptionValue getProductOptionValue() {
+        return productOptionValue;
+    }
+
+    /**
+     * @param productOptionValue the productOptionValue to set
+     */
+    public void setProductOptionValue(ProductOptionValue productOptionValue) {
+        this.productOptionValue = productOptionValue;
+    }
+
+    /**
+     * @return the stockAvailable
+     */
+    public StockAvailable getStockAvailable() {
+        return stockAvailable;
+    }
+
+    /**
+     * @param stockAvailable the stockAvailable to set
+     */
+    public void setStockAvailable(StockAvailable stockAvailable) {
+        this.stockAvailable = stockAvailable;
     }
 
     public Customer getCustomer() {

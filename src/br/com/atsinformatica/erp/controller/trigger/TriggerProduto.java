@@ -32,7 +32,7 @@ public class TriggerProduto implements ITrigger {
                              "active after update position 0 " +
                              "AS " +
                              "begin " +
-                             "  if(New.importaprodecom = 1)then begin " +
+                             "  if(Old.importaprodecom = 1)then begin " +
                              "    INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
                              "    VALUES ('produto', NEW.codprod, current_timestamp, NULL, 'update'); " +
                              "  end " +
