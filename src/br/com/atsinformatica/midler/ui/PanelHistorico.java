@@ -350,14 +350,14 @@ public class PanelHistorico extends javax.swing.JPanel {
      *
      * @param lista lista de itens
      */
-    private void atualizaDataInt(HistoricoIntegraERPBean obj) throws SQLException {
-        HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
-        modelSincronizar.clear();
-        dao.alteraDataInt(obj.getId());
-    }
-
-    private void sincImage() {
-        ImageController controller = new ImageController();
-        controller.getImages();
-    }
+//    private void atualizaDataInt(HistoricoIntegraERPBean obj) throws SQLException {
+//        HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
+//        modelSincronizar.clear();
+//        dao.alteraDataInt(obj.getId());
+//    }
+//
+//    private void sincImage() {
+//        ImageController controller = new ImageController();
+//        controller.getImages();
+//    }
 }
