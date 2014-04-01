@@ -5,6 +5,8 @@
  */
 package br.com.atsinformatica.erp.entity;
 
+import java.util.Date;
+
 /**
  *
  * @author kennedimalheiros
@@ -15,15 +17,21 @@ public class PedidoERPBean {
     private String id_address_delivery;
     private String id_address_invoice;
     private String id_customer;
+    private String id_carrier;
     private String current_state;
+    private String module;
+    private String invoice_number;
     private String invoice_date;
     private String delivery_date;
+    private Date date_add;
     private String payment;
     private String total_discounts;
     private String total_paid;
     private String total_paid_real;
     private String total_products;
+    private String total_shipping;
     private String reference;
+    private String hora;
 
     public String getId() {
         return id;
@@ -57,12 +65,36 @@ public class PedidoERPBean {
         this.id_customer = id_customer;
     }
 
+    public String getId_carrier() {
+        return id_carrier;
+    }
+
+    public void setId_carrier(String id_carrier) {
+        this.id_carrier = id_carrier;
+    }
+
     public String getCurrent_state() {
         return current_state;
     }
 
     public void setCurrent_state(String current_state) {
         this.current_state = current_state;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getInvoice_number() {
+        return invoice_number;
+    }
+
+    public void setInvoice_number(String invoice_number) {
+        this.invoice_number = invoice_number;
     }
 
     public String getInvoice_date() {
@@ -121,6 +153,14 @@ public class PedidoERPBean {
         this.total_products = total_products;
     }
 
+    public String getTotal_shipping() {
+        return total_shipping;
+    }
+
+    public void setTotal_shipping(String total_shipping) {
+        this.total_shipping = total_shipping;
+    }
+
     public String getReference() {
         return reference;
     }
@@ -128,5 +168,23 @@ public class PedidoERPBean {
     public void setReference(String reference) {
         this.reference = reference;
     }
+
+    public Date getDate_add() {
+        return date_add;
+    }
+
+    public void setDate_add(Date date_add) {
+        this.date_add = date_add;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+
 
 }
