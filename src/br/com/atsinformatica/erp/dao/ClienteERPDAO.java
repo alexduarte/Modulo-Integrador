@@ -6,8 +6,9 @@
 package br.com.atsinformatica.erp.dao;
 
 import br.com.atsinformatica.erp.entity.CPFClienteBean;
-import br.com.atsinformatica.erp.entity.ClienteEcomBean;
-import br.com.atsinformatica.erp.entity.EnderecoEcomBean;
+import br.com.atsinformatica.erp.entity.ClienteERPBean;
+import br.com.atsinformatica.erp.entity.EnderecoERPBean;
+import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.utils.Funcoes;
 import br.com.atsinformatica.utils.Log;
@@ -24,25 +25,25 @@ import org.apache.log4j.Logger;
  *
  * @author kennedimalheiros
  */
-public class ClienteERPDAO implements IGenericDAO<ClienteEcomBean> {
+public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
     private static Logger logger = Logger.getLogger(ListaPedidoDAO.class);
     private Connection conn;
 
     @Override
-    public void gravar(ClienteEcomBean cliente) throws SQLException {
+    public void gravar(ClienteERPBean cliente) throws SQLException {
 
     }
 
-    public void gravarClienteComEndereco(ClienteEcomBean cliente, EnderecoEcomBean endereco, CPFClienteBean cpf) throws SQLException {
+    public void gravarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
         PreparedStatement pstmt = null;
         try {
 
             conn = ConexaoATS.conectaERP();
             String sql = " INSERT INTO CLIENTE (CODCLIENTE, CODCLIENTEECOM, NOME, NOMEFANTASIA, "
                     + "                      EMAIL, DT_NASCIMENTO,ENDERECO, BAIRRO, CEP, FONE, CELULAR, "
-                    + "                      CGCCPF, PESSOA_FJ, INSCEST ) "
-                    + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+                    + "                      CGCCPF, PESSOA_FJ, INSCEST, ESTADO ) "
+                    + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, ultimoRegistro());
@@ -79,8 +80,53 @@ public class ClienteERPDAO implements IGenericDAO<ClienteEcomBean> {
         }
     }
 
+    public void atualizarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
+        PreparedStatement pstmt = null;
+        try {
+
+            conn = ConexaoATS.conectaERP();
+            String sql = " UPDATE CLIENTE SET NOME=?, NOMEFANTASIA=?, "
+                    + "                      EMAIL=?, DT_NASCIMENTO=?,ENDERECO=?, BAIRRO=?, CEP=?, FONE=?, CELULAR=?, "
+                    + "                      CGCCPF=?, PESSOA_FJ=?, INSCEST=?, ESTADO=? "
+                    + "                     WHERE CODCLIENTEECOM=? ";
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, cliente.getFirstname().trim() + " " + cliente.getLastname().trim());
+            pstmt.setString(2, cliente.getFirstname().trim() + " " + cliente.getLastname().trim());
+            pstmt.setString(3, cliente.getEmail().trim());
+            pstmt.setDate(4, new Date(cliente.getBirthday().getTime()));
+            pstmt.setString(5, endereco.getAddress1());
+            pstmt.setString(6, endereco.getAddress2());
+            pstmt.setString(7, endereco.getPostcode());
+            pstmt.setString(8, endereco.getPhone());
+            pstmt.setString(9, endereco.getPhone_mobile());
+            pstmt.setString(10, cpf.getCpf_Cnpj());
+            pstmt.setString(11, cpf.getTipoDocumento());
+
+            if (cpf.getTipoDocumento().equals("F")) {
+                pstmt.setString(12, "");
+            } else if (cpf.getTipoDocumento().equals("J")) {
+                pstmt.setString(12, cpf.getRg_inscricao());
+            }
+            pstmt.setString(13, estadoERPBean.getSigla());
+            pstmt.setString(14, cliente.getId().trim());
+
+            pstmt.execute();
+
+            //Gerando log
+            Log.geraLog("CLIENTE", cliente.getId(), "Alteração", "Alteração de cliente sincronizado do Ecommercer");
+
+        } catch (SQLException e) {
+            logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
+
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }
+
     @Override
-    public void alterar(ClienteEcomBean object) throws SQLException {
+    public void alterar(ClienteERPBean object) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -90,12 +136,12 @@ public class ClienteERPDAO implements IGenericDAO<ClienteEcomBean> {
     }
 
     @Override
-    public ClienteEcomBean abrir(String id) throws SQLException {
+    public ClienteERPBean abrir(String id) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ClienteEcomBean> listaTodos() throws SQLException {
+    public List<ClienteERPBean> listaTodos() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author kennedimalheiros
  */
-public class ClienteEcomBean {
+public class ClienteERPBean {
 
     private String id;
     private String lastname;

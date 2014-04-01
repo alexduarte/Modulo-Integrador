@@ -26,14 +26,19 @@ import javax.xml.bind.annotation.XmlType;
     "id_address_delivery", // ID Endereço Entrega
     "id_address_invoice", // ID Endereço Fatura
     "id_customer", // ID Cliente
+    "id_carrier", //ID Serviço de Transportadora
     "current_state", // ID do Status do Pedido
-    "invoice_date", // Data Pedido
+    "module",       // Modulo de Pagamento      
+    "invoice_number", // Numero da Fatura Ecom
+    "invoice_date", // Data Faturamento do Pedido
     "delivery_date", // Data Envio
+    "date_add", // Data Adicionou o pedido
     "payment", // Modulo de Pagamento  
     "total_discounts", // Total de desconto
     "total_paid", // Total do Pedido Com Desconto
     "total_paid_real", // Total do Pedido Real
     "total_products", // Total apenas dos produtos
+    "total_shipping", //Total de Frete
     "reference", // Referencia do Pedido
 })
 
@@ -48,12 +53,20 @@ public class Order {
     private String id_address_invoice;
     @XmlElement(name = "id_customer")
     private String id_customer;
+    @XmlElement(name = "id_carrier")
+    private String id_carrier;
     @XmlElement(name = "current_state")
     private String current_state;
+    @XmlElement(name = "module")
+    private String module;
+    @XmlElement(name = "invoice_number")
+    private String invoice_number;
     @XmlElement(name = "invoice_date")
     private String invoice_date;
     @XmlElement(name = "delivery_date")
     private String delivery_date;
+    @XmlElement(name = "date_add")
+    private String date_add;
     @XmlElement(name = "payment")
     private String payment;
     @XmlElement(name = "total_discounts")
@@ -64,6 +77,8 @@ public class Order {
     private String total_paid_real;
     @XmlElement(name = "total_products")
     private String total_products;
+    @XmlElement(name = "total_shipping")
+    private String total_shipping;
     @XmlElement(name = "reference")
     private String reference;
 
@@ -99,6 +114,14 @@ public class Order {
         this.id_customer = id_customer;
     }
 
+    public String getId_carrier() {
+        return id_carrier;
+    }
+
+    public void setId_carrier(String id_carrier) {
+        this.id_carrier = id_carrier;
+    }
+    
     public String getCurrent_state() {
         return current_state;
     }
@@ -106,6 +129,22 @@ public class Order {
     public void setCurrent_state(String current_state) {
         this.current_state = current_state;
     }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getInvoice_number() {
+        return invoice_number;
+    }
+
+    public void setInvoice_number(String invoice_number) {
+        this.invoice_number = invoice_number;
+    }   
 
     public String getInvoice_date() {
         Date dtTemp;
@@ -143,6 +182,25 @@ public class Order {
 
     public void setDelivery_date(String delivery_date) {
         this.delivery_date = delivery_date;
+    }
+
+    public String getDate_add() {
+        Date dtTemp;
+        String dtformatada = null;
+        try {
+
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//formato do mySQL
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");//formato para mostrar
+            dtTemp = sdf1.parse(date_add);
+            dtformatada = sdf2.format(dtTemp);
+        } catch (ParseException ex) {
+            Logger.getLogger("br.com.atsinformatica.prestashop.model.root.Order.Class: " + ex);
+        }
+        return dtformatada;
+    }
+
+    public void setDate_add(String date_add) {
+        this.date_add = date_add;
     }
 
     public String getPayment() {
@@ -183,6 +241,14 @@ public class Order {
 
     public void setTotal_products(String total_products) {
         this.total_products = total_products;
+    }
+
+    public String getTotal_shipping() {
+        return total_shipping;
+    }
+
+    public void setTotal_shipping(String total_shipping) {
+        this.total_shipping = total_shipping;
     }
 
     public String getReference() {
