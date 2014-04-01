@@ -5,7 +5,7 @@
  */
 package br.com.atsinformatica.prestashop.controller;
 
-import br.com.atsinformatica.erp.entity.EnderecoEcomBean;
+import br.com.atsinformatica.erp.entity.EnderecoERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.AddressPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.root.Address;
 
@@ -15,23 +15,24 @@ import br.com.atsinformatica.prestashop.model.root.Address;
  */
 public class AddressController {
 
-    public EnderecoEcomBean syncAddressControllerPrestashop(int cod) {
+    public EnderecoERPBean syncAddressControllerPrestashop(int cod) {
         AddressPrestashopDAO dao = new AddressPrestashopDAO();
 
         Address address = dao.getId(Address.URLADDRESS, cod);
 
-        EnderecoEcomBean bean = new EnderecoEcomBean();
+        EnderecoERPBean bean = new EnderecoERPBean();
         bean.setId_customer(address.getId_customer());
         bean.setAlias(address.getAlias());
         bean.setLastname(address.getLastname());
         bean.setFirstname(address.getFirstname());
         bean.setAddress1(address.getAddress1());
         bean.setAddress2(address.getAddress2());
-        bean.setPostcode(bean.getPostcode());
+        bean.setPostcode(address.getPostcode());
         bean.setCity(address.getCity());
         bean.setOther(address.getOther());
         bean.setPhone(address.getPhone());
         bean.setPhone_mobile(address.getPhone_mobile());
+        bean.setId_state(address.getId_state());
         return bean;
 
     }
