@@ -5,7 +5,7 @@
  */
 package br.com.atsinformatica.prestashop.controller;
 
-import br.com.atsinformatica.erp.entity.ClienteEcomBean;
+import br.com.atsinformatica.erp.entity.ClienteERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.CustomerPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.root.Customer;
 import java.text.ParseException;
@@ -24,11 +24,11 @@ public class CustomerController {
      * @param cat Customer
      * @return
      */
-    public ClienteEcomBean syncCustomerPrestashop(int cod) throws ParseException {
+    public ClienteERPBean syncCustomerPrestashop(int cod) throws ParseException {
         CustomerPrestashopDAO dao = new CustomerPrestashopDAO();
 
         Customer customer = dao.getId(Customer.URLCUSTOMER, cod);
-        ClienteEcomBean bean = new ClienteEcomBean();
+        ClienteERPBean bean = new ClienteERPBean();
         bean.setId(customer.getId());
         bean.setFirstname(customer.getFirstname());
         bean.setLastname(customer.getLastname());
