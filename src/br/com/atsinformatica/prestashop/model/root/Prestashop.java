@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.*;
  *
  * @author ricardosilva
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {
     "productFeature",
@@ -21,21 +20,21 @@ import javax.xml.bind.annotation.*;
     "stockAvailable",  
 })
 @XmlRootElement(name = "prestashop")
-public class Prestashop{
-    
+public class Prestashop {
+
     @XmlAttribute(name = "xmlns:xlink", required = true)
     protected String xmlns = "http://www.w3.org/1999/xlink";
-    
-    @XmlElement(name = "product_feature",required = true)
+
+    @XmlElement(name = "product_feature", required = true)
     protected ProductFeature productFeature;
-    
-    @XmlElement(name = "category",required = true)
+
+    @XmlElement(name = "category", required = true)
     protected Category category;
-    
-    @XmlElement(name = "product",required = true)
+
+    @XmlElement(name = "product", required = true)
     protected Product product;
-    
-    @XmlElement(name = "image",required = true)
+
+    @XmlElement(name = "image", required = true)
     private Image image;
     
     @XmlElement(name = "combination")
@@ -52,6 +51,17 @@ public class Prestashop{
     
 //    @XmlElement(name = "content",required = true)
 //    private byte[] content;
+
+    @XmlElement(name = "customer", required = true)
+    protected Customer customer;
+
+    @XmlElement(name = "address", required = true)
+    protected Address address;
+    @XmlElement(name = "order", required = true)
+    protected Order order;
+
+    @XmlElement(name = "cpfmodule_data", required = true)
+    protected CPFModuleData cpfmodule_data;
 
     public ProductFeature getProductFeature() {
         return productFeature;
@@ -173,5 +183,37 @@ public class Prestashop{
     public void setStockAvailable(StockAvailable stockAvailable) {
         this.stockAvailable = stockAvailable;
     }
-}
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public CPFModuleData getCpfmodule_data() {
+        return cpfmodule_data;
+    }
+
+    public void setCpfmodule_data(CPFModuleData cpfmodule_data) {
+        this.cpfmodule_data = cpfmodule_data;
+    }
+
+}
