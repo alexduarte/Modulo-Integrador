@@ -7,6 +7,7 @@ package br.com.atsinformatica.erp.entity;
 import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 public class ProdutoERPBean {
     
     private String codProd;
+    private int idProdutoEcom;
     private Double estoqueDisponivel;
     private String nomeProd;
     private int condicao;
@@ -33,6 +35,8 @@ public class ProdutoERPBean {
     private String descricaoCompleta;
     private int grade;
     private String codGrade;
+    private Double peso;
+    private List<ProdGradeERPBean> listaProdGrade;
    
     private boolean importadoLoja;
        
@@ -42,6 +46,7 @@ public class ProdutoERPBean {
     }
     public ProdutoERPBean(ResultSet rs) throws SQLException, UnsupportedEncodingException {
         this.codProd = rs.getString("codprod");
+        this.idProdutoEcom = rs.getInt("idprodutoecom");
         this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
@@ -58,10 +63,8 @@ public class ProdutoERPBean {
         this.codAtributo1 = rs.getString("codatributo1");
         this.codAtributo2 = rs.getString("codatributo2");
         this.precoCheio = rs.getDouble("precocheio");
-        this.precoFinal = rs.getDouble("precofinal");
-       
-        
-       
+        this.precoFinal = rs.getDouble("precofinal");   
+        this.peso = rs.getDouble("peso");
     }  
     /**
      * @return the codProd
@@ -341,6 +344,48 @@ public class ProdutoERPBean {
      */
     public void setCodFabricante(String codFabricante) {
         this.codFabricante = codFabricante;
+    }
+
+    /**
+     * @return the idProdutoEcom
+     */
+    public int getIdProdutoEcom() {
+        return idProdutoEcom;
+    }
+
+    /**
+     * @param idProdutoEcom the idProdutoEcom to set
+     */
+    public void setIdProdutoEcom(int idProdutoEcom) {
+        this.idProdutoEcom = idProdutoEcom;
+    }
+
+    /**
+     * @return the listaProdGrade
+     */
+    public List<ProdGradeERPBean> getListaProdGrade() {
+        return listaProdGrade;
+    }
+
+    /**
+     * @param listaProdGrade the listaProdGrade to set
+     */
+    public void setListaProdGrade(List<ProdGradeERPBean> listaProdGrade) {
+        this.listaProdGrade = listaProdGrade;
+    }
+
+    /**
+     * @return the peso
+     */
+    public Double getPeso() {
+        return peso;
+    }
+
+    /**
+     * @param peso the peso to set
+     */
+    public void setPeso(Double peso) {
+        this.peso = peso;
     }
 
     

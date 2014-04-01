@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
     "ecotax",
     "weight",
     "unitPriceImpact",
-    "minalQuantity",
+    "minimalQuantity",
     "defaultOn",
     "availableDate",
         
@@ -54,7 +54,7 @@ public class Combination {
     @XmlElement(name = "reference")
     private String reference;
     @XmlElement(name = "supplier_reference")
-    private String suplierReference;
+    private String supplierReference;
     @XmlElement(name = "wholesale_price")
     private String wholeSalePrice;
     @XmlElement(name = "price")
@@ -173,15 +173,15 @@ public class Combination {
     /**
      * @return the suplierReference
      */
-    public String getSuplierReference() {
-        return suplierReference;
+    public String getSupplierReference() {
+        return supplierReference;
     }
 
     /**
      * @param suplierReference the suplierReference to set
      */
-    public void setSuplierReference(String suplierReference) {
-        this.suplierReference = suplierReference;
+    public void setSupplierReference(String suplierReference) {
+        this.supplierReference = suplierReference;
     }
 
     /**

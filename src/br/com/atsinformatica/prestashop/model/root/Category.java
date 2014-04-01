@@ -47,9 +47,6 @@ public class Category {
     @XmlElement(name = "active")
     private Short active;
 
-//    @XmlElement(name = "position")
-//    private Integer position;
-
     @XmlElement(name = "date_add")
     private String dataAdd;
 
@@ -68,8 +65,6 @@ public class Category {
     @XmlElement(name = "name")
     private Name name;
     
-    
-
     @XmlElement(name = "description")
     private Description description;
 

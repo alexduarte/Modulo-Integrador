@@ -4,7 +4,7 @@
  */
 package br.com.atsinformatica.erp.dao;
 
-import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
+import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,16 +19,16 @@ import org.apache.log4j.Logger;
  *
  * @author AlexsanderPimenta
  */
-public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
+public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomErpBean> {
     private Connection conn;
     private static Logger logger = Logger.getLogger(CategoriaEcomDAO.class);
     @Override
-    public void gravar(CategoriaEcomBean object) throws SQLException {
+    public void gravar(CategoriaEcomErpBean object) throws SQLException {
        
     }
 
     @Override
-    public void alterar(CategoriaEcomBean object) throws SQLException {
+    public void alterar(CategoriaEcomErpBean object) throws SQLException {
          PreparedStatement pstmt = null;        
         try{
             conn = ConexaoATS.conectaERP();
@@ -59,7 +59,7 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
         }
     }
      
-    public void alteraIdEcom(CategoriaEcomBean object) throws SQLException {
+    public void alteraIdEcom(CategoriaEcomErpBean object) throws SQLException {
          PreparedStatement pstmt = null;        
         try{
             conn = ConexaoATS.conectaERP();
@@ -92,7 +92,7 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
      * @throws SQLException 
      */
     @Override
-    public CategoriaEcomBean abrir(String id) throws SQLException {
+    public CategoriaEcomErpBean abrir(String id) throws SQLException {
         ResultSet rs = null;
         PreparedStatement pstmt = null;
         try{
@@ -102,9 +102,9 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
-            CategoriaEcomBean categoria = null;
+            CategoriaEcomErpBean categoria = null;
             while(rs.next()){
-                categoria = new CategoriaEcomBean();
+                categoria = new CategoriaEcomErpBean();
                 categoria.setCodCategoria(rs.getString("CODCATEGORIA").trim());
                 categoria.setCodCategoriaSuperior(rs.getString("CODCATEGORIASUPERIOR"));
                 categoria.setDescricao(rs.getString("DESCRICAO"));
@@ -131,18 +131,18 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomBean> {
      * @throws SQLException 
      */
     @Override
-    public List<CategoriaEcomBean> listaTodos() throws SQLException {
+    public List<CategoriaEcomErpBean> listaTodos() throws SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         try{
             conn = ConexaoATS.conectaERP();
             String sql = "select * from categoriasecom";
-            List<CategoriaEcomBean> listaCategorias = new ArrayList<>();
+            List<CategoriaEcomErpBean> listaCategorias = new ArrayList<>();
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            CategoriaEcomBean categoria = null;
+            CategoriaEcomErpBean categoria = null;
             while(rs.next()){
-                categoria = new CategoriaEcomBean();
+                categoria = new CategoriaEcomErpBean();
                 categoria.setCodCategoria(rs.getString("CODCATEGORIA"));
                 categoria.setCodCategoriaSuperior(rs.getString("CODCATEGORIASUPERIOR"));
                 categoria.setDescricao(rs.getString("DESCRICAO"));

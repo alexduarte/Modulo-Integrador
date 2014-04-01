@@ -9,7 +9,7 @@ import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.LinkRewrite;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
-import br.com.atsinformatica.erp.entity.CategoriaEcomBean;
+import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.prestashop.clientDAO.CategoryPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.node.Description;
 import br.com.atsinformatica.prestashop.model.root.Category;
@@ -31,11 +31,11 @@ public class CategoriaController {
      * @param cat Categoria
      * @return
      */
-    public int createCategoryPrestashop(CategoriaEcomBean cat) {
+    public int createCategoryPrestashop(CategoriaEcomErpBean cat) {
         return new CategoryPrestashopDAO().postCategory(Category.URLCATEGORY, addCategoryPrestashop(cat));
     }
     
-    public boolean updateCategoryPrestashop(CategoriaEcomBean cat){
+    public boolean updateCategoryPrestashop(CategoriaEcomErpBean cat){
        try{
            CategoryPrestashopDAO dao = new CategoryPrestashopDAO();
            Category category = addCategoryPrestashop(cat);
@@ -67,7 +67,7 @@ public class CategoriaController {
     
     
 
-    private Category addCategoryPrestashop(CategoriaEcomBean cat) {
+    private Category addCategoryPrestashop(CategoriaEcomErpBean cat) {
         Category category = new Category();
         category.setDataAdd(new Date());
         category.setDataUpd(new Date());
@@ -77,7 +77,7 @@ public class CategoriaController {
         if (cat.getCodCategoriaSuperior() != null && !cat.getCodCategoriaSuperior().equals("")) {
             try {
                 CategoriaEcomDAO dao = new CategoriaEcomDAO();
-                CategoriaEcomBean sub = dao.abrir(cat.getCodCategoriaSuperior());
+                CategoriaEcomErpBean sub = dao.abrir(cat.getCodCategoriaSuperior());
                 category.setIdParent(sub.getIdCategoriaEcom());
             } catch (SQLException ex) {
                 Logger.getLogger(CategoriaController.class).error("Erro ao retornar categoria superior: " + ex);

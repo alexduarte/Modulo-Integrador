@@ -43,17 +43,13 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
      * @param t
      * @return boolean
      */
-    public boolean postWithVerification(String path, Product t) {
-
+    public int postWithVerification(String path, Product t) {
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        ClientResponse clientResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
-        if (clientResponse.getStatus() == 201) {
-            return true;
-        } else {
-            return false;
-        }
+        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
+        return Integer.parseInt(post.getProduct().getId().getContent());
+        
     }
 
     /**

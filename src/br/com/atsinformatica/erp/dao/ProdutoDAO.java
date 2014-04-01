@@ -33,7 +33,19 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
 
     @Override
     public void alterar(ProdutoERPBean object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement pstmt = null;
+        try{
+            conn = ConexaoATS.conectaERP();
+            String querie = "UPDATE produto set idprodutoecom = ?    "
+                          + "where codprod = ?                       ";
+            pstmt = conn.prepareStatement(querie);
+            pstmt.setInt(1, object.getIdProdutoEcom());
+            pstmt.setString(2, object.getCodProd());
+            pstmt.executeUpdate();
+            logger.info("Produto alterado com sucesso!");
+        }catch(Exception e){
+            logger.error("Erro ao alterar produto: "+e);            
+        }
     }
 
     @Override
@@ -53,7 +65,7 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
                          "dadosadicecom.altura, dadosadicecom.largura, dadosadicecom.profundidade,                   " +
                          "dadosadicecom.codatributo1, dadosadicecom.codatributo2, dadosadicecom.palavraschave,       " +
                          "dadosadicecom.metadescricao, dadosadicecom.descricaocompleta, produto.grade,               " +
-                         "compprod.codgrade, produto.codfabric                                                       " +
+                         "compprod.codgrade, produto.codfabric, produto.idprodutoecom, produto.peso                  " +
                          "FROM produto                                                                               " +
                          "JOIN compprod ON produto.codprod = compprod.codprod                                        " +
                          "JOIN dadosadicecom on dadosadicecom.codprod = produto.codprod                              " +
@@ -65,7 +77,8 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
             while(rs.next()){
                 prodBean = new ProdutoERPBean(rs);
                 if(prodBean.getGrade()!=0){
-                    //retorna objeto com dados da grade e o do atributo da grade
+                    if(prodBean.getGrade()==1)prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeComumByCodProd(id));
+                    if(prodBean.getGrade()==2)prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeCompostaByCodProd(id));
                 }
             }
             logger.info("Produto retornado com sucesso.");
