@@ -40,8 +40,9 @@ public class ProdutoController {
 
     private Product createProduct(ProdutoERPBean produtoERP) throws SQLException {
         Product p = new Product();
-        Name name = new Name();
+        Name name = new Name();        
         name.getLanguage().add(new Language(produtoERP.getNomeProd()));
+        
         Price price = new Price();
         price.setContent(String.valueOf(produtoERP.getPrecoCheio()));
         LinkRewrite linkRewrite = new LinkRewrite();
@@ -52,10 +53,10 @@ public class ProdutoController {
         p.setWeight(String.valueOf(produtoERP.getPeso()));
         p.setWidth(String.valueOf(produtoERP.getLargura()));
         p.setHeight(String.valueOf(produtoERP.getAltura()));
-        p.setMetaDescription(new MetaDescription(produtoERP.getMetaDescricao()));
-        p.setMetaKeyWord(new MetaKeyWord(produtoERP.getPalavrasChave()));
-        p.setDescription(new Description(produtoERP.getDescricaoCompleta()));
-        p.setIdErp(Integer.parseInt(produtoERP.getCodProd()));
+       // p.setMetaDescription(new MetaDescription(produtoERP.getMetaDescricao()));
+       // p.setMetaKeyWord(new MetaKeyWord(produtoERP.getPalavrasChave()));
+       // p.setDescription(new Description(produtoERP.getDescricaoCompleta()));
+        //p.setIdErp(Integer.parseInt(produtoERP.getCodProd()));
         p.setName(name);
         p.setPrice(price);
         p.setLinkRewrite(linkRewrite);
