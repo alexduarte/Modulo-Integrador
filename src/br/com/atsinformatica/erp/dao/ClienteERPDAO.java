@@ -11,7 +11,7 @@ import br.com.atsinformatica.erp.entity.EnderecoERPBean;
 import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.utils.Funcoes;
-import br.com.atsinformatica.utils.Log;
+import br.com.atsinformatica.utils.LogERP;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -35,7 +35,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
     }
 
-    public void gravarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
+    public boolean gravarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
         PreparedStatement pstmt = null;
         try {
 
@@ -65,22 +65,24 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             } else if (cpf.getTipoDocumento().equals("J")) {
                 pstmt.setString(14, cpf.getRg_inscricao());
             }
-
+            
+            pstmt.setString(15, estadoERPBean.getSigla());
+            
             pstmt.execute();
 
             //Gerando log
-            Log.geraLog("CLIENTE", cliente.getId(), "Inclusão", "Incluindo cliente sincronizado do Ecommercer");
-
+            LogERP.geraLog("CLIENTE", cliente.getId(), "Inclusão", "Incluindo cliente sincronizado do Ecommercer");
+            return true;
         } catch (SQLException e) {
             logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
-
+            return false;
         } finally {
             conn.close();
             pstmt.close();
         }
     }
 
-    public void atualizarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
+    public boolean atualizarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
         PreparedStatement pstmt = null;
         try {
 
@@ -114,11 +116,11 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.execute();
 
             //Gerando log
-            Log.geraLog("CLIENTE", cliente.getId(), "Alteração", "Alteração de cliente sincronizado do Ecommercer");
-
+            LogERP.geraLog("CLIENTE", cliente.getId(), "Alteração", "Alteração de cliente sincronizado do Ecommercer");
+            return true;
         } catch (SQLException e) {
             logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
-
+            return false;
         } finally {
             conn.close();
             pstmt.close();
@@ -192,6 +194,34 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.close();
             rs.close();
             conn.close();
+        }
+    }
+
+    public String retornaCodClienteERP(String codClienteEcom) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String codClienteERP = "00000000";
+        try {
+            conn = ConexaoATS.conectaERP();
+            
+            String sql = "SELECT C.CODCLIENTE COD FROM CLIENTE  C "
+                    + "                       WHERE C.CODCLIENTEECOM = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, codClienteEcom);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("cod") != null) {
+                    codClienteERP = rs.getString("CODCLIENTE");
+                }
+            }
+            return Funcoes.preencheCom(codClienteERP, "0", 8, Funcoes.LEFT);
+        } catch (Exception e) {
+            return "00000000";
+        } finally {
+            pstmt.close();
+            rs.close();
         }
     }
 
