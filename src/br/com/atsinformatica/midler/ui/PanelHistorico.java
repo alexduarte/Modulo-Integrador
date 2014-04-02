@@ -247,7 +247,7 @@ public class PanelHistorico extends javax.swing.JPanel {
                     }
                     if (bean.getTipoOperacao().equals("delete")) {
                         controller.delete(bean.getCodEntidade());
-                    }                                        
+                    }
                 }
                 modelSincronizar.addAll(new HistoricoIntegraDAO().listaUltimosInteg());
             }
@@ -275,19 +275,18 @@ public class PanelHistorico extends javax.swing.JPanel {
          * inserir os dados.
          */
         for (PedidoERPBean pedido : listoPedido) {
-            sincGetPedido(Integer.valueOf(pedido.getId()));
+            sincGetPedido(pedido);
         }
 
     }
 
-    private void sincGetPedido(int numPedido) {
+    private void sincGetPedido(PedidoERPBean pedido) {
         OrderController orderController = new OrderController();
         CustomerController customerController = new CustomerController();
         AddressController addressController = new AddressController();
         CPFModuleDataController cPFModuleDataController = new CPFModuleDataController();
         StateController stateController = new StateController();
 
-        PedidoERPBean beanPedido;
         ClienteERPBean beanCliente;
         EnderecoERPBean beanEndereco;
         CPFClienteBean beanCPF;
@@ -296,32 +295,44 @@ public class PanelHistorico extends javax.swing.JPanel {
         PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
 
         try {
-            beanPedido = orderController.syncOrderControllerPrestashop(numPedido);
-            beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(beanPedido.getId_customer()));
-            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(beanPedido.getId_address_delivery()));
-            beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(beanPedido.getId_customer()));
+            beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(pedido.getId_customer()));
+            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(pedido.getId_address_delivery()));
+            beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(pedido.getId_customer()));
 
             if (Integer.valueOf(beanEndereco.getId_state()) > 0) {
                 estadoERPBean = stateController.syncStateControllerPrestashop(Integer.valueOf(beanEndereco.getId_state()));
             }
 
             if (clienteERPDAO.verificacaoClienteEcomExiste(beanCliente.getId())) {  //Verificando se o cliente já foi sincronizado.
-                //Cliente já existe
-                clienteERPDAO.atualizarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean);
+                //Cliente já existe - Vai atualizar
+                if (!clienteERPDAO.atualizarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean)) {
+                    //se o retorno de Aualizar Cliente for FALSE ele sai da função
+                    return;
+                }
 
             } else {
-                //Cliente não existe
-                clienteERPDAO.gravarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean); //Chamando o DAO Gravar, para salvar o cliente do Ecom no ERP
+                //Cliente não existe - Vai inserir
+                if (!clienteERPDAO.gravarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean)) {
+                    //se o retorno de Gravar Cliente for FALSE ele sai da função
+                    return;
+                }
             }
 
-            pedidoERPDAO.gravarPedido(beanPedido, "50000990");
+            /**
+             * Chamando o gravar pedido Tem o retorno TRUE se gravou com
+             * sucesso, ou FALSE se deu erro.
+             */
+            if (!pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()))) {
+                //Se o retonro de Gravar Pedido for FALSE ele deu erro na gravação.
+                return;
+            }
 
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
         }
 
     }
-    
+
     //Desbilitado porque esta rotina foi movida para o controle genérico, habilitar caso for precisar da mesma 
     //e não for usar o controle genérico
 //    /**
