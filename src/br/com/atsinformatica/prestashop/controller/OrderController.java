@@ -30,7 +30,7 @@ public class OrderController {
         Order order = dao.getId(Order.URLORDER, cod);
         PedidoERPBean bean = new PedidoERPBean();
 
-        bean.setId(order.getId());
+        bean.setId_ecom(order.getId());
         bean.setId_address_delivery(order.getId_address_delivery());
         bean.setId_address_invoice(order.getId_address_invoice());
         bean.setId_customer(order.getId_customer());
@@ -63,7 +63,7 @@ public class OrderController {
                     //Return True se Existir, Não faz nada.
                     //       False se não existir, Adiciona a Lista.                    
                     if (!pedidoERPDAO.verificarPedidoEcomExisteERP(order.getId())) {
-                        bean.setId(order.getId());
+                        bean.setId_ecom(order.getId());
                         bean.setId_address_delivery(order.getId_address_delivery());
                         bean.setId_address_invoice(order.getId_address_invoice());
                         bean.setId_customer(order.getId_customer());
@@ -92,6 +92,7 @@ public class OrderController {
                         bean.setTotal_paid(order.getTotal_paid());
                         bean.setTotal_paid_real(order.getTotal_paid_real());
                         bean.setTotal_products(order.getTotal_products());
+                        bean.setTotal_shipping(order.getTotal_shipping());
                         bean.setReference(order.getReference());
 
                         lista.add(bean);
