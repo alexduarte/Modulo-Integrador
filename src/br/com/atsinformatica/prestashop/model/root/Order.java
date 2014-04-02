@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
     "total_discounts", // Total de desconto
     "total_paid", // Total do Pedido Com Desconto
     "total_paid_real", // Total do Pedido Real
-    "total_products", // Total apenas dos produtos
+    "total_products", // Total apenas dos produtos (Preço de varejo antes(sem) do imposto)
     "total_shipping", //Total de Frete
     "reference", // Referencia do Pedido
 })
