@@ -10,6 +10,9 @@ import br.com.atsinformatica.prestashop.controller.ProdutoController;
 import br.com.atsinformatica.prestashop.controller.StockAvailableController;
 import br.com.atsinformatica.prestashop.model.root.Product;
 import br.com.atsinformatica.prestashop.model.root.StockAvailable;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Controladora de sincronização do produto do ERP
@@ -43,8 +46,12 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     }
 
     @Override
-    public void update(ProdutoERPBean obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(ProdutoERPBean obj)  {
+        try {
+            prodController.updateProduto(obj);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoERPController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void delete(String id) {
