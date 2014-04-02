@@ -110,13 +110,13 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
         }
     }
 
-    public Set<HistoricoIntegraERPBean> listaUltimosInteg() throws SQLException {
+    public List<HistoricoIntegraERPBean> listaUltimosInteg() throws SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         try {
             conn = ConexaoATS.conectaERP();
             ParaEcomBean paraEcomBean = new ParaEcomDAO().listaTodos().get(0);
-            Set<HistoricoIntegraERPBean> listHistBean = new HashSet<>();
+            List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();
             if (paraEcomBean.getQtdMantido() != 0) {
                 String sql = "select first "+ paraEcomBean.getQtdMantido() +" histintegecom.* from histintegecom "
                            + "where histintegecom.dataint is not null "
@@ -144,7 +144,7 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
      * @return lista com itens pendentes
      * @throws SQLException
      */
-    public HashSet<HistoricoIntegraERPBean> listaPendentes() throws SQLException {
+    public List<HistoricoIntegraERPBean> listaPendentes() throws SQLException {
         Statement stmt = null;
         ResultSet rs = null;
         try {
@@ -154,7 +154,7 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
                        + "where dataint is null order by histintegecom.entidade asc;                             ";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            HashSet<HistoricoIntegraERPBean> listHistBean = new HashSet<>();            
+            List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();            
             while (rs.next()) {
                 HistoricoIntegraERPBean bean = new HistoricoIntegraERPBean(rs);
                 //objeto da entidade que deverá ser sincronizada

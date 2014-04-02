@@ -45,8 +45,7 @@ public class CategoriaController {
            return true;
        }catch(Exception e){
            Logger.getLogger(CategoriaController.class).error("Erro ao atualizar categoria na loja virtual: "+e);  
-           return false;
-          
+           return false;          
        }
     }
     

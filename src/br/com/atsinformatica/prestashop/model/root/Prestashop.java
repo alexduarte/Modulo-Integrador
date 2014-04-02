@@ -119,20 +119,6 @@ public class Prestashop {
         this.image = image;
     }
 
-//    /**
-//     * @return the content
-//     */
-//    public byte[] getContent() {
-//        return content;
-//    }
-//
-//    /**
-//     * @param content the content to set
-//     */
-//    public void setContent(byte[] content) {
-//        this.content = content;
-//    }
-
     /**
      * @return the combination
      */

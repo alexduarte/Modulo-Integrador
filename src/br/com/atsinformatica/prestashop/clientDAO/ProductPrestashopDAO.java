@@ -5,30 +5,15 @@
  */
 package br.com.atsinformatica.prestashop.clientDAO;
 
-import br.com.atsinformatica.erp.dao.ParaUrlDAO;
-import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
 import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute;
 import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
 import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import br.com.atsinformatica.prestashop.model.root.Product;
 
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import java.io.StringWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.transform.stream.StreamResult;
 
 /**
  *
@@ -38,7 +23,6 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
 
     /**
      * Adiciona um item Produto
-     *
      * @param path
      * @param t
      * @return boolean
@@ -49,7 +33,8 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
         String xml = createTOXML(prestashop);
         Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
         return Integer.parseInt(post.getProduct().getId().getContent());
-        
+        //String xmlResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(String.class, xml);
+      //  return 0;        
     }
 
     /**
@@ -63,19 +48,17 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
-        Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
-        return post.getProduct();
+        String xmlResponse = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(String.class, xml);
+        return unmarshallContext(xmlResponse).getProduct();
     }
 
     /**
      * Atualiza um item específico de Produto.
-     *
      * @param path
      * @param t
      */
     @Override
     public void put(String path, Product t) {
-
         Prestashop prestashop = new Prestashop();
         prestashop.setProduct(t);
         String xml = createTOXML(prestashop);
@@ -91,7 +74,6 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
      */
     @Override
     public List<Product> get(String path) {
-
         PrestashopItens getListItens = getWebResource().path(path).type(MediaType.APPLICATION_XML).get(PrestashopItens.class);
         List<Product> listProdFeature = new ArrayList<>();
         for (AccessXMLAttribute attribute : getListItens.getProducts().getProduct()) {
@@ -110,48 +92,10 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
      */
     @Override
     public Product getId(String path, int key) {
-        Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
-        return prestashop.getProduct();
+        String xml = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(String.class);
+        Product p = unmarshallContext(xml).getProduct();
+        return p;
     }
-
-//    /**
-//     * Retorna um a WebResource (função obrigatória);
-//     *
-//     * @return
-//     */
-//    protected WebResource getWebResource() {
-//        try {
-//            ClientConfig config = new DefaultClientConfig();
-//            Client client = Client.create(config);
-//            List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
-//            client.addFilter(new HTTPBasicAuthFilter(paraUrlWsdlBean.get(0).getUrlKey(), ""));
-//            return client.resource(paraUrlWsdlBean.get(0).getUrlWSDL());
-//        } catch (SQLException ex) {
-//            Logger.getLogger(CategoryPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * Retorna um a WebResource (função obrigatória);
-//     *
-//     * @param Prestashop
-//     * @return
-//     */
-//    protected String createTOXML(Prestashop Prestashop) {
-//        try {
-//            JAXBContext context = JAXBContext.newInstance(Prestashop.getClass());
-//            Marshaller marshaller = context.createMarshaller();
-//            marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-//            StringWriter out = new StringWriter();
-//            marshaller.marshal(Prestashop, new StreamResult(out));
-//            System.out.println(out);
-//            return out.toString();
-//        } catch (JAXBException ex) {
-//            Logger.getLogger(ProductPrestashopDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return "";
-//    }
 
     @Override
     public void post(String path, Product t) {
@@ -165,4 +109,6 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
     public void delete(String path, String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 }

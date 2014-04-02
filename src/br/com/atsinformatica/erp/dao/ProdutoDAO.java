@@ -65,7 +65,7 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
                          "dadosadicecom.altura, dadosadicecom.largura, dadosadicecom.profundidade,                   " +
                          "dadosadicecom.codatributo1, dadosadicecom.codatributo2, dadosadicecom.palavraschave,       " +
                          "dadosadicecom.metadescricao, dadosadicecom.descricaocompleta, produto.grade,               " +
-                         "compprod.codgrade, produto.codfabric, produto.idprodutoecom, produto.peso                  " +
+                         "compprod.codgrade, produto.codfabric, produto.idprodutoecom, produto.peso, produto.ativo   " +
                          "FROM produto                                                                               " +
                          "JOIN compprod ON produto.codprod = compprod.codprod                                        " +
                          "JOIN dadosadicecom on dadosadicecom.codprod = produto.codprod                              " +

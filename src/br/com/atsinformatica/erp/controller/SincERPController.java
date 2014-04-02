@@ -20,7 +20,13 @@ import org.apache.log4j.Logger;
  */
 public class SincERPController<T> implements ISincController<T> {
 
+    private HistoricoIntegraERPBean histInteg;
+
     public SincERPController() {
+    }
+
+    public SincERPController(HistoricoIntegraERPBean histInteg) {
+        this.histInteg = histInteg;
     }
 
     @Override
@@ -32,37 +38,46 @@ public class SincERPController<T> implements ISincController<T> {
             if (obj.getClass().equals(ProdutoERPBean.class)) {
                 new ProdutoERPController().post((ProdutoERPBean) obj);
             }
-            atualizaDataInt(obj);
-        } catch (UniformInterfaceException e) {
-            System.out.println("Erro ao efetuar post: "+e);
+            atualizaDataInt(this.histInteg);
+        } catch (Exception e) {
+            System.out.println("Erro ao efetuar post: " + e);
         }
 
     }
 
     @Override
     public void update(T obj) {
-        if (obj.getClass().equals(CategoriaEcomErpBean.class)) {
-            new CategoriaERPController().update((CategoriaEcomErpBean) obj);
-        }
-        if (obj.getClass().equals(ProdutoERPBean.class)) {
-            new ProdutoERPController().update((ProdutoERPBean) obj);
+        try {
+            if (obj.getClass().equals(CategoriaEcomErpBean.class)) {
+                new CategoriaERPController().update((CategoriaEcomErpBean) obj);
+            }
+            if (obj.getClass().equals(ProdutoERPBean.class)) {
+                new ProdutoERPController().update((ProdutoERPBean) obj);
+            }
+            atualizaDataInt(histInteg);
+        } catch (Exception e) {
+            System.out.println("Erro ao efetuar update: " + e);
         }
     }
 
     @Override
     public void delete(T obj) {
         HistoricoIntegraERPBean objAux = (HistoricoIntegraERPBean) obj;
-        if (this.getClass().equals(CategoriaEcomErpBean.class)) {
-            new CategoriaERPController().delete(objAux.getCodEntidade());
+        try {
+            if (this.getClass().equals(CategoriaEcomErpBean.class)) {
+                new CategoriaERPController().delete(objAux.getCodEntidade());
+            }
+            if(this.getClass().equals(ProdutoERPBean.class))
+                new ProdutoERPController().delete(objAux.getCodEntidade());
+        } catch (Exception e) {
         }
-        new ProdutoERPController().delete(objAux.getCodEntidade());
+
     }
 
-    public void atualizaDataInt(T obj) throws SQLException {
+    public void atualizaDataInt(HistoricoIntegraERPBean histInteg) throws SQLException {
         try {
             HistoricoIntegraDAO dao = new HistoricoIntegraDAO();
-            HistoricoIntegraERPBean bean = (HistoricoIntegraERPBean) obj;
-            new HistoricoIntegraDAO().alteraDataInt(bean.getId());
+            new HistoricoIntegraDAO().alteraDataInt(histInteg.getId());
         } catch (Exception e) {
             Logger.getLogger(SincERPController.class).error("Erro ao atualizar data de integração: " + e);
         }
