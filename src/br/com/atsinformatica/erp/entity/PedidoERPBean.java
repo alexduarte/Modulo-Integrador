@@ -13,7 +13,8 @@ import java.util.Date;
  */
 public class PedidoERPBean {
 
-    private String id;
+    private String id_erp;
+    private String id_ecom;
     private String id_address_delivery;
     private String id_address_invoice;
     private String id_customer;
@@ -33,12 +34,20 @@ public class PedidoERPBean {
     private String reference;
     private String hora;
 
-    public String getId() {
-        return id;
+    public String getId_erp() {
+        return id_erp;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId_erp(String id_erp) {
+        this.id_erp = id_erp;
+    }
+
+    public String getId_ecom() {
+        return id_ecom;
+    }
+
+    public void setId_ecom(String id) {
+        this.id_ecom = id;
     }
 
     public String getId_address_delivery() {
@@ -184,7 +193,5 @@ public class PedidoERPBean {
     public void setHora(String hora) {
         this.hora = hora;
     }
-
-
 
 }
