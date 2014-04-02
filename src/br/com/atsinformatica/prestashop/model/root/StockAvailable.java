@@ -49,6 +49,7 @@ public class StockAvailable {
     public StockAvailable(){
         this.idShop = 1;
         this.idShopGroup = 0;
+        this.dependsOnStock = 0;
     }
 
     /**

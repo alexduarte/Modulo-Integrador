@@ -19,6 +19,7 @@ public class ProdutoERPBean {
     private int idProdutoEcom;
     private Double estoqueDisponivel;
     private String nomeProd;
+    private String ativo;
     private int condicao;
     private String codBarras;
     private String codCategoria;
@@ -58,6 +59,7 @@ public class ProdutoERPBean {
         this.condicao = rs.getInt("condicao");
         this.descricaoCompleta = rs.getString("descricaocompleta");
         this.nomeProd = rs.getString("nomeprod");
+        this.ativo = rs.getString("ativo");
         this.metaDescricao = rs.getString("metadescricao");
         this.palavrasChave = rs.getString("palavraschave");
         this.codAtributo1 = rs.getString("codatributo1");
@@ -65,6 +67,7 @@ public class ProdutoERPBean {
         this.precoCheio = rs.getDouble("precocheio");
         this.precoFinal = rs.getDouble("precofinal");   
         this.peso = rs.getDouble("peso");
+        this.profundidade = rs.getDouble("profundidade");
     }  
     /**
      * @return the codProd
@@ -386,6 +389,20 @@ public class ProdutoERPBean {
      */
     public void setPeso(Double peso) {
         this.peso = peso;
+    }
+
+    /**
+     * @return the ativo
+     */
+    public String getAtivo() {
+        return ativo;
+    }
+
+    /**
+     * @param ativo the ativo to set
+     */
+    public void setAtivo(String ativo) {
+        this.ativo = ativo;
     }
 
     

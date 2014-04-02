@@ -28,6 +28,7 @@ public class Main {
         if (!PropertiesManager.getFile().exists()) {
             JOptionPane.showMessageDialog(frameLogin, "Antes de utilizar o módulo sincronizador é necessário configurá-lo! Acesse a rotina de configurações\n"
                     + "e certifique-se de que todos os campos obrigatórios foram devidamente preenchidos.");
+            
         }
         frameLogin.setVisible(true);
     }

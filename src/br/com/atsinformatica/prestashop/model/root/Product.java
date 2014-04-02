@@ -1,19 +1,21 @@
 package br.com.atsinformatica.prestashop.model.root;
 
+import br.com.atsinformatica.prestashop.model.list.StockAvailables;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.utils.Funcoes;
+import java.util.List;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "product", propOrder = {
     "id",
-    "ean13",
     "idCategoryDefault",
     "idManufacturer",
     "idErp",
     "width",
     "height",
     "weight",
+    "ean13",
     "depth",
     "active",
     "condition",
@@ -23,16 +25,16 @@ import javax.xml.bind.annotation.*;
     "description",
     "metaDescription",
     "metaKeyWord",
-    "stockAvailable",
+    "stockAvailables",
+    "availableForOrder",
+    "showPrice",        
 })
+
 @XmlRootElement(name = "product")
 public class Product {
-    public static String URLPRODUCTS = "products/";
-    
+    public static String URLPRODUCTS = "products/";    
     @XmlElement(name = "id", required = true)
     private Id id;
-    @XmlElement(name = "ean13")
-    private String ean13;
     @XmlElement(name = "id_category_default")
     private Integer idCategoryDefault;
     @XmlElement(name = "id_manufacturer")
@@ -45,6 +47,8 @@ public class Product {
     private String height;
     @XmlElement(name = "weight")
     private String weight;
+    @XmlElement(name = "ean13")
+    private String ean13;
     @XmlElement(name = "depth")
     private String depth;
     @XmlElement(name = "active")
@@ -64,7 +68,11 @@ public class Product {
     @XmlElement(name = "meta_keywords")
     private MetaKeyWord metaKeyWord;
     @XmlElement(name = "stock_availables")
-    private Integer stockAvailable;
+    private StockAvailablesProduct stockAvailables;
+    @XmlElement(name="available_for_order")
+    private int availableForOrder;
+    @XmlElement(name="show_price")
+    private int showPrice;
     
     
     public Product() {
@@ -75,6 +83,10 @@ public class Product {
         depth = "0.000000";
         active = 0;
         condition = "new";
+        ean13 = "0";
+        this.showPrice = 1;
+        this.availableForOrder = 1;
+        
     }
 
     public Id getId() {
@@ -223,19 +235,7 @@ public class Product {
         this.idManufacturer = idManufacturer;
     }
 
-    /**
-     * @return the stockAvailable
-     */
-    public Integer getStockAvailable() {
-        return stockAvailable;
-    }
-
-    /**
-     * @param stockAvailable the stockAvailable to set
-     */
-    public void setStockAvailable(Integer stockAvailable) {
-        this.stockAvailable = stockAvailable;
-    }
+    
 
     /**
      * @return the idErp
@@ -264,4 +264,49 @@ public class Product {
     public void setDepth(String depth) {
         this.depth = depth;
     }
+
+    /**
+     * @return the stockAvailables
+     */
+    public StockAvailablesProduct getStockAvailables() {
+        return stockAvailables;
+    }
+
+    /**
+     * @param stockAvailables the stockAvailables to set
+     */
+    public void setStockAvailables(StockAvailablesProduct stockAvailables) {
+        this.stockAvailables = stockAvailables;
+    }
+
+    /**
+     * @return the availableForOrder
+     */
+    public int getAvailableForOrder() {
+        return availableForOrder;
+    }
+
+    /**
+     * @param availableForOrder the availableForOrder to set
+     */
+    public void setAvailableForOrder(int availableForOrder) {
+        this.availableForOrder = availableForOrder;
+    }
+
+    /**
+     * @return the showPrice
+     */
+    public int getShowPrice() {
+        return showPrice;
+    }
+
+    /**
+     * @param showPrice the showPrice to set
+     */
+    public void setShowPrice(int showPrice) {
+        this.showPrice = showPrice;
+    }
+
+    
+   
 }
