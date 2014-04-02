@@ -5,7 +5,7 @@
  */
 package br.com.atsinformatica.erp.dao;
 
-import br.com.atsinformatica.utils.Log;
+import br.com.atsinformatica.utils.LogERP;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -192,7 +192,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Finalizado)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Finalizado)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Finalizar Pedido: " + e);
@@ -253,7 +253,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Cancelado)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Cancelado)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Cancelar Pedido: " + e);
@@ -315,7 +315,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Aguadando Pagamento)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Aguadando Pagamento)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Aguadando Pagamento): " + e);
@@ -374,7 +374,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pagamento Recusado)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pagamento Recusado)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Pagamento Recusado): " + e);
@@ -433,7 +433,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pagamento Aceito)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pagamento Aceito)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Pagamento Aceito): " + e);
@@ -493,7 +493,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Nota Fiscal)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Nota Fiscal)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Nota Fiscal): " + e);
@@ -554,7 +554,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Enviado)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Enviado)");
             logger.info("Mudança de status de Pedido para (Enviado)com sucesso!");
             return true;
         } catch (SQLException e) {
@@ -615,7 +615,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Entregue)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Entregue)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Entregue): " + e);
@@ -674,7 +674,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pedido Devolvido)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pedido Devolvido)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Pedido Devolvido): " + e);
@@ -735,7 +735,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             pstmt.executeUpdate();
 
             //Gerando log
-            Log.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pagamento Estornado)");
+            LogERP.geraLog("PEDIDOC", Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT), "Alteração", "Mudança de status de Pedido para (Pagamento Estornado)");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao Mudar status do Pedido para (Pagamento estornado): " + e);
