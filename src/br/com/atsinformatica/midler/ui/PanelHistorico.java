@@ -10,19 +10,22 @@ import br.com.atsinformatica.erp.dao.ClienteERPDAO;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
-import br.com.atsinformatica.erp.dao.PedidoERPDAO;
+import br.com.atsinformatica.erp.dao.PedidoCERPDAO;
+import br.com.atsinformatica.erp.dao.PedidoIERPDAO;
 import br.com.atsinformatica.erp.entity.CPFClienteBean;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ClienteERPBean;
 import br.com.atsinformatica.erp.entity.EnderecoERPBean;
 import br.com.atsinformatica.erp.entity.EstadoERPBean;
-import br.com.atsinformatica.erp.entity.PedidoERPBean;
+import br.com.atsinformatica.erp.entity.PedidoCERPBean;
+import br.com.atsinformatica.erp.entity.PedidoIERPBean;
 import br.com.atsinformatica.prestashop.controller.AddressController;
 import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
 import br.com.atsinformatica.prestashop.controller.CustomerController;
 import br.com.atsinformatica.prestashop.controller.OrderController;
 import br.com.atsinformatica.prestashop.controller.StateController;
+import br.com.atsinformatica.prestashop.model.node.OrderRowNode;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.sql.SQLException;
@@ -167,8 +170,11 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
-        //sincPedidos();
-        refreshSincCad();
+        sincPedidos();
+        //refreshSincCad();
+        //   OrderController orderController = new OrderController();
+        //  orderController.syncOrderControllerPrestashop(8);
+
     }//GEN-LAST:event_jBtRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtRefresh;
@@ -258,8 +264,8 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     private void sincPedidos() {
         OrderController orderController = new OrderController();
-        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
-        List<PedidoERPBean> listoPedido = null;
+        PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
+        List<PedidoCERPBean> listoPedido = null;
         try {
             //Buscando a lista de Pedidos que ainda não esta no banco de dados.
             listoPedido = orderController.syncListaOrder();
@@ -274,13 +280,13 @@ public class PanelHistorico extends javax.swing.JPanel {
          * dados do cliente apenas atualiza, se não tiver no banco ERP vai
          * inserir os dados.
          */
-        for (PedidoERPBean pedido : listoPedido) {
+        for (PedidoCERPBean pedido : listoPedido) {
             sincGetPedido(pedido);
         }
 
     }
 
-    private void sincGetPedido(PedidoERPBean pedido) {
+    private void sincGetPedido(PedidoCERPBean pedido) {
         OrderController orderController = new OrderController();
         CustomerController customerController = new CustomerController();
         AddressController addressController = new AddressController();
@@ -292,7 +298,7 @@ public class PanelHistorico extends javax.swing.JPanel {
         CPFClienteBean beanCPF;
         ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
         EstadoERPBean estadoERPBean = new EstadoERPBean();
-        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
+        PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
 
         try {
             beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(pedido.getId_customer()));
@@ -319,12 +325,28 @@ public class PanelHistorico extends javax.swing.JPanel {
             }
 
             /**
-             * Chamando o gravar pedido Tem o retorno TRUE se gravou com
-             * sucesso, ou FALSE se deu erro.
+             * Chamando o gravar pedido Tem o retorno O numero do pedido se
+             * gravou com sucesso, ou NULL se deu erro.
              */
-            if (!pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()))) {
-                //Se o retonro de Gravar Pedido for FALSE ele deu erro na gravação.
-                return;
+            String codPedido = pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
+            if (codPedido != null) {
+                String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
+                PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
+                PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
+
+                for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
+                    pedidoIERPBean.setCodEmpresa(codEmpresa);
+                    pedidoIERPBean.setCodPedido(codPedido);
+                    pedidoIERPBean.setCodClienteERP(clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
+                    pedidoIERPBean.setCodProdERP(pedidoIERPDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getId())));
+                    pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
+                    pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
+                    pedidoIERPBean.setCodGradERP(String.valueOf(orderRowNode.getProductAttributeId()));
+
+                    pedidoIERPDAO.gravar(pedidoIERPBean);
+                }
+
+
             }
 
         } catch (Exception e) {
