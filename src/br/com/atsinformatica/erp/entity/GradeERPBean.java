@@ -12,6 +12,7 @@ public class GradeERPBean {
     private String codGrade;
     private String descricao;
     private int idGradeEcom;
+    private int idAtributo;
 
     /**
      * @return the codGrade
@@ -53,6 +54,20 @@ public class GradeERPBean {
      */
     public void setIdGradeEcom(int idGradeEcom) {
         this.idGradeEcom = idGradeEcom;
+    }
+
+    /**
+     * @return the idAtributo
+     */
+    public int getIdAtributo() {
+        return idAtributo;
+    }
+
+    /**
+     * @param idAtributo the idAtributo to set
+     */
+    public void setIdAtributo(int idAtributo) {
+        this.idAtributo = idAtributo;
     }
 
    
