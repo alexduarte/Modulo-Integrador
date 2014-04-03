@@ -5,9 +5,11 @@
  */
 package br.com.atsinformatica.prestashop.controller;
 
-import br.com.atsinformatica.erp.dao.PedidoERPDAO;
-import br.com.atsinformatica.erp.entity.PedidoERPBean;
+import br.com.atsinformatica.erp.dao.PedidoCERPDAO;
+import br.com.atsinformatica.erp.entity.PedidoCERPBean;
+import br.com.atsinformatica.erp.entity.PedidoIERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.OrderPrestashopDAO;
+import br.com.atsinformatica.prestashop.model.node.OrderRowNode;
 import br.com.atsinformatica.prestashop.model.root.Order;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -24,11 +26,11 @@ import java.util.logging.Logger;
  */
 public class OrderController {
 
-    public PedidoERPBean syncOrderControllerPrestashop(int cod) {
+    public PedidoCERPBean syncOrderControllerPrestashop(int cod) {
         OrderPrestashopDAO dao = new OrderPrestashopDAO();
 
         Order order = dao.getId(Order.URLORDER, cod);
-        PedidoERPBean bean = new PedidoERPBean();
+        PedidoCERPBean bean = new PedidoCERPBean();
 
         bean.setId_ecom(order.getId());
         bean.setId_address_delivery(order.getId_address_delivery());
@@ -47,16 +49,21 @@ public class OrderController {
         return bean;
     }
 
-    public List<PedidoERPBean> syncListaOrder() throws SQLException {
-        PedidoERPDAO pedidoERPDAO = new PedidoERPDAO();
+    public List<PedidoCERPBean> syncListaOrder() throws SQLException {
+        PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
         OrderPrestashopDAO dao = new OrderPrestashopDAO();
-        PedidoERPBean bean = null;
-        List<PedidoERPBean> lista = new ArrayList<>();
+        PedidoCERPBean bean = null;
+        PedidoIERPBean beanItens = null;
+        List<PedidoCERPBean> lista = new ArrayList<>();
+        List<PedidoIERPBean> listItens = new ArrayList<>();
         List<Order> listOrder = dao.get(Order.URLORDER);
+
+        
+        List<OrderRowNode> listOrderRowNode = new ArrayList<>();
 
         for (Order order : listOrder) {
 
-            bean = new PedidoERPBean();
+            bean = new PedidoCERPBean();
             if (order != null) {
 
                 if (order.getId() != null) {
@@ -80,7 +87,7 @@ public class OrderController {
                             dataPedido = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(order.getDate_add());
                             bean.setDate_add(dataPedido);
 
-                            String horaPedido = new SimpleDateFormat("HH:mm:ss").format(dataPedido);                          
+                            String horaPedido = new SimpleDateFormat("HH:mm:ss").format(dataPedido);
                             bean.setHora(horaPedido);
 
                         } catch (ParseException ex) {
@@ -95,6 +102,8 @@ public class OrderController {
                         bean.setTotal_shipping(order.getTotal_shipping());
                         bean.setReference(order.getReference());
 
+                        listOrderRowNode = order.getAssociations().getOrderRowsNode().getOrderRow();
+                        bean.setListItensPedido(listOrderRowNode);
                         lista.add(bean);
                     }
                 }
