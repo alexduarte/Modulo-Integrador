@@ -5,6 +5,7 @@
  */
 package br.com.atsinformatica.prestashop.model.root;
 
+import br.com.atsinformatica.prestashop.model.node.AssociationsOrder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
     "total_products", // Total apenas dos produtos (Preço de varejo antes(sem) do imposto)
     "total_shipping", //Total de Frete
     "reference", // Referencia do Pedido
+    "associations",
 })
 
 public class Order {
@@ -81,6 +83,8 @@ public class Order {
     private String total_shipping;
     @XmlElement(name = "reference")
     private String reference;
+    @XmlElement(name = "associations")
+    private AssociationsOrder associations;
 
     public String getId() {
         return id;
@@ -259,4 +263,15 @@ public class Order {
         this.reference = reference;
     }
 
+    public AssociationsOrder getAssociations() {
+        return associations;
+    }
+
+    public void setAssociations(AssociationsOrder associations) {
+        this.associations = associations;
+    }
+
+
+
+    
 }
