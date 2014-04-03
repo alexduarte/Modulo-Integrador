@@ -33,20 +33,25 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
         StockAvailableController stockController = new StockAvailableController();
         Product p = prodController.createProductPrestashop(obj);
         if (p != null) {
-            StockAvailable stock = new StockAvailable();                        
+            StockAvailable stock = new StockAvailable();
             stock.setId(p.getStockAvailables().getStockAvailable().get(0).getId());
             stock.setQuantity(obj.getEstoqueDisponivel().intValue());
             int idProduct = Integer.parseInt(p.getId().getContent());
             stock.setIdProduct(idProduct);
-            obj.setIdProdutoEcom(idProduct);
+            obj.setIdProdutoEcom(idProduct);            
             stockController.updateStockAvailable(stock);
+            if(obj.getGrade()!=0){
+                //chama contralodora da grade, cadastra atributo e grade na loja virtual
+                //retorna codigo de cadastradas para serem inserida na combinação do produto
+                
+            }
             ProdutoDAO dao = new ProdutoDAO();
             dao.alterar(obj);
         }
     }
 
     @Override
-    public void update(ProdutoERPBean obj)  {
+    public void update(ProdutoERPBean obj) {
         try {
             prodController.updateProduto(obj);
         } catch (SQLException ex) {
@@ -57,6 +62,4 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     public void delete(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 }

@@ -75,8 +75,8 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
             String sql ="SELECT compprod.codgrade, " +
                                   "SG1.descsubgrade|| ' ' ||SG2.descsubgrade AS descricao, " +
                                   "(compprod.estoque - compprod.quantbloqueada) AS estoque, " +
-                                  "prodgrade.ativa, "
-                                + "prodgrade.precograde " +
+                                  "prodgrade.ativa, "+
+                                  "prodgrade.precograde " +
                                   "FROM SUBGRADE SG1, SUBGRADE SG2, compprod INNER JOIN prodgrade ON compprod.codprod  = prodgrade.codprod " +
                                   "AND compprod.codgrade = prodgrade.codgrade " +
                                   "WHERE(SG1.CODSUBGRADE = SUBSTRING(compprod.codgrade FROM 1 FOR 2)) " +
@@ -88,11 +88,12 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
                                   "AND compprod.codempresa = ?";
             pstmt = ConexaoATS.getConnection().prepareStatement(sql);
             pstmt.setString(1, codProd);
-            pstmt.setString(2, new ParaEcomDAO().listaTodos().get(0).getFilialSincronizacao());            
+            pstmt.setString(2, new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom());            
             rs = pstmt.executeQuery();
             ProdGradeERPBean grade = null;
             while (rs.next()) {               
                 grade = new ProdGradeERPBean();
+                grade.setPrecoGrade(rs.getDouble("precograde"));
                 grade.setCodGrade(rs.getString("codgrade"));
                 grade.setDescricaoGrade(rs.getString("descricao"));
                 grade.setEstoque(rs.getDouble("estoque"));                

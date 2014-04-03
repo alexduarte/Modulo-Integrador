@@ -38,6 +38,7 @@ public class ProdutoERPBean {
     private String codGrade;
     private Double peso;
     private List<ProdGradeERPBean> listaProdGrade;
+    private List<AtributoGradeEcom> listaAtributoGradeEcom;
    
     private boolean importadoLoja;
        
@@ -403,6 +404,20 @@ public class ProdutoERPBean {
      */
     public void setAtivo(String ativo) {
         this.ativo = ativo;
+    }
+
+    /**
+     * @return the listaAtributoGradeEcom
+     */
+    public List<AtributoGradeEcom> getListaAtributoGradeEcom() {
+        return listaAtributoGradeEcom;
+    }
+
+    /**
+     * @param listaAtributoGradeEcom the listaAtributoGradeEcom to set
+     */
+    public void setListaAtributoGradeEcom(List<AtributoGradeEcom> listaAtributoGradeEcom) {
+        this.listaAtributoGradeEcom = listaAtributoGradeEcom;
     }
 
     

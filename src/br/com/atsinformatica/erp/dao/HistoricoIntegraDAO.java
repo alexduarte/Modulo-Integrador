@@ -16,9 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -55,7 +53,7 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
             pstmt.close();
         }
     }
-    
+
     public void alteraDataInt(int id) throws SQLException {
         PreparedStatement pstmt = null;
         try {
@@ -118,9 +116,9 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
             ParaEcomBean paraEcomBean = new ParaEcomDAO().listaTodos().get(0);
             List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();
             if (paraEcomBean.getQtdMantido() != 0) {
-                String sql = "select first "+ paraEcomBean.getQtdMantido() +" histintegecom.* from histintegecom "
-                           + "where histintegecom.dataint is not null "
-                           + "order by histintegecom.dataint desc";
+                String sql = "select first " + paraEcomBean.getQtdMantido() + " histintegecom.* from histintegecom "
+                        + "where histintegecom.dataint is not null "
+                        + "order by histintegecom.dataint desc";
                 stmt = conn.createStatement();
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
@@ -150,35 +148,26 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
         try {
             conn = ConexaoATS.conectaERP();
             ParaEcomBean paraEcomBean = new ParaEcomDAO().listaTodos().get(0);
-            String sql = "select first "+ paraEcomBean.getQtdeRegistros() +" histintegecom.* from histintegecom  "
-                       + "where dataint is null order by histintegecom.entidade asc;                             ";
+            String sql = "select first " + paraEcomBean.getQtdeRegistros() + " histintegecom.* from histintegecom  "
+                    + "where dataint is null order by histintegecom.entidade asc;                                  ";
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();            
+            List<HistoricoIntegraERPBean> listHistBean = new ArrayList<>();
             while (rs.next()) {
                 HistoricoIntegraERPBean bean = new HistoricoIntegraERPBean(rs);
-                //objeto da entidade que deverá ser sincronizada
-                if(bean.getEntidade().equals("categoria")){
-                    CategoriaEcomErpBean bea = new CategoriaEcomDAO().abrir(bean.getCodEntidade()); 
-                    bean.setObjectSinc(bea);
-                    //if(bea.getCodCategoriaSuperior()==null){
-                        listHistBean.add(bean);
-                       // continue;
-                    //}
-                        
-                    //bean.setObjectSinc(new CategoriaEcomDAO().abrir(bean.getCodEntidade()));
-                    
+                if (bean.getEntidade().equals("categoria")) {
+                    CategoriaEcomErpBean cat = new CategoriaEcomDAO().abrir(bean.getCodEntidade());
+                    bean.setObjectSinc(cat);
+                    listHistBean.add(bean);
                 }
-                if(bean.getEntidade().equals("produto")){
+                if (bean.getEntidade().equals("produto")) {
                     bean.setObjectSinc(new ProdutoDAO().abrir(bean.getCodEntidade()));
                     listHistBean.add(bean);
-                }               
-                
+                }
             }
             return listHistBean;
         } catch (Exception e) {
             return null;
-
         }
     }
 
