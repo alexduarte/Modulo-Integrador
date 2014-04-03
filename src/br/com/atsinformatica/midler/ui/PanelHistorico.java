@@ -12,6 +12,7 @@ import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.dao.PedidoCERPDAO;
 import br.com.atsinformatica.erp.dao.PedidoIERPDAO;
+import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.entity.CPFClienteBean;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
@@ -333,12 +334,13 @@ public class PanelHistorico extends javax.swing.JPanel {
                 String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
                 PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
                 PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
+                ProdutoDAO produtoDAO = new ProdutoDAO();
 
                 for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
                     pedidoIERPBean.setCodEmpresa(codEmpresa);
                     pedidoIERPBean.setCodPedido(codPedido);
                     pedidoIERPBean.setCodClienteERP(clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
-                    pedidoIERPBean.setCodProdERP(pedidoIERPDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getId())));
+                    pedidoIERPBean.setCodProdERP(produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getId())));
                     pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
                     pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
                     pedidoIERPBean.setCodGradERP(String.valueOf(orderRowNode.getProductAttributeId()));
