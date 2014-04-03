@@ -200,11 +200,11 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
     public String retornaCodClienteERP(String codClienteEcom) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        String codClienteERP = "00000000";
+        String codClienteERP = null;
         try {
             conn = ConexaoATS.conectaERP();
             
-            String sql = "SELECT C.CODCLIENTE COD FROM CLIENTE  C "
+            String sql = "SELECT C.CODCLIENTE FROM CLIENTE  C "
                     + "                       WHERE C.CODCLIENTEECOM = ? ";
 
             pstmt = conn.prepareStatement(sql);
@@ -212,13 +212,13 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                if (rs.getString("cod") != null) {
+                if (rs.getString("CODCLIENTE") != null) {
                     codClienteERP = rs.getString("CODCLIENTE");
                 }
             }
             return Funcoes.preencheCom(codClienteERP, "0", 8, Funcoes.LEFT);
         } catch (Exception e) {
-            return "00000000";
+            return null;
         } finally {
             pstmt.close();
             rs.close();
