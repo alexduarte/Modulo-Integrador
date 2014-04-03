@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.erp.dao;
 
+import br.com.atsinformatica.erp.entity.AtributoGradeEcom;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
@@ -76,9 +77,22 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
             ProdutoERPBean prodBean = null;
             while(rs.next()){
                 prodBean = new ProdutoERPBean(rs);
+                //se produto possui grade
                 if(prodBean.getGrade()!=0){
-                    if(prodBean.getGrade()==1)prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeComumByCodProd(id));
-                    if(prodBean.getGrade()==2)prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeCompostaByCodProd(id));
+                    //lista de atributos da grade
+                    List<AtributoGradeEcom> listaAtributo = new ArrayList<>();
+                    AtributoGradeEcomDAO daoAtributo = new AtributoGradeEcomDAO();                    
+                    if(prodBean.getCodAtributo1()!=null)listaAtributo.add(daoAtributo.abrir(prodBean.getCodAtributo1()));
+                    if(prodBean.getCodAtributo2()!=null)listaAtributo.add(daoAtributo.abrir(prodBean.getCodAtributo2()));
+                    prodBean.setListaAtributoGradeEcom(listaAtributo);
+                    //retorna grade simples
+                    if(prodBean.getGrade()==1){
+                        prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeComumByCodProd(id));
+                    }
+                    //retorna grade composta
+                    if(prodBean.getGrade()==2){
+                        prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeCompostaByCodProd(id));
+                    }
                 }
             }
             logger.info("Produto retornado com sucesso.");
