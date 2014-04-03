@@ -124,33 +124,6 @@ public class PedidoIERPDAO implements IGenericDAO<PedidoIERPDAO> {
         }
     }
     
-    public String retornaCodProdutoERP(String codProdutoEcom) throws SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        String codProdutoERP = null;
-        try {
-            conn = ConexaoATS.conectaERP();
-            
-            String sql = "SELECT P.CODPROD FROM PRODUTO  P "
-                    + "                       WHERE P.IDPRODUTOECOM = ? ";
 
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, codProdutoEcom);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                if (rs.getString("CODPROD") != null) {
-                    codProdutoERP = rs.getString("CODPROD");
-                }
-            }
-            return Funcoes.preencheCom(codProdutoERP, "0", 6, Funcoes.LEFT);
-        } catch (Exception e) {
-            return null;
-        } finally {
-            pstmt.close();
-            rs.close();
-        }
-    }
-    
     
 }
