@@ -6,8 +6,8 @@
 package br.com.atsinformatica.prestashop.controller;
 
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
-import br.com.atsinformatica.erp.dao.ParaEcomDAO;
-import br.com.atsinformatica.erp.entity.ParaEcomBean;
+import br.com.atsinformatica.erp.dao.ParaUrlDAO;
+import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
@@ -15,8 +15,8 @@ import br.com.atsinformatica.prestashop.clientDAO.ProductPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.prestashop.model.root.Product;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -39,10 +39,19 @@ public class ProdutoController {
         return new ProductPrestashopDAO().postProduct(Product.URLPRODUCTS, createProduct(produtoErp));
 
     }
+    
+    public void updateProduto(ProdutoERPBean produtoERPBean) throws SQLException{
+        new ProductPrestashopDAO().put(Product.URLPRODUCTS, createProduct(produtoERPBean));
+    }
 
     private Product createProduct(ProdutoERPBean produtoERP) throws SQLException {
         Product p = new Product();
-        Name name = new Name();    
+        Name name = new Name();       
+        if(produtoERP.getIdProdutoEcom()!=0){
+            Id id = new Id();
+            id.setContent(String.valueOf(produtoERP.getIdProdutoEcom()));
+            p.setId(id);
+        }               
         name.getLanguage().add(new Language(produtoERP.getNomeProd()));                
         MetaDescription metaDesc = new MetaDescription();
         metaDesc.getLanguage().add(new Language(produtoERP.getMetaDescricao()));
@@ -55,8 +64,11 @@ public class ProdutoController {
         LinkRewrite linkRewrite = new LinkRewrite();
         linkRewrite.getLanguage().add(new Language(produtoERP.getDescricaoCompleta()));
         if(produtoERP.getAtivo().equals("S"))
-        p.setActive(1);        
-        p.setEan13(produtoERP.getCodBarras());        
+            p.setActive(1);
+        AssociationsNode associations = new AssociationsNode();
+        associations.setCategories(createCategories(produtoERP.getCodCategoria()));
+        p.setAssociations(associations);
+        p.setEan13(produtoERP.getCodBarras());         
         p.setIdCategoryDefault(new CategoriaEcomDAO().abrir(produtoERP.getCodCategoria()).getIdCategoriaEcom());
         p.setDepth(String.valueOf(produtoERP.getProfundidade()));        
         p.setWeight(String.valueOf(produtoERP.getPeso()));
@@ -71,6 +83,29 @@ public class ProdutoController {
         p.setPrice(price);
         p.setLinkRewrite(linkRewrite);
         return p;
+    }
+    
+    
+    /**
+     * Cria associação de categorias
+     * @param codCategory
+     * @return 
+     */
+    private CategoriesNode createCategories(String codCategory){
+        try{
+            CategoriesNode categories = new CategoriesNode();
+            List<CategoriaEcomErpBean> categoriasEcomErp = new CategoriaEcomDAO().retornaCategoriasPai(codCategory);
+            String url = new ParaUrlDAO().listaTodos().get(0).getUrlWSDL()+"/";
+            List<CategoryNode> listCategory = new ArrayList<>();
+            for(CategoriaEcomErpBean catEcom : categoriasEcomErp){
+                CategoryNode categorieNode = new CategoryNode(catEcom.getIdCategoriaEcom(), url+catEcom.getIdCategoriaEcom());
+                listCategory.add(categorieNode);
+            }
+            categories.setCategory(listCategory);
+            return categories;
+        }catch(Exception e){
+            return null;            
+        }
     }
     
     /**

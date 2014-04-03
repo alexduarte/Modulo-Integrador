@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
     "idProductAttribute",
 })
 @XmlRootElement(name = "stock_available")
-public class StockAvailableProduct {
+public class StockAvailableNode {
    
     @XmlElement(name = "id", required = true)
    // @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -30,10 +30,10 @@ public class StockAvailableProduct {
     @XmlElement(name = "id_product_attribute", required = true)
     private int idProductAttribute;
 
-    public StockAvailableProduct(){
+    public StockAvailableNode(){
             
     }
-    public StockAvailableProduct(int id, int idProductAttribute){
+    public StockAvailableNode(int id, int idProductAttribute){
         this.id = id;
         this.idProductAttribute = idProductAttribute;
       //  this.href = this.href.replace(":id", String.valueOf(10));        

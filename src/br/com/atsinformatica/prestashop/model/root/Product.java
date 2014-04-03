@@ -1,9 +1,7 @@
 package br.com.atsinformatica.prestashop.model.root;
 
-import br.com.atsinformatica.prestashop.model.list.StockAvailables;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.utils.Funcoes;
-import java.util.List;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -27,7 +25,8 @@ import javax.xml.bind.annotation.*;
     "metaKeyWord",
     "stockAvailables",
     "availableForOrder",
-    "showPrice",        
+    "showPrice",
+    "associations",
 })
 
 @XmlRootElement(name = "product")
@@ -68,12 +67,13 @@ public class Product {
     @XmlElement(name = "meta_keywords")
     private MetaKeyWord metaKeyWord;
     @XmlElement(name = "stock_availables")
-    private StockAvailablesProduct stockAvailables;
+    private StockAvailablesNode stockAvailables;
     @XmlElement(name="available_for_order")
     private int availableForOrder;
     @XmlElement(name="show_price")
-    private int showPrice;
-    
+    private int showPrice;    
+    @XmlElement(name="associations")
+    private AssociationsNode associations;
     
     public Product() {
         idCategoryDefault = 2;
@@ -268,14 +268,14 @@ public class Product {
     /**
      * @return the stockAvailables
      */
-    public StockAvailablesProduct getStockAvailables() {
+    public StockAvailablesNode getStockAvailables() {
         return stockAvailables;
     }
 
     /**
      * @param stockAvailables the stockAvailables to set
      */
-    public void setStockAvailables(StockAvailablesProduct stockAvailables) {
+    public void setStockAvailables(StockAvailablesNode stockAvailables) {
         this.stockAvailables = stockAvailables;
     }
 
@@ -305,6 +305,20 @@ public class Product {
      */
     public void setShowPrice(int showPrice) {
         this.showPrice = showPrice;
+    }
+
+    /**
+     * @return the associations
+     */
+    public AssociationsNode getAssociations() {
+        return associations;
+    }
+
+    /**
+     * @param associations the associations to set
+     */
+    public void setAssociations(AssociationsNode associations) {
+        this.associations = associations;
     }
 
     

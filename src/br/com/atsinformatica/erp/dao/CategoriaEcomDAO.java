@@ -163,6 +163,27 @@ public class CategoriaEcomDAO implements IGenericDAO<CategoriaEcomErpBean> {
             stmt.close();
         }
     }
+    
+    /**
+     * Retorna todas categorias pai de uma categoria
+     * @param cod
+     * @return List<CategoriaEcomErpBean>
+     */
+    public List<CategoriaEcomErpBean> retornaCategoriasPai(String cod){
+        List<CategoriaEcomErpBean> lista = new ArrayList<>();
+        CategoriaEcomErpBean catEcom = null;
+        try{            
+            catEcom = this.abrir(cod);
+            if(catEcom.getCodCategoriaSuperior()!=null && !catEcom.getCodCategoriaSuperior().equals("")){
+                lista.addAll(retornaCategoriasPai(catEcom.getCodCategoriaSuperior()));
+            }
+            lista.add(catEcom);           
+            return lista;
+        }catch(Exception e){
+            return null;
+            
+        }
+    }
 
     @Override
     public String ultimoRegistro() throws SQLException {

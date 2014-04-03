@@ -6,8 +6,8 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
-import br.com.atsinformatica.prestashop.model.node.StockAvailableProduct;
-import br.com.atsinformatica.prestashop.model.node.StockAvailablesProduct;
+import br.com.atsinformatica.prestashop.model.node.StockAvailableNode;
+import br.com.atsinformatica.prestashop.model.node.StockAvailablesNode;
 import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -46,7 +46,6 @@ public class GenericPrestashopDAO<T> {
      */
     protected WebResource getWebResource() {
         try {
-
             ClientConfig config = new DefaultClientConfig();
             Client client = Client.create(config);
             List<ParaUrlWsdlBean> paraUrlWsdlBean = new ParaUrlDAO().listaTodos();
@@ -91,7 +90,7 @@ public class GenericPrestashopDAO<T> {
             JAXBContext context = JAXBContext.newInstance(Prestashop.class);
             Unmarshaller unmarshalContext = context.createUnmarshaller();
             Prestashop p = (Prestashop) unmarshalContext.unmarshal(new StringReader(xml));
-            StockAvailablesProduct stocks = new StockAvailablesProduct();
+            StockAvailablesNode stocks = new StockAvailablesNode();
             stocks.getStockAvailable().add(getStockByTagName(xml));
             p.getProduct().setStockAvailables(stocks);
             return p;
@@ -104,15 +103,15 @@ public class GenericPrestashopDAO<T> {
     /**
      * Retorna estoque baseado em xml de retorno do produto
      * @param xml xml de retorno do produto
-     * @return StockAvailableProduct
+     * @return StockAvailableNode
      */
-    private StockAvailableProduct getStockByTagName(String xml) {
+    private StockAvailableNode getStockByTagName(String xml) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
             NodeList nList = doc.getElementsByTagName("stock_available");
-            StockAvailableProduct stockAvailableProduct = new StockAvailableProduct();
+            StockAvailableNode stockAvailableProduct = new StockAvailableNode();
             for (int i = 0; i < nList.getLength(); i++) {
                 Node node = nList.item(i);
                 Element element = (Element) node;

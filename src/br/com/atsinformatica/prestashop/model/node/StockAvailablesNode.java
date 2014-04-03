@@ -22,22 +22,22 @@ import javax.xml.bind.annotation.XmlType;
     "stockAvailable",
 })
 @XmlRootElement(name = "stock_availables")
-public class StockAvailablesProduct {
+public class StockAvailablesNode {
     
     @XmlAttribute(name = "node_type")
     protected String nodeType = "stock_available";    
     @XmlElement(name = "stock_available")
-    private List<StockAvailableProduct> stockAvailable;
+    private List<StockAvailableNode> stockAvailable;
     
     
-    public StockAvailablesProduct(){
+    public StockAvailablesNode(){
         this.nodeType = "stock_available";
     }
 
     /**
      * @return the stockAvailable
      */
-    public List<StockAvailableProduct> getStockAvailable() {
+    public List<StockAvailableNode> getStockAvailable() {
         if(stockAvailable == null){
             stockAvailable = new ArrayList<>();
         }
@@ -47,7 +47,7 @@ public class StockAvailablesProduct {
     /**
      * @param stockAvailable the stockAvailable to set
      */
-    public void setStockAvailable(List<StockAvailableProduct> stockAvailable) {
+    public void setStockAvailable(List<StockAvailableNode> stockAvailable) {
         this.stockAvailable = stockAvailable;
     }
     
