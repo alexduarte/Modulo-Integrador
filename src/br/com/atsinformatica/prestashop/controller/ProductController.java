@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author ricardosilva
  */
-public class ProdutoController {
+public class ProductController {
 
     List<ProdutoERPBean> listProduct;
 

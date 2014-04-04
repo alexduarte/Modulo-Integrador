@@ -41,7 +41,7 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
                        "AND compprod.codempresa = ?";                       
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, codProd);             
-            pstmt.setString(2, new ParaEcomDAO().listaTodos().get(0).getFilialSincronizacao());                             
+            pstmt.setString(2, new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom());                             
             rs = pstmt.executeQuery();
             ProdGradeERPBean grade = null;
             //List<RelacionamentoGrade> listRelGrades = new ArrayList<RelacionamentoGrade>();
@@ -49,10 +49,10 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
                 grade = new ProdGradeERPBean();
                 grade.setCodGrade(rs.getString("codgrade"));
                 grade.setDescricaoGrade(rs.getString("descricao"));
-                grade.setEstoque(rs.getDouble("estoque"));                
+                grade.setEstoque(rs.getDouble("estoque")); 
+                grade.setPrecoGrade(rs.getDouble("precograde"));
                 grades.add(grade);              
             }
-            ConexaoATS.fechaConexao();
             Logger.getLogger(ProdGradeERPDAO.class).info("Grade do produto retornado com sucesso!");
             return grades;
         }catch(Exception e){
@@ -60,7 +60,7 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
             return null;          
         }finally{
             conn.close();
-            rs.close();
+            //rs.close();
             pstmt.close();
         }
     }
@@ -203,6 +203,7 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
             rs.close();
         }
     }
+   
 
     @Override
     public String ultimoRegistro() throws SQLException {

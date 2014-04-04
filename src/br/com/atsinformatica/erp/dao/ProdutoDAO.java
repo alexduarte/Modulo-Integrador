@@ -83,8 +83,8 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
                     //lista de atributos da grade
                     List<AtributoGradeEcom> listaAtributo = new ArrayList<>();
                     AtributoGradeEcomDAO daoAtributo = new AtributoGradeEcomDAO();                    
-                    if(prodBean.getCodAtributo1()!=null)listaAtributo.add(daoAtributo.abrir(prodBean.getCodAtributo1()));
-                    if(prodBean.getCodAtributo2()!=null)listaAtributo.add(daoAtributo.abrir(prodBean.getCodAtributo2()));
+                    if(prodBean.getCodAtributo1()!=null&&!prodBean.getCodAtributo1().equals(""))listaAtributo.add(daoAtributo.abrir(prodBean.getCodAtributo1()));
+                    if(prodBean.getCodAtributo2()!=null&&!prodBean.getCodAtributo2().equals(""))listaAtributo.add(daoAtributo.abrir(prodBean.getCodAtributo2()));
                     prodBean.setListaAtributoGradeEcom(listaAtributo);
                     //retorna grade simples
                     if(prodBean.getGrade()==1){
@@ -94,7 +94,7 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
                     if(prodBean.getGrade()==2){
                         prodBean.setListaProdGrade(new ProdGradeERPDAO().searchGradeCompostaByCodProd(id));
                     }
-                }
+                }else prodBean.setEstoqueDisponivel(this.retornaEstoqueProd(id));
             }
             logger.info("Produto retornado com sucesso.");
             return prodBean;
@@ -104,6 +104,34 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
         }finally{
             conn.close();
             rs.close();
+        }
+    }
+    
+    public double retornaEstoqueProd(String codProd) throws SQLException{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ParaEcomDAO paraEcom = new ParaEcomDAO();
+        try{
+            conn = ConexaoATS.conectaERP();
+            String sql = "SELECT (compprod.estoque - compprod.quantbloqueada) AS estoquedisponivel  " +
+                         "FROM compprod                                                             " +
+                         "WHERE compprod.codprod = ? AND compprod.codempresa = ?                    ";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, codProd);
+            pstmt.setString(2, paraEcom.listaTodos().get(0).getCodEmpresaEcom());
+            rs = pstmt.executeQuery();
+            double estoque = 0;
+            while(rs.next()){
+                estoque = rs.getDouble("estoquedisponivel");               
+            }
+            return estoque;
+        }catch(Exception e){
+            logger.error("Erro ao retornar estoque do produto: "+e);
+            return 0;
+        }finally{
+            rs.close();
+            conn.close();
+            pstmt.close();
         }
     }
 

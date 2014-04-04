@@ -49,7 +49,7 @@ public class ProdutoERPBean {
     public ProdutoERPBean(ResultSet rs) throws SQLException, UnsupportedEncodingException {
         this.codProd = rs.getString("codprod");
         this.idProdutoEcom = rs.getInt("idprodutoecom");
-        this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
+       // this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
         this.grade = rs.getInt("grade");
         this.codGrade = rs.getString("codgrade");
         this.codFabricante = rs.getString("codfabric");

@@ -33,17 +33,17 @@ public class AtributoGradeEcomDAO implements IGenericDAO<AtributoGradeEcom> {
         try {
             conn = ConexaoATS.conectaERP();
             String querie = "UPDATE ATRIBUTOGRADEECOM               "
-                    + "SET DESCRICAO = ?,                     "
-                    + "    IDATRIBUTOECOM = 0                 "
-                    + "WHERE CODATRIBUTO = ?;                 ";
+                    + "SET DESCRICAO = ?,                           "
+                    + "    IDATRIBUTOECOM = ?                       "
+                    + "WHERE CODATRIBUTO = ?;                       ";
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, object.getDescricao());
             pstmt.setInt(2, object.getIdAtributoEcom());
             pstmt.setString(3, object.getCodAtributo());
             pstmt.executeUpdate();
-            Logger.getLogger(AtributoGradeEcomDAO.class).info("Atributo grade alterado com sucesso."); 
+            Logger.getLogger(AtributoGradeEcomDAO.class).info("Atributo grade alterado com sucesso.");
         } catch (Exception e) {
-            Logger.getLogger(AtributoGradeEcomDAO.class).error("Erro ao alterar atributo da grade: "+e);
+            Logger.getLogger(AtributoGradeEcomDAO.class).error("Erro ao alterar atributo da grade: " + e);
         }
     }
 
@@ -63,8 +63,9 @@ public class AtributoGradeEcomDAO implements IGenericDAO<AtributoGradeEcom> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            if(conn==null)
-            conn = ConexaoATS.getConnection();
+            if (conn == null) {
+                conn = ConexaoATS.conectaERP();
+            }
             String sql = "SELECT * FROM ATRIBUTOGRADEECOM   "
                     + "WHERE CODATRIBUTO =?";
             pstmt = conn.prepareStatement(sql);
@@ -83,7 +84,7 @@ public class AtributoGradeEcomDAO implements IGenericDAO<AtributoGradeEcom> {
             Logger.getLogger(AtributoGradeEcomDAO.class).error("Erro ao retornar atributo grade: " + e);
             return null;
         } finally {
-          //  conn.close();
+            conn.close();
             rs.close();
             pstmt.close();
         }

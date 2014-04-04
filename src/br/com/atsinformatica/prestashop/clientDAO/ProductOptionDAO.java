@@ -33,7 +33,7 @@ public class ProductOptionDAO extends GenericPrestashopDAO<ProductOption> implem
         prestashop.setProductOption(p);
         String xml = createTOXML(prestashop);
         Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
-        return post.getProductOption().getId();
+        return Integer.parseInt(post.getProductOption().getId());
     }
 
     @Override

@@ -22,6 +22,7 @@ public class TriggerController {
         TriggerCategoria triggerCategoria = new TriggerCategoria();
         TriggerFabricante triggerFabricante = new TriggerFabricante();
         TriggerCompProd triggerCompProd = new TriggerCompProd();
+        TriggerAtributoGrade triggerAtributo = new TriggerAtributoGrade();
         try{
            //Produto
            if(!verificaTrigger("PRODUTO_ECOMM_AU"))triggerProduto.createTriggerAu();
@@ -36,7 +37,12 @@ public class TriggerController {
            if(!verificaTrigger("fabricante_ecomm_ai"))triggerFabricante.createTriggerAi();
            if(!verificaTrigger("fabricante_ecomm_ad"))triggerFabricante.createTriggerAd();
            //compprod
-           if(!verificaTrigger("compprod_ecomm_au"))triggerCompProd.createTriggerAu();          
+           if(!verificaTrigger("compprod_ecomm_au"))triggerCompProd.createTriggerAu(); 
+           //atributo grade
+           if(!verificaTrigger("atributogradeecom_ai"))triggerAtributo.createTriggerAu();
+           if(!verificaTrigger("atributogradeecom_au"))triggerAtributo.createTriggerAi();
+           if(!verificaTrigger("atributogradeecom_ad"))triggerAtributo.createTriggerAd();
+           
         }catch(Exception e){
             
         }        

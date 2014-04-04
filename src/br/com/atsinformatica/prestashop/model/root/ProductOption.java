@@ -5,6 +5,7 @@
 package br.com.atsinformatica.prestashop.model.root;
 
 import br.com.atsinformatica.prestashop.model.node.Name;
+import br.com.atsinformatica.prestashop.model.node.PublicName;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -22,12 +23,13 @@ import javax.xml.bind.annotation.XmlType;
     "groupType",
     "position",
     "name",
+    "publicName",
 })
 @XmlRootElement(name = "product_option")
 public class ProductOption {
     public static String URLPRODUCTOPTIONS = "product_options/";
     @XmlElement(name = "id")
-    private int id;
+    private String id;
     @XmlElement(name = "is_color_group")
     private int isColorGroup;
     @XmlElement(name = "group_type")
@@ -36,18 +38,26 @@ public class ProductOption {
     private int position;
     @XmlElement(name = "name")
     private Name name;
+    @XmlElement(name="public_name")
+    private PublicName publicName;
 
+
+    public ProductOption() {
+        this.groupType = "select";
+    }
+
+    
     /**
      * @return the id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -105,6 +115,20 @@ public class ProductOption {
      */
     public void setName(Name name) {
         this.name = name;
+    }
+
+    /**
+     * @return the publicName
+     */
+    public PublicName getPublicName() {
+        return publicName;
+    }
+
+    /**
+     * @param publicName the publicName to set
+     */
+    public void setPublicName(PublicName publicName) {
+        this.publicName = publicName;
     }
     
     

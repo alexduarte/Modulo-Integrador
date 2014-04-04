@@ -6,7 +6,7 @@ package br.com.atsinformatica.erp.controller;
 
 import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import br.com.atsinformatica.prestashop.controller.ProdutoController;
+import br.com.atsinformatica.prestashop.controller.ProductController;
 import br.com.atsinformatica.prestashop.controller.StockAvailableController;
 import br.com.atsinformatica.prestashop.model.root.Product;
 import br.com.atsinformatica.prestashop.model.root.StockAvailable;
@@ -22,10 +22,10 @@ import java.util.logging.Logger;
 public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     //controladora do produto no prestashop
 
-    private ProdutoController prodController;
+    private ProductController prodController;
 
     public ProdutoERPController() {
-        prodController = new ProdutoController();
+        prodController = new ProductController();
     }
 
     @Override
