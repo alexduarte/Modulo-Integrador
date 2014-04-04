@@ -42,8 +42,9 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             conn = ConexaoATS.conectaERP();
             String sql = " INSERT INTO CLIENTE (CODCLIENTE, CODCLIENTEECOM, NOME, NOMEFANTASIA, "
                     + "                      EMAIL, DT_NASCIMENTO,ENDERECO, BAIRRO, CEP, FONE, CELULAR, "
-                    + "                      CGCCPF, PESSOA_FJ, INSCEST, ESTADO ) "
-                    + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+                    + "                      CGCCPF, PESSOA_FJ, INSCEST, ESTADO, ENDERECOCOB, BAIRROCOB, "
+                    + "                      CODCIDADECOB, ESTADOCOB, CEPCOB ) "
+                    + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, ultimoRegistro());
@@ -52,7 +53,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.setString(4, cliente.getFirstname().trim() + " " + cliente.getLastname().trim());
             pstmt.setString(5, cliente.getEmail().trim());
             pstmt.setDate(6, new Date(cliente.getBirthday().getTime()));
-            pstmt.setString(7, endereco.getAddress1());
+            pstmt.setString(7, endereco.getAddress1() +", "+ endereco.getNumero());
             pstmt.setString(8, endereco.getAddress2());
             pstmt.setString(9, endereco.getPostcode());
             pstmt.setString(10, endereco.getPhone());
@@ -65,9 +66,14 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             } else if (cpf.getTipoDocumento().equals("J")) {
                 pstmt.setString(14, cpf.getRg_inscricao());
             }
-            
+
             pstmt.setString(15, estadoERPBean.getSigla());
-            
+            pstmt.setString(16, endereco.getEnderecoCob());
+            pstmt.setString(17, endereco.getBairroCob());
+            pstmt.setString(18,  "");//endereco.getCidadeCob() retorna o nome, o campo recebe o codigo
+            pstmt.setString(19, estadoERPBean.getSigla());
+            pstmt.setString(20, endereco.getCepCob());
+
             pstmt.execute();
 
             //Gerando log
@@ -89,8 +95,10 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             conn = ConexaoATS.conectaERP();
             String sql = " UPDATE CLIENTE SET NOME=?, NOMEFANTASIA=?, "
                     + "                      EMAIL=?, DT_NASCIMENTO=?,ENDERECO=?, BAIRRO=?, CEP=?, FONE=?, CELULAR=?, "
-                    + "                      CGCCPF=?, PESSOA_FJ=?, INSCEST=?, ESTADO=? "
-                    + "                     WHERE CODCLIENTEECOM=? ";
+                    + "                      CGCCPF=?, PESSOA_FJ=?, INSCEST=?, ESTADO=?, "
+                    + "                      ENDERECOCOB=?, BAIRROCOB=?, CODCIDADECOB=?, "
+                    + "                      ESTADOCOB=?, CEPCOB=? WHERE CODCLIENTEECOM=?  ";
+
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, cliente.getFirstname().trim() + " " + cliente.getLastname().trim());
@@ -111,7 +119,14 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
                 pstmt.setString(12, cpf.getRg_inscricao());
             }
             pstmt.setString(13, estadoERPBean.getSigla());
-            pstmt.setString(14, cliente.getId().trim());
+
+            pstmt.setString(14, endereco.getEnderecoCob() + ", " + endereco.getNumeroCob());
+            pstmt.setString(15, endereco.getBairroCob());
+            pstmt.setString(16, "");//endereco.getCidadeCob() retorna o nome, o campo recebe o codigo
+            pstmt.setString(17, estadoERPBean.getSiglaCobracao());
+            pstmt.setString(18, endereco.getCepCob());
+
+            pstmt.setString(19, cliente.getId().trim());
 
             pstmt.execute();
 
@@ -203,7 +218,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
         String codClienteERP = null;
         try {
             conn = ConexaoATS.conectaERP();
-            
+
             String sql = "SELECT C.CODCLIENTE FROM CLIENTE  C "
                     + "                       WHERE C.CODCLIENTEECOM = ? ";
 
