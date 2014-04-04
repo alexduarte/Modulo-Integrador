@@ -14,7 +14,10 @@ public class EstadoERPBean {
     private String id;
     private String sigla;
     private String descricao;
-
+    
+    private String siglaCobracao;
+    private String descricaoCobracao;
+    
     public String getId() {
         return id;
     }
@@ -37,6 +40,22 @@ public class EstadoERPBean {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getSiglaCobracao() {
+        return siglaCobracao;
+    }
+
+    public void setSiglaCobracao(String siglaCobracao) {
+        this.siglaCobracao = siglaCobracao;
+    }
+
+    public String getDescricaoCobracao() {
+        return descricaoCobracao;
+    }
+
+    public void setDescricaoCobracao(String descricaoCobracao) {
+        this.descricaoCobracao = descricaoCobracao;
     }
 
 }
