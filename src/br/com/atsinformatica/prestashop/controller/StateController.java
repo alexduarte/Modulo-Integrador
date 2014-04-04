@@ -16,15 +16,22 @@ import br.com.atsinformatica.prestashop.model.root.State;
  */
 public class StateController {
 
-    public EstadoERPBean syncStateControllerPrestashop(int cod) {
+    public EstadoERPBean syncStateControllerPrestashop(int codEndereco, int codEnderecoCobranca) {
         StatesPrestashopDAO dao = new StatesPrestashopDAO();
 
-        State state = dao.getId(State.URLSTATE, cod);
+        State state = dao.getId(State.URLSTATE, codEndereco);
 
         EstadoERPBean bean = new EstadoERPBean();
         bean.setId(state.getId());
         bean.setSigla(state.getIso_code());
         bean.setDescricao(state.getName());
+        
+        State stateCobranca = dao.getId(State.URLSTATE, codEnderecoCobranca);
+
+        bean.setSiglaCobracao(state.getIso_code());
+        bean.setDescricaoCobracao(state.getName());
+        
+        
         return bean;
 
     }   
