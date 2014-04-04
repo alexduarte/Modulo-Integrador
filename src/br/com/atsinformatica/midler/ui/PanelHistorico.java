@@ -172,7 +172,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
         refreshSincCad();
-
+ 
     }//GEN-LAST:event_jBtRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtRefresh;
@@ -267,6 +267,13 @@ public class PanelHistorico extends javax.swing.JPanel {
         try {
             //Buscando a lista de Pedidos que ainda não esta no banco de dados.
             listoPedido = orderController.syncListaOrder();
+            /*
+            Vefificando se a lista de pedido esta vazia, se estiver vazia sai da função.
+            */
+            if (listoPedido.isEmpty()){
+                logger.info("Nenhum pedido pendente para sincronizar. ");
+                return;
+            }
         } catch (SQLException ex) {
 
             logger.error("Erro ao efetuar sincronização de Pedidos da loja virtual: " + ex);
@@ -296,15 +303,17 @@ public class PanelHistorico extends javax.swing.JPanel {
         CPFClienteBean beanCPF;
         ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
         EstadoERPBean estadoERPBean = new EstadoERPBean();
+        EstadoERPBean estadoCobracaoERPBean = new EstadoERPBean();
         PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
 
         try {
             beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(pedido.getId_customer()));
-            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(pedido.getId_address_delivery()));
+            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(pedido.getId_address_delivery()), Integer.valueOf(pedido.getId_address_invoice()));
+
             beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(pedido.getId_customer()));
 
             if (Integer.valueOf(beanEndereco.getId_state()) > 0) {
-                estadoERPBean = stateController.syncStateControllerPrestashop(Integer.valueOf(beanEndereco.getId_state()));
+                estadoERPBean = stateController.syncStateControllerPrestashop(Integer.valueOf(beanEndereco.getId_state()), Integer.valueOf(beanEndereco.getEstadoCob()));
             }
 
             if (clienteERPDAO.verificacaoClienteEcomExiste(beanCliente.getId())) {  //Verificando se o cliente já foi sincronizado.
@@ -323,7 +332,7 @@ public class PanelHistorico extends javax.swing.JPanel {
             }
 
             /**
-             * Chamando o gravar pedido Tem o retorno O numero do pedido se
+             * Chamando o gravar pedido, que tem como retorno o numero do pedido se
              * gravou com sucesso, ou NULL se deu erro.
              */
             String codPedido = pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
@@ -332,19 +341,25 @@ public class PanelHistorico extends javax.swing.JPanel {
                 PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
                 PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
                 ProdutoDAO produtoDAO = new ProdutoDAO();
+               
 
                 for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
+                    /*
+                    Pegando o codigo do produtoERP
+                    */
+                    String codProdutoERP = produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getProductId()));
+                    
                     pedidoIERPBean.setCodEmpresa(codEmpresa);
                     pedidoIERPBean.setCodPedido(codPedido);
                     pedidoIERPBean.setCodClienteERP(clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
-                    pedidoIERPBean.setCodProdERP(produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getId())));
+                    pedidoIERPBean.setCodProdERP(codProdutoERP);
                     pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
                     pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
                     pedidoIERPBean.setCodGradERP(String.valueOf(orderRowNode.getProductAttributeId()));
+                    pedidoIERPBean.setUnidadeSaida(produtoDAO.retornaUnidadeSaidaProdutoERP(codProdutoERP));
 
                     pedidoIERPDAO.gravar(pedidoIERPBean);
                 }
-
 
             }
 
