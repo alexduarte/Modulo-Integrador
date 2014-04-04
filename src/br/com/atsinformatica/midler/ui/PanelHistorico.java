@@ -171,10 +171,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
-        sincPedidos();
-        //refreshSincCad();
-        //   OrderController orderController = new OrderController();
-        //  orderController.syncOrderControllerPrestashop(8);
+        refreshSincCad();
 
     }//GEN-LAST:event_jBtRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
