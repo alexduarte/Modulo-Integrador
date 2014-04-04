@@ -15,10 +15,11 @@ import br.com.atsinformatica.prestashop.model.root.Address;
  */
 public class AddressController {
 
-    public EnderecoERPBean syncAddressControllerPrestashop(int cod) {
+    public EnderecoERPBean syncAddressControllerPrestashop(int codEntrega, int codCobranca) {
         AddressPrestashopDAO dao = new AddressPrestashopDAO();
 
-        Address address = dao.getId(Address.URLADDRESS, cod);
+        Address address = dao.getId(Address.URLADDRESS, codEntrega);
+        
 
         EnderecoERPBean bean = new EnderecoERPBean();
         bean.setId_customer(address.getId_customer());
@@ -26,6 +27,7 @@ public class AddressController {
         bean.setLastname(address.getLastname());
         bean.setFirstname(address.getFirstname());
         bean.setAddress1(address.getAddress1());
+        bean.setNumero(address.getNumero());
         bean.setAddress2(address.getAddress2());
         bean.setPostcode(address.getPostcode());
         bean.setCity(address.getCity());
@@ -33,6 +35,20 @@ public class AddressController {
         bean.setPhone(address.getPhone());
         bean.setPhone_mobile(address.getPhone_mobile());
         bean.setId_state(address.getId_state());
+        
+        /*
+        Buscando Endereço de cobrança
+        */
+        Address addressCobraca = dao.getId(Address.URLADDRESS, codCobranca);
+        
+        bean.setEnderecoCob(addressCobraca.getAddress1());
+        bean.setNumeroCob(addressCobraca.getNumero());
+        bean.setBairroCob(addressCobraca.getAddress2());
+        bean.setCepCob(addressCobraca.getPostcode());
+        bean.setCidadeCob(addressCobraca.getCity());
+        bean.setEstadoCob(addressCobraca.getId_state());
+        
+        
         return bean;
 
     }
