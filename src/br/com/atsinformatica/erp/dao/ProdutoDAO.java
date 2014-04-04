@@ -227,12 +227,41 @@ public class ProdutoDAO implements IGenericDAO<ProdutoERPBean> {
             }
             return Funcoes.preencheCom(codProdutoERP, "0", 6, Funcoes.LEFT);
         } catch (Exception e) {
+           logger.error("Erro ao retornaCodProdutoERP do produtoEcom "+codProdutoEcom+": "+e); 
             return null;
         } finally {
             pstmt.close();
             rs.close();
         }
     }
-        
+    public String retornaUnidadeSaidaProdutoERP(String codProdutoERP) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String unidadeSaida = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            
+            String sql = "SELECT P.UNIDADESAIDA FROM PRODUTO  P "
+                    + "                       WHERE P.CODPROD = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, codProdutoERP);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("UNIDADESAIDA") != null) {
+                    unidadeSaida = rs.getString("UNIDADESAIDA");
+                }
+            }
+            return unidadeSaida;
+        } catch (Exception e) {
+            logger.error("Erro ao retornaUnidadeSaidaProdutoERP do produto "+codProdutoERP+": "+e);  
+            return null;
+        } finally {
+            pstmt.close();
+            rs.close();
+        }
+    }
+    
     
 }
