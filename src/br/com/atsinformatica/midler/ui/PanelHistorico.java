@@ -23,6 +23,7 @@ import br.com.atsinformatica.erp.entity.PedidoCERPBean;
 import br.com.atsinformatica.erp.entity.PedidoIERPBean;
 import br.com.atsinformatica.prestashop.controller.AddressController;
 import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
+import br.com.atsinformatica.prestashop.controller.CarrierController;
 import br.com.atsinformatica.prestashop.controller.CustomerController;
 import br.com.atsinformatica.prestashop.controller.OrderController;
 import br.com.atsinformatica.prestashop.controller.StateController;
@@ -171,7 +172,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
     //Botão de atualizar
     private void jBtRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtRefreshActionPerformed
-        refreshSincCad();
+                sincPedidos();
  
     }//GEN-LAST:event_jBtRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -297,7 +298,8 @@ public class PanelHistorico extends javax.swing.JPanel {
         AddressController addressController = new AddressController();
         CPFModuleDataController cPFModuleDataController = new CPFModuleDataController();
         StateController stateController = new StateController();
-
+        CarrierController carrierController = new CarrierController();
+        
         ClienteERPBean beanCliente;
         EnderecoERPBean beanEndereco;
         CPFClienteBean beanCPF;
@@ -305,13 +307,15 @@ public class PanelHistorico extends javax.swing.JPanel {
         EstadoERPBean estadoERPBean = new EstadoERPBean();
         EstadoERPBean estadoCobracaoERPBean = new EstadoERPBean();
         PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
-
+        
         try {
             beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(pedido.getId_customer()));
             beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(pedido.getId_address_delivery()), Integer.valueOf(pedido.getId_address_invoice()));
 
             beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(pedido.getId_customer()));
-
+            
+            pedido.setObservacao(carrierController.syncCarrierControllerPrestashop(Integer.valueOf(pedido.getId_carrier())));
+            
             if (Integer.valueOf(beanEndereco.getId_state()) > 0) {
                 estadoERPBean = stateController.syncStateControllerPrestashop(Integer.valueOf(beanEndereco.getId_state()), Integer.valueOf(beanEndereco.getEstadoCob()));
             }
