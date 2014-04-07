@@ -34,6 +34,7 @@ public class CPFModuleDataController {
 
         } catch (Exception e) {
             logger.error("Erro ao consultar numero CPF/CNPJ do Cliente ID Ecom:(" + idCliente + "): " + e);
+            return null;
         }
         return bean;
 
