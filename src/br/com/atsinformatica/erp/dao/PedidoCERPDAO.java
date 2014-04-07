@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  */
 public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
 
-    private static Logger logger = Logger.getLogger(ListaPedidoDAO.class);
+    private static Logger logger = Logger.getLogger(PedidoCERPDAO.class);
     private Connection conn;
 
     @Override
@@ -101,8 +101,9 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             String sql = " INSERT INTO PEDIDOC "
                     + "                    (CODPEDIDO, IDPEDIDOECOM, CODEMPRESA, "
                     + "                     TIPOPEDIDO, DESCONTOVLR, "
-                    + "                     CODCLIENTE, DATAPEDIDO, HORA, FRETE) "
-                    + "              VALUES(?,?,?,?,?,?,?,?,?)";
+                    + "                     CODCLIENTE, DATAPEDIDO, HORA, FRETE,"
+                    + "                     OBSERVACAO) "
+                    + "              VALUES(?,?,?,?,?,?,?,?,?,?)";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, codPedido);
@@ -114,14 +115,18 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setDate(7, new Date(pedidoERPBean.getDate_add().getTime()));
             pstmt.setString(8, pedidoERPBean.getHora());
             pstmt.setDouble(9, Double.valueOf(pedidoERPBean.getTotal_shipping()));
+            pstmt.setString(10, "FORMA DE ENVIO: " + pedidoERPBean.getObservacao()
+                              + ", FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
+                              + ", CÓDIGO DO PEDIDO NA LOJA VIRTUAL: " + pedidoERPBean.getReference());
 
             pstmt.executeUpdate();
 
             //Gerando log
             LogERP.geraLog("PEDIDOC", codPedido, "Inclusão", "Incluindo pedido sincronizado do Ecommercer");
+            logger.info("ID Pedido ERP:(" + codPedido + ") ID ECOM:(" + pedidoERPBean.getId_ecom() + "), Referência:(" + pedidoERPBean.getReference() + ")  gravado com sucesso.");
             return codPedido;
         } catch (Exception e) {
-            logger.error("Erro ao soncronizar Pedido Ecom ( " + codPedido+ " ): " + e);
+            logger.error("Erro ao soncronizar Pedido(ID Pedido ERP:(" + codPedido + ") ID ECOM:(" + pedidoERPBean.getId_ecom() + "), Referência:(" + pedidoERPBean.getReference() + ")): " + e);
             return null;
         } finally {
             conn.close();
