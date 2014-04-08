@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
  */
 public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
-    private static Logger logger = Logger.getLogger(ListaPedidoDAO.class);
+    private static Logger logger = Logger.getLogger(ClienteERPDAO.class);
     private Connection conn;
 
     @Override
@@ -37,6 +37,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
     public boolean gravarClienteComEndereco(ClienteERPBean cliente, EnderecoERPBean endereco, CPFClienteBean cpf, EstadoERPBean estadoERPBean) throws SQLException {
         PreparedStatement pstmt = null;
+        String codClienteERP = ultimoRegistro();
         try {
 
             conn = ConexaoATS.conectaERP();
@@ -47,13 +48,13 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
                     + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, ultimoRegistro());
+            pstmt.setString(1, codClienteERP);
             pstmt.setString(2, cliente.getId().trim());
             pstmt.setString(3, cliente.getFirstname().trim() + " " + cliente.getLastname().trim());
             pstmt.setString(4, cliente.getFirstname().trim() + " " + cliente.getLastname().trim());
             pstmt.setString(5, cliente.getEmail().trim());
             pstmt.setDate(6, new Date(cliente.getBirthday().getTime()));
-            pstmt.setString(7, endereco.getAddress1() +", "+ endereco.getNumero());
+            pstmt.setString(7, endereco.getAddress1() + ", " + endereco.getNumero());
             pstmt.setString(8, endereco.getAddress2());
             pstmt.setString(9, endereco.getPostcode());
             pstmt.setString(10, endereco.getPhone());
@@ -70,7 +71,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.setString(15, estadoERPBean.getSigla());
             pstmt.setString(16, endereco.getEnderecoCob());
             pstmt.setString(17, endereco.getBairroCob());
-            pstmt.setString(18,  "");//endereco.getCidadeCob() retorna o nome, o campo recebe o codigo
+            pstmt.setString(18, "");//endereco.getCidadeCob() retorna o nome, o campo recebe o codigo
             pstmt.setString(19, estadoERPBean.getSigla());
             pstmt.setString(20, endereco.getCepCob());
 
@@ -78,6 +79,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
             //Gerando log
             LogERP.geraLog("CLIENTE", cliente.getId(), "Inclusão", "Incluindo cliente sincronizado do Ecommercer");
+            logger.info("Cliente ERP:(" + codClienteERP + "), ID ECOM:(" + cliente.getId().trim() + ") gravado com sucesso.");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
@@ -132,6 +134,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
             //Gerando log
             LogERP.geraLog("CLIENTE", cliente.getId(), "Alteração", "Alteração de cliente sincronizado do Ecommercer");
+            logger.info("Cliente ID ECOM:(" + cliente.getId().trim() + ") Atualizado com sucesso.");
             return true;
         } catch (SQLException e) {
             logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
@@ -233,6 +236,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             }
             return Funcoes.preencheCom(codClienteERP, "0", 8, Funcoes.LEFT);
         } catch (Exception e) {
+            logger.error("Erro ao retornar Cliente Ecom (retornaCodClienteERP): " + e);
             return null;
         } finally {
             pstmt.close();
