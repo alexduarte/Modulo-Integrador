@@ -82,7 +82,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             logger.info("Cliente ERP:(" + codClienteERP + "), ID ECOM:(" + cliente.getId().trim() + ") gravado com sucesso.");
             return true;
         } catch (SQLException e) {
-            logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
+            logger.error("ERRO ao Gravar cliente ERP:(" + codClienteERP + "), ID ECOM:(" + cliente.getId().trim() + "): " + e);
             return false;
         } finally {
             conn.close();
@@ -137,7 +137,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             logger.info("Cliente ID ECOM:(" + cliente.getId().trim() + ") Atualizado com sucesso.");
             return true;
         } catch (SQLException e) {
-            logger.error("Erro ao soncronizar Cliente ID Ecom ( " + cliente.getId() + " ): " + e);
+            logger.error("ERRO ao Atualizar cliente ID ECOM:(" + cliente.getId().trim() + "): " + e);
             return false;
         } finally {
             conn.close();
@@ -181,6 +181,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             }
             return Funcoes.preencheCom(Integer.toString(cod), "0", 8, Funcoes.LEFT);
         } catch (Exception e) {
+            logger.error("ERRO ao Consultar ID ERP do ultimo cliente Cadastrado: " + e);
             return null;
         } finally {
             stmt.close();
@@ -206,7 +207,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
                 return false;
             }
         } catch (Exception e) {
-            logger.error("Erro na Verificação de Cliente já existente: " + e);
+            logger.error("Erro na Verificação de Cliente ID ECOM" + codClienteEcom + " já existente: " + e);
             return false;
         } finally {
             pstmt.close();
@@ -236,7 +237,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             }
             return Funcoes.preencheCom(codClienteERP, "0", 8, Funcoes.LEFT);
         } catch (Exception e) {
-            logger.error("Erro ao retornar Cliente Ecom (retornaCodClienteERP): " + e);
+            logger.error("Erro ao retornar codigo do ClienteERP, Cliente ID Ecom (retornaCodClienteERP): " + e);
             return null;
         } finally {
             pstmt.close();
