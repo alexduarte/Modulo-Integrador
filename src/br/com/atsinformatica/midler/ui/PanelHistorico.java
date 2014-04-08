@@ -31,9 +31,7 @@ import br.com.atsinformatica.prestashop.model.node.OrderRowNode;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.swing.table.TableColumn;
 import org.apache.log4j.Logger;
@@ -50,7 +48,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     //model para grid  sincronizar
     private ObjectTableModel modelSincronizar = new ObjectTableModel(resolverSinc, fields);
     private static Logger logger = Logger.getLogger(PanelHistorico.class);
-
+    
     /**
      * Creates new form PanelHistorico
      */

@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  *
  * @author AlexsanderPimenta
  */
-public class SugGradeERPDAO implements IGenericDAO<SubGradeERPBean> {
+public class SubGradeERPDAO implements IGenericDAO<SubGradeERPBean> {
     private Connection conn;
 
     @Override
@@ -60,7 +60,37 @@ public class SugGradeERPDAO implements IGenericDAO<SubGradeERPBean> {
         try{
             conn = ConexaoATS.conectaERP();
             String sql = "Select * from subgrade where     "
-                        +"IDSUBGRADEECOM = ?               ";
+                        +"codsubgrade = ?               ";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            SubGradeERPBean grade = null;
+            while(rs.next()){
+                grade = new SubGradeERPBean();
+                grade.setCodSubgrade(rs.getString("codsubgrade"));
+                grade.setDescSubGrade(rs.getString("descsubgrade"));
+                grade.setIdSubgradeEcom(rs.getInt("idsubgradeecom"));
+                grade.setTipoDivisao(rs.getInt("tipodivisao"));
+            }
+            Logger.getLogger(ProdGradeERPDAO.class).info("Subgrade retornada com sucesso!");
+            return grade;
+        }catch(Exception e){
+            Logger.getLogger(ProdGradeERPDAO.class).error("Erro ao retornar subgrade: "+e);
+            return null;            
+        }finally{
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+    }
+    
+    public SubGradeERPBean abrirSugradeEcom(String id) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try{
+            conn = ConexaoATS.conectaERP();
+            String sql = "Select * from subgrade where     "
+                        +"idsubgradeecom = ?               ";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, Integer.parseInt(id));
             rs = pstmt.executeQuery();
@@ -80,6 +110,7 @@ public class SugGradeERPDAO implements IGenericDAO<SubGradeERPBean> {
         }finally{
             rs.close();
             pstmt.close();
+            conn.close();
         }
     }
 

@@ -10,12 +10,14 @@ import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.erp.dao.GradeERPDAO;
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.dao.ProdGradeERPDAO;
+import br.com.atsinformatica.erp.dao.SubGradeERPDAO;
 import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.erp.entity.GradeERPBean;
 import br.com.atsinformatica.erp.entity.ProdGradeERPBean;
 import br.com.atsinformatica.prestashop.model.node.Name;
 import br.com.atsinformatica.prestashop.model.node.Language;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
+import br.com.atsinformatica.erp.entity.SubGradeERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.ProductPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.node.*;
 import br.com.atsinformatica.prestashop.model.root.Product;
@@ -126,31 +128,44 @@ public class ProductController {
         ProductOptionValuesNode prodOptionValues = new ProductOptionValuesNode();
         AtributoGradeEcomDAO atributoDao = new AtributoGradeEcomDAO();
         GradeERPDAO gradeDao = new GradeERPDAO();
+        SubGradeERPDAO subGradeDAO = new SubGradeERPDAO();
         ProdGradeERPDAO prodGradeDao = new ProdGradeERPDAO();
-        ProductOptionValueController prodValueController = null;
         try {
             List<ProductOptionsValuesNode> prodOptionsValues = new ArrayList<>();
+            //grade simples
             if (prod.getGrade() == 1) {
                 List<ProdGradeERPBean> listaProdGrade = prodGradeDao.searchGradeComumByCodProd(prod.getCodProd());
                 if (!listaProdGrade.isEmpty()) {
-                     ProductOptionsValuesNode prodOptions = null;
+                    ProductOptionsValuesNode prodOptions = null;
                     for (ProdGradeERPBean prodGrade : listaProdGrade) {
                         prodOptions = new ProductOptionsValuesNode();
                         GradeERPBean grade = gradeDao.abrir(prodGrade.getCodGrade());
-                        //se grade ainda nao foi integrada
-                        if (grade.getIdGradeEcom() == 0) {
-                            grade.setIdAtributo(atributoDao.abrir(prod.getCodAtributo1()).getIdAtributoEcom());
-                            prodValueController = new ProductOptionValueController();                           
-                            int idProdOptionValue = prodValueController.createProductOptionValuePrestashop(grade);
-                            if (idProdOptionValue != 0) {
-                                grade.setIdGradeEcom(idProdOptionValue);
-                                prodOptions.setId(idProdOptionValue);
-                                gradeDao.alterar(grade);
-                            }
-                        }else
-                            prodOptions.setId(grade.getIdGradeEcom());
-                       
+                        grade.setIdAtributo(atributoDao.abrir(prod.getCodAtributo1()).getIdAtributoEcom());
+                        prodOptions.setId(this.getIdGradeEcom(grade));
                         prodOptionsValues.add(prodOptions);
+                    }
+                }
+            }
+            //grade composta
+            if (prod.getGrade() == 2) {
+                List<ProdGradeERPBean> listaProdGrade = prodGradeDao.searchGradeComumByCodProd(prod.getCodProd());
+                if (!listaProdGrade.isEmpty()) {
+                    //ProductOptionsValuesNode prodOptions = null;
+                    for (ProdGradeERPBean prodGrade : listaProdGrade) {
+                        //valor para grade
+                        ProductOptionsValuesNode gradeOptions = new ProductOptionsValuesNode();
+                        //valor para subgrade
+                        ProductOptionsValuesNode subGradeOptions = new ProductOptionsValuesNode();
+                        //bean de grade
+                        SubGradeERPBean grade = subGradeDAO.abrir(prodGrade.getCodGrade().substring(0, 1));
+                        grade.setIdAtributo(atributoDao.abrir(prod.getCodAtributo1()).getIdAtributoEcom());
+                        //bean de subgrade
+                        SubGradeERPBean subGrade = subGradeDAO.abrir(prodGrade.getCodGrade().substring(2, 3));
+                        subGrade.setIdAtributo(atributoDao.abrir(prod.getCodAtributo2()).getIdAtributoEcom());
+                        gradeOptions.setId(this.getIdSubGradeEcom(grade));
+                        subGradeOptions.setId(this.getIdSubGradeEcom(subGrade));
+                        prodOptionsValues.add(gradeOptions);
+                        prodOptionsValues.add(subGradeOptions);                        
                     }
                 }
             }
@@ -160,6 +175,60 @@ public class ProductController {
         } catch (Exception e) {
             Logger.getLogger(ProductController.class).info("Erro ao criar ou atualizar valor do atributo do produto: " + e);
             return null;
+        }
+    }
+
+    /**
+     * Retorna o id da grade na loja virtual, cadastra caso não exista
+     * @param grade
+     * @return
+     */
+    private int getIdGradeEcom(GradeERPBean grade) {
+        GradeERPDAO gradeDao = new GradeERPDAO();
+        ProductOptionValueController prodValueController = new ProductOptionValueController();
+        try {
+            //se grade ainda nao foi integrada
+            if (grade.getIdGradeEcom() == 0) {
+                prodValueController = new ProductOptionValueController();
+                int idProdOptionValue = prodValueController.createProductOptionValuePrestashop(grade);
+                if (idProdOptionValue != 0) {
+                    grade.setIdGradeEcom(idProdOptionValue);
+                    gradeDao.alterar(grade);
+                }
+            }
+            Logger.getLogger(ProductController.class).info("Id da grade na loja virtual retornado com sucesso.");
+            return grade.getIdGradeEcom();
+        } catch (Exception e) {
+            Logger.getLogger(ProductController.class).error("Erro ao retornar id da grade na loja virtual");
+            return 0;
+        }
+    }
+  
+    
+    /**
+     * Retorna o id da grade na loja virtual, cadastra caso não exista
+     *
+     * @param grade
+     * @return
+     */
+    private int getIdSubGradeEcom(SubGradeERPBean grade) {
+        AtributoGradeEcomDAO atributoDao = new AtributoGradeEcomDAO();
+        SubGradeERPDAO gradeDao = new SubGradeERPDAO();
+        ProductOptionValueController prodValueController = new ProductOptionValueController();
+        try {
+            //se grade ainda nao foi integrada
+            if (grade.getIdSubgradeEcom() == 0) {
+                prodValueController = new ProductOptionValueController();
+                int idProdOptionValue = prodValueController.createProductOptionValuePrestashop(grade);
+                if (idProdOptionValue != 0) {
+                    grade.setIdSubgradeEcom(idProdOptionValue);
+                    gradeDao.alterar(grade);
+                }
+            } 
+            return grade.getIdSubgradeEcom();
+        } catch (Exception e) {
+            return 0;
+
         }
     }
 

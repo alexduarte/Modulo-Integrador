@@ -9,7 +9,6 @@ import br.com.atsinformatica.erp.entity.AtributoGradeEcom;
 import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
-import com.sun.jersey.api.client.UniformInterfaceException;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
