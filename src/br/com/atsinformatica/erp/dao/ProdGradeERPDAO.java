@@ -29,8 +29,8 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
         ResultSet rs  = null;
         try{                       
             conn = ConexaoATS.conectaERP();            
-            String sql = "SELECT grade.codgrade,                                              " +
-                       "grade.descricao,                                                      " +
+            String sql = "SELECT grade.codgrade, prodgrade.idprodgradeecom,                   " +
+                       "grade.descricao, prodgrade.codprod,                                   " +
                        "(compprod.estoque - compprod.quantbloqueada) AS estoque,              " +
                        "prodgrade.precograde                                                  " +
                        "FROM grade INNER JOIN compprod  ON grade.codgrade = compprod.codgrade " +
@@ -51,6 +51,8 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
                 grade.setDescricaoGrade(rs.getString("descricao"));
                 grade.setEstoque(rs.getDouble("estoque")); 
                 grade.setPrecoGrade(rs.getDouble("precograde"));
+                grade.setCodProd(rs.getString("codprod"));
+                grade.setIdProdGradeEcom(rs.getInt("idprodgradeecom"));
                 grades.add(grade);              
             }
             Logger.getLogger(ProdGradeERPDAO.class).info("Grade do produto retornado com sucesso!");
@@ -75,7 +77,7 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
             String sql ="SELECT compprod.codgrade,                                                                                         " +
                                   "SG1.descsubgrade|| ' ' ||SG2.descsubgrade AS descricao,                                                 " +
                                   "(compprod.estoque - compprod.quantbloqueada) AS estoque,                                                " +
-                                  "prodgrade.ativa,                                                                                        " +
+                                  "prodgrade.ativa, prodgrade.codprod, prodgrade.idprodgradeecom,                                          " +
                                   "prodgrade.precograde                                                                                    " +
                                   "FROM SUBGRADE SG1, SUBGRADE SG2, compprod INNER JOIN prodgrade ON compprod.codprod  = prodgrade.codprod " +
                                   "AND compprod.codgrade = prodgrade.codgrade                                                              " +
@@ -96,7 +98,9 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
                 grade.setPrecoGrade(rs.getDouble("precograde"));
                 grade.setCodGrade(rs.getString("codgrade"));
                 grade.setDescricaoGrade(rs.getString("descricao"));
-                grade.setEstoque(rs.getDouble("estoque"));                
+                grade.setCodProd(rs.getString("codprod"));
+                grade.setEstoque(rs.getDouble("estoque")); 
+                grade.setIdProdGradeEcom(rs.getInt("idprodgradeecom"));
                 grades.add(grade);              
             }
             ConexaoATS.fechaConexao();
@@ -123,16 +127,19 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
         try{
             conn = ConexaoATS.conectaERP();
             String querie = "UPDATE PRODGRADE                        " +
-                            " IDPRODGRADEECOM = ?                    " +
+                            " SET IDPRODGRADEECOM = ?                " +
                             "WHERE CODPROD = ? AND CODGRADE = ?      ";
             pstmt = conn.prepareStatement(querie);
             pstmt.setInt(1, object.getIdProdGradeEcom());
-            pstmt.setString(4, object.getCodProd());
-            pstmt.setString(5, object.getCodGrade());
+            pstmt.setString(2, object.getCodProd());
+            pstmt.setString(3, object.getCodGrade());
             pstmt.executeUpdate();
             Logger.getLogger(ProdGradeERPDAO.class).info("Prodgrade alterada com sucesso!");
         }catch(Exception e){
             Logger.getLogger(ProdGradeERPDAO.class).error("Erro ao alterar prodgrade: "+e);            
+        }finally{
+            conn.close();
+            pstmt.close();
         }
     }
 

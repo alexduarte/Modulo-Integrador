@@ -10,6 +10,7 @@ import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.erp.dao.GradeERPDAO;
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.dao.ProdGradeERPDAO;
+import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.dao.SubGradeERPDAO;
 import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.erp.entity.GradeERPBean;
@@ -77,6 +78,7 @@ public class ProductController {
         AssociationsNode associations = new AssociationsNode();
         associations.setCategories(createCategories(produtoERP.getCodCategoria()));
         associations.setProductOptionValues(this.createProductOptionValues(produtoERP));
+        associations.setCombinations(this.createCombinations(produtoERP));
         p.setAssociations(associations);
         p.setEan13(produtoERP.getCodBarras());
         p.setIdCategoryDefault(new CategoriaEcomDAO().abrir(produtoERP.getCodCategoria()).getIdCategoriaEcom());
@@ -165,7 +167,7 @@ public class ProductController {
                         gradeOptions.setId(this.getIdSubGradeEcom(grade));
                         subGradeOptions.setId(this.getIdSubGradeEcom(subGrade));
                         prodOptionsValues.add(gradeOptions);
-                        prodOptionsValues.add(subGradeOptions);                        
+                        prodOptionsValues.add(subGradeOptions);
                     }
                 }
             }
@@ -180,6 +182,7 @@ public class ProductController {
 
     /**
      * Retorna o id da grade na loja virtual, cadastra caso não exista
+     *
      * @param grade
      * @return
      */
@@ -203,8 +206,7 @@ public class ProductController {
             return 0;
         }
     }
-  
-    
+
     /**
      * Retorna o id da grade na loja virtual, cadastra caso não exista
      *
@@ -212,7 +214,6 @@ public class ProductController {
      * @return
      */
     private int getIdSubGradeEcom(SubGradeERPBean grade) {
-        AtributoGradeEcomDAO atributoDao = new AtributoGradeEcomDAO();
         SubGradeERPDAO gradeDao = new SubGradeERPDAO();
         ProductOptionValueController prodValueController = new ProductOptionValueController();
         try {
@@ -224,11 +225,12 @@ public class ProductController {
                     grade.setIdSubgradeEcom(idProdOptionValue);
                     gradeDao.alterar(grade);
                 }
-            } 
+            }
+            Logger.getLogger(ProductController.class).info("Id da subgrade na loja virtual, retornado com sucesso.");
             return grade.getIdSubgradeEcom();
         } catch (Exception e) {
+            Logger.getLogger(ProductController.class).info("Erro ao retornar id da subgrade na loja virtual: " + e);
             return 0;
-
         }
     }
 
@@ -253,5 +255,44 @@ public class ProductController {
         }
         return condition;
 
+    }
+
+    /**
+     * Cria nó de combinação de grades
+     *
+     * @param produtoERP
+     * @return
+     */
+    private CombinationsNode createCombinations(ProdutoERPBean produtoERP) {
+        CombinationsNode combinations = new CombinationsNode();
+        CombinationController combinationsController = new CombinationController();
+        ProdGradeERPDAO prodGradeDAO = new ProdGradeERPDAO();
+        List<ProdGradeERPBean> listProdGrade = null;
+        try {
+            List<CombinationsChild> listCombinationsChilds = new ArrayList<>();
+            if (produtoERP.getGrade() == 1) {
+                listProdGrade = prodGradeDAO.searchGradeComumByCodProd(produtoERP.getCodProd());
+            }
+            if (produtoERP.getGrade() == 2) {
+                listProdGrade = prodGradeDAO.searchGradeCompostaByCodProd(produtoERP.getCodProd());
+            }
+            for (ProdGradeERPBean prodGradeERP : listProdGrade) {
+                prodGradeERP.setTipoGrade(produtoERP.getGrade());
+                CombinationsChild child = new CombinationsChild();                
+                if(prodGradeERP.getIdProdGradeEcom()==0){
+                    int idCombination = combinationsController.createCombination(prodGradeERP);
+                    prodGradeERP.setIdProdGradeEcom(idCombination);
+                    prodGradeDAO.alterar(prodGradeERP);
+                }
+                child.setId(prodGradeERP.getIdProdGradeEcom());
+                listCombinationsChilds.add(child);
+            }
+            combinations.setCombinations(listCombinationsChilds);
+            Logger.getLogger(ProductController.class).info("Combinação de grade criada com sucesso.");
+            return combinations;
+        } catch (Exception e) {
+            Logger.getLogger(ProductController.class).info("Erro ao criar combinação de grade: " + e);
+            return null;
+        }
     }
 }

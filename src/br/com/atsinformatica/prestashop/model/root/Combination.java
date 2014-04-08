@@ -4,6 +4,7 @@
  */
 package br.com.atsinformatica.prestashop.model.root;
 
+import br.com.atsinformatica.prestashop.model.node.AssociationsNode;
 import br.com.atsinformatica.prestashop.model.node.Ecotax;
 import br.com.atsinformatica.prestashop.model.node.Price;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,13 +35,14 @@ import javax.xml.bind.annotation.XmlType;
     "minimalQuantity",
     "defaultOn",
     "availableDate",
+    "associations",
         
 })
 @XmlRootElement(name = "combination")
 public class Combination {
     public static String URLCOMBINATION = "combinations/";
     @XmlElement(name = "id")    
-    private int id;
+    private String id;
     @XmlElement(name = "id_product")
     private int idProduct;
     @XmlElement(name = "location")
@@ -71,18 +73,20 @@ public class Combination {
     private String defaultOn;
     @XmlElement(name = "available_date")
     private String availableDate;
+    @XmlElement(name = "associations")
+    private AssociationsNode associations;
 
     /**
      * @return the id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -294,6 +298,20 @@ public class Combination {
      */
     public void setAvailableDate(String availableDate) {
         this.availableDate = availableDate;
+    }
+
+    /**
+     * @return the associations
+     */
+    public AssociationsNode getAssociations() {
+        return associations;
+    }
+
+    /**
+     * @param associations the associations to set
+     */
+    public void setAssociations(AssociationsNode associations) {
+        this.associations = associations;
     }
     
     

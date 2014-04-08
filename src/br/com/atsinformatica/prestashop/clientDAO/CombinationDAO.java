@@ -33,7 +33,7 @@ public class CombinationDAO extends GenericPrestashopDAO<Combination> implements
         prestashop.setCombination(p);
         String xml = createTOXML(prestashop);
         Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
-        return post.getCombination().getId();
+        return Integer.parseInt(post.getCombination().getId());
     }
 
     @Override

@@ -58,7 +58,7 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     @Override
     public void update(ProdutoERPBean obj) {
         try {
-            prodController.updateProduto(obj);
+            prodController.updateProduto(obj);            
         } catch (SQLException ex) {
             //Logger.getLogger(ProdutoERPController.class.getName()).log(Level.SEVERE, null, ex);
         }

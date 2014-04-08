@@ -17,6 +17,7 @@ public class ProdGradeERPBean {
     private String descricaoGrade; 
     private Double estoque;
     private int idProdGradeEcom;
+    private int tipoGrade;
 
     /**
      * @return the codProd
@@ -114,6 +115,20 @@ public class ProdGradeERPBean {
      */
     public void setEstoque(Double estoque) {
         this.estoque = estoque;
+    }
+
+    /**
+     * @return the tipoGrade
+     */
+    public int getTipoGrade() {
+        return tipoGrade;
+    }
+
+    /**
+     * @param tipoGrade the tipoGrade to set
+     */
+    public void setTipoGrade(int tipoGrade) {
+        this.tipoGrade = tipoGrade;
     }
     
     
