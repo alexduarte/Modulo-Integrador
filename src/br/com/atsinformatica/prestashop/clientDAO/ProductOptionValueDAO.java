@@ -38,12 +38,12 @@ public class ProductOptionValueDAO extends GenericPrestashopDAO<ProductOptionVal
         System.out.println("Response: "+response);
     }
     
-     public int posProductOptionValue(String path, ProductOptionValue p){
+     public int postProductOptionValue(String path, ProductOptionValue p){
         Prestashop prestashop = new Prestashop();
         prestashop.setProductOptionValue(p);
         String xml = createTOXML(prestashop);
         Prestashop post = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(Prestashop.class, xml);
-        return post.getProductOptionValue().getId();
+        return Integer.parseInt(post.getProductOptionValue().getId());
     }
 
     @Override

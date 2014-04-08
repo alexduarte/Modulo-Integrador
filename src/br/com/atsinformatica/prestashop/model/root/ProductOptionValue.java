@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ProductOptionValue {
     public static String URLPRODUCTOPTIONVALUE = "product_option_values/";    
     @XmlElement(name = "id")
-    private int id;
+    private String id;
     @XmlElement(name = "id_attribute_group")
     private int idAttributeGroup;
     @XmlElement(name = "position")
@@ -34,19 +34,7 @@ public class ProductOptionValue {
     @XmlElement(name = "name")
     private Name name;
 
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
+   
 
     /**
      * @return the idAttributeGroup
@@ -88,6 +76,20 @@ public class ProductOptionValue {
      */
     public void setName(Name name) {
         this.name = name;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
     }
     
     

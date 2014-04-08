@@ -34,7 +34,7 @@ public class GradeERPDAO implements IGenericDAO<GradeERPBean> {
         try {
             conn = ConexaoATS.conectaERP();
             String querie = "UPDATE GRADE                  "
-                          + " IDGRADEECOM = ?              "
+                          + " SET IDGRADEECOM = ?          "
                           + "WHERE CODGRADE = ?            ";
             pstmt = conn.prepareStatement(querie);
             pstmt.setString(1, object.getCodGrade());
@@ -54,34 +54,33 @@ public class GradeERPDAO implements IGenericDAO<GradeERPBean> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public GradeERPBean abrir(String id) throws SQLException {
+    public GradeERPBean abrirGradeEcom(String id) throws SQLException {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        try{
+        try {
             conn = ConexaoATS.conectaERP();
             String sql = "Select * from grade where     "
-                        +"IDGRADEECOM = ?               ";
+                    + "IDGRADEECOM = ?               ";
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, Integer.parseInt(id));
             rs = pstmt.executeQuery();
             GradeERPBean grade = null;
-            while(rs.next()){
+            while (rs.next()) {
                 grade = new GradeERPBean();
                 grade.setCodGrade(rs.getString("codgrade"));
-                grade.setDescricao(rs.getString("descricao"));
+                grade.setDescricaoGrade(rs.getString("descricao"));
                 grade.setIdGradeEcom(rs.getInt("idgradeecom"));
             }
             Logger.getLogger(ProdGradeERPDAO.class).info("Grade retornada com sucesso!");
             return grade;
-        }catch(Exception e){
-            Logger.getLogger(ProdGradeERPDAO.class).error("Erro ao retornar grade: "+e);
-            return null;            
-        }finally{
+        } catch (Exception e) {
+            Logger.getLogger(ProdGradeERPDAO.class).error("Erro ao retornar grade: " + e);
+            return null;
+        } finally {
             rs.close();
             pstmt.close();
         }
-    
+
     }
 
     @Override
@@ -98,7 +97,7 @@ public class GradeERPDAO implements IGenericDAO<GradeERPBean> {
             while (rs.next()) {
                 grade = new GradeERPBean();
                 grade.setCodGrade(rs.getString("codgrade"));
-                grade.setDescricao(rs.getString("descricao"));
+                grade.setDescricaoGrade(rs.getString("descricao"));
                 grade.setIdGradeEcom(rs.getInt("idgradeecom"));
                 lista.add(grade);
             }
@@ -117,5 +116,34 @@ public class GradeERPDAO implements IGenericDAO<GradeERPBean> {
     @Override
     public String ultimoRegistro() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GradeERPBean abrir(String id) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+            String sql = "Select * from grade where     "
+                    + "codgrade = ?               ";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            GradeERPBean grade = null;
+            while (rs.next()) {
+                grade = new GradeERPBean();
+                grade.setCodGrade(rs.getString("codgrade"));
+                grade.setDescricaoGrade(rs.getString("descricao"));
+                grade.setIdGradeEcom(rs.getInt("idgradeecom"));
+            }
+            Logger.getLogger(ProdGradeERPDAO.class).info("Grade retornada com sucesso!");
+            return grade;
+        } catch (Exception e) {
+            Logger.getLogger(ProdGradeERPDAO.class).error("Erro ao retornar grade: " + e);
+            return null;
+        } finally {
+            rs.close();
+            pstmt.close();
+        }
     }
 }

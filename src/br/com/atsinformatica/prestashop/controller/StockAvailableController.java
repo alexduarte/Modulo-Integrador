@@ -21,4 +21,8 @@ public class StockAvailableController {
         new StockAvailableDAO().put(StockAvailable.URLSTOCKAVAILABLE, stock);
     }
     
+    public StockAvailable getStock(int idStock){
+        return new StockAvailableDAO().getId(StockAvailable.URLSTOCKAVAILABLE, idStock);
+    }
+    
 }

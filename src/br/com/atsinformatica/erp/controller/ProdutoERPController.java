@@ -4,15 +4,21 @@
  */
 package br.com.atsinformatica.erp.controller;
 
+import br.com.atsinformatica.erp.dao.GradeERPDAO;
+import br.com.atsinformatica.erp.dao.ProdGradeERPDAO;
 import br.com.atsinformatica.erp.dao.ProdutoDAO;
+import br.com.atsinformatica.erp.entity.GradeERPBean;
+import br.com.atsinformatica.erp.entity.ProdGradeERPBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.prestashop.controller.ProductController;
+import br.com.atsinformatica.prestashop.controller.ProductOptionValueController;
 import br.com.atsinformatica.prestashop.controller.StockAvailableController;
 import br.com.atsinformatica.prestashop.model.root.Product;
 import br.com.atsinformatica.prestashop.model.root.StockAvailable;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 /**
  * Controladora de sincronização do produto do ERP
@@ -31,23 +37,22 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     @Override
     public void post(ProdutoERPBean obj) throws Exception {
         StockAvailableController stockController = new StockAvailableController();
-        Product p = prodController.createProductPrestashop(obj);
-        if (p != null) {
-            StockAvailable stock = new StockAvailable();
-            stock.setId(p.getStockAvailables().getStockAvailable().get(0).getId());
-            stock.setQuantity(obj.getEstoqueDisponivel().intValue());
-            int idProduct = Integer.parseInt(p.getId().getContent());
-            stock.setIdProduct(idProduct);
-            obj.setIdProdutoEcom(idProduct);            
-            stockController.updateStockAvailable(stock);
-            if(obj.getGrade()!=0){
-                //chama contralodora da grade, cadastra atributo e grade na loja virtual
-                //retorna codigo de cadastradas para serem inserida na combinação do produto
-                
+        ProdutoDAO dao = new ProdutoDAO();
+        try {
+            Product p = prodController.createProductPrestashop(obj);
+            if (p != null) {
+                StockAvailable stock = stockController.getStock(p.getAssociations().getStockAvailables().getStockAvailable().get(0).getId());
+                obj.setIdProdutoEcom(Integer.parseInt(p.getId().getContent()));
+                stock.setQuantity(Integer.parseInt(obj.getEstoqueDisponivel().toString()));
+                stockController.updateStockAvailable(stock);
+                dao.alterar(obj);
             }
-            ProdutoDAO dao = new ProdutoDAO();
-            dao.alterar(obj);
+            Logger.getLogger(ProdutoERPController.class).info("Produto cadastrado com sucesso na loja virtual.");
+        } catch (Exception e) {
+            Logger.getLogger(ProdutoERPController.class).info("Erro ao cadastrar produto na loja virtual: " + e);
+
         }
+
     }
 
     @Override
@@ -55,7 +60,7 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
         try {
             prodController.updateProduto(obj);
         } catch (SQLException ex) {
-            Logger.getLogger(ProdutoERPController.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ProdutoERPController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

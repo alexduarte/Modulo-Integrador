@@ -9,10 +9,26 @@ package br.com.atsinformatica.erp.entity;
  * @author AlexsanderPimenta
  */
 public class GradeERPBean {
-    private String codGrade;
-    private String descricao;
-    private int idGradeEcom;
+
+    private String codGrade;    
+    private String descricaoGrade;       
     private int idAtributo;
+    private int idGradeEcom;
+
+
+    /**
+     * @return the idAtributo
+     */
+    public int getIdAtributo() {
+        return idAtributo;
+    }
+
+    /**
+     * @param idAtributo the idAtributo to set
+     */
+    public void setIdAtributo(int idAtributo) {
+        this.idAtributo = idAtributo;
+    }
 
     /**
      * @return the codGrade
@@ -29,17 +45,17 @@ public class GradeERPBean {
     }
 
     /**
-     * @return the descricao
+     * @return the descricaoGrade
      */
-    public String getDescricao() {
-        return descricao;
+    public String getDescricaoGrade() {
+        return descricaoGrade;
     }
 
     /**
-     * @param descricao the descricao to set
+     * @param descricaoGrade the descricaoGrade to set
      */
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescricaoGrade(String descricaoGrade) {
+        this.descricaoGrade = descricaoGrade;
     }
 
     /**
@@ -56,19 +72,7 @@ public class GradeERPBean {
         this.idGradeEcom = idGradeEcom;
     }
 
-    /**
-     * @return the idAtributo
-     */
-    public int getIdAtributo() {
-        return idAtributo;
-    }
-
-    /**
-     * @param idAtributo the idAtributo to set
-     */
-    public void setIdAtributo(int idAtributo) {
-        this.idAtributo = idAtributo;
-    }
-
    
+   
+
 }

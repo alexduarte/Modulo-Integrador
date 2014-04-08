@@ -37,8 +37,6 @@ public class ProdutoERPBean {
     private int grade;
     private String codGrade;
     private Double peso;
-    private List<ProdGradeERPBean> listaProdGrade;
-    private List<AtributoGradeEcom> listaAtributoGradeEcom;
    
     private boolean importadoLoja;
        
@@ -51,7 +49,7 @@ public class ProdutoERPBean {
         this.idProdutoEcom = rs.getInt("idprodutoecom");
        // this.estoqueDisponivel = rs.getDouble("estoquedisponivel");
         this.grade = rs.getInt("grade");
-        this.codGrade = rs.getString("codgrade");
+      //  this.codGrade = rs.getString("codgrade");
         this.codFabricante = rs.getString("codfabric");
         this.altura = rs.getDouble("altura");
         this.largura = rs.getDouble("largura");
@@ -365,20 +363,6 @@ public class ProdutoERPBean {
     }
 
     /**
-     * @return the listaProdGrade
-     */
-    public List<ProdGradeERPBean> getListaProdGrade() {
-        return listaProdGrade;
-    }
-
-    /**
-     * @param listaProdGrade the listaProdGrade to set
-     */
-    public void setListaProdGrade(List<ProdGradeERPBean> listaProdGrade) {
-        this.listaProdGrade = listaProdGrade;
-    }
-
-    /**
      * @return the peso
      */
     public Double getPeso() {
@@ -404,22 +388,5 @@ public class ProdutoERPBean {
      */
     public void setAtivo(String ativo) {
         this.ativo = ativo;
-    }
-
-    /**
-     * @return the listaAtributoGradeEcom
-     */
-    public List<AtributoGradeEcom> getListaAtributoGradeEcom() {
-        return listaAtributoGradeEcom;
-    }
-
-    /**
-     * @param listaAtributoGradeEcom the listaAtributoGradeEcom to set
-     */
-    public void setListaAtributoGradeEcom(List<AtributoGradeEcom> listaAtributoGradeEcom) {
-        this.listaAtributoGradeEcom = listaAtributoGradeEcom;
-    }
-
-    
-    
+    }    
 }
