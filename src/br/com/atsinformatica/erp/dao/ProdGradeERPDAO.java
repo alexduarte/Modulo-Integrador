@@ -29,16 +29,16 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
         ResultSet rs  = null;
         try{                       
             conn = ConexaoATS.conectaERP();            
-            String sql = "SELECT grade.codgrade,                                 " +
-                       "grade.descricao,                                         " +
-                       "(compprod.estoque - compprod.quantbloqueada) AS estoque, "+
-                       "prodgrade.precograde                                     " +
+            String sql = "SELECT grade.codgrade,                                              " +
+                       "grade.descricao,                                                      " +
+                       "(compprod.estoque - compprod.quantbloqueada) AS estoque,              " +
+                       "prodgrade.precograde                                                  " +
                        "FROM grade INNER JOIN compprod  ON grade.codgrade = compprod.codgrade " +
-                       "INNER JOIN prodgrade ON prodgrade.codgrade = compprod.codgrade " +
-                       "AND prodgrade.codprod  = compprod.codprod                " +
-                       "WHERE prodgrade.ativa = 'S'                              " +
-                       "AND compprod.codprod = ?                                 " +
-                       "AND compprod.codempresa = ?";                       
+                       "INNER JOIN prodgrade ON prodgrade.codgrade = compprod.codgrade        " +
+                       "AND prodgrade.codprod  = compprod.codprod                             " +
+                       "WHERE prodgrade.ativa = 'S'                                           " +
+                       "AND compprod.codprod = ?                                              " +
+                       "AND compprod.codempresa = ?                                           ";                       
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, codProd);             
             pstmt.setString(2, new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom());                             
@@ -72,20 +72,20 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
          ResultSet rs = null;
          try{                       
             conn = ConexaoATS.conectaERP();            
-            String sql ="SELECT compprod.codgrade, " +
-                                  "SG1.descsubgrade|| ' ' ||SG2.descsubgrade AS descricao, " +
-                                  "(compprod.estoque - compprod.quantbloqueada) AS estoque, " +
-                                  "prodgrade.ativa, "+
-                                  "prodgrade.precograde " +
+            String sql ="SELECT compprod.codgrade,                                                                                         " +
+                                  "SG1.descsubgrade|| ' ' ||SG2.descsubgrade AS descricao,                                                 " +
+                                  "(compprod.estoque - compprod.quantbloqueada) AS estoque,                                                " +
+                                  "prodgrade.ativa,                                                                                        " +
+                                  "prodgrade.precograde                                                                                    " +
                                   "FROM SUBGRADE SG1, SUBGRADE SG2, compprod INNER JOIN prodgrade ON compprod.codprod  = prodgrade.codprod " +
-                                  "AND compprod.codgrade = prodgrade.codgrade " +
-                                  "WHERE(SG1.CODSUBGRADE = SUBSTRING(compprod.codgrade FROM 1 FOR 2)) " +
-                                  "AND(SG1.TIPODIVISAO = 1) " +
-                                  "AND(SG2.CODSUBGRADE = SUBSTRING(compprod.codgrade FROM 3 FOR 2)) " +
-                                  "AND(SG2.TIPODIVISAO = 2) " +
-                                  "AND prodgrade.ativa = 'S' " +
-                                  "AND prodgrade.codprod = ? "+                                              
-                                  "AND compprod.codempresa = ?";
+                                  "AND compprod.codgrade = prodgrade.codgrade                                                              " +
+                                  "WHERE(SG1.CODSUBGRADE = SUBSTRING(compprod.codgrade FROM 1 FOR 2))                                      " +
+                                  "AND(SG1.TIPODIVISAO = 1)                                                                                " +
+                                  "AND(SG2.CODSUBGRADE = SUBSTRING(compprod.codgrade FROM 3 FOR 2))                                        " +
+                                  "AND(SG2.TIPODIVISAO = 2)                                                                                " +
+                                  "AND prodgrade.ativa = 'S'                                                                               " +
+                                  "AND prodgrade.codprod = ?                                                                               " +                                              
+                                  "AND compprod.codempresa = ?                                                                             ";
             pstmt = ConexaoATS.getConnection().prepareStatement(sql);
             pstmt.setString(1, codProd);
             pstmt.setString(2, new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom());            

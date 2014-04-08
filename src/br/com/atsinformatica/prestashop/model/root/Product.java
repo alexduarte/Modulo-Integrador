@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.*;
     "description",
     "metaDescription",
     "metaKeyWord",
-    "stockAvailables",
     "availableForOrder",
     "showPrice",
     "associations",
@@ -66,8 +65,6 @@ public class Product {
     private MetaDescription metaDescription;
     @XmlElement(name = "meta_keywords")
     private MetaKeyWord metaKeyWord;
-    @XmlElement(name = "stock_availables")
-    private StockAvailablesNode stockAvailables;
     @XmlElement(name="available_for_order")
     private int availableForOrder;
     @XmlElement(name="show_price")
@@ -264,21 +261,7 @@ public class Product {
     public void setDepth(String depth) {
         this.depth = depth;
     }
-
-    /**
-     * @return the stockAvailables
-     */
-    public StockAvailablesNode getStockAvailables() {
-        return stockAvailables;
-    }
-
-    /**
-     * @param stockAvailables the stockAvailables to set
-     */
-    public void setStockAvailables(StockAvailablesNode stockAvailables) {
-        this.stockAvailables = stockAvailables;
-    }
-
+    
     /**
      * @return the availableForOrder
      */

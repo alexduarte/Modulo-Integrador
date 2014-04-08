@@ -13,8 +13,7 @@ public class SubGradeERPBean {
     private String descSubGrade;
     private int tipoDivisao;
     private int idSubgradeEcom;
-    private int idAtributo01;
-    private int idAtributo02;
+    private int idAtributo;
 
     /**
      * @return the codSubgrade
@@ -73,33 +72,17 @@ public class SubGradeERPBean {
     }
 
     /**
-     * @return the idAtributo01
+     * @return the idAtributo
      */
-    public int getIdAtributo01() {
-        return idAtributo01;
+    public int getIdAtributo() {
+        return idAtributo;
     }
 
     /**
-     * @param idAtributo01 the idAtributo01 to set
+     * @param idAtributo the idAtributo to set
      */
-    public void setIdAtributo01(int idAtributo01) {
-        this.idAtributo01 = idAtributo01;
+    public void setIdAtributo(int idAtributo01) {
+        this.idAtributo = idAtributo01;
     }
 
-    /**
-     * @return the idAtributo02
-     */
-    public int getIdAtributo02() {
-        return idAtributo02;
-    }
-
-    /**
-     * @param idAtributo02 the idAtributo02 to set
-     */
-    public void setIdAtributo02(int idAtributo02) {
-        this.idAtributo02 = idAtributo02;
-    }
-    
-    
-    
 }

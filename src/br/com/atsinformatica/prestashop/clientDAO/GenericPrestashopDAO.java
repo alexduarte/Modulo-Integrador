@@ -90,9 +90,6 @@ public class GenericPrestashopDAO<T> {
             JAXBContext context = JAXBContext.newInstance(Prestashop.class);
             Unmarshaller unmarshalContext = context.createUnmarshaller();
             Prestashop p = (Prestashop) unmarshalContext.unmarshal(new StringReader(xml));
-            StockAvailablesNode stocks = new StockAvailablesNode();
-            stocks.getStockAvailable().add(getStockByTagName(xml));
-            p.getProduct().setStockAvailables(stocks);
             return p;
         } catch (Exception e) {
             e.printStackTrace();

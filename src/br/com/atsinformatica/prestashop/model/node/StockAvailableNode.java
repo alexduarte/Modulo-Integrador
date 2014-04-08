@@ -6,6 +6,7 @@ package br.com.atsinformatica.prestashop.model.node;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -25,8 +26,8 @@ public class StockAvailableNode {
     @XmlElement(name = "id", required = true)
    // @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
     private int id;
-    //@XmlAttribute(name = "xlink:href", required = true)
-    //protected String href ="http://192.168.2.249/lojaprestashop/api/stock_availables/:id";
+    @XmlAttribute(name = "xlink:href", required = true)
+    protected String href ="";
     @XmlElement(name = "id_product_attribute", required = true)
     private int idProductAttribute;
 
