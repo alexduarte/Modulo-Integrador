@@ -4,7 +4,6 @@
  */
 package br.com.atsinformatica.erp.dao;
 
-import br.com.atsinformatica.erp.entity.AtributoGradeEcom;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;

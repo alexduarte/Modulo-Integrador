@@ -37,7 +37,7 @@ public class GradeERPDAO implements IGenericDAO<GradeERPBean> {
                           + " SET IDGRADEECOM = ?          "
                           + "WHERE CODGRADE = ?            ";
             pstmt = conn.prepareStatement(querie);
-            pstmt.setString(1, object.getCodGrade());
+            pstmt.setInt(1, object.getIdGradeEcom());
             pstmt.setString(2, object.getCodGrade());
             pstmt.executeUpdate();
             Logger.getLogger(GradeERPDAO.class).info("Grade alterada com sucesso!");

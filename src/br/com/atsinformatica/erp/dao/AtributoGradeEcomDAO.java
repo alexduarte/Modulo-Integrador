@@ -63,9 +63,9 @@ public class AtributoGradeEcomDAO implements IGenericDAO<AtributoGradeEcom> {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            if (conn == null) {
-                conn = ConexaoATS.conectaERP();
-            }
+            //if (conn == null) {
+            conn = ConexaoATS.conectaERP();
+            //}
             String sql = "SELECT * FROM ATRIBUTOGRADEECOM   "
                     + "WHERE CODATRIBUTO =?";
             pstmt = conn.prepareStatement(sql);
