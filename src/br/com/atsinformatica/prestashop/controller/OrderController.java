@@ -5,6 +5,7 @@
  */
 package br.com.atsinformatica.prestashop.controller;
 
+import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.dao.PedidoCERPDAO;
 import br.com.atsinformatica.erp.entity.PedidoCERPBean;
 import br.com.atsinformatica.erp.entity.PedidoIERPBean;
@@ -58,9 +59,12 @@ public class OrderController {
         List<PedidoIERPBean> listItens = new ArrayList<>();
         List<Order> listOrder = dao.get(Order.URLORDER);
 
-        
         List<OrderRowNode> listOrderRowNode = new ArrayList<>();
-
+        /*
+         qtdRegistroSinc tem a quantidade de registro a sincronizar configurado.
+         */
+        int qtdRegistroSinc = new ParaEcomDAO().listaTodos().get(0).getQtdeRegistros();
+        int coutOrdersAdd = 0;
         for (Order order : listOrder) {
 
             bean = new PedidoCERPBean();
@@ -104,7 +108,17 @@ public class OrderController {
 
                         listOrderRowNode = order.getAssociations().getOrderRowsNode().getOrderRow();
                         bean.setListItensPedido(listOrderRowNode);
+                        /*
+                        (lista.add(bean) Adiciona o bean a lista a sincronizar.
+                        (coutOrdersAdd += 1) incrementa o contador de bean 
+                        O IF verifica se já atingiu o limite de registro a ser sincronizado.
+                        */
                         lista.add(bean);
+                        coutOrdersAdd += 1;
+                        if (coutOrdersAdd >= qtdRegistroSinc) {
+                            break;
+                        }
+
                     }
                 }
             }

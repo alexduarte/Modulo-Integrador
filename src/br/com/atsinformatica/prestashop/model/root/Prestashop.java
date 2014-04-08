@@ -22,7 +22,8 @@ import javax.xml.bind.annotation.*;
     "combination",
     "productOption",
     "productOptionValue",    
-    "stockAvailable",  
+    "stockAvailable", 
+    "carrier",
 })
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
@@ -67,6 +68,9 @@ public class Prestashop {
     
     @XmlElement(name = "state", required = true)
     private State state;
+    
+    @XmlElement(name = "carrier", required = true)
+    private Carrier carrier;
 
     public ProductFeature getProductFeature() {
         return productFeature;
@@ -219,6 +223,14 @@ public class Prestashop {
      */
     public void setState(State state) {
         this.state = state;
+    }
+
+    public Carrier getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(Carrier carrier) {
+        this.carrier = carrier;
     }
 
 }

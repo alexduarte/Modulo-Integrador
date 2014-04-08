@@ -37,6 +37,7 @@ public class PedidoCERPBean {
     private String reference;
     private String hora;
     private List<OrderRowNode> listItensPedido = new ArrayList<>();
+    private String observacao;
 
     public String getId_erp() {
         return id_erp;
@@ -204,6 +205,14 @@ public class PedidoCERPBean {
 
     public void setListItensPedido(List<OrderRowNode> listItensPedido) {
         this.listItensPedido = listItensPedido;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 
 }
