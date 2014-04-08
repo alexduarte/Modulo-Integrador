@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  */
 public class PedidoIERPDAO implements IGenericDAO<PedidoIERPDAO> {
 
-    private static Logger logger = Logger.getLogger(ListaPedidoDAO.class);
+    private static Logger logger = Logger.getLogger(PedidoIERPDAO.class);
     private Connection conn;
 
     @Override
@@ -60,9 +60,10 @@ public class PedidoIERPDAO implements IGenericDAO<PedidoIERPDAO> {
 
             //Gerando log
             LogERP.geraLog("PEDIDOI", pedidoIERPBean.getCodPedido(), "Inclusão", "Incluindo itens do pedido sincronizado do Ecommercer");
+            logger.info("Produto ERP: " + pedidoIERPBean.getCodProdERP() + " do Pedido ERP: (" + pedidoIERPBean.getCodPedido() + "), Gravado com sucesso.");
             return true;
         } catch (Exception e) {
-            logger.error("Erro ao soncronizar Item do Pedido Ecom ( " + pedidoIERPBean.getCodPedido() + " ): " + e);
+            logger.error("Erro ao soncronizar Produto ERP: " + pedidoIERPBean.getCodProdERP() + "  do Pedido Ecom ( " + pedidoIERPBean.getCodPedido() + " ): " + e);
             return false;
         } finally {
             conn.close();
@@ -96,34 +97,4 @@ public class PedidoIERPDAO implements IGenericDAO<PedidoIERPDAO> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public String retornaCodClienteERP(String codClienteEcom) throws SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        String codClienteERP = "00000000";
-        try {
-            conn = ConexaoATS.conectaERP();
-            
-            String sql = "SELECT C.CODCLIENTE COD FROM CLIENTE  C "
-                    + "                       WHERE C.CODCLIENTEECOM = ? ";
-
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, codClienteEcom);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                if (rs.getString("cod") != null) {
-                    codClienteERP = rs.getString("CODCLIENTE");
-                }
-            }
-            return Funcoes.preencheCom(codClienteERP, "0", 8, Funcoes.LEFT);
-        } catch (Exception e) {
-            return "00000000";
-        } finally {
-            pstmt.close();
-            rs.close();
-        }
-    }
-    
-
-    
 }
