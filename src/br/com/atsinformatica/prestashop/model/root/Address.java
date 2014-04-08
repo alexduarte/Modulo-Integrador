@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlType;
     "lastname",
     "firstname",
     "address1", //Endereço
-    "numero",//numero Enreceço
     "address2", //Bairro
     "postcode", //CEP
     "city", // Cidade
@@ -31,7 +30,6 @@ import javax.xml.bind.annotation.XmlType;
     "phone", //Telefone
     "phone_mobile", //Telefone Movel
     "id_state", //ID do Estado
-
 })
 
 public class Address {
@@ -48,8 +46,6 @@ public class Address {
     private String firstname;
     @XmlElement(name = "address1")
     private String address1;
-    @XmlElement(name = "numero")
-    private String numero;    
     @XmlElement(name = "address2")
     private String address2;
     @XmlElement(name = "postcode")
@@ -103,14 +99,6 @@ public class Address {
 
     public void setAddress1(String address1) {
         this.address1 = address1;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
     }
 
     public String getAddress2() {
