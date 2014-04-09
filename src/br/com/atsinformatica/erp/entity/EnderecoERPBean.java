@@ -20,6 +20,7 @@ public class EnderecoERPBean {
     private String address2;
     private String postcode;
     private String city;
+    private String codCity;    
     private String other;
     private String phone;
     private String phone_mobile;
@@ -28,12 +29,14 @@ public class EnderecoERPBean {
     private String numeroCob;
     private String bairroCob;
     private String cidadeCob;
+    private String codCidadeCob;
     private String estadoCob;
     private String cepCob;
     private String enderecoEnt;
     private String numeroEnt;
     private String bairroEnt;
     private String cidadeEnt;
+    private String codCidadeEnt;
     private String estadoEnt;
     private String cepEnt;    
 
@@ -235,6 +238,30 @@ public class EnderecoERPBean {
 
     public void setCepEnt(String cepEnt) {
         this.cepEnt = cepEnt;
+    }
+
+    public String getCodCity() {
+        return codCity;
+    }
+
+    public void setCodCity(String codCity) {
+        this.codCity = codCity;
+    }
+
+    public String getCodCidadeCob() {
+        return codCidadeCob;
+    }
+
+    public void setCodCidadeCob(String codCidadeCob) {
+        this.codCidadeCob = codCidadeCob;
+    }
+
+    public String getCodCidadeEnt() {
+        return codCidadeEnt;
+    }
+
+    public void setCodCidadeEnt(String codCidadeEnt) {
+        this.codCidadeEnt = codCidadeEnt;
     }
     
     
