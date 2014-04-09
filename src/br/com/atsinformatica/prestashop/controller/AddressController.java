@@ -5,6 +5,7 @@
  */
 package br.com.atsinformatica.prestashop.controller;
 
+import br.com.atsinformatica.erp.dao.ClienteERPDAO;
 import br.com.atsinformatica.erp.entity.EnderecoERPBean;
 import br.com.atsinformatica.prestashop.clientDAO.AddressPrestashopDAO;
 import br.com.atsinformatica.prestashop.model.root.Address;
@@ -20,11 +21,14 @@ public class AddressController {
 
     public EnderecoERPBean syncAddressControllerPrestashop(int codEntrega, int codCobranca) {
         AddressPrestashopDAO dao = new AddressPrestashopDAO();
+        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
 
         Address address = dao.getId(Address.URLADDRESS, codEntrega);
         EnderecoERPBean bean = new EnderecoERPBean();
         try {
-
+            /*
+             Buscando Endereço de Entrega
+             */
             bean.setId_customer(address.getId_customer());
             bean.setAlias(address.getAlias());
             bean.setLastname(address.getLastname());
@@ -34,10 +38,20 @@ public class AddressController {
             bean.setAddress2(address.getAddress2());
             bean.setPostcode(address.getPostcode());
             bean.setCity(address.getCity());
+            bean.setCodCity(clienteERPDAO.retornaCodCidade(address.getCity()));
             bean.setOther(address.getOther());
             bean.setPhone(address.getPhone());
             bean.setPhone_mobile(address.getPhone_mobile());
             bean.setId_state(address.getId_state());
+            
+            bean.setEnderecoEnt(address.getAddress1());
+            bean.setNumeroEnt(address.getNumero());
+            bean.setBairroEnt(address.getAddress2());
+            bean.setCepEnt(address.getPostcode());
+            bean.setCidadeEnt(address.getCity());
+            bean.setCodCidadeEnt(clienteERPDAO.retornaCodCidade(address.getCity()));            
+            bean.setEstadoEnt(address.getId_state());
+            
 
             /*
              Buscando Endereço de cobrança
@@ -49,6 +63,7 @@ public class AddressController {
             bean.setBairroCob(addressCobraca.getAddress2());
             bean.setCepCob(addressCobraca.getPostcode());
             bean.setCidadeCob(addressCobraca.getCity());
+            bean.setCodCidadeCob(clienteERPDAO.retornaCodCidade(addressCobraca.getCity()));            
             bean.setEstadoCob(addressCobraca.getId_state());
 
         } catch (Exception e) {
