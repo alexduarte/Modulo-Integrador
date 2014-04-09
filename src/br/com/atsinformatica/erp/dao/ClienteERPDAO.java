@@ -71,7 +71,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.setString(15, estadoERPBean.getSigla());
             pstmt.setString(16, endereco.getEnderecoCob());
             pstmt.setString(17, endereco.getBairroCob());
-            pstmt.setString(18, retornaCodCidade(endereco.getCity()));
+            pstmt.setString(18, endereco.getCodCity());
             pstmt.setString(19, estadoERPBean.getSigla());
             pstmt.setString(20, endereco.getCepCob());
 
