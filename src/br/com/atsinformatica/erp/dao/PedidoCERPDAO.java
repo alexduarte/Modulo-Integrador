@@ -5,6 +5,8 @@
  */
 package br.com.atsinformatica.erp.dao;
 
+import br.com.atsinformatica.erp.entity.EnderecoERPBean;
+import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.erp.entity.PedidoCERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.utils.Funcoes;
@@ -116,8 +118,8 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setString(8, pedidoERPBean.getHora());
             pstmt.setDouble(9, Double.valueOf(pedidoERPBean.getTotal_shipping()));
             pstmt.setString(10, "FORMA DE ENVIO: " + pedidoERPBean.getObservacao()
-                              + ", FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
-                              + ", CÓDIGO DO PEDIDO NA LOJA VIRTUAL: " + pedidoERPBean.getReference());
+                    + ", FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
+                    + ", CÓDIGO DO PEDIDO NA LOJA VIRTUAL: " + pedidoERPBean.getReference());
 
             pstmt.executeUpdate();
 
@@ -128,6 +130,47 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
         } catch (Exception e) {
             logger.error("Erro ao soncronizar Pedido(ID Pedido ERP:(" + codPedido + ") ID ECOM:(" + pedidoERPBean.getId_ecom() + "), Referência:(" + pedidoERPBean.getReference() + ")): " + e);
             return null;
+        } finally {
+            conn.close();
+            pstmt.close();
+        }
+    }
+
+    public boolean gravarPedidoCompl(String codPedidoERP, String codClienteERP, EnderecoERPBean enderecoERPBean, EstadoERPBean estadoERPBean) throws SQLException {
+
+        PreparedStatement pstmt = null;
+        String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
+        try {
+
+            conn = ConexaoATS.conectaERP();
+            String sql = "INSERT INTO PEDIDOCCOMPL "
+                    + "    (CODEMPRESA, TIPOPEDIDO, CODPEDIDO, CODCLIENTE, "
+                    + "     ENDERECOENT, BAIRROENT, CODCIDADEENT, ESTADOENT, CEPENT) "
+                    + "    VALUES "
+                    + "    (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setString(1, codEmpresa);
+            pstmt.setString(2, "55");
+            pstmt.setString(3, codPedidoERP);
+            pstmt.setString(4, codClienteERP);
+
+            pstmt.setString(5, enderecoERPBean.getEnderecoEnt() + "," + enderecoERPBean.getNumeroEnt());
+            pstmt.setString(6, enderecoERPBean.getBairroEnt());
+            pstmt.setString(7, enderecoERPBean.getCodCidadeEnt());
+            pstmt.setString(8, estadoERPBean.getSigla());
+            pstmt.setString(9, enderecoERPBean.getCepEnt());
+
+            pstmt.executeUpdate();
+
+            //Gerando log
+            LogERP.geraLog("PEDIDOCCOMPL", codPedidoERP, "Inclusão", "Incluindo complemento do pedido sincronizado do Ecommercer");
+            logger.info("Complemento do Pedido ERP:(" + codPedidoERP + ") gravado com sucesso.");
+            return true;
+        } catch (Exception e) {
+            logger.error("Erro ao Gravar complemento do Pedido(ID Pedido ERP:(" + codPedidoERP + "): " + e);
+            return false;
         } finally {
             conn.close();
             pstmt.close();
