@@ -42,7 +42,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
             conn = ConexaoATS.conectaERP();
             String sql = " INSERT INTO CLIENTE (CODCLIENTE, CODCLIENTEECOM, NOME, NOMEFANTASIA, "
-                    + "                      EMAIL, DT_NASCIMENTO,ENDERECO, BAIRRO, CEP, FONE, CELULAR, "
+                    + "                      EMAIL, DT_NASCIMENTO,ENDERECO, BAIRRO, CEP, CODCIDADE, FONE, CELULAR, "
                     + "                      CGCCPF, PESSOA_FJ, INSCEST, ESTADO, ENDERECOCOB, BAIRROCOB, "
                     + "                      CODCIDADECOB, ESTADOCOB, CEPCOB ) "
                     + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
@@ -57,23 +57,24 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.setString(7, endereco.getAddress1() + ", " + endereco.getNumero());
             pstmt.setString(8, endereco.getAddress2());
             pstmt.setString(9, endereco.getPostcode());
-            pstmt.setString(10, endereco.getPhone());
-            pstmt.setString(11, endereco.getPhone_mobile());
-            pstmt.setString(12, cpf.getCpf_Cnpj());
-            pstmt.setString(13, cpf.getTipoDocumento());
+            pstmt.setString(10, endereco.getCodCity());       
+            pstmt.setString(11, endereco.getPhone());
+            pstmt.setString(12, endereco.getPhone_mobile());
+            pstmt.setString(13, cpf.getCpf_Cnpj());
+            pstmt.setString(14, cpf.getTipoDocumento());
 
             if (cpf.getTipoDocumento().equals("F")) {
-                pstmt.setString(14, "");
+                pstmt.setString(15, "");
             } else if (cpf.getTipoDocumento().equals("J")) {
-                pstmt.setString(14, cpf.getRg_inscricao());
+                pstmt.setString(15, cpf.getRg_inscricao());
             }
 
-            pstmt.setString(15, estadoERPBean.getSigla());
-            pstmt.setString(16, endereco.getEnderecoCob());
-            pstmt.setString(17, endereco.getBairroCob());
-            pstmt.setString(18, endereco.getCodCity());
-            pstmt.setString(19, estadoERPBean.getSigla());
-            pstmt.setString(20, endereco.getCepCob());
+            pstmt.setString(16, estadoERPBean.getSigla());
+            pstmt.setString(17, endereco.getEnderecoCob());
+            pstmt.setString(18, endereco.getBairroCob());
+            pstmt.setString(19, endereco.getCodCity());
+            pstmt.setString(20, estadoERPBean.getSigla());
+            pstmt.setString(21, endereco.getCepCob());
 
             pstmt.execute();
 
