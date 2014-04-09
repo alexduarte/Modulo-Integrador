@@ -48,7 +48,7 @@ public class PanelHistorico extends javax.swing.JPanel {
     //model para grid  sincronizar
     private ObjectTableModel modelSincronizar = new ObjectTableModel(resolverSinc, fields);
     private static Logger logger = Logger.getLogger(PanelHistorico.class);
-    
+
     /**
      * Creates new form PanelHistorico
      */
@@ -340,6 +340,7 @@ public class PanelHistorico extends javax.swing.JPanel {
             String codPedido = pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
             if (codPedido != null) {
                 String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
+                String codClienteERP = clienteERPDAO.retornaCodClienteERP(pedido.getId_customer());
                 PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
                 PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
                 ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -352,7 +353,7 @@ public class PanelHistorico extends javax.swing.JPanel {
 
                     pedidoIERPBean.setCodEmpresa(codEmpresa);
                     pedidoIERPBean.setCodPedido(codPedido);
-                    pedidoIERPBean.setCodClienteERP(clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
+                    pedidoIERPBean.setCodClienteERP(codClienteERP);
                     pedidoIERPBean.setCodProdERP(codProdutoERP);
                     pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
                     pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
@@ -361,6 +362,11 @@ public class PanelHistorico extends javax.swing.JPanel {
 
                     pedidoIERPDAO.gravar(pedidoIERPBean);
                 }
+
+                /*
+                 Gravando complemento do pedido                
+                 */
+                pedidoERPDAO.gravarPedidoCompl(codPedido, codClienteERP, beanEndereco, estadoERPBean);
 
             }
 
