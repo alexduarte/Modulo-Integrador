@@ -71,7 +71,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
             pstmt.setString(15, estadoERPBean.getSigla());
             pstmt.setString(16, endereco.getEnderecoCob());
             pstmt.setString(17, endereco.getBairroCob());
-            pstmt.setString(18, "");//endereco.getCidadeCob() retorna o nome, o campo recebe o codigo
+            pstmt.setString(18, retornaCodCidade(endereco.getCity()));
             pstmt.setString(19, estadoERPBean.getSigla());
             pstmt.setString(20, endereco.getCepCob());
 
@@ -124,7 +124,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
             pstmt.setString(14, endereco.getEnderecoCob() + ", " + endereco.getNumeroCob());
             pstmt.setString(15, endereco.getBairroCob());
-            pstmt.setString(16, "");//endereco.getCidadeCob() retorna o nome, o campo recebe o codigo
+            pstmt.setString(16, retornaCodCidade(endereco.getCity()));
             pstmt.setString(17, estadoERPBean.getSiglaCobracao());
             pstmt.setString(18, endereco.getCepCob());
 
@@ -245,4 +245,32 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
         }
     }
 
+    public String retornaCodCidade(String nomeCidade) throws SQLException {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String codCidadeERP = null;
+        try {
+            conn = ConexaoATS.conectaERP();
+
+            String sql = "SELECT C.CODCIDADE FROM CIDADES  C "
+                    + "                       WHERE C.CIDADE = ? ";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nomeCidade.toUpperCase());
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("CODCIDADE") != null) {
+                    codCidadeERP = rs.getString("CODCIDADE");
+                }
+            }
+            return Funcoes.preencheCom(codCidadeERP, "0", 5, Funcoes.LEFT);
+        } catch (Exception e) {
+            logger.error("Erro ao retornar codigo da cidade, Cidade Ecom (" + nomeCidade + "): " + e);
+            return null;
+        } finally {
+            pstmt.close();
+            rs.close();
+        }
+    }
 }
