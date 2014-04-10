@@ -10,7 +10,6 @@ import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.erp.dao.GradeERPDAO;
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.dao.ProdGradeERPDAO;
-import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.dao.SubGradeERPDAO;
 import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.erp.entity.GradeERPBean;
@@ -51,6 +50,10 @@ public class ProductController {
 
     public void updateProduto(ProdutoERPBean produtoERPBean) throws SQLException {
         new ProductPrestashopDAO().put(Product.URLPRODUCTS, createProduct(produtoERPBean));
+    }
+    
+    public Product getProductById(int id){
+        return new ProductPrestashopDAO().getId(Product.URLPRODUCTS, id);
     }
 
     private Product createProduct(ProdutoERPBean produtoERP) throws SQLException {

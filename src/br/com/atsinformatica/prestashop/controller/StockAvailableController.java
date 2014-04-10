@@ -8,7 +8,7 @@ import br.com.atsinformatica.prestashop.clientDAO.StockAvailableDAO;
 import br.com.atsinformatica.prestashop.model.root.StockAvailable;
 
 /**
- *
+ * Controladora de estoque
  * @author AlexsanderPimenta
  */
 public class StockAvailableController {

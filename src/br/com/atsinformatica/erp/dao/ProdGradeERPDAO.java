@@ -67,6 +67,41 @@ public class ProdGradeERPDAO implements IGenericDAO<ProdGradeERPBean>{
         }
     }
     
+    /**
+     * Retorna lista de grades do produto
+     * @param codProd Código do produto
+     * @return List<ProdGradeERPBean>
+     */
+    public List<ProdGradeERPBean> searchByCodProd(String codProd) throws SQLException{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<ProdGradeERPBean> listaProdGrade = new ArrayList<>();
+        try{
+            conn = ConexaoATS.conectaERP();
+            String sql = "select * from prodgrade where prodgrade.codprod = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, codProd);
+            rs = pstmt.executeQuery();
+            ProdGradeERPBean prodGrade = null;
+            while(rs.next()){
+                prodGrade = new ProdGradeERPBean();
+                prodGrade.setCodProd(rs.getString("codprod"));
+                prodGrade.setCodGrade(rs.getString("codgrade"));
+                prodGrade.setIdProdGradeEcom(rs.getInt("idprodgradeecom"));
+                listaProdGrade.add(prodGrade);
+            }
+            Logger.getLogger(ProdGradeERPDAO.class).info("Lista de grades do produto retornada com sucesso.");
+            return listaProdGrade;
+        }catch(Exception e){
+            Logger.getLogger(ProdGradeERPDAO.class).error("Erro ao retornar lista de grades do produto: "+e);
+            return null;            
+        }finally{
+            conn.close();
+            rs.close();
+            pstmt.close();
+        }
+    }
+    
     
     public List<ProdGradeERPBean> searchGradeCompostaByCodProd(String codProd) throws SQLException {
          List<ProdGradeERPBean> grades = new ArrayList<ProdGradeERPBean>();
