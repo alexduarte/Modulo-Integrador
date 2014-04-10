@@ -4,20 +4,11 @@
  */
 package br.com.atsinformatica.erp.controller;
 
-import br.com.atsinformatica.erp.dao.GradeERPDAO;
-import br.com.atsinformatica.erp.dao.ProdGradeERPDAO;
 import br.com.atsinformatica.erp.dao.ProdutoDAO;
-import br.com.atsinformatica.erp.entity.GradeERPBean;
-import br.com.atsinformatica.erp.entity.ProdGradeERPBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.prestashop.controller.ProductController;
-import br.com.atsinformatica.prestashop.controller.ProductOptionValueController;
-import br.com.atsinformatica.prestashop.controller.StockAvailableController;
 import br.com.atsinformatica.prestashop.model.root.Product;
-import br.com.atsinformatica.prestashop.model.root.StockAvailable;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -36,35 +27,44 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
 
     @Override
     public void post(ProdutoERPBean obj) throws Exception {
-        StockAvailableController stockController = new StockAvailableController();
+        ProdGradeERPController prodErpController = new ProdGradeERPController();
         ProdutoDAO dao = new ProdutoDAO();
         try {
             Product p = prodController.createProductPrestashop(obj);
-            if (p != null) {
-                StockAvailable stock = stockController.getStock(p.getAssociations().getStockAvailables().getStockAvailable().get(0).getId());
+            if (p != null) {                
                 obj.setIdProdutoEcom(Integer.parseInt(p.getId().getContent()));
-                stock.setQuantity(Integer.parseInt(obj.getEstoqueDisponivel().toString()));
-                stockController.updateStockAvailable(stock);
+                prodErpController.atualizaEstoque(obj);
                 dao.alterar(obj);
             }
             Logger.getLogger(ProdutoERPController.class).info("Produto cadastrado com sucesso na loja virtual.");
         } catch (Exception e) {
             Logger.getLogger(ProdutoERPController.class).info("Erro ao cadastrar produto na loja virtual: " + e);
-
         }
-
     }
 
     @Override
-    public void update(ProdutoERPBean obj) {
+    public void update(ProdutoERPBean obj) {        
+        ProdGradeERPController prodErpController = new ProdGradeERPController();
         try {
-            prodController.updateProduto(obj);            
+            prodController.updateProduto(obj);
+            prodErpController.atualizaEstoque(obj);
         } catch (SQLException ex) {
-            //Logger.getLogger(ProdutoERPController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProdutoERPController.class).info("Erro ao atualizar produto na loja virtual: " + ex);
         }
     }
-
+        
     public void delete(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    /**
+     * Retorna produto da loja virtual pelo id do produto na loja virtual
+     * @param id id do produto na loja virtual
+     * @return Product
+     */
+    public Product get(int id){
+        return prodController.getProductById(id);
+    }
+    
+    
 }
