@@ -45,7 +45,7 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
                     + "                      EMAIL, DT_NASCIMENTO,ENDERECO, BAIRRO, CEP, CODCIDADE, FONE, CELULAR, "
                     + "                      CGCCPF, PESSOA_FJ, INSCEST, ESTADO, ENDERECOCOB, BAIRROCOB, "
                     + "                      CODCIDADECOB, ESTADOCOB, CEPCOB ) "
-                    + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)";
+                    + "              VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, codClienteERP);
