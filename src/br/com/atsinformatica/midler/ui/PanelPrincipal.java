@@ -4,11 +4,34 @@
  */
 package br.com.atsinformatica.midler.ui;
 
+import br.com.atsinformatica.erp.dao.ClienteERPDAO;
+import br.com.atsinformatica.erp.dao.ParaEcomDAO;
+import br.com.atsinformatica.erp.dao.PedidoCERPDAO;
+import br.com.atsinformatica.erp.dao.PedidoIERPDAO;
+import br.com.atsinformatica.erp.dao.ProdutoDAO;
+import br.com.atsinformatica.erp.entity.CPFClienteBean;
+import br.com.atsinformatica.erp.entity.ClienteERPBean;
+import br.com.atsinformatica.erp.entity.EnderecoERPBean;
+import br.com.atsinformatica.erp.entity.EstadoERPBean;
+import br.com.atsinformatica.erp.entity.ParaEcomBean;
+import br.com.atsinformatica.erp.entity.PedidoCERPBean;
+import br.com.atsinformatica.erp.entity.PedidoIERPBean;
+import br.com.atsinformatica.prestashop.controller.AddressController;
+import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
+import br.com.atsinformatica.prestashop.controller.CarrierController;
+import br.com.atsinformatica.prestashop.controller.CustomerController;
+import br.com.atsinformatica.prestashop.controller.OrderController;
+import br.com.atsinformatica.prestashop.controller.StateController;
+import br.com.atsinformatica.prestashop.model.node.OrderRowNode;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -19,23 +42,27 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private static PanelPrincipal instance = null;
     private PanelHistorico panelHistorico;
     private PanelConfiguracao panelConfiguracao;
+    private static Logger logger = Logger.getLogger(PanelPrincipal.class);
+
     /**
      * Creates new form PanelPrincipal
      */
     public PanelPrincipal() {
         initComponents();
         this.uJPanelImagem1.setImagem(new File(System.getProperty("user.dir") + "\\src\\assets\\images\\logo-w186.png"));
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(System.getProperty("user.dir")+"\\src\\assets\\icons\\ecom.png"));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(System.getProperty("user.dir") + "\\src\\assets\\icons\\ecom.png"));
         this.setTitle("Modulo Integrador E-commerce ATS");
 
         // this.jLSpinner.setVisible(false);
-
         this.setExtendedState(MAXIMIZED_BOTH);
-        
+
         jMainPanel.setSize(this.getWidth(), 421);
 
         //centraliza
         this.setLocationRelativeTo(null);
+        //Iniciando Time de sincronização de pedidos
+        setaTimer();
+
     }
 
     /**
@@ -47,6 +74,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        timerPedidos = new org.netbeans.examples.lib.timerbean.Timer();
         JHistorico = new javax.swing.JButton();
         JConfiguracao = new javax.swing.JButton();
         JSair = new javax.swing.JButton();
@@ -56,7 +84,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jStatus = new javax.swing.JLabel();
         jOperacao = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btListaPedidos = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -64,6 +92,12 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+
+        timerPedidos.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
+            public void onTime(java.awt.event.ActionEvent evt) {
+                timerPedidosOnTime(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,10 +192,10 @@ public class PanelPrincipal extends javax.swing.JFrame {
             .addComponent(jOperacao)
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/Accounting-Purchase-order-icon.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btListaPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/Accounting-Purchase-order-icon.png"))); // NOI18N
+        btListaPedidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btListaPedidosActionPerformed(evt);
             }
         });
 
@@ -230,7 +264,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(JHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btListaPedidos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JConfiguracao, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -242,7 +276,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btListaPedidos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JConfiguracao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(JHistorico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -286,7 +320,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_JSairActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       JConfiguracaoActionPerformed(evt);
+        JConfiguracaoActionPerformed(evt);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -303,7 +337,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
     private void JHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JHistoricoActionPerformed
         jMainPanel.removeAll();
-        jMainPanel.updateUI();        
+        jMainPanel.updateUI();
         this.setjStatus("Histórico de sincronizações");
         panelHistorico = new PanelHistorico();
         panelHistorico.setSize(this.getWidth(), 495);
@@ -312,14 +346,20 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jMainPanel.validate();
     }//GEN-LAST:event_JHistoricoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btListaPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btListaPedidosActionPerformed
         jMainPanel.removeAll();
         jMainPanel.updateUI();
         PanelListaPedidos panelListaPedidos = new PanelListaPedidos();
         panelListaPedidos.setSize(this.getWidth(), 495);
         jMainPanel.add(panelListaPedidos);
-        jMainPanel.validate();       
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jMainPanel.validate();
+        btListaPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/Accounting-Purchase-order-icon.png")));
+    }//GEN-LAST:event_btListaPedidosActionPerformed
+
+    private void timerPedidosOnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timerPedidosOnTime
+
+        sincPedidos();
+    }//GEN-LAST:event_timerPedidosOnTime
 
     /**
      * @param args the command line arguments
@@ -390,15 +430,163 @@ public class PanelPrincipal extends javax.swing.JFrame {
         }
         return instance;
     }
-    
-    public JPanel getJMainPanel(){
+
+    public JPanel getJMainPanel() {
         return this.getJMainPanel();
     }
+
+    /*
+     Iniciando implementação para Sincronizar pedidos
+     */
+    private void sincPedidos() {
+        boolean temNovoPedido = false;
+        OrderController orderController = new OrderController();
+        PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
+        List<PedidoCERPBean> listoPedido = null;
+        try {
+            //Buscando a lista de Pedidos que ainda não esta no banco de dados.
+            listoPedido = orderController.syncListaOrder();
+            /*
+             Vefificando se a lista de pedido esta vazia, se estiver vazia sai da função.
+             */
+            if (listoPedido.isEmpty()) {
+                logger.info("Nenhum pedido pendente para sincronizar. ");
+                return;
+            }
+        } catch (SQLException ex) {
+
+            logger.error("Erro ao efetuar sincronização de Pedidos da loja virtual: " + ex);
+        }
+
+        /**
+         * Chamando o metodo sincGetPedido, que com o numero do pedido, busca o
+         * cliente, busca o endereço, busca o CPF. se tiver no banco ERP os
+         * dados do cliente apenas atualiza, se não tiver no banco ERP vai
+         * inserir os dados.
+         */
+        for (PedidoCERPBean pedido : listoPedido) {
+            sincGetPedido(pedido);
+            /*
+             Após sincronizar pedido, vai mudar o incone.
+             */
+            btListaPedidos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/icons/order-icon-light.png")));
+        }
+    }
+
+    private void sincGetPedido(PedidoCERPBean pedido) {
+        OrderController orderController = new OrderController();
+        CustomerController customerController = new CustomerController();
+        AddressController addressController = new AddressController();
+        CPFModuleDataController cPFModuleDataController = new CPFModuleDataController();
+        StateController stateController = new StateController();
+        CarrierController carrierController = new CarrierController();
+
+        ClienteERPBean beanCliente;
+        EnderecoERPBean beanEndereco;
+        CPFClienteBean beanCPF;
+        ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
+        EstadoERPBean estadoERPBean = new EstadoERPBean();
+        EstadoERPBean estadoCobracaoERPBean = new EstadoERPBean();
+        PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
+
+        try {
+            beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(pedido.getId_customer()));
+            beanEndereco = addressController.syncAddressControllerPrestashop(Integer.valueOf(pedido.getId_address_delivery()), Integer.valueOf(pedido.getId_address_invoice()));
+
+            beanCPF = cPFModuleDataController.sysncCPDModuleData(Integer.valueOf(pedido.getId_customer()));
+
+            pedido.setObservacao(carrierController.syncCarrierControllerPrestashop(Integer.valueOf(pedido.getId_carrier())));
+
+            if (Integer.valueOf(beanEndereco.getId_state()) > 0) {
+                estadoERPBean = stateController.syncStateControllerPrestashop(Integer.valueOf(beanEndereco.getId_state()), Integer.valueOf(beanEndereco.getEstadoCob()));
+            }
+
+            if (clienteERPDAO.verificacaoClienteEcomExiste(beanCliente.getId())) {  //Verificando se o cliente já foi sincronizado.
+                //Cliente já existe - Vai atualizar
+                if (!clienteERPDAO.atualizarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean)) {
+                    //se o retorno de Aualizar Cliente for FALSE ele sai da função
+                    return;
+                }
+
+            } else {
+                //Cliente não existe - Vai inserir
+                if (!clienteERPDAO.gravarClienteComEndereco(beanCliente, beanEndereco, beanCPF, estadoERPBean)) {
+                    //se o retorno de Gravar Cliente for FALSE ele sai da função
+                    return;
+                }
+            }
+
+            /**
+             * Chamando o gravar pedido, que tem como retorno o numero do pedido
+             * se gravou com sucesso, ou NULL se deu erro.
+             */
+            String codPedido = pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
+            if (codPedido != null) {
+                String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
+                String codClienteERP = clienteERPDAO.retornaCodClienteERP(pedido.getId_customer());
+                PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
+                PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
+                ProdutoDAO produtoDAO = new ProdutoDAO();
+
+                for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
+                    /*
+                     Pegando o codigo do produtoERP
+                     */
+                    String codProdutoERP = produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getProductId()));
+
+                    pedidoIERPBean.setCodEmpresa(codEmpresa);
+                    pedidoIERPBean.setCodPedido(codPedido);
+                    pedidoIERPBean.setCodClienteERP(codClienteERP);
+                    pedidoIERPBean.setCodProdERP(codProdutoERP);
+                    pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
+                    pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
+                    pedidoIERPBean.setCodGradERP(String.valueOf(orderRowNode.getProductAttributeId()));
+                    pedidoIERPBean.setUnidadeSaida(produtoDAO.retornaUnidadeSaidaProdutoERP(codProdutoERP));
+
+                    pedidoIERPDAO.gravar(pedidoIERPBean);
+                }
+
+                /*
+                 Gravando complemento do pedido                
+                 */
+                pedidoERPDAO.gravarPedidoCompl(codPedido, codClienteERP, beanEndereco, estadoERPBean);
+            }
+        } catch (Exception e) {
+            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
+        }
+    }
+    /*
+     Final de implementação de Sincronizar pedidos
+     */
+
+    /**
+     * Seta timer de sincronização
+     */
+    private void setaTimer() {
+        ParaEcomDAO dao = new ParaEcomDAO();
+        try {
+            ParaEcomBean bean = dao.listaTodos().get(0);
+            if (bean != null) {
+
+                if (bean.getAtivaSincronizacao() == 1) {
+                    //Time Pedidos
+                    long minutesCad = TimeUnit.SECONDS.toMillis(bean.getMinutosmov()) * 60;
+                    timerPedidos.setDelay(minutesCad);
+                    timerPedidos.stop();
+                    timerPedidos.start();
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Erro ao setar timer de sincronização: " + e);
+        }
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton JConfiguracao;
     private javax.swing.JButton JHistorico;
     private javax.swing.JButton JSair;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btListaPedidos;
     private javax.swing.JPanel jMainPanel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -411,6 +599,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel jStatus;
+    protected org.netbeans.examples.lib.timerbean.Timer timerPedidos;
     private componentes.UJPanelImagem uJPanelImagem1;
     // End of variables declaration//GEN-END:variables
 }
