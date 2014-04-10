@@ -104,8 +104,8 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
                     + "                    (CODPEDIDO, IDPEDIDOECOM, CODEMPRESA, "
                     + "                     TIPOPEDIDO, DESCONTOVLR, "
                     + "                     CODCLIENTE, DATAPEDIDO, HORA, FRETE,"
-                    + "                     OBSERVACAO) "
-                    + "              VALUES(?,?,?,?,?,?,?,?,?,?)";
+                    + "                     OBSERVACAO, STATUSPEDIDOECOM) "
+                    + "              VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, codPedido);
@@ -120,6 +120,7 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setString(10, "FORMA DE ENVIO: " + pedidoERPBean.getObservacao()
                     + ", FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
                     + ", CÓDIGO DO PEDIDO NA LOJA VIRTUAL: " + pedidoERPBean.getReference());
+            pstmt.setString(11, pedidoERPBean.getCurrent_state());
 
             pstmt.executeUpdate();
 
