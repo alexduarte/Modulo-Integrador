@@ -24,11 +24,11 @@ public class Main {
         //configura look and feel
         LayoutUtil.configuraLookAndFeel(new NimbusLookAndFeel());
         FrameLogin frameLogin = new FrameLogin();
-        PanelPrincipal panelPrincipal = new PanelPrincipal();
         //verifica se arquivo de configuração existe, caso não exista, dispara mensagem de alerta para que o usuario possa cria-lo
         if (!PropertiesManager.getFile().exists()) {
             JOptionPane.showMessageDialog(frameLogin, "Antes de utilizar o módulo sincronizador é necessário configurá-lo! Acesse a rotina de configurações\n"
                     + "e certifique-se de que todos os campos obrigatórios foram devidamente preenchidos.");
+            PanelPrincipal panelPrincipal = new PanelPrincipal();
             panelPrincipal.setVisible(true);
 
         } else {
