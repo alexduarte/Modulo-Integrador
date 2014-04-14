@@ -52,6 +52,10 @@ public class ProductController {
         new ProductPrestashopDAO().put(Product.URLPRODUCTS, createProduct(produtoERPBean));
     }
     
+    public void deleteProduct(String id) throws SQLException{
+        new ProductPrestashopDAO().delete(Product.URLPRODUCTS, id);
+    }
+    
     public Product getProductById(int id) {
         return new ProductPrestashopDAO().getId(Product.URLPRODUCTS, id);
     }
