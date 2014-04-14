@@ -137,4 +137,32 @@ public class OrderController {
         return lista;
     }
 
+    public void updateStatusOrder(int orderId, int codStatus) {
+
+        try {
+            OrderPrestashopDAO dao = new OrderPrestashopDAO();
+            Order order = dao.getId(Order.URLORDER, orderId);
+            order.setCurrent_state(String.valueOf(codStatus));
+            dao.put(Order.URLORDER, order);
+        } catch (Exception e) {
+            logger.error("Erro ao atualizar Status Cod:(" + codStatus + ") do PedidosEcon Cod:(" + orderId + ") na loja Prestashop: " + e);
+            return;
+        }
+
+    }
+
+    public void updateStatusOrder(int orderId, int codStatus, String codRastreamento) {
+        try {
+            OrderPrestashopDAO dao = new OrderPrestashopDAO();
+            Order order = dao.getId(Order.URLORDER, orderId);
+            order.setCurrent_state(String.valueOf(codStatus));
+            order.setShippingNumber(codRastreamento);
+            dao.put(Order.URLORDER, order);
+        } catch (Exception e) {
+            logger.error("Erro ao atualizar Status Cod:(" + codStatus + ") do PedidosEcon Cod:(" + orderId + ") na loja Prestashop: " + e);
+            return;
+        }
+
+    }
+
 }
