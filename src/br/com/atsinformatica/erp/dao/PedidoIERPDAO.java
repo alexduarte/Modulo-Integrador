@@ -36,14 +36,17 @@ public class PedidoIERPDAO implements IGenericDAO<PedidoIERPDAO> {
 
         try {
 
-            conn = ConexaoATS.conectaERP();
+            if (PedidoCERPDAO.connPedido.isClosed()) {
+                PedidoCERPDAO.connPedido = ConexaoATS.conectaERP();
+            }
+
             String sql = " INSERT INTO PEDIDOI "
                     + "                    (CODEMPRESA, TIPOPEDIDO, CODPEDIDO, CODCLIENTE, "
                     + "                     CODPROD, CODGRADE, QUANTIDADE, PRECOUNIT, UNIDADESAIDA, "
                     + "                     TOTALITEM, PESO ) "
                     + "              VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
-            pstmt = conn.prepareStatement(sql);
+            pstmt = PedidoCERPDAO.connPedido.prepareStatement(sql);
             pstmt.setString(1, pedidoIERPBean.getCodEmpresa());
             pstmt.setString(2, "55");
             pstmt.setString(3, pedidoIERPBean.getCodPedido());
@@ -64,9 +67,10 @@ public class PedidoIERPDAO implements IGenericDAO<PedidoIERPDAO> {
             return true;
         } catch (Exception e) {
             logger.error("Erro ao soncronizar Produto ERP: " + pedidoIERPBean.getCodProdERP() + "  do Pedido Ecom ( " + pedidoIERPBean.getCodPedido() + " ): " + e);
+            PedidoCERPDAO.connPedido.rollback();
+            PedidoCERPDAO.connPedido.close();
             return false;
         } finally {
-            conn.close();
             pstmt.close();
         }
 
