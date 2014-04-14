@@ -97,28 +97,28 @@ public class GenericPrestashopDAO<T> {
         }
     }
 
-    /**
-     * Retorna estoque baseado em xml de retorno do produto
-     * @param xml xml de retorno do produto
-     * @return StockAvailableNode
-     */
-    private StockAvailableNode getStockByTagName(String xml) {
-        try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
-            NodeList nList = doc.getElementsByTagName("stock_available");
-            StockAvailableNode stockAvailableProduct = new StockAvailableNode();
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node node = nList.item(i);
-                Element element = (Element) node;
-                stockAvailableProduct.setId(Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent()));
-                stockAvailableProduct.setIdProductAttribute(Integer.parseInt(element.getElementsByTagName("id_product_attribute").item(0).getTextContent()));
-            }
-            return stockAvailableProduct;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    /**
+//     * Retorna estoque baseado em xml de retorno do produto
+//     * @param xml xml de retorno do produto
+//     * @return StockAvailableNode
+//     */
+//    private StockAvailableNode getStockByTagName(String xml) {
+//        try {
+//            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//            Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
+//            NodeList nList = doc.getElementsByTagName("stock_available");
+//            StockAvailableNode stockAvailableProduct = new StockAvailableNode();
+//            for (int i = 0; i < nList.getLength(); i++) {
+//                Node node = nList.item(i);
+//                Element element = (Element) node;
+//                stockAvailableProduct.setId(Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent()));
+//                stockAvailableProduct.setIdProductAttribute(Integer.parseInt(element.getElementsByTagName("id_product_attribute").item(0).getTextContent()));
+//            }
+//            return stockAvailableProduct;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

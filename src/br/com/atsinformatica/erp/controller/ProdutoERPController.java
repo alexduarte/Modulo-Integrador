@@ -8,6 +8,7 @@ import br.com.atsinformatica.erp.dao.ProdutoDAO;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
 import br.com.atsinformatica.prestashop.controller.ProductController;
 import br.com.atsinformatica.prestashop.model.root.Product;
+import br.com.atsinformatica.prestashop.controller.ImageController;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
@@ -18,7 +19,6 @@ import org.apache.log4j.Logger;
  */
 public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     //controladora do produto no prestashop
-
     private ProductController prodController;
 
     public ProdutoERPController() {
@@ -34,6 +34,7 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
             if (p != null) {                
                 obj.setIdProdutoEcom(Integer.parseInt(p.getId().getContent()));
                 prodErpController.atualizaEstoque(obj);
+                this.uploadImagesProduct(obj);
                 dao.alterar(obj);
             }
             Logger.getLogger(ProdutoERPController.class).info("Produto cadastrado com sucesso na loja virtual.");
@@ -48,6 +49,7 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
         try {
             prodController.updateProduto(obj);
             prodErpController.atualizaEstoque(obj);
+            this.uploadImagesProduct(obj);
         } catch (SQLException ex) {
             Logger.getLogger(ProdutoERPController.class).info("Erro ao atualizar produto na loja virtual: " + ex);
         }
@@ -64,6 +66,15 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
      */
     public Product get(int id){
         return prodController.getProductById(id);
+    }
+    
+    
+    private void uploadImagesProduct(ProdutoERPBean prod) {
+        ImageController imgService = new ImageController();
+        try {
+            imgService.prepareUpload(prod);
+        } catch (Exception e) {
+        }
     }
     
     
