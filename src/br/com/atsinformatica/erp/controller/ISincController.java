@@ -11,6 +11,6 @@ package br.com.atsinformatica.erp.controller;
 public interface ISincController<T> {    
     void post(T obj) throws Exception;
     void update(T obj) throws Exception;
-    void delete(T obj) throws Exception;
+    void delete(String id) throws Exception;
     
 }
