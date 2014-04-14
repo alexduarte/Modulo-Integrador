@@ -9,6 +9,7 @@ import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
 import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.MoneyCellRenderer;
+import br.com.atsinformatica.midler.components.renderer.PaymentMethodRenderer;
 import br.com.atsinformatica.midler.components.renderer.StatusPedidoCellRenderer;
 import br.com.atsinformatica.utils.Funcoes;
 import com.towel.el.annotation.AnnotationResolver;
@@ -273,12 +274,14 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         TableColumn colDtPedido = jTbListaPedido.getColumnModel().getColumn(5);
         TableColumn colDtIntegracao = jTbListaPedido.getColumnModel().getColumn(7);
         TableColumn colValor = jTbListaPedido.getColumnModel().getColumn(3);
-
+        TableColumn colFormaPagamento = jTbListaPedido.getColumnModel().getColumn(6);
+        
         //Renderizando valores do Grid
         colStatus.setCellRenderer(new StatusPedidoCellRenderer());
         colDtPedido.setCellRenderer(new DateCellRenderer());
         colDtIntegracao.setCellRenderer(new DateCellRenderer());
         colValor.setCellRenderer(new MoneyCellRenderer());
+        colFormaPagamento.setCellRenderer(new PaymentMethodRenderer());
 
     }
 

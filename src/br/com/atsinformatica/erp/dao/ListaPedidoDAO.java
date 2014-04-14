@@ -57,7 +57,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
         try {
             conn = ConexaoATS.conectaERP();
             String sql = "SELECT PC.CODPEDIDO, PC.IDPEDIDOECOM, C.NOME, PC.TOTALPEDIDO,"
-                    + "       PC.STATUSPEDIDOECOM, PC.DATAPEDIDO, PC.OBSERVACAO1, PC.DTSINCECOM"
+                    + "       PC.STATUSPEDIDOECOM, PC.DATAPEDIDO, PC.OBSERVACAO, PC.DTSINCECOM"
                     + "  FROM PEDIDOC PC JOIN"
                     + "       CLIENTE C ON C.CODCLIENTE = PC.CODCLIENTE"
                     + " WHERE PC.IDPEDIDOECOM IS NOT NULL"
@@ -91,7 +91,7 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
         try {
             conn = ConexaoATS.conectaERP();
             String sql = "SELECT PC.CODPEDIDO, PC.IDPEDIDOECOM, C.NOME, PC.TOTALPEDIDO, "
-                    + "       PC.STATUSPEDIDOECOM, PC.DATAPEDIDO, PC.OBSERVACAO1, PC.DTSINCECOM "
+                    + "       PC.STATUSPEDIDOECOM, PC.DATAPEDIDO, PC.OBSERVACAO, PC.DTSINCECOM "
                     + "  FROM PEDIDOC PC JOIN "
                     + "       CLIENTE C ON C.CODCLIENTE = PC.CODCLIENTE "
                     + " WHERE PC.IDPEDIDOECOM IS NOT NULL ";
