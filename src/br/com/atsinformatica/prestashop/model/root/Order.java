@@ -42,6 +42,12 @@ import javax.xml.bind.annotation.XmlType;
     "total_shipping", //Total de Frete
     "reference", // Referencia do Pedido
     "associations",
+    "idCart",
+    "idCurrency",
+    "idLang",
+    "totalProductsWt",
+    "conversionRate",
+    "shippingNumber",
 })
 
 public class Order {
@@ -85,7 +91,20 @@ public class Order {
     private String reference;
     @XmlElement(name = "associations")
     private AssociationsOrder associations;
-
+    @XmlElement(name = "id_cart")
+    private String idCart;
+    @XmlElement(name = "id_currency")
+    private String idCurrency;
+    @XmlElement(name = "id_lang")
+    private String idLang;
+    @XmlElement(name = "total_products_wt")
+    private String totalProductsWt;
+    @XmlElement(name = "conversion_rate")
+    private String conversionRate;
+    @XmlElement(name = "shipping_number")
+    private String shippingNumber;
+    
+    
     public String getId() {
         return id;
     }
@@ -271,7 +290,52 @@ public class Order {
         this.associations = associations;
     }
 
+    public String getIdCart() {
+        return idCart;
+    }
 
+    public void setIdCart(String idCart) {
+        this.idCart = idCart;
+    }
 
-    
+    public String getIdCurrency() {
+        return idCurrency;
+    }
+
+    public void setIdCurrency(String idCurrency) {
+        this.idCurrency = idCurrency;
+    }
+
+    public String getIdLang() {
+        return idLang;
+    }
+
+    public void setIdLang(String idLang) {
+        this.idLang = idLang;
+    }
+
+    public String getTotalProductsWt() {
+        return totalProductsWt;
+    }
+
+    public void setTotalProductsWt(String totalProductsWt) {
+        this.totalProductsWt = totalProductsWt;
+    }
+
+    public String getConversionRate() {
+        return conversionRate;
+    }
+
+    public void setConversionRate(String conversionRate) {
+        this.conversionRate = conversionRate;
+    }
+
+    public String getShippingNumber() {
+        return shippingNumber;
+    }
+
+    public void setShippingNumber(String shippingNumber) {
+        this.shippingNumber = shippingNumber;
+    }
+   
 }

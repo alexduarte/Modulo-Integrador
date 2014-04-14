@@ -7,6 +7,7 @@ package br.com.atsinformatica.midler.ui;
 
 import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
+import br.com.atsinformatica.prestashop.controller.OrderController;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
@@ -164,6 +165,11 @@ public class ConfirmacaoEntrega extends javax.swing.JDialog {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusEntregue(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusEntregue(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(Integer.valueOf(codPedidoEcom), 5);
+                    //Fim - Alterando Status na loja prestashop                       
+
                     JOptionPane.showMessageDialog(null, "Status (Entregue) do pedido alterado com sucesso!");
                 }
             } else {
