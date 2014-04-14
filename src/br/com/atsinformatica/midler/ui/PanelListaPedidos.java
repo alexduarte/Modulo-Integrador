@@ -11,6 +11,7 @@ import br.com.atsinformatica.midler.components.renderer.DateCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.MoneyCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.PaymentMethodRenderer;
 import br.com.atsinformatica.midler.components.renderer.StatusPedidoCellRenderer;
+import br.com.atsinformatica.prestashop.controller.OrderController;
 import br.com.atsinformatica.utils.Funcoes;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
@@ -22,7 +23,6 @@ import org.apache.log4j.Logger;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -275,7 +275,7 @@ public class PanelListaPedidos extends javax.swing.JPanel {
         TableColumn colDtIntegracao = jTbListaPedido.getColumnModel().getColumn(7);
         TableColumn colValor = jTbListaPedido.getColumnModel().getColumn(3);
         TableColumn colFormaPagamento = jTbListaPedido.getColumnModel().getColumn(6);
-        
+
         //Renderizando valores do Grid
         colStatus.setCellRenderer(new StatusPedidoCellRenderer());
         colDtPedido.setCellRenderer(new DateCellRenderer());
@@ -546,6 +546,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoFinalizarPedido(listaPedidoERPBean)) {
                 if (listaPedidoDAO.finalizarPedido(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 14);
+                    //Fim - Alterando Status na loja prestashop                    
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Pedido finalizado com sucesso!");
@@ -570,6 +574,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoCancelarPedido(listaPedidoERPBean)) {
                 if (listaPedidoDAO.cancelarPedido(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 6);
+                    //Fim - Alterando Status na loja prestashop                    
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
@@ -592,6 +600,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusAguadandoPagamento(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusAguadandoPagamento(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 1);
+                    //Fim - Alterando Status na loja prestashop
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (AguadandoPagamento) do pedido alterado com sucesso!");
@@ -614,6 +626,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusPagamentoRecusado(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusPagamentoRecusado(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 8);
+                    //Fim - Alterando Status na loja prestashop                    
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pagamento recusado) do pedido alterado com sucesso!");
@@ -637,6 +653,11 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusPagamentoAceito(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusPagamentoAceito(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 2);
+                    //Fim - Alterando Status na loja prestashop
+
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pagamento aceito) do pedido alterado com sucesso!");
@@ -660,6 +681,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusNotaFiscal(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusNotaFiscal(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 13);
+                    //Fim - Alterando Status na loja prestashop                    
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Nota Fiscal) do pedido alterado com sucesso!");
@@ -683,6 +708,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusPedidoDevolvido(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusPedidoDevolvido(listaPedidoERPBean)) {
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 9);
+                    //Fim - Alterando Status na loja prestashop                    
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pedido devolvido) do pedido alterado com sucesso!");
@@ -706,7 +735,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
             ListaPedidoDAO listaPedidoDAO = new ListaPedidoDAO();
             if (listaPedidoDAO.validacaoStatusPagamentoEstornado(listaPedidoERPBean)) {
                 if (listaPedidoDAO.StatusPagamentoEstornado(listaPedidoERPBean)) {
-
+                    //Iniciando - Alterando Status na loja prestashop
+                    OrderController orderController = new OrderController();
+                    orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 7);
+                    //Fim - Alterando Status na loja prestashop
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pagamanto estornado) do pedido alterado com sucesso!");
