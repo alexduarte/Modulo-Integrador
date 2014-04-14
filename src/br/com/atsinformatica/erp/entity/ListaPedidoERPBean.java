@@ -48,7 +48,7 @@ public class ListaPedidoERPBean {
         this.valor            = rs.getDouble("TOTALPEDIDO");  
         this.status           = rs.getString("STATUSPEDIDOECOM"); 
         this.dataPedido       = rs.getDate("DATAPEDIDO");
-        this.formaPagamento   = rs.getString("OBSERVACAO1");       
+        this.formaPagamento   = rs.getString("OBSERVACAO");       
         this.horaIntegracao   = rs.getDate("DTSINCECOM");
     }
 
