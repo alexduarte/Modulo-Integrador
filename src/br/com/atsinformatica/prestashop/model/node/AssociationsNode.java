@@ -20,7 +20,8 @@ import javax.xml.bind.annotation.XmlType;
     "categories",
     "combinations",
     "productOptionValues",    
-    "stockAvailables",    
+    "stockAvailables",
+    "images",
 })
 @XmlRootElement(name="associations")
 public class AssociationsNode {
@@ -31,6 +32,8 @@ public class AssociationsNode {
     private CombinationsNode combinations;
     @XmlElement(name = "product_option_values")
     private ProductOptionValuesNode productOptionValues;
+    @XmlElement(name = "images")
+    private ImagesNode images;
     
     @XmlElement(name = "stock_availables")
     private StockAvailablesNode stockAvailables;
@@ -88,6 +91,20 @@ public class AssociationsNode {
      */
     public void setProductOptionValues(ProductOptionValuesNode productOptionValues) {
         this.productOptionValues = productOptionValues;
+    }
+
+    /**
+     * @return the images
+     */
+    public ImagesNode getImages() {
+        return images;
+    }
+
+    /**
+     * @param images the images to set
+     */
+    public void setImages(ImagesNode images) {
+        this.images = images;
     }
     
 }
