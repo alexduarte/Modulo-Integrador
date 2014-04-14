@@ -9,6 +9,7 @@ import br.com.atsinformatica.prestashop.model.list.prestashop.AccessXMLAttribute
 import br.com.atsinformatica.prestashop.model.list.prestashop.PrestashopItens;
 import br.com.atsinformatica.prestashop.model.root.Order;
 import br.com.atsinformatica.prestashop.model.root.Prestashop;
+import com.sun.jersey.api.client.ClientResponse;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
@@ -26,7 +27,12 @@ public class OrderPrestashopDAO extends GenericPrestashopDAO<Order> implements I
 
     @Override
     public void put(String path, Order t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Prestashop prestaShopOrder = new Prestashop();
+        prestaShopOrder.setOrder(t);
+        String xml = createTOXML(prestaShopOrder);
+        ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
+        System.out.println("Response: " + response);
+
     }
 
     @Override
