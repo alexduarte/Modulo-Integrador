@@ -107,7 +107,7 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
 
     @Override
     public void delete(String path, String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getWebResource().path(path).path(id).type(MediaType.APPLICATION_XML).delete();
     }
     
     
