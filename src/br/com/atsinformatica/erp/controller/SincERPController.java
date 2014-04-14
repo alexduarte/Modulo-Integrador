@@ -67,14 +67,14 @@ public class SincERPController<T> implements ISincController<T> {
     }
 
     @Override
-    public void delete(T obj) {
-        HistoricoIntegraERPBean objAux = (HistoricoIntegraERPBean) obj;
+    public void delete(String id) {
         try {
-            if (this.getClass().equals(CategoriaEcomErpBean.class)) {
-                new CategoriaERPController().delete(objAux.getCodEntidade());
+            if (this.histInteg.getEntidade().equals("categoria")) {
+                new CategoriaERPController().delete(id);
             }
-            if(this.getClass().equals(ProdutoERPBean.class))
-                new ProdutoERPController().delete(objAux.getCodEntidade());
+            if(this.histInteg.getEntidade().equals("produto"))
+                new ProdutoERPController().delete(id);
+            atualizaDataInt(histInteg);
         } catch (Exception e) {
         }
 
