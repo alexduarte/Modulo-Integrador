@@ -27,6 +27,14 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
 
     private static Logger logger = Logger.getLogger(PedidoCERPDAO.class);
     private Connection conn;
+    /*
+     (connPedido): Conexão utilizada apenas para o processo de controle de 
+     transação para gravar Cabeçalho do pedido, Itens do pedido, Complemento do Pedido.
+     Conexão aberta em (Gravar PedidoC) PedidoCERPDAO
+     Transação continua em (Gravar PedidoI)PedidoIERPDAO
+     Transação é fechada em (Gravar Complemento Pedido) PedidoCERPDAO
+     */
+    public static Connection connPedido;
 
     @Override
     public void gravar(PedidoCERPBean object) throws SQLException {
@@ -98,8 +106,12 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
         PreparedStatement pstmt = null;
         String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
         try {
+            connPedido = ConexaoATS.conectaERP();
+            if (connPedido.isClosed()) {
+                connPedido = ConexaoATS.conectaERP();
+            }
+            connPedido.setAutoCommit(false);
 
-            conn = ConexaoATS.conectaERP();
             String sql = " INSERT INTO PEDIDOC "
                     + "                    (CODPEDIDO, IDPEDIDOECOM, CODEMPRESA, "
                     + "                     TIPOPEDIDO, DESCONTOVLR, "
@@ -107,7 +119,7 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
                     + "                     OBSERVACAO, STATUSPEDIDOECOM) "
                     + "              VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
-            pstmt = conn.prepareStatement(sql);
+            pstmt = connPedido.prepareStatement(sql);
             pstmt.setString(1, codPedido);
             pstmt.setString(2, pedidoERPBean.getId_ecom());
             pstmt.setString(3, codEmpresa);
@@ -116,7 +128,7 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setString(6, codClienteERP);
             pstmt.setDate(7, new Date(pedidoERPBean.getDate_add().getTime()));
             pstmt.setString(8, pedidoERPBean.getHora());
-            pstmt.setDouble(9, Double.valueOf(pedidoERPBean.getTotal_shipping()));            
+            pstmt.setDouble(9, Double.valueOf(pedidoERPBean.getTotal_shipping()));
             pstmt.setString(10, "FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
                     + ", FORMA DE ENVIO: " + pedidoERPBean.getObservacao()
                     + ", CÓDIGO DO PEDIDO NA LOJA VIRTUAL: " + pedidoERPBean.getReference());
@@ -130,9 +142,11 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             return codPedido;
         } catch (Exception e) {
             logger.error("Erro ao soncronizar Pedido(ID Pedido ERP:(" + codPedido + ") ID ECOM:(" + pedidoERPBean.getId_ecom() + "), Referência:(" + pedidoERPBean.getReference() + ")): " + e);
+            connPedido.rollback();
+            connPedido.close();
             return null;
         } finally {
-            conn.close();
+
             pstmt.close();
         }
     }
@@ -143,7 +157,10 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
         String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
         try {
 
-            conn = ConexaoATS.conectaERP();
+            if (connPedido.isClosed()) {
+                connPedido = ConexaoATS.conectaERP();
+            }
+            connPedido.setAutoCommit(false);
             String sql = "INSERT INTO PEDIDOCCOMPL "
                     + "    (CODEMPRESA, TIPOPEDIDO, CODPEDIDO, CODCLIENTE, "
                     + "     ENDERECOENT, BAIRROENT, CODCIDADEENT, ESTADOENT, CEPENT) "
@@ -164,6 +181,7 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setString(9, enderecoERPBean.getCepEnt());
 
             pstmt.executeUpdate();
+            connPedido.commit();
 
             //Gerando log
             LogERP.geraLog("PEDIDOCCOMPL", codPedidoERP, "Inclusão", "Incluindo complemento do pedido sincronizado do Ecommercer");
@@ -171,9 +189,11 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             return true;
         } catch (Exception e) {
             logger.error("Erro ao Gravar complemento do Pedido(ID Pedido ERP:(" + codPedidoERP + "): " + e);
+            connPedido.rollback();
+            connPedido.close();
             return false;
         } finally {
-            conn.close();
+            connPedido.close();
             pstmt.close();
         }
     }
