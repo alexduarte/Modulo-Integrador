@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
  * @author ricardosilva
  */
 public class ProductController {
-
+    
     List<ProdutoERPBean> listProduct;
 
     /**
@@ -45,59 +45,70 @@ public class ProductController {
     public Product createProductPrestashop(ProdutoERPBean produtoErp) throws SQLException {
         // return listProduct;
         return new ProductPrestashopDAO().postProduct(Product.URLPRODUCTS, createProduct(produtoErp));
-
+        
     }
-
+    
     public void updateProduto(ProdutoERPBean produtoERPBean) throws SQLException {
         new ProductPrestashopDAO().put(Product.URLPRODUCTS, createProduct(produtoERPBean));
     }
     
-    public Product getProductById(int id){
+    public Product getProductById(int id) {
         return new ProductPrestashopDAO().getId(Product.URLPRODUCTS, id);
     }
 
-    private Product createProduct(ProdutoERPBean produtoERP) throws SQLException {
+    /**
+     * Faz o processo de conversão do produto do ERP para loja virtual
+     *
+     * @param produtoERP
+     * @return Product
+     */
+    private Product createProduct(ProdutoERPBean produtoERP) {
         Product p = new Product();
         Name name = new Name();
-        if (produtoERP.getIdProdutoEcom() != 0) {
-            Id id = new Id();
-            id.setContent(String.valueOf(produtoERP.getIdProdutoEcom()));
-            p.setId(id);
-        }
-        name.getLanguage().add(new Language(produtoERP.getNomeProd()));
-        MetaDescription metaDesc = new MetaDescription();
-        metaDesc.getLanguage().add(new Language(produtoERP.getMetaDescricao()));
-        MetaKeyWord metaKey = new MetaKeyWord();
-        metaKey.getLanguage().add(new Language(produtoERP.getPalavrasChave()));
-        Description description = new Description();
-        description.getLanguage().add(new Language(produtoERP.getDescricaoCompleta()));
-        Price price = new Price();
-        price.setContent(String.valueOf(produtoERP.getPrecoCheio()));
-        LinkRewrite linkRewrite = new LinkRewrite();
-        linkRewrite.getLanguage().add(new Language(produtoERP.getDescricaoCompleta()));
-        if (produtoERP.getAtivo().equals("S")) {
-            p.setActive(1);
-        }
         AssociationsNode associations = new AssociationsNode();
-        associations.setCategories(createCategories(produtoERP.getCodCategoria()));
-        associations.setProductOptionValues(this.createProductOptionValues(produtoERP));
-        associations.setCombinations(this.createCombinations(produtoERP));
-        p.setAssociations(associations);
-        p.setEan13(produtoERP.getCodBarras());
-        p.setIdCategoryDefault(new CategoriaEcomDAO().abrir(produtoERP.getCodCategoria()).getIdCategoriaEcom());
-        p.setDepth(String.valueOf(produtoERP.getProfundidade()));
-        p.setWeight(String.valueOf(produtoERP.getPeso()));
-        p.setWidth(String.valueOf(produtoERP.getLargura()));
-        p.setHeight(String.valueOf(produtoERP.getAltura()));
-        p.setMetaDescription(metaDesc);
-        p.setMetaKeyWord(metaKey);
-        p.setDescription(description);
-        p.setCondition(getCondition(produtoERP.getCondicao()));
-        p.setIdErp(Integer.parseInt(produtoERP.getCodProd()));
-        p.setName(name);
-        p.setPrice(price);
-        p.setLinkRewrite(linkRewrite);
-        return p;
+        Description description = new Description();
+        MetaDescription metaDesc = new MetaDescription();
+        MetaKeyWord metaKey = new MetaKeyWord();
+        Price price = new Price();
+        LinkRewrite linkRewrite = new LinkRewrite();
+        try {
+            if (produtoERP.getIdProdutoEcom() != 0) {
+                Id id = new Id();
+                id.setContent(String.valueOf(produtoERP.getIdProdutoEcom()));
+                p.setId(id);
+            }
+            name.getLanguage().add(new Language(produtoERP.getNomeProd()));
+            metaDesc.getLanguage().add(new Language(produtoERP.getMetaDescricao()));
+            metaKey.getLanguage().add(new Language(produtoERP.getPalavrasChave()));
+            description.getLanguage().add(new Language(produtoERP.getDescricaoCompleta()));
+            price.setContent(String.valueOf(produtoERP.getPrecoCheio()));
+            linkRewrite.getLanguage().add(new Language(produtoERP.getDescricaoCompleta()));
+            if (produtoERP.getAtivo().equals("S")) {
+                p.setActive(1);
+            }
+            associations.setCategories(createCategories(produtoERP.getCodCategoria()));
+            associations.setProductOptionValues(this.createProductOptionValues(produtoERP));
+            associations.setCombinations(this.createCombinations(produtoERP));
+            p.setAssociations(associations);
+            p.setEan13(produtoERP.getCodBarras());
+            p.setIdCategoryDefault(new CategoriaEcomDAO().abrir(produtoERP.getCodCategoria()).getIdCategoriaEcom());
+            p.setDepth(String.valueOf(produtoERP.getProfundidade()));
+            p.setWeight(String.valueOf(produtoERP.getPeso()));
+            p.setWidth(String.valueOf(produtoERP.getLargura()));
+            p.setHeight(String.valueOf(produtoERP.getAltura()));
+            p.setMetaDescription(metaDesc);
+            p.setMetaKeyWord(metaKey);
+            p.setDescription(description);
+            p.setCondition(getCondition(produtoERP.getCondicao()));
+            p.setIdErp(Integer.parseInt(produtoERP.getCodProd()));
+            p.setName(name);
+            p.setPrice(price);
+            p.setLinkRewrite(linkRewrite);
+            return p;
+        } catch (SQLException e) {
+            return null;
+        }
+        
     }
 
     /**
@@ -122,6 +133,8 @@ public class ProductController {
             return null;
         }
     }
+    
+    
 
     /**
      * Cria valores de grade
@@ -257,7 +270,7 @@ public class ProductController {
                 break;
         }
         return condition;
-
+        
     }
 
     /**
@@ -281,8 +294,8 @@ public class ProductController {
             }
             for (ProdGradeERPBean prodGradeERP : listProdGrade) {
                 prodGradeERP.setTipoGrade(produtoERP.getGrade());
-                CombinationsChild child = new CombinationsChild();                
-                if(prodGradeERP.getIdProdGradeEcom()==0){
+                CombinationsChild child = new CombinationsChild();
+                if (prodGradeERP.getIdProdGradeEcom() == 0) {
                     int idCombination = combinationsController.createCombination(prodGradeERP);
                     prodGradeERP.setIdProdGradeEcom(idCombination);
                     prodGradeDAO.alterar(prodGradeERP);
