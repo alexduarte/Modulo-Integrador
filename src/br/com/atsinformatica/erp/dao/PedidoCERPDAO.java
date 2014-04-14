@@ -116,9 +116,9 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setString(6, codClienteERP);
             pstmt.setDate(7, new Date(pedidoERPBean.getDate_add().getTime()));
             pstmt.setString(8, pedidoERPBean.getHora());
-            pstmt.setDouble(9, Double.valueOf(pedidoERPBean.getTotal_shipping()));
-            pstmt.setString(10, "FORMA DE ENVIO: " + pedidoERPBean.getObservacao()
-                    + ", FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
+            pstmt.setDouble(9, Double.valueOf(pedidoERPBean.getTotal_shipping()));            
+            pstmt.setString(10, "FORMA DE PAGAMENTO: " + pedidoERPBean.getModule()
+                    + ", FORMA DE ENVIO: " + pedidoERPBean.getObservacao()
                     + ", CÓDIGO DO PEDIDO NA LOJA VIRTUAL: " + pedidoERPBean.getReference());
             pstmt.setString(11, pedidoERPBean.getCurrent_state());
 
