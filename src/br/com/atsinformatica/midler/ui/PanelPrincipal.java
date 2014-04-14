@@ -552,7 +552,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
                 pedidoERPDAO.gravarPedidoCompl(codPedido, codClienteERP, beanEndereco, estadoERPBean);
             }
         } catch (Exception e) {
-            logger.error("Erro ao efetuar sincronização de cliente da loja virtual: " + e);
+            logger.error("Erro ao efetuar sincronização de Pedidos da loja virtual: " + e);
         }
     }
     /*
