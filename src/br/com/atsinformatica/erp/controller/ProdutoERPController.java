@@ -55,8 +55,16 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
         }
     }
         
+    @Override
     public void delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            prodController.deleteProduct(id);
+            Logger.getLogger(ProdutoERPController.class).info("Produto deletado na loja virtual, com sucesso.");
+        }catch(Exception e){
+            Logger.getLogger(ProdutoERPController.class).error("Erro ao deletar produto na loja virtual: "+e);
+            
+            
+        }
     }
     
     /**
