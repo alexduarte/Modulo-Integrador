@@ -22,7 +22,9 @@ import javax.xml.bind.annotation.*;
     "productOptionValue",
     "stockAvailable",
     "carrier",
-    "OrderCarriersStatus",})
+    "OrderCarriersTrackingNumber",
+    "orderHistory",
+})
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
 
@@ -71,8 +73,12 @@ public class Prestashop {
     private Carrier carrier;
 
     @XmlElement(name = "order_carrier", required = true)
-    private OrderCarriersTrackingNumber OrderCarriersStatus;
-
+    private OrderCarriersTrackingNumber OrderCarriersTrackingNumber;
+    
+    @XmlElement(name = "order_history")
+    private OrderHistory orderHistory;
+    
+    
     public ProductFeature getProductFeature() {
         return productFeature;
     }
@@ -234,12 +240,20 @@ public class Prestashop {
         this.carrier = carrier;
     }
 
-    public OrderCarriersTrackingNumber getOrderCarriersStatus() {
-        return OrderCarriersStatus;
+    public OrderCarriersTrackingNumber getOrderCarriersTrackingNumber() {
+        return OrderCarriersTrackingNumber;
     }
 
-    public void setOrderCarriersStatus(OrderCarriersTrackingNumber OrderCarriersStatus) {
-        this.OrderCarriersStatus = OrderCarriersStatus;
+    public void setOrderCarriersTrackingNumber(OrderCarriersTrackingNumber OrderCarriersTrackingNumber) {
+        this.OrderCarriersTrackingNumber = OrderCarriersTrackingNumber;
+    }
+
+    public OrderHistory getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(OrderHistory orderHistory) {
+        this.orderHistory = orderHistory;
     }
 
 }
