@@ -24,7 +24,6 @@ public class OrderHistoryPestashopDAO extends GenericPrestashopDAO<OrderHistory>
         prestaOrderHistory.setOrderHistory(t);
         String xml = createTOXML(prestaOrderHistory);
         ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).post(ClientResponse.class, xml);
-        System.out.println("Response: " + response);
 
     }
 
