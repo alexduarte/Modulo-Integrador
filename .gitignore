@@ -7,6 +7,7 @@
 *.jar
 config.ini
 logfile.txt
+logfile.txt.1
 # Ignorar todos os diretórios e arquivos em um diretório.
 tmp/**/* 
 lib/*
