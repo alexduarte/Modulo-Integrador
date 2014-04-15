@@ -6,8 +6,6 @@ package br.com.atsinformatica.prestashop.clientDAO;
 
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
 import br.com.atsinformatica.erp.entity.ParaUrlWsdlBean;
-import br.com.atsinformatica.prestashop.model.node.StockAvailableNode;
-import br.com.atsinformatica.prestashop.model.node.StockAvailablesNode;
 import br.com.atsinformatica.prestashop.model.root.Prestashop;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -24,20 +22,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 /**
  *
  * @author AlexsanderPimenta
  */
-public class GenericPrestashopDAO<T> {
+public class GenericPrestashopDAO<T>  {
 
     /**
      * Retorna um a WebResource (função obrigatória);
