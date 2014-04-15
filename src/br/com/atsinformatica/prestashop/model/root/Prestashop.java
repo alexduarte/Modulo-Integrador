@@ -1,7 +1,5 @@
 package br.com.atsinformatica.prestashop.model.root;
 
-
-
 import javax.xml.bind.annotation.*;
 
 /**
@@ -21,10 +19,10 @@ import javax.xml.bind.annotation.*;
     "state",
     "combination",
     "productOption",
-    "productOptionValue",    
-    "stockAvailable", 
+    "productOptionValue",
+    "stockAvailable",
     "carrier",
-})
+    "OrderCarriersStatus",})
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
 
@@ -42,16 +40,16 @@ public class Prestashop {
 
     @XmlElement(name = "image", required = true)
     private Image image;
-    
+
     @XmlElement(name = "combination")
     private Combination combination;
-    
+
     @XmlElement(name = "product_option")
     private ProductOption productOption;
-    
+
     @XmlElement(name = "product_option_value")
     private ProductOptionValue productOptionValue;
-    
+
     @XmlElement(name = "stock_available")
     private StockAvailable stockAvailable;
 
@@ -65,17 +63,20 @@ public class Prestashop {
 
     @XmlElement(name = "cpfmodule_data", required = true)
     protected CPFModuleData cpfModuleData;
-    
+
     @XmlElement(name = "state", required = true)
     private State state;
-    
+
     @XmlElement(name = "carrier", required = true)
     private Carrier carrier;
+
+    @XmlElement(name = "order_carrier", required = true)
+    private OrderCarriersTrackingNumber OrderCarriersStatus;
 
     public ProductFeature getProductFeature() {
         return productFeature;
     }
-    
+
     public void setProductFeature(ProductFeature value) {
         this.productFeature = value;
     }
@@ -231,6 +232,14 @@ public class Prestashop {
 
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
+    }
+
+    public OrderCarriersTrackingNumber getOrderCarriersStatus() {
+        return OrderCarriersStatus;
+    }
+
+    public void setOrderCarriersStatus(OrderCarriersTrackingNumber OrderCarriersStatus) {
+        this.OrderCarriersStatus = OrderCarriersStatus;
     }
 
 }
