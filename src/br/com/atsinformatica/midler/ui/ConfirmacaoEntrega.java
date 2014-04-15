@@ -8,6 +8,7 @@ package br.com.atsinformatica.midler.ui;
 import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
 import br.com.atsinformatica.prestashop.controller.OrderController;
+import br.com.atsinformatica.prestashop.controller.OrderHistoryController;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
@@ -168,7 +169,11 @@ public class ConfirmacaoEntrega extends javax.swing.JDialog {
                     //Iniciando - Alterando Status na loja prestashop
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(Integer.valueOf(codPedidoEcom), 5);
-                    //Fim - Alterando Status na loja prestashop                       
+                    //Fim - Alterando Status na loja prestashop                  
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(Integer.valueOf(codPedidoEcom), 5);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                      
 
                     JOptionPane.showMessageDialog(null, "Status (Entregue) do pedido alterado com sucesso!");
                 }
