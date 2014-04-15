@@ -39,7 +39,6 @@ public class ProductPrestashopDAO extends GenericPrestashopDAO<Product> implemen
 
     /**
      * Adiciona um item e retorna o objeto salvo
-     *
      * @param path
      * @param t
      * @return
