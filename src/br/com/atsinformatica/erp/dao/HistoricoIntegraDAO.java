@@ -168,6 +168,10 @@ public class HistoricoIntegraDAO implements IGenericDAO<HistoricoIntegraERPBean>
                     bean.setObjectSinc(new AtributoGradeEcomDAO().abrir(bean.getCodEntidade()));
                     listHistBean.add(bean);
                 }
+                if(bean.getEntidade().equals("fabricante")){
+                    bean.setObjectSinc(new CadFabrERPDAO().abrir(bean.getCodEntidade()));
+                    listHistBean.add(bean);
+                }
             }
             return listHistBean;
         } catch (Exception e) {
