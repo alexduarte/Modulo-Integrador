@@ -27,14 +27,14 @@ public class TriggerCategoria implements ITrigger {
         try{
             if(ConexaoATS.getConnection().isClosed())ConexaoATS.conectaERP();
             conn = ConexaoATS.getConnection();
-            String trigger = "CREATE OR ALTER trigger categoria_ecomm_au for categoriasecom " +
-                             "active after update position 0 " +
-                             "AS " +
-                             "begin " +
-                             "  if (Old.idcategoriaecom is not null) then   "+
-                             "      INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "      VALUES ('categoria', NEW.codcategoria, current_timestamp, NULL, 'update'); " +
-                             "end ";
+            String trigger = "CREATE OR ALTER trigger categoria_ecomm_au for categoriasecom                         " +
+                             "active after update position 0                                                        " +
+                             "AS                                                                                    " +
+                             "begin                                                                                 " +
+                             "  if (Old.idcategoriaecom is not null) then                                           "+
+                             "      INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER)   " +
+                             "      VALUES ('categoria', NEW.codcategoria, current_timestamp, NULL, 'update');      " +
+                             "end                                                                                   ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
             logger.info("Trigger AFTER UPDATE de categoria, criada com sucesso. ");
@@ -56,13 +56,13 @@ public class TriggerCategoria implements ITrigger {
         try{
             if(ConexaoATS.getConnection().isClosed())ConexaoATS.conectaERP();
             conn = ConexaoATS.getConnection();
-            String trigger = "CREATE trigger categoria_ecomm_ai for categoriasecom " +
-                             "active after insert position 0 " +
-                             "AS " +
-                             "begin " +
-                             "   INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "   VALUES ('categoria', NEW.codcategoria, current_timestamp, NULL, 'insert'); " +
-                             "end ";
+            String trigger = "CREATE trigger categoria_ecomm_ai for categoriasecom                              " +
+                             "active after insert position 0                                                    " +
+                             "AS                                                                                " +
+                             "begin                                                                             " +
+                             "   INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER)  " +
+                             "   VALUES ('categoria', NEW.codcategoria, current_timestamp, NULL, 'insert');     " +
+                             "end                                                                               ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
             logger.info("Trigger AFTER INSERT de categoria, criada com sucesso. ");
@@ -84,13 +84,13 @@ public class TriggerCategoria implements ITrigger {
         try{
             if(ConexaoATS.getConnection().isClosed())ConexaoATS.conectaERP();
             conn = ConexaoATS.getConnection();
-            String trigger = "CREATE trigger categoria_ecomm_ad for categoriasecom " +
-                             "active after delete position 0 " +
-                             "AS " +
-                             "begin " +
-                             "   INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "   VALUES ('categoria', Old.codcategoria, current_timestamp, NULL, 'delete'); " +
-                             "end";
+            String trigger = "CREATE trigger categoria_ecomm_ad for categoriasecom                              " +
+                             "active after delete position 0                                                    " +
+                             "AS                                                                                " +
+                             "begin                                                                             " +
+                             "   INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER)  " +
+                             "   VALUES ('categoria', Old.codcategoria, current_timestamp, NULL, 'delete');     " +
+                             "end                                                                               ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
             logger.info("Trigger AFTER DELETE de categoria, criada com sucesso. ");
