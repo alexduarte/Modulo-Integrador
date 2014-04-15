@@ -4,8 +4,10 @@
  */
 package br.com.atsinformatica.erp.controller;
 
+import br.com.atsinformatica.erp.dao.CadFabrERPDAO;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.entity.AtributoGradeEcom;
+import br.com.atsinformatica.erp.entity.CadFabricERPBean;
 import br.com.atsinformatica.erp.entity.CategoriaEcomErpBean;
 import br.com.atsinformatica.erp.entity.HistoricoIntegraERPBean;
 import br.com.atsinformatica.erp.entity.ProdutoERPBean;
@@ -40,7 +42,10 @@ public class SincERPController<T> implements ISincController<T> {
             }
             if (obj.getClass().equals(ProdutoERPBean.class)) {
                 new ProdutoERPController().post((ProdutoERPBean) obj);
-            }            
+            }
+            if(obj.getClass().equals(CadFabricERPBean.class)){
+                new FabricERPController().post((CadFabricERPBean)obj);
+            }
             atualizaDataInt(this.histInteg);
         } catch (Exception e) {
             System.out.println("Erro ao efetuar post: " + e);
@@ -60,6 +65,9 @@ public class SincERPController<T> implements ISincController<T> {
             if (obj.getClass().equals(ProdutoERPBean.class)) {
                 new ProdutoERPController().update((ProdutoERPBean) obj);
             }
+            if(obj.getClass().equals(CadFabricERPBean.class)){
+                new FabricERPController().update((CadFabricERPBean)obj);
+            }
             atualizaDataInt(histInteg);
         } catch (Exception e) {
             System.out.println("Erro ao efetuar update: " + e);
@@ -74,6 +82,8 @@ public class SincERPController<T> implements ISincController<T> {
             }
             if(this.histInteg.getEntidade().equals("produto"))
                 new ProdutoERPController().delete(id);
+            if(this.histInteg.getEntidade().equals("fabricante"))
+                new FabricERPController().delete(id);
             atualizaDataInt(histInteg);
         } catch (Exception e) {
         }
