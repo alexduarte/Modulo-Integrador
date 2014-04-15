@@ -7,10 +7,9 @@ package br.com.atsinformatica.midler.ui;
 
 import br.com.atsinformatica.erp.dao.ListaPedidoDAO;
 import br.com.atsinformatica.erp.entity.ListaPedidoERPBean;
-import br.com.atsinformatica.midler.ui.PanelListaPedidos;
 import br.com.atsinformatica.prestashop.controller.OrderCarriersTrackingNumberController;
 import br.com.atsinformatica.prestashop.controller.OrderController;
-import br.com.atsinformatica.utils.Funcoes;
+import br.com.atsinformatica.prestashop.controller.OrderHistoryController;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -243,6 +242,10 @@ public class InformacoesEnvioPedido extends javax.swing.JDialog {
                     OrderCarriersTrackingNumberController carriersTrackingNumberController = new OrderCarriersTrackingNumberController();
                     carriersTrackingNumberController.updateOrderCarriersTrackingNumber(Integer.valueOf(codPedidoEcom), codRastreiamento);
                     //FIM - Alterando Codigo Rastreamento
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(Integer.valueOf(codPedidoEcom), 4);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                       
                     JOptionPane.showMessageDialog(null, "Status (Enviado) do pedido alterado com sucesso!");
                 }
             } else {
