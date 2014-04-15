@@ -24,12 +24,10 @@ public class OrderCarriersTrackingNumberPrestashopDAO extends GenericPrestashopD
 
     @Override
     public void put(String path, OrderCarriersTrackingNumber t) {
-        Prestashop prestaShopStatusOder = new Prestashop();
-        prestaShopStatusOder.setOrderCarriersStatus(t);
-        String xml = createTOXML(prestaShopStatusOder);
+        Prestashop prestaShopTrackingNumber = new Prestashop();
+        prestaShopTrackingNumber.setOrderCarriersTrackingNumber(t);
+        String xml = createTOXML(prestaShopTrackingNumber);
         ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);
-        System.out.println("Response: " + response);
-
     }
 
     @Override
@@ -40,7 +38,7 @@ public class OrderCarriersTrackingNumberPrestashopDAO extends GenericPrestashopD
     @Override
     public OrderCarriersTrackingNumber getId(String path, int key) {
         Prestashop prestashop = getWebResource().path(path).path(String.valueOf(key)).type(MediaType.APPLICATION_XML).get(Prestashop.class);
-        return prestashop.getOrderCarriersStatus();
+        return prestashop.getOrderCarriersTrackingNumber();
 
     }
 
