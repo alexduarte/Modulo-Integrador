@@ -6,6 +6,7 @@
 package br.com.atsinformatica.prestashop.controller;
 
 import br.com.atsinformatica.erp.dao.AtributoGradeEcomDAO;
+import br.com.atsinformatica.erp.dao.CadFabrERPDAO;
 import br.com.atsinformatica.erp.dao.CategoriaEcomDAO;
 import br.com.atsinformatica.erp.dao.GradeERPDAO;
 import br.com.atsinformatica.erp.dao.ParaUrlDAO;
@@ -95,6 +96,7 @@ public class ProductController {
             associations.setCombinations(this.createCombinations(produtoERP));
             p.setAssociations(associations);
             p.setEan13(produtoERP.getCodBarras());
+            p.setIdManufacturer(new CadFabrERPDAO().abrir(produtoERP.getCodFabricante()).getIdFabricanteEcom());
             p.setIdCategoryDefault(new CategoriaEcomDAO().abrir(produtoERP.getCodCategoria()).getIdCategoriaEcom());
             p.setDepth(String.valueOf(produtoERP.getProfundidade()));
             p.setWeight(String.valueOf(produtoERP.getPeso()));
@@ -121,6 +123,7 @@ public class ProductController {
      * @param codCategory
      * @return
      */
+    //TODO: inserir na controladora de categoria
     private CategoriesNode createCategories(String codCategory) {
         try {
             CategoriesNode categories = new CategoriesNode();
@@ -145,7 +148,9 @@ public class ProductController {
      *
      * @param prod
      * @return ProductOptionValuesNode
+     * 
      */
+    //inserir na controladora de grade
     private ProductOptionValuesNode createProductOptionValues(ProdutoERPBean prod) {
         ProductOptionValuesNode prodOptionValues = new ProductOptionValuesNode();
         AtributoGradeEcomDAO atributoDao = new AtributoGradeEcomDAO();
