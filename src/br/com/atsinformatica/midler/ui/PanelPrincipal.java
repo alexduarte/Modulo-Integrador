@@ -16,6 +16,7 @@ import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.PedidoCERPBean;
 import br.com.atsinformatica.erp.entity.PedidoIERPBean;
+import br.com.atsinformatica.midler.properties.PropertiesManager;
 import br.com.atsinformatica.prestashop.controller.AddressController;
 import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
 import br.com.atsinformatica.prestashop.controller.CarrierController;
@@ -30,6 +31,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
@@ -60,8 +62,15 @@ public class PanelPrincipal extends javax.swing.JFrame {
 
         //centraliza
         this.setLocationRelativeTo(null);
-        //Iniciando Time de sincronização de pedidos
-        setaTimer();
+
+        /*
+         Criando verificação de arquivo de configuração, se existe ele 
+         ativa para ativar o TIME de sincronização
+        */
+        if (PropertiesManager.getFile().exists()) {
+            //Iniciando Time de sincronização de pedidos
+            setaTimer();
+        }
 
     }
 
