@@ -1,7 +1,5 @@
 package br.com.atsinformatica.prestashop.model.root;
 
-
-
 import javax.xml.bind.annotation.*;
 
 /**
@@ -22,11 +20,12 @@ import javax.xml.bind.annotation.*;
     "state",
     "combination",
     "productOption",
-    "productOptionValue",    
-    "stockAvailable", 
+    "productOptionValue",
+    "stockAvailable",
     "carrier",
     "manufacturer",
-    
+    "OrderCarriersTrackingNumber",
+    "orderHistory",
 })
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
@@ -45,16 +44,16 @@ public class Prestashop {
 
     @XmlElement(name = "image", required = true)
     private Image image;
-    
+
     @XmlElement(name = "combination")
     private Combination combination;
-    
+
     @XmlElement(name = "product_option")
     private ProductOption productOption;
-    
+
     @XmlElement(name = "product_option_value")
     private ProductOptionValue productOptionValue;
-    
+
     @XmlElement(name = "stock_available")
     private StockAvailable stockAvailable;
 
@@ -68,10 +67,10 @@ public class Prestashop {
 
     @XmlElement(name = "cpfmodule_data", required = true)
     protected CPFModuleData cpfModuleData;
-    
+
     @XmlElement(name = "state", required = true)
     private State state;
-    
+
     @XmlElement(name = "carrier", required = true)
     private Carrier carrier;
     
@@ -81,10 +80,17 @@ public class Prestashop {
     private Manufacturer manufacturer;
 
 
+    @XmlElement(name = "order_carrier", required = true)
+    private OrderCarriersTrackingNumber OrderCarriersTrackingNumber;
+    
+    @XmlElement(name = "order_history")
+    private OrderHistory orderHistory;
+    
+    
     public ProductFeature getProductFeature() {
         return productFeature;
     }
-    
+
     public void setProductFeature(ProductFeature value) {
         this.productFeature = value;
     }
@@ -242,6 +248,7 @@ public class Prestashop {
         this.carrier = carrier;
     }
 
+
     /**
      * @return the manufacturer
      */
@@ -254,6 +261,23 @@ public class Prestashop {
      */
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    public OrderCarriersTrackingNumber getOrderCarriersTrackingNumber() {
+        return OrderCarriersTrackingNumber;
+    }
+
+    public void setOrderCarriersTrackingNumber(OrderCarriersTrackingNumber OrderCarriersTrackingNumber) {
+        this.OrderCarriersTrackingNumber = OrderCarriersTrackingNumber;
+    }
+
+    public OrderHistory getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(OrderHistory orderHistory) {
+        this.orderHistory = orderHistory;
+
     }
 
 }

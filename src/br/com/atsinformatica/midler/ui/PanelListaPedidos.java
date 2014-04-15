@@ -12,6 +12,8 @@ import br.com.atsinformatica.midler.components.renderer.MoneyCellRenderer;
 import br.com.atsinformatica.midler.components.renderer.PaymentMethodRenderer;
 import br.com.atsinformatica.midler.components.renderer.StatusPedidoCellRenderer;
 import br.com.atsinformatica.prestashop.controller.OrderController;
+import br.com.atsinformatica.prestashop.controller.OrderHistoryController;
+import br.com.atsinformatica.prestashop.model.root.OrderHistory;
 import br.com.atsinformatica.utils.Funcoes;
 import com.towel.el.annotation.AnnotationResolver;
 import com.towel.swing.table.ObjectTableModel;
@@ -549,7 +551,11 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     //Iniciando - Alterando Status na loja prestashop
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 14);
-                    //Fim - Alterando Status na loja prestashop                    
+                    //Fim - Alterando Status na loja prestashop            
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 14);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                    
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Pedido finalizado com sucesso!");
@@ -577,7 +583,11 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     //Iniciando - Alterando Status na loja prestashop
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 6);
-                    //Fim - Alterando Status na loja prestashop                    
+                    //Fim - Alterando Status na loja prestashop         
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 6);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido  
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Pedido cancelado com sucesso!");
@@ -604,6 +614,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 1);
                     //Fim - Alterando Status na loja prestashop
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 1);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                      
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (AguadandoPagamento) do pedido alterado com sucesso!");
@@ -630,6 +644,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 8);
                     //Fim - Alterando Status na loja prestashop                    
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 8);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                      
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pagamento recusado) do pedido alterado com sucesso!");
@@ -657,7 +675,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 2);
                     //Fim - Alterando Status na loja prestashop
-
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 2);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido  
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pagamento aceito) do pedido alterado com sucesso!");
@@ -684,7 +705,11 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     //Iniciando - Alterando Status na loja prestashop
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 13);
-                    //Fim - Alterando Status na loja prestashop                    
+                    //Fim - Alterando Status na loja prestashop            
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 13);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                      
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Nota Fiscal) do pedido alterado com sucesso!");
@@ -712,6 +737,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 9);
                     //Fim - Alterando Status na loja prestashop                    
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 9);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                      
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pedido devolvido) do pedido alterado com sucesso!");
@@ -739,6 +768,10 @@ public class PanelListaPedidos extends javax.swing.JPanel {
                     OrderController orderController = new OrderController();
                     orderController.updateStatusOrder(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 7);
                     //Fim - Alterando Status na loja prestashop
+                    //Iniciando - Gravar Alteração de status na tabela de Historico do pedido
+                    OrderHistoryController historyController = new OrderHistoryController();
+                    historyController.insertOrderHistory(((int) jTbListaPedido.getValueAt(linhaSelecionada, 1)), 7);
+                    //Fim - Gravar Alteração de status na tabela de Historico do pedido                      
                     //Atualizando Grid
                     refleshGrid();
                     JOptionPane.showMessageDialog(null, "Status (Pagamanto estornado) do pedido alterado com sucesso!");
