@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.*;
  *
  * @author ricardosilva
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(propOrder = {
     "productFeature",
@@ -24,6 +25,8 @@ import javax.xml.bind.annotation.*;
     "productOptionValue",    
     "stockAvailable", 
     "carrier",
+    "manufacturer",
+    
 })
 @XmlRootElement(name = "prestashop")
 public class Prestashop {
@@ -71,6 +74,12 @@ public class Prestashop {
     
     @XmlElement(name = "carrier", required = true)
     private Carrier carrier;
+    
+    protected static final String element = "";
+    
+    @XmlElement(name = element)
+    private Manufacturer manufacturer;
+
 
     public ProductFeature getProductFeature() {
         return productFeature;
@@ -231,6 +240,20 @@ public class Prestashop {
 
     public void setCarrier(Carrier carrier) {
         this.carrier = carrier;
+    }
+
+    /**
+     * @return the manufacturer
+     */
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    /**
+     * @param manufacturer the manufacturer to set
+     */
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
 }
