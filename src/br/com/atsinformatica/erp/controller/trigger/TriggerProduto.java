@@ -28,15 +28,15 @@ public class TriggerProduto implements ITrigger {
             if(ConexaoATS.getConnection().isClosed())
                 ConexaoATS.conectaERP();
             conn = ConexaoATS.getConnection();
-            String trigger = "CREATE OR ALTER trigger produto_ecomm_au for produto " +
-                             "active after update position 0 " +
-                             "AS " +
-                             "begin " +
-                             "  if(Old.importaprodecom = 1)then begin " +
-                             "    INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "    VALUES ('produto', NEW.codprod, current_timestamp, NULL, 'update'); " +
-                             "  end " +
-                             "end ";
+            String trigger = "CREATE OR ALTER trigger produto_ecomm_au for produto                                          " +
+                             "active after update position 0                                                                " +
+                             "AS                                                                                            " +
+                             "begin                                                                                         " +
+                             "  if(Old.importaprodecom = 1 and Old.idprodutoecom is not null)then begin                     " +
+                             "    INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER)             " +
+                             "    VALUES ('produto', NEW.codprod, current_timestamp, NULL, 'update');                       " +
+                             "  end                                                                                         " +
+                             "end                                                                                           ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
             logger.info("Trigger AFTER UPDATE do produto, criada com sucesso. ");
@@ -59,16 +59,16 @@ public class TriggerProduto implements ITrigger {
             if(ConexaoATS.getConnection().isClosed())
                 ConexaoATS.conectaERP();
             conn = ConexaoATS.getConnection();
-            String trigger = "CREATE trigger produto_ecomm_ai for produto " +
-                             "active after insert position 0 " +
-                             "AS " +
-                             "begin " +
-                             "if(New.importaprodecom = 1)then "+
-                             "   begin " +
-                             "      INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "      VALUES ('produto', NEW.codprod, current_timestamp, NULL, 'insert'); " +
-                             "   end " +
-                             "end ";
+            String trigger = "CREATE trigger produto_ecomm_ai for produto                                           " +
+                             "active after insert position 0                                                        " +
+                             "AS                                                                                    " +
+                             "begin                                                                                 " +
+                             "if(New.importaprodecom = 1)then                                                       " +
+                             "   begin                                                                              " +
+                             "      INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER)   " +
+                             "      VALUES ('produto', NEW.codprod, current_timestamp, NULL, 'insert');             " +
+                             "   end                                                                                " +
+                             "end                                                                                   ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
             logger.info("Trigger AFTER INSERT do produto, criada com sucesso. ");
@@ -91,16 +91,16 @@ public class TriggerProduto implements ITrigger {
             if(ConexaoATS.getConnection().isClosed())
                 ConexaoATS.conectaERP();
             conn = ConexaoATS.getConnection();
-            String trigger = "CREATE trigger produto_ecomm_ad for produto " +
-                             "active after delete position 0 " +
-                             "AS " +
-                             "begin " +
-                             "  if(Old.importaprodecom = 1)then "+
-                             "     begin " +
-                             "       INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER) " +
-                             "       VALUES ('produto', Old.codprod, current_timestamp, NULL, 'delete'); " +
-                             "     end " +
-                             "end";
+            String trigger = "CREATE trigger produto_ecomm_ad for produto                                           " +
+                             "active after delete position 0                                                        " +
+                             "AS                                                                                    " +
+                             "begin                                                                                 " +
+                             "  if(Old.importaprodecom = 1)then                                                     " +
+                             "     begin                                                                            " +
+                             "       INSERT INTO HISTINTEGECOM (ENTIDADE, CODENTIDADE, DATAENT, DATAINT, TIPOOPER)  " +
+                             "       VALUES ('produto', Old.idprodutoecom, current_timestamp, NULL, 'delete');      " +
+                             "     end                                                                              " +
+                             "end                                                                                   ";
             pstmt = conn.prepareStatement(trigger);
             pstmt.executeUpdate();
             logger.info("Trigger AFTER DELETE do produto, criada com sucesso. ");
