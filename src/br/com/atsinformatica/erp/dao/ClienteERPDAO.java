@@ -11,7 +11,6 @@ import br.com.atsinformatica.erp.entity.EnderecoERPBean;
 import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.utils.Funcoes;
-import br.com.atsinformatica.utils.LogERP;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -78,8 +77,6 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
             pstmt.execute();
 
-            //Gerando log
-            LogERP.geraLog("CLIENTE", cliente.getId(), "Inclusão", "Incluindo cliente sincronizado do Ecommercer");
             logger.info("Cliente ERP:(" + codClienteERP + "), ID ECOM:(" + cliente.getId().trim() + ") gravado com sucesso.");
             return true;
         } catch (SQLException e) {
@@ -133,8 +130,6 @@ public class ClienteERPDAO implements IGenericDAO<ClienteERPBean> {
 
             pstmt.execute();
 
-            //Gerando log
-            LogERP.geraLog("CLIENTE", cliente.getId(), "Alteração", "Alteração de cliente sincronizado do Ecommercer");
             logger.info("Cliente ID ECOM:(" + cliente.getId().trim() + ") Atualizado com sucesso.");
             return true;
         } catch (SQLException e) {
