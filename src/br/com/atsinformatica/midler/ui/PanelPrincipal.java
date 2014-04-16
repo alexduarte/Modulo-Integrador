@@ -9,6 +9,8 @@ import br.com.atsinformatica.erp.dao.ParaEcomDAO;
 import br.com.atsinformatica.erp.dao.PedidoCERPDAO;
 import br.com.atsinformatica.erp.dao.PedidoIERPDAO;
 import br.com.atsinformatica.erp.dao.ProdutoDAO;
+import br.com.atsinformatica.erp.dao.ReservaCERPDAO;
+import br.com.atsinformatica.erp.dao.ReservaIERPDAO;
 import br.com.atsinformatica.erp.entity.CPFClienteBean;
 import br.com.atsinformatica.erp.entity.ClienteERPBean;
 import br.com.atsinformatica.erp.entity.EnderecoERPBean;
@@ -16,6 +18,8 @@ import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.erp.entity.ParaEcomBean;
 import br.com.atsinformatica.erp.entity.PedidoCERPBean;
 import br.com.atsinformatica.erp.entity.PedidoIERPBean;
+import br.com.atsinformatica.erp.entity.ReservaCERP;
+import br.com.atsinformatica.erp.entity.ReservaIERP;
 import br.com.atsinformatica.midler.properties.PropertiesManager;
 import br.com.atsinformatica.prestashop.controller.AddressController;
 import br.com.atsinformatica.prestashop.controller.CPFModuleDataController;
@@ -28,10 +32,10 @@ import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
@@ -66,7 +70,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
         /*
          Criando verificação de arquivo de configuração, se existe ele 
          ativa para ativar o TIME de sincronização
-        */
+         */
         if (PropertiesManager.getFile().exists()) {
             //Iniciando Time de sincronização de pedidos
             setaTimer();
@@ -496,7 +500,8 @@ public class PanelPrincipal extends javax.swing.JFrame {
         ClienteERPDAO clienteERPDAO = new ClienteERPDAO();
         EstadoERPBean estadoERPBean = new EstadoERPBean();
         EstadoERPBean estadoCobracaoERPBean = new EstadoERPBean();
-        PedidoCERPDAO pedidoERPDAO = new PedidoCERPDAO();
+        PedidoCERPDAO pedidoCERPDAO = new PedidoCERPDAO();
+        
 
         try {
             beanCliente = customerController.syncCustomerPrestashop(Integer.valueOf(pedido.getId_customer()));
@@ -529,37 +534,74 @@ public class PanelPrincipal extends javax.swing.JFrame {
              * Chamando o gravar pedido, que tem como retorno o numero do pedido
              * se gravou com sucesso, ou NULL se deu erro.
              */
-            String codPedido = pedidoERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
-            if (codPedido != null) {
-                String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
-                String codClienteERP = clienteERPDAO.retornaCodClienteERP(pedido.getId_customer());
-                PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
-                PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
-                ProdutoDAO produtoDAO = new ProdutoDAO();
+            String codPedido = pedidoCERPDAO.gravarPedido(pedido, clienteERPDAO.retornaCodClienteERP(pedido.getId_customer()));
 
-                for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
-                    /*
-                     Pegando o codigo do produtoERP
-                     */
-                    String codProdutoERP = produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getProductId()));
+            String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
+            String codClienteERP = clienteERPDAO.retornaCodClienteERP(pedido.getId_customer());
+            PedidoIERPBean pedidoIERPBean = new PedidoIERPBean();
+            PedidoIERPDAO pedidoIERPDAO = new PedidoIERPDAO();
+            ProdutoDAO produtoDAO = new ProdutoDAO();
 
-                    pedidoIERPBean.setCodEmpresa(codEmpresa);
-                    pedidoIERPBean.setCodPedido(codPedido);
-                    pedidoIERPBean.setCodClienteERP(codClienteERP);
-                    pedidoIERPBean.setCodProdERP(codProdutoERP);
-                    pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
-                    pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
-                    pedidoIERPBean.setCodGradERP(String.valueOf(orderRowNode.getProductAttributeId()));
-                    pedidoIERPBean.setUnidadeSaida(produtoDAO.retornaUnidadeSaidaProdutoERP(codProdutoERP));
-
-                    pedidoIERPDAO.gravar(pedidoIERPBean);
-                }
-
+            /*
+            Loop para gravar os Itens do pedido.
+            */
+            for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
                 /*
-                 Gravando complemento do pedido                
+                 Pegando o codigo do produtoERP
                  */
-                pedidoERPDAO.gravarPedidoCompl(codPedido, codClienteERP, beanEndereco, estadoERPBean);
+                String codProdutoERP = produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getProductId()));
+
+                pedidoIERPBean.setCodEmpresa(codEmpresa);
+                pedidoIERPBean.setCodPedido(codPedido);
+                pedidoIERPBean.setCodClienteERP(codClienteERP);
+                pedidoIERPBean.setCodProdERP(codProdutoERP);
+                pedidoIERPBean.setQuantidade(orderRowNode.getProductQuantity());
+                pedidoIERPBean.setPrecoUnit(orderRowNode.getUnitPriceTaxIncl());
+                pedidoIERPBean.setCodGradERP(String.valueOf(orderRowNode.getProductAttributeId()));
+                pedidoIERPBean.setUnidadeSaida(produtoDAO.retornaUnidadeSaidaProdutoERP(codProdutoERP));
+
+                pedidoIERPDAO.gravar(pedidoIERPBean);
             }
+
+            /*
+             Gravando complemento do pedido                
+             */
+            pedidoCERPDAO.gravarPedidoCompl(codPedido, codClienteERP, beanEndereco, estadoERPBean);
+
+            String codReserva;
+            ReservaCERPDAO reservaCERPDAO = new ReservaCERPDAO();
+            ReservaCERP reservaC = new ReservaCERP();
+            reservaC.setCodCliente(codClienteERP);
+            reservaC.setCodEmpresa(codEmpresa);
+            reservaC.setCodPedido(codPedido);
+            reservaC.setDtReserva(new Date());
+            /*
+             Gravando Cabeçalho da Reserva de de Pedido
+             */
+            codReserva = reservaCERPDAO.gravarReserva(reservaC);
+
+            ReservaIERPDAO reservaIERPDAO = new ReservaIERPDAO();
+            ReservaIERP reservaIERP = new ReservaIERP();
+            /*
+            Loop para gravar Itens da Reserva do Pedido.
+            */
+            for (OrderRowNode orderRowNode : pedido.getListItensPedido()) {
+                
+                 //Pegando o codigo do produtoERP
+                 String codProdutoERP = produtoDAO.retornaCodProdutoERP(String.valueOf(orderRowNode.getProductId()));
+
+                reservaIERP.setCodReservar(Integer.valueOf(codReserva));
+                reservaIERP.setBaixado("N");
+                reservaIERP.setCodGrade(String.valueOf(orderRowNode.getProductAttributeId()));
+                reservaIERP.setCodProd(codProdutoERP);
+                reservaIERP.setPreco(orderRowNode.getUnitPriceTaxIncl());
+                reservaIERP.setQuantidade(orderRowNode.getProductQuantity());
+                /*
+                 Gravando Itens na Reserva de Pedido
+                 */
+                reservaIERPDAO.gravar(reservaIERP);
+            }
+
         } catch (Exception e) {
             logger.error("Erro ao efetuar sincronização de Pedidos da loja virtual: " + e);
         }
