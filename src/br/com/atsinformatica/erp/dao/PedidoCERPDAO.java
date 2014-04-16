@@ -29,10 +29,14 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
     private Connection conn;
     /*
      (connPedido): Conexão utilizada apenas para o processo de controle de 
-     transação para gravar Cabeçalho do pedido, Itens do pedido, Complemento do Pedido.
+     transação para gravar Cabeçalho do pedido, Itens do pedido, Complemento do Pedido
+     Fazendo Reserva de pedido e Reserva Itens Pedido.
      Conexão aberta em (Gravar PedidoC) PedidoCERPDAO
      Transação continua em (Gravar PedidoI)PedidoIERPDAO
-     Transação é fechada em (Gravar Complemento Pedido) PedidoCERPDAO
+     Transação continua em (Gravar Complemento Pedido) PedidoCERPDAO
+     Transação continua em (Gravar Cabeçalho da Reservac  Pedido) RESERVASC
+     Transação é commitada em (Gravar Itens da Reserva do Pedido) PEDIDOI
+     Se ocorrer algum erro e executado o rollback
      */
     public static Connection connPedido;
 
@@ -157,17 +161,13 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
         String codEmpresa = new ParaEcomDAO().listaTodos().get(0).getCodEmpresaEcom();
         try {
 
-            if (connPedido.isClosed()) {
-                connPedido = ConexaoATS.conectaERP();
-            }
-            connPedido.setAutoCommit(false);
             String sql = "INSERT INTO PEDIDOCCOMPL "
                     + "    (CODEMPRESA, TIPOPEDIDO, CODPEDIDO, CODCLIENTE, "
                     + "     ENDERECOENT, BAIRROENT, CODCIDADEENT, ESTADOENT, CEPENT) "
                     + "    VALUES "
                     + "    (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-            pstmt = conn.prepareStatement(sql);
+            pstmt = connPedido.prepareStatement(sql);
 
             pstmt.setString(1, codEmpresa);
             pstmt.setString(2, "55");
@@ -181,10 +181,7 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             pstmt.setString(9, enderecoERPBean.getCepEnt());
 
             pstmt.executeUpdate();
-            connPedido.commit();
 
-            //Gerando log
-            LogERP.geraLog("PEDIDOCCOMPL", codPedidoERP, "Inclusão", "Incluindo complemento do pedido sincronizado do Ecommercer");
             logger.info("Complemento do Pedido ERP:(" + codPedidoERP + ") gravado com sucesso.");
             return true;
         } catch (Exception e) {
@@ -193,7 +190,6 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
             connPedido.close();
             return false;
         } finally {
-            connPedido.close();
             pstmt.close();
         }
     }
