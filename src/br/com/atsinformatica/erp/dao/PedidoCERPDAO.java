@@ -10,7 +10,6 @@ import br.com.atsinformatica.erp.entity.EstadoERPBean;
 import br.com.atsinformatica.erp.entity.PedidoCERPBean;
 import br.com.atsinformatica.midler.jdbc.ConexaoATS;
 import br.com.atsinformatica.utils.Funcoes;
-import br.com.atsinformatica.utils.LogERP;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -140,8 +139,6 @@ public class PedidoCERPDAO implements IGenericDAO<PedidoCERPBean> {
 
             pstmt.executeUpdate();
 
-            //Gerando log
-            LogERP.geraLog("PEDIDOC", codPedido, "Inclusão", "Incluindo pedido sincronizado do Ecommercer");
             logger.info("ID Pedido ERP:(" + codPedido + ") ID ECOM:(" + pedidoERPBean.getId_ecom() + "), Referência:(" + pedidoERPBean.getReference() + ")  gravado com sucesso.");
             return codPedido;
         } catch (Exception e) {
