@@ -22,13 +22,8 @@ public class LogERP {
     public static void geraLog(String nomeTabela, String chave, String acao, String obs) throws SQLException {
         LogERPDao logERPDao = new LogERPDao();
         LogERPBean logERP = new LogERPBean();
-
-        
         DateFormat horaFormat = new SimpleDateFormat("HH:mm:ss");
-        String hora = horaFormat.format(new Date());
-
-        
-        
+        String hora = horaFormat.format(new Date());        
         logERP.setNomeTabela(nomeTabela);
         logERP.setChaveRegistro(chave);
         logERP.setAcao(acao);
