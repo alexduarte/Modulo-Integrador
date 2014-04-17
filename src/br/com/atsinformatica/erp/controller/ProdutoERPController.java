@@ -44,7 +44,7 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     }
 
     @Override
-    public void update(ProdutoERPBean obj) {        
+    public void update(ProdutoERPBean obj) throws Exception {        
         ProdGradeERPController prodErpController = new ProdGradeERPController();
         try {
             prodController.updateProduto(obj);
@@ -56,7 +56,7 @@ public class ProdutoERPController extends SincERPController<ProdutoERPBean> {
     }
         
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws Exception {
         try{
             prodController.deleteProduct(id);
             Logger.getLogger(ProdutoERPController.class).info("Produto deletado na loja virtual, com sucesso.");
