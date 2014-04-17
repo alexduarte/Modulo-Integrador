@@ -817,6 +817,30 @@ public class Funcoes {
             case "14":
                 Status = "Finalizado";
                 break;
+            case "15":
+                Status = "Iniciado";
+                break;
+            case "16":
+                Status = "Aguardando pagamento";
+                break;
+            case "17":
+                Status = "Em análise";
+                break;
+             case "18":
+                Status = "Paga";
+                break;
+            case "19":
+                Status = "Disponível";
+                break;
+            case "20":
+                Status = "Em disputa";
+                break;
+            case "21":
+                Status = "Devolvida";
+                break;
+            case "22":
+                Status = "Cancelada";
+                break;                  
         }
 
         return Status;
@@ -855,6 +879,31 @@ public class Funcoes {
             case "Pedido devolvido":
                 codStatus = 9;
                 break;
+            case "Iniciado":
+                codStatus = 15;
+                break;
+            case "Aguardando pagamento":
+                codStatus = 16;
+                break;
+            case "Em análise":
+                codStatus = 17;
+                break;
+             case "Paga":
+                codStatus = 18;
+                break;
+            case "Disponível":
+                codStatus = 19;
+                break;
+            case "Em disputa":
+                codStatus = 20;
+                break;
+            case "Devolvida":
+                codStatus = 21;
+                break;
+            case "Cancelada":
+                codStatus = 22;
+                break;                
+            
         }
         return codStatus;
 
