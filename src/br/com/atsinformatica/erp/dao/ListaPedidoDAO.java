@@ -394,7 +394,10 @@ public class ListaPedidoDAO implements IGenericDAO<ListaPedidoERPBean> {
             String sql = "   SELECT * FROM PEDIDOC P "
                     + "           WHERE P.CODPEDIDO = ? "
                     + "             AND P.IDPEDIDOECOM = ? "
-                    + "             AND P.STATUSPEDIDOECOM = 1  "; //-- Aguardando Pagamento
+                    + "             AND P.STATUSPEDIDOECOM = 1"     // Aguardando confirmação do pagamento
+                    + "              OR P.STATUSPEDIDOECOM = 10 "   // Aguardando transferência bancária
+                    + "              OR P.STATUSPEDIDOECOM = 16 " ; // Aguardando pagamento (PagSeguro)
+
 
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, Funcoes.preencheCom(String.valueOf(listaPedidoERPBean.getCodPedidoResulth()), "0", 8, Funcoes.LEFT));
