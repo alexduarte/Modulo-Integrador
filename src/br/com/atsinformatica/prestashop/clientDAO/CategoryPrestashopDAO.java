@@ -64,10 +64,21 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
     public void put(String path, Category t) {
         Prestashop prestashopCategory = new Prestashop();
         prestashopCategory.setCategory(t);
-        String xml = createTOXML(prestashopCategory);
+        String xml = createTOXML(prestashopCategory);        
         ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);        
         System.out.println("Response: "+response);
     }
+    
+//    public boolean putCategory(String path, Category t){
+//        Prestashop prestashopCategory = new Prestashop();
+//        prestashopCategory.setCategory(t);
+//        String xml = createTOXML(prestashopCategory);        
+//        ClientResponse response = getWebResource().path(path).type(MediaType.APPLICATION_XML).put(ClientResponse.class, xml);        
+//        if(response.getStatus()==400){
+//            
+//        }
+//        //System.out.println("Response: "+response);
+//    }
 
     /**
      * retorna todos itens de categoria
@@ -88,7 +99,6 @@ public class CategoryPrestashopDAO extends GenericPrestashopDAO<Category> implem
 
     /**
      * Retorna um item em específico da Categoria
-     *
      * @param path
      * @param key
      * @return
