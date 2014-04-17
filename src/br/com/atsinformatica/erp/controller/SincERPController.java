@@ -4,7 +4,6 @@
  */
 package br.com.atsinformatica.erp.controller;
 
-import br.com.atsinformatica.erp.dao.CadFabrERPDAO;
 import br.com.atsinformatica.erp.dao.HistoricoIntegraDAO;
 import br.com.atsinformatica.erp.entity.AtributoGradeEcom;
 import br.com.atsinformatica.erp.entity.CadFabricERPBean;
@@ -23,6 +22,7 @@ import org.apache.log4j.Logger;
 public class SincERPController<T> implements ISincController<T> {
 
     private HistoricoIntegraERPBean histInteg;
+    //log de erros
 
     public SincERPController() {
     }
@@ -34,6 +34,7 @@ public class SincERPController<T> implements ISincController<T> {
     @Override
     public void post(T obj) throws Exception {
         try {
+            
             if(obj.getClass().equals(AtributoGradeEcom.class)){
                new AtributoGradeEcomController().post((AtributoGradeEcom)obj);
             }
@@ -52,9 +53,15 @@ public class SincERPController<T> implements ISincController<T> {
         }
 
     }
+    
+    public boolean isSucess(Object obj){
+        
+        return false;
+        
+    }
 
     @Override
-    public void update(T obj) {
+    public void update(T obj) throws Exception {
         try {
             if(obj.getClass().equals(AtributoGradeEcom.class)){
                new AtributoGradeEcomController().update((AtributoGradeEcom)obj);
@@ -70,12 +77,13 @@ public class SincERPController<T> implements ISincController<T> {
             }
             atualizaDataInt(histInteg);
         } catch (Exception e) {
-            System.out.println("Erro ao efetuar update: " + e);
+            LogEcomErroController.getInstance().geraErroLog(histInteg.getId(), e.toString());
+            //System.out.println("Erro ao efetuar update: " + e);
         }
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws Exception {
         try {
             if (this.histInteg.getEntidade().equals("categoria")) {
                 new CategoriaERPController().delete(id);
