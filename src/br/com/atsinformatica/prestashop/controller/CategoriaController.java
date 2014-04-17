@@ -22,9 +22,7 @@ import org.apache.log4j.Logger;
  * @author ricardosilva
  */
 public class CategoriaController {
-
-   
-
+    
     /**
      * Cria uma lista de Categoria no prestashop
      *
@@ -52,8 +50,6 @@ public class CategoriaController {
      public boolean deleteCategoryPrestashop(String idCategorie){
        try{
            CategoryPrestashopDAO dao = new CategoryPrestashopDAO();
-          // Category category = addCategoryPrestashop(cat);
-          // category.setId(String.valueOf(cat.getIdCategoriaEcom()));
            dao.delete(Category.URLCATEGORY, idCategorie);
            Logger.getLogger(CategoriaController.class).info("Categoria deletada na loja virtual com sucesso.");
            return true;
